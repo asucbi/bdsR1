@@ -1,7 +1,16 @@
 ---
 title: "Hotel bookings - data wrangling"
-author: "Mine Çetinkaya-Rundel"
-output: github_document
+author: 
+  - Nicholas Duran, Derek Powell^[Authored modifications to original code]
+  - Mine Çetinkaya-Rundel^[Original author of exercise]
+# output:
+#   html_document:
+#     # theme: united
+#     theme: yeti
+#     highlight: pygments
+output:
+  github_document
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 ```{r load-pkg, message = FALSE}
