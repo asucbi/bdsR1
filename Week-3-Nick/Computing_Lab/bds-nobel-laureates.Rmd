@@ -2,7 +2,7 @@
 title: "Lab 03 - Nobel laureates"
 output: 
   tufte::tufte_html:
-    css: ../lab.css
+    css: lab.css
     tufte_variant: "envisioned"
     highlight: pygments
 link-citations: yes
