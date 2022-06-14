@@ -116,7 +116,7 @@ The variable descriptions are as follows:
 ```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
 phx_accidents %>%
   mutate(day_of_week_type = if_else(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday")) %>%
-  ggplot(aes(x = time, fill = severity2)) +
+  ggplot(aes(x = time, fill = severity)) +
   geom_density(alpha = 0.50) +
   facet_wrap(~day_of_week_type, ncol = 1) +
   theme_minimal() +

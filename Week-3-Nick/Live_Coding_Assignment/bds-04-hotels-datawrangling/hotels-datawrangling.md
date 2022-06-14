@@ -1,11 +1,7 @@
 Hotel bookings - data wrangling
 ================
 Nicholas Duran, Derek Powell[^1]Mine Çetinkaya-Rundel[^2]
-<<<<<<< HEAD
 13 June, 2022
-=======
-09 June, 2022
->>>>>>> origin/main
 
 ``` r
 library(tidyverse)

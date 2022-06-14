@@ -66,6 +66,7 @@ phoenix_new <- phoenix %>% select(ID, Start_Lat, Start_Lng, severity, `Distance(
 
 # phoenix_new$Severity = recode(phoenix_new$Severity, "1" = "Slight Delay", "2" = "Somewhat Delay", "3" = "Moderate Delay", "4" = "Extreme Delay")
 
+## could have used the janitor package and and the clean_names() 
 phoenix_new2 <- phoenix_new %>% rename(wind_speed = `Wind_Speed(mph)`, precipitation = `Precipitation(in)`, visibility = `Visibility(mi)`, road_length_shutdown = `Distance(mi)`,
                                  id = ID, latitude = Start_Lat, longitude = Start_Lng, zipcode = Zipcode, 
                                  street = Street, side = Side)
