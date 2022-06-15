@@ -1,0 +1,6 @@
+# Ignore Mac system
+.DS_store/
+.Rhistory/
+
+# Ignore very large files
+Week-3-Nick/Homework/data/US_Accidents_Dec21_updated.csv

@@ -38,7 +38,7 @@ phoenix <- phoenix %>% mutate(
     TRUE ~ 'Other',
   ),
   # special condition that was recorded for the accident: Occurred at a traffic light/stopsign, pedestrian crossing, road/highway junction  
-  special_condition = case_when(
+  special_cond = case_when(
     Traffic_Signal==TRUE | Stop==TRUE ~ 'Signal_StopSign',
     Crossing==TRUE & Traffic_Signal==FALSE & Stop==FALSE ~ 'Pedestrian_Crossing',
     Crossing==FALSE & Traffic_Signal==FALSE & Stop==FALSE & Junction==TRUE ~ 'RoadHighwayJunction',
@@ -61,17 +61,17 @@ phoenix <- phoenix %>% mutate(
 # last thing to do is organize the variables. either drop or rearrange at this point. 
 
 phoenix_new <- phoenix %>% select(ID, Start_Lat, Start_Lng, severity, `Distance(mi)`, dateof, day_of_week, month_of_year, week_of_year, 
-                   time, Zipcode, highway, Street, Side, special_condition, light,
+                   time, Zipcode, highway, Street, Side, special_cond, light,
                    weather, wind, `Wind_Speed(mph)`, `Precipitation(in)`, `Visibility(mi)`)
 
 # phoenix_new$Severity = recode(phoenix_new$Severity, "1" = "Slight Delay", "2" = "Somewhat Delay", "3" = "Moderate Delay", "4" = "Extreme Delay")
 
 ## could have used the janitor package and and the clean_names() 
-phoenix_new2 <- phoenix_new %>% rename(wind_speed = `Wind_Speed(mph)`, precipitation = `Precipitation(in)`, visibility = `Visibility(mi)`, road_length_shutdown = `Distance(mi)`,
+phoenix_new2 <- phoenix_new %>% rename(wind_speed = `Wind_Speed(mph)`, precipitation = `Precipitation(in)`, visibility = `Visibility(mi)`, road_length = `Distance(mi)`,
                                  id = ID, latitude = Start_Lat, longitude = Start_Lng, zipcode = Zipcode, 
                                  street = Street, side = Side)
 
-write_csv(phoenix_new2, "data/phoenix_accidents.csv")
+write_csv(phoenix_new2, "phoenix_accidents.csv")
 
 
 

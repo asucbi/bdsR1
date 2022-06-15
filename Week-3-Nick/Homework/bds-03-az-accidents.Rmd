@@ -5,8 +5,11 @@ output:
     css: hw.css
     tufte_variant: "envisioned"
     highlight: pygments
+  # tufte::tufte_handout:
+  #   highlight: pygments
 link-citations: yes
 ---
+
 
 ```{r include = FALSE}
 knitr::opts_chunk$set(
@@ -63,7 +66,7 @@ library(tidyverse)
 
 ## Data
 
-The data can be found in a separate folder called "data," and it's called `phoenix_accidents.csv`. 
+The data can be found in a separate folder called `data`, and it's called `phoenix_accidents.csv`. 
 
 ```{marginfigure}
 Because our .csv file is in the `data` folder, note that we need to include that in the file path name. 
@@ -74,35 +77,35 @@ We now need to load in the data before we can do anything with it. We use the fu
 <!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
 
 ```{r load-data, message = FALSE, eval = TRUE}
-phx_accidents <- 
-  read_csv("data/phoenix_accidents.csv")
+phx_accidents <- read_csv("data/phoenix_accidents.csv")
 ```
 
 The variable descriptions are as follows:
 
-| Variable Name        | Description                                                                                                                                                |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                   | Accident ID                                                                                                                                                |
-| latitude             | Latitude of accident location                                                                                                                              |
-| longitude            | Longitude of accident location                                                                                                                             |
-| severity             | Shows the severity of the accident in terms of traffic delay: Minor/Slight, Moderate, Severe                                                                                               |
-| road_length_shutdown | The length of the road extent affected by the accident (in miles)                                                                                          |
-| dateof               | Date of the accident                                                                                                                                       |
-| day_of_week          | Day of the week of the accident                                                                                                                            |
-| month_of_year        | Month of the year of the accident                                                                                                                          |
-| week_of_year         | Week of the year of the accident                                                                                                                           |
-| time                 | Time of the accident on the 24h clock                                                                                                                      |
-| zipcode              | Phoenix area zipcode                                                                                                                                        |
-| highway              | Whether the accident occurred on a city street or on a highway                                                                                             |
-| street               | Shows more detailed information on street/highway location in address field                                                                                                                    |
-| side                 | Shows the relative side of the street (Right/Left) in address field.                                                                                       |
-| special_condition    | Special condition that was recorded for the location of the accident: Traffic light/stop sign, Pedestrian crossing, Road/highway junction, Other, Unknown  |
-| light                | Light condition at the time of accident: Daylight, Darkness (artificial lights lit), Darkness (artificial lights unlit), Other                             |
-| weather              | Weather condition at the time of accident:  Fine, Raining, Snowing, Fog or smoke or dust, Other, Unknown                                                   |
-| wind                 | High winds (greater than 26 mph): Windy or Other                                                                                                           |
-| wind_speed           | Shows wind speed (in miles per hour).                                                                                                                      |
-| precipitation           | Shows precipitation amount in inches, if there is any.                                                                                                                      |
-| visibility           | Shows visibility (in miles).                                                                                    
+| Variable Name                                      | Description                                                                                                                                                |
+|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                   | Accident ID                                                                                                                                                |
+| `latitude`             | Latitude of accident location                                                                                                                              |
+| `longitude`            | Longitude of accident location                                                                                                                             |
+| `severity`             | Shows the severity of the accident in terms of traffic delay: Minor/Slight, Moderate, Severe                                                               |
+| `road_length` | The length of the road extent affected by the accident (in miles)                                                                                          |
+| `dateof`               | Date of the accident                                                                                                                                       |
+| `day_of_week`          | Day of the week of the accident                                                                                                                            |
+| `month_of_year`        | Month of the year of the accident                                                                                                                          |
+| `week_of_year`         | Week of the year of the accident                                                                                                                           |
+| `time`                 | Time of the accident on the 24h clock                                                                                                                      |
+| `zipcode`              | Phoenix area zipcode                                                                                                                                       |
+| `highway`              | Whether the accident occurred on a city street or on a highway                                                                                             |
+| `street`               | Shows more detailed information on street/highway location in address field                                                                                |
+| `side`                 | Shows the relative side of the street (Right/Left) in address field.                                                                                       |
+| `special_cond`    | Special condition that was recorded for the location of the accident: Traffic light/stop sign, Pedestrian crossing, Road/highway junction, Other, Unknown  |
+| `light`                | Light condition at the time of accident: Daylight, Darkness (artificial lights lit), Darkness (artificial lights unlit), Other                             |
+| `weather`              | Weather condition at the time of accident:  Fine, Raining, Snowing, Fog or smoke or dust, Other, Unknown                                                   |
+| `wind`                 | High winds (greater than 26 mph): Windy or Other                                                                                                           |
+| `wind_speed`           | Shows wind speed (in miles per hour).                                                                                                                      |
+| `precipitation`        | Shows precipitation amount in inches, if there is any.                                                                                                     |
+| `visibility`           | Shows visibility (in miles).                                                                                                                               |
+
 # Exercises
 
 1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.

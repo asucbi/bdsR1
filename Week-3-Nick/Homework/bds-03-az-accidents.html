@@ -549,21 +549,20 @@ your Console:</p>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The data can be found in a separate folder called “data,” and it’s
-called <code>phoenix_accidents.csv</code>.</p>
+<p>The data can be found in a separate folder called <code>data</code>,
+and it’s called <code>phoenix_accidents.csv</code>.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">Because our .csv file
 is in the <code>data</code> folder, note that we need to include that in
 the file path name.</span></span></p>
 <p>We now need to load in the data before we can do anything with it. We
 use the function <code>read_csv()</code> to do so.</p>
 <!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;data/phoenix_accidents.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/phoenix_accidents.csv&quot;</span>)</span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
 <table>
 <colgroup>
-<col width="12%" />
-<col width="87%" />
+<col width="25%" />
+<col width="75%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -573,121 +572,99 @@ use the function <code>read_csv()</code> to do so.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td>id</td>
+<td><code>id</code></td>
 <td>Accident ID</td>
 </tr>
 <tr class="even">
-<td>latitude</td>
+<td><code>latitude</code></td>
 <td>Latitude of accident location</td>
 </tr>
 <tr class="odd">
-<td>longitude</td>
+<td><code>longitude</code></td>
 <td>Longitude of accident location</td>
 </tr>
 <tr class="even">
-<td>severity</td>
+<td><code>severity</code></td>
 <td>Shows the severity of the accident in terms of traffic delay:
 Minor/Slight, Moderate, Severe</td>
 </tr>
 <tr class="odd">
-<td>road_length_shutdown</td>
+<td><code>road_length</code></td>
 <td>The length of the road extent affected by the accident (in
 miles)</td>
 </tr>
 <tr class="even">
-<td>dateof</td>
+<td><code>dateof</code></td>
 <td>Date of the accident</td>
 </tr>
 <tr class="odd">
-<td>day_of_week</td>
+<td><code>day_of_week</code></td>
 <td>Day of the week of the accident</td>
 </tr>
 <tr class="even">
-<td>month_of_year</td>
+<td><code>month_of_year</code></td>
 <td>Month of the year of the accident</td>
 </tr>
 <tr class="odd">
-<td>week_of_year</td>
+<td><code>week_of_year</code></td>
 <td>Week of the year of the accident</td>
 </tr>
 <tr class="even">
-<td>time</td>
+<td><code>time</code></td>
 <td>Time of the accident on the 24h clock</td>
 </tr>
 <tr class="odd">
-<td>zipcode</td>
+<td><code>zipcode</code></td>
 <td>Phoenix area zipcode</td>
 </tr>
 <tr class="even">
-<td>highway</td>
+<td><code>highway</code></td>
 <td>Whether the accident occurred on a city street or on a highway</td>
 </tr>
 <tr class="odd">
-<td>street</td>
+<td><code>street</code></td>
 <td>Shows more detailed information on street/highway location in
 address field</td>
 </tr>
 <tr class="even">
-<td>side</td>
+<td><code>side</code></td>
 <td>Shows the relative side of the street (Right/Left) in address
 field.</td>
 </tr>
 <tr class="odd">
-<td>special_condition</td>
+<td><code>special_cond</code></td>
 <td>Special condition that was recorded for the location of the
 accident: Traffic light/stop sign, Pedestrian crossing, Road/highway
 junction, Other, Unknown</td>
 </tr>
 <tr class="even">
-<td>light</td>
+<td><code>light</code></td>
 <td>Light condition at the time of accident: Daylight, Darkness
 (artificial lights lit), Darkness (artificial lights unlit), Other</td>
 </tr>
 <tr class="odd">
-<td>weather</td>
+<td><code>weather</code></td>
 <td>Weather condition at the time of accident:  Fine, Raining, Snowing,
 Fog or smoke or dust, Other, Unknown</td>
 </tr>
 <tr class="even">
-<td>wind</td>
+<td><code>wind</code></td>
 <td>High winds (greater than 26 mph): Windy or Other</td>
 </tr>
 <tr class="odd">
-<td>wind_speed</td>
+<td><code>wind_speed</code></td>
 <td>Shows wind speed (in miles per hour).</td>
 </tr>
 <tr class="even">
-<td>precipitation</td>
+<td><code>precipitation</code></td>
 <td>Shows precipitation amount in inches, if there is any.</td>
 </tr>
 <tr class="odd">
-<td>visibility</td>
+<td><code>visibility</code></td>
 <td>Shows visibility (in miles).</td>
 </tr>
 </tbody>
 </table>
-<!-- | Variable Name | Description            | -->
-<!-- |---------------|--------------------| -->
-<!-- |   `id`: ID number | -->
-<!-- |   `firstname`| First name of laureate | -->
-<!-- |   `surname`| Surname | -->
-<!-- |   `year`| Year prize won | -->
-<!-- |   `category`| Category of prize | -->
-<!-- |   `affiliation`| Affiliation of laureate | -->
-<!-- |   `city`| City of laureate in prize year | -->
-<!-- |   `country`| Country of laureate in prize year | -->
-<!-- |   `born_date`| Birth date of laureate | -->
-<!-- |   `died_date`| Death date of laureate | -->
-<!-- |   `gender`| Gender of laureate | -->
-<!-- |   `born_city`| City where laureate was born | -->
-<!-- |   `born_country`| Country where laureate was born | -->
-<!-- |   `born_country_code`| Code of country where laureate was born | -->
-<!-- |   `died_city`| City where laureate died | -->
-<!-- |   `died_country`| Country where laureate died | -->
-<!-- |   `died_country_code`| Code of country where laureate died | -->
-<!-- |   `overall_motivation`| Overall motivation for recognition | -->
-<!-- |   `share`| Number of other winners award is shared with | -->
-<!-- |   `motivation`| Motivation for recognition | -->
 </div>
 </div>
 <div id="exercises" class="section level1">

@@ -2,15 +2,19 @@
 title: "HW 03 - Car accidents"
 author: "Insert your name here"
 date: "Insert date here"
-output: github_document
+output: html_document
 ---
 
 ## Load packages and data
 
 ```{r load-packages, message = FALSE}
 library(tidyverse)
-library(dsbox)
 ```
+
+```{r load-data, message = FALSE}
+phx_accidents <- read_csv("../data/phoenix_accidents.csv")
+```
+
 
 ## Exercises
 
