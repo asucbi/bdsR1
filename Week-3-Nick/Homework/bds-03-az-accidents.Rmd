@@ -44,7 +44,9 @@ The data covers all recorded car accidents in Phoenix, Arizona from January 2016
 # Getting started
 
 First, open the R Markdown document `hw-03.Rmd` and knit it.
+
 Make sure it compiles without errors.
+
 The output will be in the file markdown `.md` file with the same name.
 
 ## Warm up
@@ -57,7 +59,9 @@ Before we introduce the data, let's warm up with a simple exercise.
 
 We'll use the **tidyverse** package for much of the data wrangling and visualization. 
 <!-- and the data lives in the **dsbox** package. -->
+
 These packages are already installed for you.
+
 You can load them by running the following in your Console:
 
 ```{r load-packages, message = FALSE, eval = TRUE}
@@ -84,27 +88,27 @@ The variable descriptions are as follows:
 
 | Variable Name                                      | Description                                                                                                                                                |
 |----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                   | Accident ID                                                                                                                                                |
-| `latitude`             | Latitude of accident location                                                                                                                              |
-| `longitude`            | Longitude of accident location                                                                                                                             |
-| `severity`             | Shows the severity of the accident in terms of traffic delay: Minor/Slight, Moderate, Severe                                                               |
-| `road_length` | The length of the road extent affected by the accident (in miles)                                                                                          |
-| `dateof`               | Date of the accident                                                                                                                                       |
-| `day_of_week`          | Day of the week of the accident                                                                                                                            |
-| `month_of_year`        | Month of the year of the accident                                                                                                                          |
-| `week_of_year`         | Week of the year of the accident                                                                                                                           |
-| `time`                 | Time of the accident on the 24h clock                                                                                                                      |
-| `zipcode`              | Phoenix area zipcode                                                                                                                                       |
-| `highway`              | Whether the accident occurred on a city street or on a highway                                                                                             |
-| `street`               | Shows more detailed information on street/highway location in address field                                                                                |
-| `side`                 | Shows the relative side of the street (Right/Left) in address field.                                                                                       |
-| `special_cond`    | Special condition that was recorded for the location of the accident: Traffic light/stop sign, Pedestrian crossing, Road/highway junction, Other, Unknown  |
-| `light`                | Light condition at the time of accident: Daylight, Darkness (artificial lights lit), Darkness (artificial lights unlit), Other                             |
-| `weather`              | Weather condition at the time of accident:  Fine, Raining, Snowing, Fog or smoke or dust, Other, Unknown                                                   |
-| `wind`                 | High winds (greater than 26 mph): Windy or Other                                                                                                           |
-| `wind_speed`           | Shows wind speed (in miles per hour).                                                                                                                      |
-| `precipitation`        | Shows precipitation amount in inches, if there is any.                                                                                                     |
-| `visibility`           | Shows visibility (in miles).                                                                                                                               |
+| `id` | Accident ID |
+| `latitude` | Latitude of accident location |                                                                                             
+| `longitude` | Longitude of accident location |
+| `severity` | Shows the severity of the accident in terms of traffic delay: Minor/Slight, Moderate, Severe |
+| `road_length` | The length of the road extent affected by the accident (in miles) |
+| `dateof` | Date of the accident |
+| `day_of_week` | Day of the week of the accident |
+| `month_of_year` | Month of the year of the accident |
+| `week_of_year` | Week of the year of the accident |
+| `time` | Time of the accident on the 24h clock |
+| `zipcode` | Phoenix area zipcode |
+| `highway` | Whether the accident occurred on a city street or on a highway |
+| `street` | Shows more detailed information on street/highway location in address field |
+| `side` | Shows the relative side of the street (Right/Left) in address field. |
+| `special_cond` | Special condition that was recorded for the location of the accident: Traffic light/stop sign, Pedestrian crossing, Road/highway junction, Other, Unknown |
+| `light` | Light condition at the time of accident: Daylight, Darkness (artificial lights lit), Darkness (artificial lights unlit), Other |
+| `weather` | Weather condition at the time of accident: Fine, Raining, Snowing, Fog or smoke or dust, Other, Unknown |
+| `wind` | High winds (greater than 26 mph): Windy or Other |
+| `wind_speed` | Shows wind speed (in miles per hour). |
+| `precipitation` | Shows precipitation amount in inches, if there is any. |
+| `visibility` | Shows visibility (in miles). |
 
 # Exercises
 
@@ -138,3 +142,9 @@ phx_accidents %>%
 4.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like, but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
 
 <!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
+
+# Submitting your work
+
+Once you are happy with the final state of your work, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.  
+
+
