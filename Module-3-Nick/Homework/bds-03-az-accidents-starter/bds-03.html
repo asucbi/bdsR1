@@ -372,26 +372,13 @@ pre code {
 <div id="load-packages-and-data" class="section level2">
 <h2>Load packages and data</h2>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre class="r"><code>phx_accidents &lt;- read_csv(&quot;../data/phoenix_accidents.csv&quot;)</code></pre>
+<pre class="r"><code># phx_accidents &lt;- read_csv(&quot;../data/phoenix_accidents.csv&quot;)
+phx_accidents &lt;- read_csv(&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;)</code></pre>
 </div>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
 <div id="exercise-1" class="section level3">
 <h3>Exercise 1</h3>
-<pre class="r"><code>head(phx_accidents)</code></pre>
-<pre><code>## # A tibble: 6 × 21
-##   id      latitude longitude severity     road_length dateof     day_of_week
-##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      
-## 1 A-91180     33.7     -112. Moderate           0.238 2016-11-30 Wed        
-## 2 A-91181     33.7     -112. Minor/Slight       0.82  2016-11-30 Wed        
-## 3 A-91183     33.5     -112. Minor/Slight       0.645 2016-11-30 Wed        
-## 4 A-91184     33.3     -112. Minor/Slight       0.466 2016-11-30 Wed        
-## 5 A-91188     33.5     -112. Minor/Slight       0.397 2016-11-30 Wed        
-## 6 A-91189     33.5     -112. Minor/Slight       1.35  2016-11-30 Wed        
-## # … with 14 more variables: month_of_year &lt;dbl&gt;, week_of_year &lt;dbl&gt;,
-## #   time &lt;time&gt;, zipcode &lt;chr&gt;, highway &lt;chr&gt;, street &lt;chr&gt;, side &lt;chr&gt;,
-## #   special_cond &lt;chr&gt;, light &lt;chr&gt;, weather &lt;chr&gt;, wind &lt;chr&gt;,
-## #   wind_speed &lt;dbl&gt;, precipitation &lt;dbl&gt;, visibility &lt;dbl&gt;</code></pre>
 <p>Remove this text, and add your answer for Exercise 1 here.</p>
 </div>
 <div id="exercise-2" class="section level3">

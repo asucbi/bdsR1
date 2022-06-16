@@ -81,7 +81,8 @@ We now need to load in the data before we can do anything with it. We use the fu
 <!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
 
 ```{r load-data, message = FALSE, eval = TRUE}
-phx_accidents <- read_csv("data/phoenix_accidents.csv")
+# phx_accidents <- read_csv("data/phoenix_accidents.csv")
+phx_accidents <- read_csv("https://asucbi.github.io/data/phoenix_accidents.csv")
 ```
 
 The variable descriptions are as follows:
