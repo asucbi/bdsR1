@@ -21,6 +21,28 @@ library(tidyverse)
 library(magick)
 library(Tmisc)
 library(dsbox)
+
+happy <- read_csv("https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv") %>% 
+  mutate(
+    Region = case_when(
+      Region == 1 ~ "Latin America",
+      Region == 2 ~ "Western",
+      Region == 3 ~ "Middle East",
+      Region == 4 ~ "SubSaharan Africa",
+      Region == 5 ~ "South Asia",
+      Region == 6 ~ "East Asia",
+      Region == 7 ~ "Former Soviet",
+      TRUE ~ NA_character_
+    ),
+    HDI_group = ordered(case_when(
+      HDI <= .55 ~ "Low",
+      HDI < .699 ~ "Medium",
+      HDI < .799 ~ "High",
+      HDI >= .799 ~ "Very high",
+      is.na(HDI) ~ NA_character_
+    ), levels = c("Low","Medium","High","Very high")
+  )
+  )
 ```
 
 class: middle
@@ -37,25 +59,25 @@ class: middle
 .small[
 
 ```{r message=FALSE}
-starwars
+happy
 ```
 
 ]
 
 ---
 
-## Luke Skywalker
+## United States of America
 
-![luke-skywalker](img/luke-skywalker.png)
-
+<!-- ![luke-skywalker](img/luke-skywalker.png) -->
+[create new diagrammatic representation]
 ---
 
-## What's in the Star Wars data?
+## What's in the Happy Planet Index data?
 
 Take a `glimpse` at the data:
 
 ```{r}
-glimpse(starwars)
+glimpse(happy)
 ```
 
 ---
@@ -66,12 +88,8 @@ What does each row represent?
 What does each column represent?
 ]
 
-```{r eval = FALSE}
-?starwars
-```
-
-```{r echo=FALSE}
-knitr::include_graphics("img/starwars-help.png")
+```{r}
+glimpse(happy)
 ```
 
 ---
@@ -82,9 +100,9 @@ How many rows and columns does this dataset have?
 
 .pull-left[
 ```{r}
-nrow(starwars) # number of rows
-ncol(starwars) # number of columns
-dim(starwars)  # dimensions (row column)
+nrow(happy) # number of rows
+ncol(happy) # number of columns
+dim(happy)  # dimensions (row column)
 ```
 ]
 
@@ -104,41 +122,42 @@ class: middle
 
 ---
 
-## Mass vs. height
+## Does money buy happiness?
 
 .question[ 
-How would you describe the relationship between mass and height of Starwars characters?
+How would you describe the relationship between a country's GDP per capita and average happiness?
 What other variables would help us understand data points that don't follow the overall trend?
-Who is the not so tall but really chubby character?
+Which is that not-that-rich but very happy country?
 ]
 
 ```{r fig.width = 8, warning = FALSE, echo=FALSE, out.width = "50%"}
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+plt_example <- ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
-  labs(title = "Mass vs. height of Starwars characters",
-       x = "Height (cm)", y = "Weight (kg)") +
-  geom_point(data = starwars %>% filter(name == "Jabba Desilijic Tiure"), size = 5, pch = 1, color = "pink", stroke = 3)
+  labs(title = "Happiness and GDP per-capita",
+       y = "Avg. Happiness (0-10)", x = "GDP per-capita") +
+  geom_point(data = happy %>% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
+
+plt_example
 ```
 
 ---
 
-## Jabba!
+## Costa Rica!
 
 ```{r echo = FALSE, warning = FALSE, cache = TRUE, out.width = "80%"}
-jabba <- image_read("img/jabba.png")
+# costa_rica <- image_read("img/costa-rica.png")
+# 
+# fig <- image_graph(width = 1600, height = 900, res = 200)
+# plt_example
+# dev.off()
+# 
+# out <- fig %>% image_composite(costa_rica, offset = "+1000+30")
+# 
+# image_write(out, "img/crplot.png", format = "png")
+# knitr::include_graphics("img/crplot.png")
+knitr::include_graphics("img/costa-rica.png")
 
-fig <- image_graph(width = 1600, height = 900, res = 200)
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  geom_point() +
-  labs(title = "Mass vs. height of Starwars characters",
-       x = "Height (cm)", y = "Weight (kg)") +
-  geom_point(data = starwars %>% filter(name == "Jabba Desilijic Tiure"), size = 5, pch = 1, color = "pink", stroke = 3)
-dev.off()
 
-out <- fig %>% image_composite(jabba, offset = "+1000+30")
-
-image_write(out, "img/jabbaplot.png", format = "png")
-knitr::include_graphics("img/jabbaplot.png")
 ```
 
 ---
@@ -180,7 +199,7 @@ knitr::include_graphics("img/ggplot2-part-of-tidyverse.png")
 A grammar of graphics is a tool that enables us to concisely describe the components of a graphic
 ]
 .pull-right-wide[
-```{r echo=FALSE, out.width="100%"}
+```{r echo=FALSE, out.width="50%"}
 knitr::include_graphics("img/grammar-of-graphics.png")
 ```
 ]
@@ -189,13 +208,14 @@ knitr::include_graphics("img/grammar-of-graphics.png")
 
 ---
 
-## Mass vs. height
+## Money vs. Happiness
 
 ```{r mass-height, fig.width = 8, out.width = "50%"}
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
-  labs(title = "Mass vs. height of Starwars characters",
-       x = "Height (cm)", y = "Weight (kg)")
+  labs(title = "Happiness and GDP per-capita",
+       y = "Avg. Happiness (0-10)", x = "GDP per-capita") +
+  geom_point(data = happy %>% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
 ```
 
 ---
@@ -293,6 +313,7 @@ ggplot(quartet, aes(x = x, y = y)) +
 
 ---
 
+
 ## Age at first kiss
 
 .question[ 
@@ -324,3 +345,18 @@ ggplot(student_survey, aes(x = fb_visits_per_day)) +
     x = "Number of times", y = NULL
     )
 ```
+
+
+## Money and happiness
+
+- The correlation between money and happiness is $r =$ `r cor(happy$Happiness, happy$GDPperCapita, use = "complete.obs") %>% round(3)`. 
+- But does that doesn't tell the whole story
+
+```{r fig.width = 8, warning = FALSE, echo=FALSE, out.width = "50%"}
+ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
+  geom_point() +
+  labs(title = "Happiness and GDP per-capita",
+       y = "Avg. Happiness (0-10)", x = "GDP per-capita")
+```
+
+---
