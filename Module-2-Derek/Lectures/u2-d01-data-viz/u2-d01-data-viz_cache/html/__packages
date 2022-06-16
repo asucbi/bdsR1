@@ -1,13 +1,6 @@
-base
-methods
 usethis
 devtools
 testthat
-datasets
-utils
-grDevices
-graphics
-stats
 fs
 tidyverse
 ggplot2
@@ -31,3 +24,4 @@ lubridate
 magick
 Tmisc
 dsbox
+xaringanthemer

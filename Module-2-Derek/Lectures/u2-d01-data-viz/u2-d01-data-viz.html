@@ -16,9 +16,15 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Data and visualisation
+]
+.subtitle[
 ## <br><br> Data Science in a Box
+]
+.author[
 ### <a href="https://datasciencebox.org/">datasciencebox.org</a>
+]
 
 ---
 
@@ -53,60 +59,58 @@ class: middle
 
 
 ```r
-starwars
+happy
 ```
 
 ```
-## # A tibble: 87 x 14
-##   name    height  mass hair_color skin_color eye_color birth_year
-##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
-## 1 Luke S…    172    77 blond      fair       blue            19  
-## 2 C-3PO      167    75 &lt;NA&gt;       gold       yellow         112  
-## 3 R2-D2       96    32 &lt;NA&gt;       white, bl… red             33  
-## 4 Darth …    202   136 none       white      yellow          41.9
-## 5 Leia O…    150    49 brown      light      brown           19  
-## 6 Owen L…    178   120 brown, gr… light      blue            52  
-## # … with 81 more rows, and 7 more variables: sex &lt;chr&gt;,
-## #   gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-## #   vehicles &lt;list&gt;, starships &lt;list&gt;
+## # A tibble: 143 × 12
+##   Country   Region Happiness LifeExpectancy Footprint   HLY   HPI
+##   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Albania   Forme…       5.5           76.2       2.2  41.7  47.9
+## 2 Algeria   Middl…       5.6           71.7       1.7  40.1  51.2
+## 3 Angola    SubSa…       4.3           41.7       0.9  17.8  26.8
+## 4 Argentina Latin…       7.1           74.8       2.5  53.4  59.0
+## 5 Armenia   Forme…       5             71.7       1.4  36.1  48.3
+## 6 Australia Weste…       7.9           80.9       7.8  63.7  36.6
+## # … with 137 more rows, and 5 more variables: HPIRank &lt;dbl&gt;,
+## #   GDPperCapita &lt;dbl&gt;, HDI &lt;dbl&gt;, Population &lt;dbl&gt;,
+## #   HDI_group &lt;ord&gt;
 ```
 
 ]
 
 ---
 
-## Luke Skywalker
+## United States of America
 
-![luke-skywalker](img/luke-skywalker.png)
-
+&lt;!-- ![luke-skywalker](img/luke-skywalker.png) --&gt;
+[create new diagrammatic representation]
 ---
 
-## What's in the Star Wars data?
+## What's in the Happy Planet Index data?
 
 Take a `glimpse` at the data:
 
 
 ```r
-glimpse(starwars)
+glimpse(happy)
 ```
 
 ```
-## Rows: 87
-## Columns: 14
-## $ name       &lt;chr&gt; "Luke Skywalker", "C-3PO", "R2-D2", "Darth V…
-## $ height     &lt;int&gt; 172, 167, 96, 202, 150, 178, 165, 97, 183, 1…
-## $ mass       &lt;dbl&gt; 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, …
-## $ hair_color &lt;chr&gt; "blond", NA, NA, "none", "brown", "brown, gr…
-## $ skin_color &lt;chr&gt; "fair", "gold", "white, blue", "white", "lig…
-## $ eye_color  &lt;chr&gt; "blue", "yellow", "red", "yellow", "brown", …
-## $ birth_year &lt;dbl&gt; 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, N…
-## $ sex        &lt;chr&gt; "male", "none", "none", "male", "female", "m…
-## $ gender     &lt;chr&gt; "masculine", "masculine", "masculine", "masc…
-## $ homeworld  &lt;chr&gt; "Tatooine", "Tatooine", "Naboo", "Tatooine",…
-## $ species    &lt;chr&gt; "Human", "Droid", "Droid", "Human", "Human",…
-## $ films      &lt;list&gt; &lt;"The Empire Strikes Back", "Revenge of the…
-## $ vehicles   &lt;list&gt; &lt;"Snowspeeder", "Imperial Speeder Bike"&gt;, &lt;…
-## $ starships  &lt;list&gt; &lt;"X-wing", "Imperial shuttle"&gt;, &lt;&gt;, &lt;&gt;, "TI…
+## Rows: 143
+## Columns: 12
+## $ Country        &lt;chr&gt; "Albania", "Algeria", "Angola", "Argenti…
+## $ Region         &lt;chr&gt; "Former Soviet", "Middle East", "SubSaha…
+## $ Happiness      &lt;dbl&gt; 5.5, 5.6, 4.3, 7.1, 5.0, 7.9, 7.8, 5.3, …
+## $ LifeExpectancy &lt;dbl&gt; 76.2, 71.7, 41.7, 74.8, 71.7, 80.9, 79.4…
+## $ Footprint      &lt;dbl&gt; 2.2, 1.7, 0.9, 2.5, 1.4, 7.8, 5.0, 2.2, …
+## $ HLY            &lt;dbl&gt; 41.7, 40.1, 17.8, 53.4, 36.1, 63.7, 61.9…
+## $ HPI            &lt;dbl&gt; 47.91, 51.23, 26.78, 58.95, 48.28, 36.64…
+## $ HPIRank        &lt;dbl&gt; 54, 40, 130, 15, 48, 102, 57, 85, 31, 10…
+## $ GDPperCapita   &lt;dbl&gt; 5316, 7062, 2335, 14280, 4945, 31794, 33…
+## $ HDI            &lt;dbl&gt; 0.801, 0.733, 0.446, 0.869, 0.775, 0.962…
+## $ Population     &lt;dbl&gt; 3.15, 32.85, 16.10, 38.75, 3.02, 20.40, …
+## $ HDI_group      &lt;ord&gt; Very high, High, Low, Very high, High, V…
 ```
 
 ---
@@ -119,10 +123,25 @@ What does each column represent?
 
 
 ```r
-?starwars
+glimpse(happy)
 ```
 
-&lt;img src="img/starwars-help.png" width="60%" style="display: block; margin: auto;" /&gt;
+```
+## Rows: 143
+## Columns: 12
+## $ Country        &lt;chr&gt; "Albania", "Algeria", "Angola", "Argenti…
+## $ Region         &lt;chr&gt; "Former Soviet", "Middle East", "SubSaha…
+## $ Happiness      &lt;dbl&gt; 5.5, 5.6, 4.3, 7.1, 5.0, 7.9, 7.8, 5.3, …
+## $ LifeExpectancy &lt;dbl&gt; 76.2, 71.7, 41.7, 74.8, 71.7, 80.9, 79.4…
+## $ Footprint      &lt;dbl&gt; 2.2, 1.7, 0.9, 2.5, 1.4, 7.8, 5.0, 2.2, …
+## $ HLY            &lt;dbl&gt; 41.7, 40.1, 17.8, 53.4, 36.1, 63.7, 61.9…
+## $ HPI            &lt;dbl&gt; 47.91, 51.23, 26.78, 58.95, 48.28, 36.64…
+## $ HPIRank        &lt;dbl&gt; 54, 40, 130, 15, 48, 102, 57, 85, 31, 10…
+## $ GDPperCapita   &lt;dbl&gt; 5316, 7062, 2335, 14280, 4945, 31794, 33…
+## $ HDI            &lt;dbl&gt; 0.801, 0.733, 0.446, 0.869, 0.775, 0.962…
+## $ Population     &lt;dbl&gt; 3.15, 32.85, 16.10, 38.75, 3.02, 20.40, …
+## $ HDI_group      &lt;ord&gt; Very high, High, Low, Very high, High, V…
+```
 
 ---
 
@@ -133,27 +152,27 @@ How many rows and columns does this dataset have?
 .pull-left[
 
 ```r
-nrow(starwars) # number of rows
+nrow(happy) # number of rows
 ```
 
 ```
-## [1] 87
-```
-
-```r
-ncol(starwars) # number of columns
-```
-
-```
-## [1] 14
+## [1] 143
 ```
 
 ```r
-dim(starwars)  # dimensions (row column)
+ncol(happy) # number of columns
 ```
 
 ```
-## [1] 87 14
+## [1] 12
+```
+
+```r
+dim(happy)  # dimensions (row column)
+```
+
+```
+## [1] 143  12
 ```
 ]
 
@@ -173,21 +192,21 @@ class: middle
 
 ---
 
-## Mass vs. height
+## Does money buy happiness?
 
 .question[ 
-How would you describe the relationship between mass and height of Starwars characters?
+How would you describe the relationship between a country's GDP per capita and average happiness?
 What other variables would help us understand data points that don't follow the overall trend?
-Who is the not so tall but really chubby character?
+Which is that not-that-rich but very happy country?
 ]
 
-&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Jabba!
+## Costa Rica!
 
-&lt;img src="img/jabbaplot.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/costa-rica.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -226,25 +245,26 @@ class: middle
 A grammar of graphics is a tool that enables us to concisely describe the components of a graphic
 ]
 .pull-right-wide[
-&lt;img src="img/grammar-of-graphics.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/grammar-of-graphics.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 .footnote[ Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-grammar-of-graphics.html)]
 
 ---
 
-## Mass vs. height
+## Money vs. Happiness
 
 
 ```r
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
-  labs(title = "Mass vs. height of Starwars characters",
-       x = "Height (cm)", y = "Weight (kg)")
+  labs(title = "Happiness and GDP per-capita",
+       y = "Avg. Happiness (0-10)", x = "GDP per-capita") +
+  geom_point(data = happy %&gt;% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
 ```
 
 ```
-## Warning: Removed 28 rows containing missing values (geom_point).
+## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
 &lt;img src="u2-d01-data-viz_files/figure-html/mass-height-1.png" width="50%" style="display: block; margin: auto;" /&gt;
@@ -260,14 +280,15 @@ ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
 
 
 ```r
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
-  labs(title = "Mass vs. height of Starwars characters",
-       x = "Height (cm)", y = "Weight (kg)")
+  labs(title = "Happiness and GDP per-capita",
+       y = "Avg. Happiness (0-10)", x = "GDP per-capita") +
+  geom_point(data = happy %&gt;% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
 ```
 
 ```
-## Warning: Removed 28 rows containing missing values (geom_point).
+## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
 .footnote[
@@ -388,7 +409,7 @@ quartet %&gt;%
 ```
 
 ```
-## # A tibble: 4 x 6
+## # A tibble: 4 × 6
 ##   set   mean_x mean_y  sd_x  sd_y     r
 ##   &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 I          9   7.50  3.32  2.03 0.816
@@ -405,13 +426,14 @@ quartet %&gt;%
 
 ---
 
+
 ## Age at first kiss
 
 .question[ 
 Do you see anything out of the ordinary?
 ]
 
-&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -421,7 +443,17 @@ Do you see anything out of the ordinary?
 How are people reporting lower vs. higher values of FB visits?
 ]
 
-&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+## Money and happiness
+
+- The correlation between money and happiness is `\(r =\)` 0.698. 
+- But does that doesn't tell the whole story
+
+&lt;img src="u2-d01-data-viz_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -470,6 +502,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

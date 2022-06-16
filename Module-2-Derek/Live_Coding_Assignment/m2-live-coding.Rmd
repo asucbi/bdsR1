@@ -9,17 +9,18 @@ library(tidyverse)
 ```
 
 
-Questions:
+# Questions:
 
-* How much does happiness vary by country?
+* How much does average happiness vary across countries?
 * Which countries are happiest? Which are least happy?
 * Can you buy happiness? How does per capita GDP relate to happiness?
-* What is the cost of happiness? How does happiness relate to ecological footprint?
-
+* What is the cost of happiness? How does a country's happiness relate to its ecological footprint?
 
 ### Load the Happy Planet Index data frame we will be using 
 
 ```{r}
+## will maybe make this its own script and/or save this as a csv to make data loading simple
+
 happy <- read_csv("https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv") %>% 
   mutate(
     Region = case_when(
@@ -36,7 +37,8 @@ happy <- read_csv("https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv") %
       HDI <= .55 ~ "Low",
       HDI < .699 ~ "Medium",
       HDI < .799 ~ "High",
-      HDI >= .799 ~ "Very high"
+      HDI >= .799 ~ "Very high",
+      is.na(HDI) ~ NA_character_
     ), levels = c("Low","Medium","High","Very high")
   )
   )
@@ -53,16 +55,42 @@ glimpse(happy)
 
 ```{r}
 ggplot(happy, aes(x=Happiness)) +
-  geom_histogram()
+  geom_histogram(binwidth=.25) +
+  xlim(0,10)
 ```
 
-### Which are the happiest countries?
+#### Which are the happiest countries?
 
 ```{r}
+happy %>% filter(Happiness > 8)
+```
 
+#### Which are the saddest countries?
+
+```{r}
+happy %>% filter(Happiness < 3)
+```
+
+#### How does happiness vary by region?
+
+```{r}
+ggplot(happy, aes(x=Happiness)) +
+  geom_histogram(binwidth=.25) +
+  xlim(0,10) +
+  facet_wrap(~Region)
+```
+Another visualization
+
+```{r}
+ggplot(happy, aes(x=Region, y=Happiness)) +
+  geom_violin()
+  
 ```
 
 
+## Can you buy happiness?
+
+(Below is the basic plot and then we'll do some stuff with it.)
 
 ### Modify the following plot to change the color of all points to `"pink"`.
 
@@ -86,7 +114,40 @@ ggplot(happy,
     )
 ```
 
-### How is the data organized? Make a bar plot of the distribution of `Region`
+### Does money buy happiness everywhere?
+
+```{r}
+ggplot(happy, 
+       aes(x = GDPperCapita, y = Happiness, size=Population, color=Region)) +
+  geom_point() 
+```
+
+```{r}
+ggplot(happy, 
+       aes(x = GDPperCapita, y = Happiness, color=Region)) +
+  geom_point() +
+  # geom_smooth() +
+  facet_wrap(~Region) +
+  theme(aspect.ratio=.75)
+```
+
+## The cost of happiness?
+
+```{r}
+ggplot(happy, 
+       aes(y = Footprint, x = Happiness, size=Population)) +
+  geom_point()
+```
+
+```{r}
+ggplot(happy, 
+       aes(y = Footprint, x = Happiness, size=Population, color=HDI_group)) +
+  geom_point()
+```
+
+# More practice
+
+### How many countries are developed? Make a bar plot of the distribution of `HDI_group`
 
 (A little bit of starter code is provided below, and the code chunk is set to not be evaluated with `eval = FALSE` because the current code in there is not valid code and hence the document wouldn't knit. Once you replace the code with valid code, set the chunk option to `eval = TRUE`, or remove the `eval` option altogether since it's set to `TRUE` by default.)
 
@@ -99,12 +160,17 @@ ggplot(happy, aes(x=HDI_group)) + geom_bar()
 (This time no starter code is provided, you're on your own!)
 
 ```{r histogram}
-
+happy %>% 
+  ggplot(aes(x=Population)) +
+  geom_histogram()
 ```
 
 ### Pick a numerical variable and a visualisation (you pick the type!) to visualise the relationship between this variable and `Region`. Along with your code and output, provide an interpretation of the visualisation.
 
 ```{r num-cat}
+happy %>% 
+  ggplot(aes(x = factor(Region), y=Happiness)) +
+  geom_boxplot()
 ```
 
 ### Focus on the two categorical variables of `Region` and `HDI_group` and make a visualisation to visualise the relationship between them. Along with your code and output, provide an interpretation of the visualisation.
@@ -112,7 +178,7 @@ ggplot(happy, aes(x=HDI_group)) + geom_bar()
 ```{r cat-cat}
 ```
 
-### Pick two numerical variables and to consider alongside the two categorical variables of `Region` and `HDI_group` and make a visualisation that incorportes all of them. Then, provide an interpretation with your answer.
+### Pick two numerical variables to consider alongside a categorical variable (either `Region` or `HDI_group`) and make a visualisation that incorportes all of them. Then, provide an interpretation with your answer.
 
 ```{r multi}
 ```
