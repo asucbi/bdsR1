@@ -12,9 +12,9 @@ library(tidyverse)
 ```
 
 ```{r load-data, message = FALSE}
-phx_accidents <- read_csv("../data/phoenix_accidents.csv")
+# phx_accidents <- read_csv("../data/phoenix_accidents.csv")
+phx_accidents <- read_csv("https://asucbi.github.io/data/phoenix_accidents.csv")
 ```
-
 
 ## Exercises
 
