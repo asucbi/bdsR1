@@ -1,4 +1,4 @@
-# use this _site.yml for consistent design of all labs; outputs knitted html to docs for immediate publication
+# FOR HWS use this _site.yml for consistent design of all homeworks; outputs knitted html to docs for immediate publication
 name: "BDSR1"
 output_dir: "../docs/hws"
 output:
