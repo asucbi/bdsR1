@@ -1,0 +1,13 @@
+# use this _site.yml for consistent design of all labs; outputs knitted html to docs for immediate publication
+name: "BDSR1"
+output_dir: "../docs/labs"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+    number_sections: false
+    include:
+      in_header: assets/toggling.html
+    css: assets/style-labs.css

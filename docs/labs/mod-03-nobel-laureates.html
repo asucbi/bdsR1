@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 03 - Nobel laureates</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-chevron-circle-right')) {
+    f.classList.add('fa-chevron-circle-down')
+    f.classList.remove('fa-chevron-circle-right')
+} else {
+    f.classList.add('fa-chevron-circle-right')
+    f.classList.remove('fa-chevron-circle-down')
+}
+}
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/style-labs.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 03 - Nobel laureates</h1>
+
+</div>
+
+
+<p>In January 2017, Buzzfeed published an article on why Nobel laureates show immigration is so important for American science.</p>
+<p>You can read the article <a href="https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science">here</a>.
+In the article they show that while most living Nobel laureates in the sciences are based in the US, many of them were born in other countries.</p>
+<p>This is one reason why scientific leaders say that immigration is vital for progress.
+In this lab we will work with the data from this article to recreate some of their visualizations as well as explore new questions.</p>
+<div class="lo">
+<p><strong>LEARNING OBJECTIVES</strong></p>
+<ul>
+<li>Collaborating within R Studio server and generating final RMarkdown report</li>
+<li>Replicating published results</li>
+<li>Data wrangling and visualisation</li>
+</ul>
+</div>
+<div class="red">
+<p><strong>PRE-LAB ACTIVITY</strong></p>
+<p>Read the Buzzfeed article titled <a href="https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science"><em>These Nobel Prize Winners Show Why Immigration Is So Important For American Science</em></a><em>.</em> We will replicate this analysis in the workshop so it’s crucial that you’re familiar with it ahead of time.</p>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named <code>lab-03-nobel-laureates-starter</code>.</p>
+<p>First, open the R Markdown document <code>lab-03.Rmd</code> and Knit it.</p>
+<p>Make sure it compiles without errors and you can preview the output within the Viewer Pane.</p>
+<p>The output should also be automatically saved as an <code>.html</code> file with the same name.</p>
+<div id="warm-up" class="section level2">
+<h2>Warm up</h2>
+<p>Before we introduce the data, let’s warm up with a simple exercise.</p>
+<ul>
+<li>Update the YAML, changing the author name to your name, and <strong>knit</strong> the document.</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling.</p>
+<p>This package is already installed for you.</p>
+<p>You can load it by running the following in your Console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The dataset for this assignment can be found as a CSV (comma separated values) file in the <code>data</code> folder of your repository.</p>
+<p>You can read it in using the following.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nobel <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/nobel.csv&quot;</span>)</span></code></pre></div>
+<p>The variable descriptions are as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>ID number</td>
+</tr>
+<tr class="even">
+<td><code>firstname</code></td>
+<td>First name of laureate</td>
+</tr>
+<tr class="odd">
+<td><code>surname</code></td>
+<td>Surname</td>
+</tr>
+<tr class="even">
+<td><code>year</code></td>
+<td>Year prize won</td>
+</tr>
+<tr class="odd">
+<td><code>category</code></td>
+<td>Category of prize</td>
+</tr>
+<tr class="even">
+<td><code>affiliation</code></td>
+<td>Affiliation of laureate</td>
+</tr>
+<tr class="odd">
+<td><code>city</code></td>
+<td>City of laureate in prize year</td>
+</tr>
+<tr class="even">
+<td><code>country</code></td>
+<td>Country of laureate in prize year</td>
+</tr>
+<tr class="odd">
+<td><code>born_date</code></td>
+<td>Birth date of laureate</td>
+</tr>
+<tr class="even">
+<td><code>died_date</code></td>
+<td>Death date of laureate</td>
+</tr>
+<tr class="odd">
+<td><code>gender</code></td>
+<td>Gender of laureate</td>
+</tr>
+<tr class="even">
+<td><code>born_city</code></td>
+<td>City where laureate was born</td>
+</tr>
+<tr class="odd">
+<td><code>born_country</code></td>
+<td>Country where laureate was born</td>
+</tr>
+<tr class="even">
+<td><code>born_country_code</code></td>
+<td>Code of country where laureate was born</td>
+</tr>
+<tr class="odd">
+<td><code>died_city</code></td>
+<td>City where laureate died</td>
+</tr>
+<tr class="even">
+<td><code>died_country</code></td>
+<td>Country where laureate died</td>
+</tr>
+<tr class="odd">
+<td><code>died_country_code</code></td>
+<td>Code of country where laureate died</td>
+</tr>
+<tr class="even">
+<td><code>overall_motivation</code></td>
+<td>Overall motivation for recognition</td>
+</tr>
+<tr class="odd">
+<td><code>share</code></td>
+<td>Number of other winners award is shared with</td>
+</tr>
+<tr class="even">
+<td><code>motivation</code></td>
+<td>Motivation for recognition</td>
+</tr>
+</tbody>
+</table>
+<p>In a few cases the name of the city/country changed after laureate was given (e.g. in 1975 Bosnia and Herzegovina was called the Socialist Federative Republic of Yugoslavia).
+In these cases the variables below reflect a different name than their counterparts without the suffix `_original`.</p>
+<table>
+<colgroup>
+<col width="42%" />
+<col width="57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>born_country_original</code></td>
+<td>Original country where laureate was born</td>
+</tr>
+<tr class="even">
+<td><code>born_city_original</code></td>
+<td>Original city where laureate was born</td>
+</tr>
+<tr class="odd">
+<td><code>died_country_original</code></td>
+<td>Original country where laureate died</td>
+</tr>
+<tr class="even">
+<td><code>died_city_original</code></td>
+<td>Original city where laureate died</td>
+</tr>
+<tr class="odd">
+<td><code>city_original</code></td>
+<td>Original city where laureate lived at the time of winning the award</td>
+</tr>
+<tr class="even">
+<td><code>country_original</code></td>
+<td>Original country where laureate lived at the time of winning the award</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p>Take turns answering the exercises.
+<!-- If workign remotely through Zoom, make sure that the person taking the lead for an exercise is sharing their screen. --></p>
+<p>You don’t have to switch at each exercise, you can find your a cadence that works for your team and stick to it.</p>
+<div id="get-to-know-your-data" class="section level2">
+<h2>Get to know your data</h2>
+<hr />
+<div class="question-begin">
+Question 1
+</div>
+<div class="question-body">
+<p>How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent?</p>
+<p><strong>There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.</strong></p>
+</div>
+<p class="question-end">
+</p>
+<div style="display:none;">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 2
+</div>
+<div class="question-body">
+<p>Create a new data frame called <code>nobel_living</code> that filters for</p>
+<ul>
+<li>laureates for whom <code>country</code> is available</li>
+<li>laureates who are people as opposed to organizations (organizations are denoted with <code>"org"</code> as their <code>gender</code>)</li>
+<li>laureates who are still alive (their <code>died_date</code> is <code>NA</code>)</li>
+</ul>
+<p>Confirm that once you have filtered for these characteristics you are left with a data frame with 228 observations, once again using inline code.</p>
+</div>
+<p class="question-end">
+</p>
+<div style="display:none;">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+<hr />
+</div>
+<div id="claim-most-living-nobel-laureates-were-based-in-the-us-when-they-won-their-prizes" class="section level2">
+<h2>Claim: Most living Nobel laureates were based in the US when they won their prizes</h2>
+<p>… says the Buzzfeed article.</p>
+<p>Let’s see if that’s true.</p>
+<p>First, we’ll create a new variable to identify whether the laureate was in the US when they won their prize. We’ll use the <code>mutate()</code> function for this.</p>
+<p>The following pipeline mutates the <code>nobel_living</code> data frame by adding a new variable called <code>country_us</code>. We use an if statement to create this variable.</p>
+<p>The first argument in the <code>if_else()</code> function we’re using to write this if statement is the condition we’re testing for. If <code>country</code> is equal to <code>"USA"</code>, we set <code>country_us</code> to <code>"USA"</code>. If not, we set the <code>country_us</code> to <code>"Other"</code>.</p>
+<div class="green">
+<p><strong>NOTE:</strong> We can achieve the same result using the <code>fct_other()</code> function we’ve seen before (i.e. with <code>country_us = fct_other(country, "USA")</code>). We decided to use the <code>if_else()</code> here to show you one example of an if statement in R.</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nobel_living <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_us =</span> <span class="fu">if_else</span>(country <span class="sc">==</span> <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Next, we will limit our analysis to only the following categories: Physics, Medicine, Chemistry, and Economics.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nobel_living_science <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Physics&quot;</span>, <span class="st">&quot;Medicine&quot;</span>, <span class="st">&quot;Chemistry&quot;</span>, <span class="st">&quot;Economics&quot;</span>))</span></code></pre></div>
+<p>For the next exercise work with the <code>nobel_living_science</code> data frame you created above.
+This means you’ll need to define this data frame in your R Markdown document, even though the next exercise doesn’t explicitly ask you to do so.</p>
+<hr />
+<div class="question-begin">
+Question 3
+</div>
+<div class="question-body">
+<p>Create a faceted bar plot visualizing the relationship between the category of prize and whether the laureate was in the US when they won the nobel prize.</p>
+<p>Interpret your visualization, and say a few words about whether the Buzzfeed headline is supported by the data.</p>
+<pre><code>-   Your visualization should be faceted by category.
+-   For each facet you should have two bars, one for winners in the US and one for Other.
+-   Flip the coordinates so the bars are horizontal, not vertical.</code></pre>
+</div>
+<p class="question-end">
+</p>
+<div style="display:none;">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.d* -->
+<hr />
+</div>
+<div id="claim-of-those-us-based-nobel-laureates-many-were-born-in-other-countries" class="section level2">
+<h2>Claim: Of those US-based Nobel laureates, many were born in other countries</h2>
+<div class="question-begin">
+Question 4
+</div>
+<div class="question-body">
+<p>Create a new variable called <code>born_country_us</code> that has the value <code>"USA"</code> if the laureate is born in the US, and <code>"Other"</code> otherwise.</p>
+<p>How many of the winners are born in the US?</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p><strong>Hint:</strong> You should be able to <del>cheat</del> borrow from code you used earlier to create the <code>country_us</code> variable.</p>
+</div>
+<div style="display:none;">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 5
+</div>
+<div class="question-body">
+<p>Add a second variable to your visualization from Exercise 3 based on whether the laureate was born in the US or not.</p>
+<p>Based on your visualization, do the data appear to support Buzzfeed’s claim? Explain your reasoning in 1-2 sentences.</p>
+<pre><code>-   Your final visualization should contain a facet for each category.
+-   Within each facet, there should be a bar for whether the laureate won the award in the US or not.
+-   Each bar should have segments for whether the laureate was born in the US or not.</code></pre>
+</div>
+<p class="question-end">
+</p>
+<div style="display:none;">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+<hr />
+</div>
+<div id="where-were-immigrant-nobelists-born" class="section level2">
+<h2>Where were immigrant Nobelists born?</h2>
+<div class="green">
+<p>Note that your bar plot won’t exactly match the one from the Buzzfeed article. This is likely because the data has been updated since the article was published.</p>
+</div>
+<div class="question-begin">
+Question 6
+</div>
+<div class="question-body">
+<p>In a single pipeline, filter for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the <code>count()</code> function) for their birth country (<code>born_country</code>) and arrange the resulting data frame in descending order of number of observations for each country. Which country is the most common?</p>
+</div>
+<p class="question-end">
+</p>
+<div style="display:none;">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
+</div>
+<p class="solution-end">
+</p>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
+<hr />
+<p>Now go back through your write up to make sure you’ve answered all questions and all of your R chunks are properly labelled.</p>
+<div class="red">
+<p><strong>SUBMITTING YOUR WORK</strong></p>
+<p>Once you decide as a team that you’re done with this lab, change the YAML <code>output</code> from <code>html_output</code> to <code>pdf_output.</code> Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.</p>
+</div>
+<div id="interested-in-how-buzzfeed-made-their-visualizations" class="section level3">
+<h3>Interested in how Buzzfeed made their visualizations?</h3>
+<p>The plots in the Buzzfeed article are called waffle plots.</p>
+<p>You can find the code used for making these plots in Buzzfeed’s GitHub repo (yes, they have one!) <a href="https://buzzfeednews.github.io/2017-01-immigration-and-science/">here</a>.</p>
+<p>You’re not expected to recreate them as part of your assignment, but you’re welcomed to do so for fun!</p>
+<!-- ## Merges and merge conflicts -->
+<!-- This is the second week you're working in teams, so we're going to make things a little more interesting and let all of you make changes and push those changes to your team repository. -->
+<!-- Sometimes things will go swimmingly, and sometimes you'll run into merge conflicts. -->
+<!-- So our first task today is to walk you through a merge conflict! -->
+<!-- -   Pushing to a repo replaces the code on GitHub with the code you have on your computer. -->
+<!-- -   If a collaborator has made a change to your repo on GitHub that you haven't incorporated into your local work, GitHub will stop you from pushing to the repo because this could overwrite your collaborator's work! -->
+<!-- -   So you need to explicitly "merge" your collaborator's work before you can push. -->
+<!-- -   If your and your collaborator's changes are in different files or in different parts of the same file, git merges the work for you automatically when you \*pull\*. -->
+<!-- -   If you both changed the same part of a file, git will produce a \*\*merge conflict\*\* because it doesn't know how which change you want to keep and which change you want to overwrite. -->
+<!-- Git will put conflict markers in your code that look like: -->
+<!--     <<<<<<< HEAD  -->
+<!--     See also: [dplyr documentation](https://dplyr.tidyverse.org/)    -->
+<!--     =======  -->
+<!--     See also [ggplot2 documentation](https://ggplot2.tidyverse.org/)   -->
+<!--     >>>>>>> some1alpha2numeric3string4 -->
+<!-- The `===`s separate *your* changes (top) from *their* changes (bottom). -->
+<!-- Note that on top you see the word `HEAD`, which indicates that these are your changes. -->
+<!-- And at the bottom you see `some1alpha2numeric3string4` (well, it probably looks more like `28e7b2ceb39972085a0860892062810fb812a08f`). -->
+<!-- This is the **hash** (a unique identifier) of the commit your collaborator made with the conflicting change. -->
+<!-- Your job is to *reconcile* the changes: edit the file so that it incorporates the best of both versions and delete the `<<<`, `===`, and `>>>` lines. -->
+<!-- Then you can stage and commit the result. -->
+<!-- # Merge conflict activity -->
+<!-- ## Setup -->
+<!-- -   Clone the repo and open the .Rmd file. -->
+<!-- -   Assign the numbers 1, 2, 3, and 4 to each of the team members. If your team has fewer than 4 people, some people will need to have multiple numbers. If your team has more than 4 people, some people will need to share some numbers. -->
+<!-- ## Let's cause a merge conflict! -->
+<!-- Our goal is to see two different types of merges: first we'll see a type of merge that git can't figure out on its own how to do on its own (a **merge conflict**) and requires human intervention, then another type of where that git can figure out how to do without human intervention. -->
+<!-- Doing this will require some tight choreography, so pay attention! -->
+<!-- Take turns in completing the exercise, only one member at a time. -->
+<!-- **Others should just watch, not doing anything on their own projects (this includes not even pulling changes!)** until they are instructed to. -->
+<!-- If you feel like you won't be able to resist the urge to touch your computer when it's not your turn, we recommend putting your hands in your pockets or sitting on them! -->
+<!-- **Before starting**: everyone should have the repo cloned and know which role number(s) they are. -->
+<!-- **Role 1:** -->
+<!-- -   Change the team name to your actual team name. -->
+<!-- -   Knit, commit, push. -->
+<!-- 🛑 Make sure the previous role has finished before moving on to the next step. -->
+<!-- **Role 2:** -->
+<!-- -   Change the team name to some other word. -->
+<!-- -   Knit, commit, push. You should get an error. -->
+<!-- -   Pull. Take a look at the document with the merge conflict. -->
+<!-- -   Clear the merge conflict by editing the document to choose the correct/preferred change. -->
+<!-- -   Knit. -->
+<!-- -   **Click the Stage checkbox** for all files in your Git tab. Make sure they all have check marks, not filled-in boxes. -->
+<!-- -   Commit and push. -->
+<!-- 🛑 Make sure the previous role has finished before moving on to the next step. -->
+<!-- **Role 3:** -->
+<!-- -   Change the a label of the first code chunk -->
+<!-- -   Knit, commit, push. You should get an error. -->
+<!-- -   Pull. No merge conflicts should occur, but you should see a message about merging. -->
+<!-- -   Now push. -->
+<!-- 🛑 Make sure the previous role has finished before moving on to the next step. -->
+<!-- **Role 4:** -->
+<!-- -   Change the label of the first code chunk to something other than previous role did. -->
+<!-- -   Knit, commit, push. You should get an error. -->
+<!-- -   Pull. Take a look at the document with the merge conflict. Clear the merge conflict by choosing the correct/preferred change. Commit, and push. -->
+<!-- 🛑 Make sure the previous role has finished before moving on to the next step. -->
+<!-- **Everyone:** Pull, and observe the changes in your document. -->
+<!-- ## Tips for collaborating via GitHub -->
+<!-- -   Always pull first before you start working. -->
+<!-- -   Resolve a merge conflict (commit and push) *before* continuing your work. Never do new work while resolving a merge conflict. -->
+<!-- -   Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve. -->
+<!-- -   If you find yourself in a situation that is difficult to resolve, ask questions ASAP. Don't let it linger and get bigger. -->
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
