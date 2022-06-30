@@ -1,0 +1,121 @@
+---
+title: "HW 02 - Phoenix city employee salaries"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(
+  eval = FALSE,
+  out.width = "80%",
+  fig.asp = 0.618,
+  fig.width = 6
+)
+```
+
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, fig.cap = "Photo of Phoenix, AZ from WikiMedia Commons", eval = TRUE}
+knitr::include_graphics("img/1024px-phx-city.jpg")
+```
+
+
+The City of Phoenix employs thousands of people to perform different jobs. How much does it pay them individually and in total for different departments and jobs? The priorities of a government can be shown through what the jobs to which it dedicates its money and personnel.
+
+# Getting started
+
+First, open the R Markdown document `hw-02.Rmd` and knit it.
+
+Make sure it compiles without errors.
+
+The output will be in the file markdown `.md` file with the same name.
+
+## Warm up
+
+Before we introduce the data, let's warm up by setting up your individual document for these exercises.
+
+-   Update the YAML, changing the author name to your name, save and **knit** the document.
+
+
+## Packages
+
+We'll use the **tidyverse** package for much of the data wrangling and visualisation and the data lives in the **dsbox** package.
+These packages are already installed for you.
+You can load them by running the following in your Console:
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+```
+
+## Data
+
+The data can be found in `data` folder and read in with the following command.
+
+```{r}
+phxsal <- read_csv("data/phx-salaries.csv")
+```
+
+This data includes the salary information for every current Phoenix city employee in departments employing more than 250 people.
+
+You can view the dataset like a spreadsheet using the `View()` function.
+Note that you should **not** put this function in your R Markdown document, but instead type it directly in the Console, as it pops open a new window (and the concept of popping open a window in a static document doesn't really make sense...).
+When you run this in the console, you'll see the following **data viewer** window pop up.
+
+```{r view-data}
+View(phxsal)
+```
+
+You can also view the data with the `head()` and `glimpse()` functions. These are more appropriate if you'd like to show a subset of the data itself in a notebook or report.
+
+# Exercises
+
+1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
+
+Write your response here, including the inline code.
+
+2.  Run `View(edibnb)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
+
+Write your response here
+
+3. Show a bit of the data in your report so that readers can see the important variables. You can use either `head()` or `glimpse()` depending on which you prefer.
+
+```{r}
+## Add your answers for Exercise 1 here
+## Remember to label this code chunk (do not use spaces in the label name)
+## Where appropriate, be sure to write your answers to questions as text below
+```
+
+
+🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
+
+4.  Create a faceted histogram where each facet represents a department and displays the distribution of salaries for employees working in that department. Think critically about whether it makes more sense to stack the facets on top of each other in a column, lay them out in a row, or wrap them around. Along with your visualization, include your reasoning for the layout you chose for your facets.
+
+```{r}
+## Copy and complete the code for Exercise 1 here
+## Remember to label this code chunk (do not use spaces in the label name)
+## Where appropriate, be sure to write your answers to questions as text below
+```
+
+Let's de-construct this code:
+
+-   `ggplot()` is the function we are using to build our plot, in layers.
+-   In the first layer we always define the data frame as the first argument. Then, we define the mappings between the variables in the dataset and the **aes**thetics of the plot (e.g. x and y coordinates, colours, etc.).
+-   In the next layer we represent the data with **geom**etric shapes, in this case with a histogram. You should decide what makes a reasonable bin width for the histogram by trying out a few options.
+-   In the final layer we facet the data by department
+
+🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
+
+5.  Use a single pipeline to identity the city departments with the top five median salaries. Then, in another pipeline filter the data for these five departments and make ridge plots of the distributions of salaries in these five departments In a third pipeline calculate the minimum, mean, median, standard deviation, IQR, and maximum salary in each of these departments Use the visualization and the summary statistics to describe the distribution of salaries in the departments (Your answer will include three pipelines, one of which ends in a visualization, as well as a narrative.)
+
+```{r}
+## Add your answers for Exercise 1 here
+## Remember to label this code chunk (do not use spaces in the label name)
+## Where appropriate, be sure to write your answers to questions as text below
+```
+
+6.  Create three visualizations that will help you compare the distribution of employees' regular-time, overtime, and total weekly hours worked (`regular_hours`, `overtime_hours`, and `total_hours`) across departments. You get to decide what type of visualizations to create and there is more than one correct answer! In your answer, include a brief interpretation of how departments appear to operate and how they compare to each other in terms of work schedules. Create your own code chunks to answer this question below.
+
+Add your code chunks here with `Command+Option+i` (mac) or `Ctrl+Alt+i` (windows).
+
+# Submitting your work
+
+Once you are happy with the final state of your work, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF to the Canvas assignment.  

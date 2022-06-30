@@ -8,7 +8,6 @@ output: github_document
 library(tidyverse)
 ```
 
-
 # Questions:
 
 * How much does average happiness vary across countries?
@@ -47,16 +46,15 @@ happy <- read_csv("https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv") %
 
 ### Glimpse at the data
 
-```{r glimpse-starwars}
+```{r glimpse-happy}
 glimpse(happy)
 ```
 
 ### How much does happiness vary across countries?
 
-```{r}
-ggplot(happy, aes(x=Happiness)) +
-  geom_histogram(binwidth=.25) +
-  xlim(0,10)
+```{r, eval=False}
+ggplot(happy, aes(x=____)) +
+  geom_ # ...
 ```
 
 #### Which are the happiest countries?
@@ -83,7 +81,8 @@ Another visualization
 
 ```{r}
 ggplot(happy, aes(x=Region, y=Happiness)) +
-  geom_violin()
+  geom_boxplot() +
+  coord_flip()
   
 ```
 
