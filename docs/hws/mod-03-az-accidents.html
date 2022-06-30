@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>HW 03 - Car accidents</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<link href="site_libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="site_libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/hw.css" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">HW 03 - Car accidents</h1>
+
+
+
+<p>
+<span class="marginnote shownote"> <!--
+<div class="figure">-->
+<img src="img/accident.jpg" alt="Photo by Clark Van Der Beken on Unsplash" width="80%"  />
+<!--
+<p class="caption marginnote">-->Photo by Clark Van Der Beken on
+Unsplash<!--</p>--> <!--</div>--></span>
+</p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">The data you find on
+Kaggle includes all accidents across the United States for six years
+(almost 3 million cases!). You will also find the complete set of
+variables described on Kaggle. If you haven’t set up an account, you
+really should give it a go.</span></span></p>
+<p>In this assignment we’ll look at traffic accidents in Phoenix. The
+data are made available on Kaggle <a
+href="https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents?resource=download">online</a>
+by a scientist at Lyft named Sobhan Moosavi. We will see more on Kaggle
+throughout the course as it’s a great way to find public datasets.</p>
+<p>The data covers all recorded car accidents in Phoenix, Arizona from
+January 2016 to January 2022. Note that some of the variables were
+modified for the purpose of this assignment.</p>
+<!-- https://smoosavi.org/datasets/us_accidents -->
+<!-- https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents?resource=download -->
+<!-- Sobhan Moosavi; Scientist at Lyft, former CSE PhD student at Ohio State University -->
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>First, open the R Markdown document <code>hw-03.Rmd</code> and knit
+it.</p>
+<p>Make sure it compiles without errors.</p>
+<p>The output will be in the file markdown <code>.md</code> file with
+the same name.</p>
+<div id="warm-up" class="section level2">
+<h2>Warm up</h2>
+<p>Before we introduce the data, let’s warm up with a simple
+exercise.</p>
+<ul>
+<li>Update the YAML, changing the author name to your name, and
+<strong>knit</strong> the document.</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data
+wrangling and visualization.
+<!-- and the data lives in the **dsbox** package. --></p>
+<p>These packages are already installed for you.</p>
+<p>You can load them by running the following in your Console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The data can be found in a separate folder called <code>data</code>,
+and it’s called <code>phoenix_accidents.csv</code>.</p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">Because our .csv file
+is in the <code>data</code> folder, note that we need to include that in
+the file path name.</span></span></p>
+<p>We now need to load in the data before we can do anything with it. We
+use the function <code>read_csv()</code> to do so.</p>
+<!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># phx_accidents &lt;- read_csv(&quot;data/phoenix_accidents.csv&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>)</span></code></pre></div>
+<p>The variable descriptions are as follows:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>Accident ID</td>
+</tr>
+<tr class="even">
+<td><code>latitude</code></td>
+<td>Latitude of accident location</td>
+</tr>
+<tr class="odd">
+<td><code>longitude</code></td>
+<td>Longitude of accident location</td>
+</tr>
+<tr class="even">
+<td><code>severity</code></td>
+<td>Shows the severity of the accident in terms of traffic delay:
+Minor/Slight, Moderate, Severe</td>
+</tr>
+<tr class="odd">
+<td><code>road_length</code></td>
+<td>The length of the road extent affected by the accident (in
+miles)</td>
+</tr>
+<tr class="even">
+<td><code>dateof</code></td>
+<td>Date of the accident</td>
+</tr>
+<tr class="odd">
+<td><code>day_of_week</code></td>
+<td>Day of the week of the accident</td>
+</tr>
+<tr class="even">
+<td><code>month_of_year</code></td>
+<td>Month of the year of the accident</td>
+</tr>
+<tr class="odd">
+<td><code>week_of_year</code></td>
+<td>Week of the year of the accident</td>
+</tr>
+<tr class="even">
+<td><code>time</code></td>
+<td>Time of the accident on the 24h clock</td>
+</tr>
+<tr class="odd">
+<td><code>zipcode</code></td>
+<td>Phoenix area zipcode</td>
+</tr>
+<tr class="even">
+<td><code>highway</code></td>
+<td>Whether the accident occurred on a city street or on a highway</td>
+</tr>
+<tr class="odd">
+<td><code>street</code></td>
+<td>Shows more detailed information on street/highway location in
+address field</td>
+</tr>
+<tr class="even">
+<td><code>side</code></td>
+<td>Shows the relative side of the street (Right/Left) in address
+field.</td>
+</tr>
+<tr class="odd">
+<td><code>special_cond</code></td>
+<td>Special condition that was recorded for the location of the
+accident: Traffic light/stop sign, Pedestrian crossing, Road/highway
+junction, Other, Unknown</td>
+</tr>
+<tr class="even">
+<td><code>light</code></td>
+<td>Light condition at the time of accident: Daylight, Darkness
+(artificial lights lit), Darkness (artificial lights unlit), Other</td>
+</tr>
+<tr class="odd">
+<td><code>weather</code></td>
+<td>Weather condition at the time of accident: Fine, Raining, Snowing,
+Fog or smoke or dust, Other, Unknown</td>
+</tr>
+<tr class="even">
+<td><code>wind</code></td>
+<td>High winds (greater than 26 mph): Windy or Other</td>
+</tr>
+<tr class="odd">
+<td><code>wind_speed</code></td>
+<td>Shows wind speed (in miles per hour).</td>
+</tr>
+<tr class="even">
+<td><code>precipitation</code></td>
+<td>Shows precipitation amount in inches, if there is any.</td>
+</tr>
+<tr class="odd">
+<td><code>visibility</code></td>
+<td>Shows visibility (in miles).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<ol style="list-style-type: decimal">
+<li><p>How many observations (rows) does the dataset have? Instead of
+hard coding the number in your answer, use inline code.</p></li>
+<li><p>Run <code>View(az_accidents)</code> in your Console to view the
+data in the data viewer. What does each row in the dataset
+represent?</p></li>
+</ol>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+<ol start="3" style="list-style-type: decimal">
+<li>Recreate the following plot, and describe in context of the data. In
+your answer, don’t forget to label your R chunk as well (where it says
+<code>label-me-1</code>). Your label should be short, informative,
+shouldn’t include spaces, and shouldn’t shouldn’t repeat a previous
+label.</li>
+</ol>
+<div class="figure fullwidth">
+<img src="mod-03-az-accidents_files/figure-html/unnamed-chunk-4-1.png" alt=" " width="80%"  />
+<p class="caption marginnote shownote">
+</p>
+</div>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+<ol start="4" style="list-style-type: decimal">
+<li>Create another data visualization based on these data and interpret
+it. You can choose any variables and any type of visualization you like,
+but it must have at least three variables, e.g. a scatterplot of x vs. y
+isn’t enough, but if points are colored by z, that’s fine. In your
+answer, don’t forget to label your R chunk as well (where it says
+<code>label-me-2</code>).</li>
+</ol>
+<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
+</div>
+<div id="submitting-your-work" class="section level1">
+<h1>Submitting your work</h1>
+<p>Once you are happy with the final state of your work, change the YAML
+<code>output</code> from <code>html_output</code> to
+<code>pdf_output.</code> Now knit the document to produce a final PDF
+file. Upload the PDF as a Canvas assignment.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
