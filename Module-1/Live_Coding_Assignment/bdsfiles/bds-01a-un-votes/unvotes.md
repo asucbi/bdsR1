@@ -8,7 +8,9 @@ How do various countries vote in the United Nations General Assembly,
 how have their voting patterns evolved throughout time, and how
 similarly or differently do they view certain issues? Answering these
 questions (at a high level) is the focus of this analysis.
-
+  html_document:
+    toc: yes
+    toc_float: yes
 ### Packages
 
 We will use the **tidyverse**, **lubridate**, and **scales** packages
