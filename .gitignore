@@ -1,7 +1,11 @@
 # Ignore Mac system
 .DS_store/
+.DS_Store/
+
 .Rhistory/
+
 .DS_store
+.DS_Store
 
 nicksandbox/
 
