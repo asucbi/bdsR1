@@ -5,7 +5,7 @@ link-citations: yes
 
 
 ```{r include = FALSE}
-source('assets/setup.R')
+source("assets/setup.R")
 
 # Need to download "dsbox" for accessing original Edinburgh data Not on CRAN: devtools::install_github("rstudio-education/dsbox")
 ```
@@ -133,5 +133,3 @@ phx_accidents %>%
 # Submitting your work
 
 Once you are happy with the final state of your work, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.  
-
-

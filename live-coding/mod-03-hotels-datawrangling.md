@@ -1,7 +1,6 @@
 Hotel bookings - data wrangling
 ================
-Nicholas Duran, Derek Powell[^1]Mine Çetinkaya-Rundel[^2]
-30 June, 2022
+12 July, 2022
 
 ``` r
 library(tidyverse)
@@ -250,7 +249,3 @@ variables for our analysis.
 | total_of_special_requests      | double    | Number of special requests made by the customer (e.g. twin bed or high floor)                                                                                                                                                                                                                                                                                                                                                       |
 | reservation_status             | character | Reservation last status, assuming one of three categories:<br>Canceled – booking was canceled by the customer;<br>Check-Out – customer has checked in but already departed;<br>No-Show – customer did not check-in and did inform the hotel of the reason why                                                                                                                                                                       |
 | reservation_status_date        | double    | Date at which the last status was set. This variable can be used in conjunction with the ReservationStatus to understand when was the booking canceled or when did the customer checked-out of the hotel                                                                                                                                                                                                                            |
-
-[^1]: Authored modifications to original code
-
-[^2]: Original author of exercise

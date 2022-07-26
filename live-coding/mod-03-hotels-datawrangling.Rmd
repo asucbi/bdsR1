@@ -1,8 +1,8 @@
 ---
 title: "Hotel bookings - data wrangling"
-author: 
-  - Nicholas Duran, Derek Powell^[Authored modifications to original code]
-  - Mine Çetinkaya-Rundel^[Original author of exercise]
+# author: 
+#   - Nicholas Duran, Derek Powell^[Authored modifications to original code]
+#   - Mine Çetinkaya-Rundel^[Original author of exercise]
 # output:
 #   html_document:
 #     # theme: united
