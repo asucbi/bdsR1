@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Working with multiple data frames</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Working with multiple data frames
+]
+.subtitle[
+## <br><br> Behavioral Data Science I in R
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+class: middle
+
+# .hand[We...]
+
+.huge[.green[have]] .hand[multiple data frames]
+
+.huge[.pink[want]] .hand[to bring them together]
+
+???
+So far we've worked with a single data frame and we've transformed it using dplyr functions. In this video we're going to work with multiple data frames - particularly on how to combine and them in meaningful ways. 
+
+---
+
+
+
+## Data: Women in science 
+
+Information on 10 women in science who changed the world
+
+.small[
+
+|name               |
+|:------------------|
+|Ada Lovelace       |
+|Marie Curie        |
+|Janaki Ammal       |
+|Chien-Shiung Wu    |
+|Katherine Johnson  |
+|Rosalind Franklin  |
+|Vera Rubin         |
+|Gladys West        |
+|Flossie Wong-Staal |
+|Jennifer Doudna    |
+]
+
+.footnote[
+Source: [Discover Magazine](https://www.discovermagazine.com/the-sciences/meet-10-women-in-science-who-changed-the-world)
+]
+
+???
+The data that we're going to work with comes from discover magazine. They had a article back in March 2020 on 10 women in science who changed the world. Listed here are the names of the 10 women. Now this data on our scientists is organized across three datasheets. In the real world, when collecting data, often you have unique information spread out in this way. 
+
+---
+
+## Inputs
+
+.panelset[
+
+.panel[.panel-name[professions]
+
+```r
+professions
+```
+
+```
+## # A tibble: 10 × 2
+##    name               profession                        
+##    &lt;chr&gt;              &lt;chr&gt;                             
+##  1 Ada Lovelace       Mathematician                     
+##  2 Marie Curie        Physicist and Chemist             
+##  3 Janaki Ammal       Botanist                          
+##  4 Chien-Shiung Wu    Physicist                         
+##  5 Katherine Johnson  Mathematician                     
+##  6 Rosalind Franklin  Chemist                           
+##  7 Vera Rubin         Astronomer                        
+##  8 Gladys West        Mathematician                     
+##  9 Flossie Wong-Staal Virologist and Molecular Biologist
+## 10 Jennifer Doudna    Biochemist
+```
+]
+
+.panel[.panel-name[dates]
+
+```r
+dates
+```
+
+```
+## # A tibble: 8 × 3
+##   name               birth_year death_year
+##   &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Janaki Ammal             1897       1984
+## 2 Chien-Shiung Wu          1912       1997
+## 3 Katherine Johnson        1918       2020
+## 4 Rosalind Franklin        1920       1958
+## 5 Vera Rubin               1928       2016
+## 6 Gladys West              1930         NA
+## 7 Flossie Wong-Staal       1947       2020
+## 8 Jennifer Doudna          1964         NA
+```
+]
+
+.panel[.panel-name[works]
+
+```r
+works
+```
+
+```
+## # A tibble: 9 × 2
+##   name               known_for                                   
+##   &lt;chr&gt;              &lt;chr&gt;                                       
+## 1 Ada Lovelace       first computer algorithm                    
+## 2 Marie Curie        theory of radioactivity,  discovery of elem…
+## 3 Janaki Ammal       hybrid species, biodiversity protection     
+## 4 Chien-Shiung Wu    confim and refine theory of radioactive bet…
+## 5 Katherine Johnson  calculations of orbital mechanics critical …
+## 6 Vera Rubin         existence of dark matter                    
+## 7 Gladys West        mathematical modeling of the shape of the E…
+## 8 Flossie Wong-Staal first scientist to clone HIV and create a m…
+## 9 Jennifer Doudna    one of the primary developers of CRISPR, a …
+```
+]
+
+]
+
+???
+one of the datasheets we're working with is called "professions," the second "dates" and the third datasheet is called "works." Lets take a look at what we have in the "professions" datasheet. 
+
+There are 10 rows. Each row has information on each woman's profession. For example, the first column, labeled "name," is the name of the scientist. The first row is Ada Lovelace. In the second column is the scientist's profession. For Lovelace, that is a mathematician. 
+
+Now if we go to the "dates" datasheet, what do we see? First thing to notice is that the first column also contains the name of the scientists, and the column is also labeled "name." Ok, this is consistent with the "professions" datasheet. But what is different is that we now have columns/variables that contain information on the birth and death year of each scientist (and note that West and Doudna are still alive as of this recording so death year is NA). Another big difference is that we only have 8 rows. It looks like we are missing information on two of the scientists from the previous datasheet. Bummer. Now, I could look up this information on Wikipedia and add it here, but what I'm trying to simulate is a real-life situation where you sometimes have missing data. 
+
+And finally, in our third datasheet, "works," we have what each scientist is known for. Notice the first column looks similar to the previous but we have this "known_for" column and nine rows. Someone is missing.
+
+---
+
+## Desired output
+
+
+```
+## # A tibble: 10 × 5
+##    name               profession  birth_year death_year known_for
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;    
+##  1 Ada Lovelace       Mathematic…         NA         NA first co…
+##  2 Marie Curie        Physicist …         NA         NA theory o…
+##  3 Janaki Ammal       Botanist          1897       1984 hybrid s…
+##  4 Chien-Shiung Wu    Physicist         1912       1997 confim a…
+##  5 Katherine Johnson  Mathematic…       1918       2020 calculat…
+##  6 Rosalind Franklin  Chemist           1920       1958 &lt;NA&gt;     
+##  7 Vera Rubin         Astronomer        1928       2016 existenc…
+##  8 Gladys West        Mathematic…       1930         NA mathemat…
+##  9 Flossie Wong-Staal Virologist…       1947       2020 first sc…
+## 10 Jennifer Doudna    Biochemist        1964         NA one of t…
+```
+
+???
+What we want to do is combine all the information across the datasets to create a single, complete dataframe. For each of the 10 scientists, we want all the variables together, and if we have missing data for any entry on any variable, we also want that to be marked with an NA (not applicable). Ok, so how do we do it? 
+
+---
+
+## Inputs, reminder
+
+.pull-left[
+
+```r
+names(professions)
+```
+
+```
+## [1] "name"       "profession"
+```
+
+```r
+names(dates)
+```
+
+```
+## [1] "name"       "birth_year" "death_year"
+```
+
+```r
+names(works)
+```
+
+```
+## [1] "name"      "known_for"
+```
+]
+.pull-right[
+
+```r
+nrow(professions)
+```
+
+```
+## [1] 10
+```
+
+```r
+nrow(dates)
+```
+
+```
+## [1] 8
+```
+
+```r
+nrow(works)
+```
+
+```
+## [1] 9
+```
+]
+
+???
+The first thing to look for is a common variable across the datasets. On the left I've printed the names of the variables in each of our datasheets. It looks like we have this common variable called "name." Makes sense as "name" corresponds to the names of the scientists who we are collecting information on. The next thing to take note of is which, if any, of our datasheets has the most observations. On the right I've printed out the number of rows. Looks like our "professions" datasheet has the most. Ok, great, armed with this information we can start making some decisions. 
+
+---
+
+class: middle
+
+# Joining data frames
+
+???
+And these decisions are concerned with how to start joining the dataframes to get to our desired output. 
+
+---
+
+## Joining data frames
+
+
+```r
+something_join(x, y)
+```
+
+- `left_join()`: all rows from x
+- `right_join()`: all rows from y
+- `full_join()`: all rows from both x and y
+- `semi_join()`: all rows from x where there are matching values in y, keeping just columns from x
+- `inner_join()`: all rows from x where there are matching values in y, return 
+all combination of multiple matches in the case of multiple matches
+- `anti_join()`: return all rows from x where there are not matching values in y, never duplicate rows of x
+- ...
+
+???
+To join dataframes using dplyr functions, we use a set of functions that are always of the format "something_join." So, "left_join," "right_join," full_join, semi_join, and so on. I'm not going through each one right now as I'm going to show you what each does in the upcoming slides. But I do want to draw your attention to the fact that I ended this bullet list with a dot dot dot. These are not all of the join functions dplyr makes available, but they're the ones that we're going to focus on because they're the most common.
+ 
+---
+
+## Setup
+
+For the next few slides...
+
+.pull-left[
+
+
+```r
+x
+```
+
+```
+## # A tibble: 3 × 2
+##      id value_x
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     1 x1     
+## 2     2 x2     
+## 3     3 x3
+```
+]
+.pull-right[
+
+
+```r
+y
+```
+
+```
+## # A tibble: 3 × 2
+##      id value_y
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     1 y1     
+## 2     2 y2     
+## 3     4 y4
+```
+]
+
+???
+Alright, for the next slides - in addition to the women scientists dataframe I showed you - I also have two simple dataframes that I'm going to use to illustrate examples. These are super simple but important. In the first one, that I'm calling "x," it has three observations across two variables. An "ID" variable and, for each observation in "ID," a value, labeled x1, x2, and x3. And in the second dataframe, that I'm calling "y," looks really similar. It also has an "ID" variable, but not the same id levels (here we have a 4 where "x" has a 3). And the associated values are labeled y1, y2, y4.  
+
+---
+
+## `left_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/left-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+left_join(x, y)
+```
+
+```
+## # A tibble: 3 × 3
+##      id value_x value_y
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+## 1     1 x1      y1     
+## 2     2 x2      y2     
+## 3     3 x3      &lt;NA&gt;
+```
+]
+
+???
+Lets do a "left_join" on the x and y dataframes. For the dataframe entered "on the left," which you can see here is "x," check out what happens. The join fundamentally occurs on the common variable across dataframes, which happened to be the first column/variable in both dataframes. For my leftmost dataframe, x, I always keep all the levels of the common column/variable. And from the y dataframe, I bring along all the levels in the common column/variable that were also in x. For the level "4" - that exists in "y" but not in "x," well, it goes bye bye. 
+
+---
+
+## `left_join()`
+
+
+```r
+professions %&gt;%
+* left_join(dates)
+```
+
+```
+## # A tibble: 10 × 4
+##    name               profession            birth_year death_year
+##    &lt;chr&gt;              &lt;chr&gt;                      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Ada Lovelace       Mathematician                 NA         NA
+##  2 Marie Curie        Physicist and Chemist         NA         NA
+##  3 Janaki Ammal       Botanist                    1897       1984
+##  4 Chien-Shiung Wu    Physicist                   1912       1997
+##  5 Katherine Johnson  Mathematician               1918       2020
+##  6 Rosalind Franklin  Chemist                     1920       1958
+##  7 Vera Rubin         Astronomer                  1928       2016
+##  8 Gladys West        Mathematician               1930         NA
+##  9 Flossie Wong-Staal Virologist and Molec…       1947       2020
+## 10 Jennifer Doudna    Biochemist                  1964         NA
+```
+
+???
+Now, what if I do the same thing with the scientist data? I want to start with the "professions" dataframe as my "leftmost" - or first entered dataframe - because it has the most complete set of levels for the common column/variable called "name." By doing it this way, I get to keep all the levels, i.e., scientists, found in the professions dataframe when bringing along the "dates" datasheet, which happens to be missing a couple of scientists. The missing data is now designated by NA in my combined datasheet. 
+
+---
+
+## `right_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/right-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+right_join(x, y)
+```
+
+```
+## # A tibble: 3 × 3
+##      id value_x value_y
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+## 1     1 x1      y1     
+## 2     2 x2      y2     
+## 3     4 &lt;NA&gt;    y4
+```
+]
+
+???
+Now what happens if I swap out left_join with right_join? Well, the rightmost dataframe, which is "y," now becomes the reference dataframe. That is, along the common variable between datasets, I keep all the levels within "y," now bringing along the levels in "x" which are the same. What is not the same when comparing y to x, well, it's the level 3, which now goes bye bye. 
+
+---
+
+## `right_join()`
+
+
+
+```r
+professions %&gt;%
+* right_join(dates)
+```
+
+```
+## # A tibble: 8 × 4
+##   name               profession             birth_year death_year
+##   &lt;chr&gt;              &lt;chr&gt;                       &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Janaki Ammal       Botanist                     1897       1984
+## 2 Chien-Shiung Wu    Physicist                    1912       1997
+## 3 Katherine Johnson  Mathematician                1918       2020
+## 4 Rosalind Franklin  Chemist                      1920       1958
+## 5 Vera Rubin         Astronomer                   1928       2016
+## 6 Gladys West        Mathematician                1930         NA
+## 7 Flossie Wong-Staal Virologist and Molecu…       1947       2020
+## 8 Jennifer Doudna    Biochemist                   1964         NA
+```
+
+???
+What happens when we do the same thing in the scientist data between "professions" and "dates"? Well, "dates" (our rightmost, therefore baseline, dataframe) only has information on eight of the 10 scientists, so we only pull information from those eight scientists from the "professions" dataframe. 
+
+---
+
+## `full_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/full-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+full_join(x, y)
+```
+
+```
+## # A tibble: 4 × 3
+##      id value_x value_y
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+## 1     1 x1      y1     
+## 2     2 x2      y2     
+## 3     3 x3      &lt;NA&gt;   
+## 4     4 &lt;NA&gt;    y4
+```
+]
+
+???
+Now, what does a full_join do? Well, I get to keep all of my rows from both dataframes and wherever I was missing information I just end up with NAs. 
+
+---
+
+## `full_join()`
+
+
+```r
+dates %&gt;%
+* full_join(works)
+```
+
+```
+## # A tibble: 10 × 4
+##    name               birth_year death_year known_for            
+##    &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                
+##  1 Janaki Ammal             1897       1984 hybrid species, biod…
+##  2 Chien-Shiung Wu          1912       1997 confim and refine th…
+##  3 Katherine Johnson        1918       2020 calculations of orbi…
+##  4 Rosalind Franklin        1920       1958 &lt;NA&gt;                 
+##  5 Vera Rubin               1928       2016 existence of dark ma…
+##  6 Gladys West              1930         NA mathematical modelin…
+##  7 Flossie Wong-Staal       1947       2020 first scientist to c…
+##  8 Jennifer Doudna          1964         NA one of the primary d…
+##  9 Ada Lovelace               NA         NA first computer algor…
+## 10 Marie Curie                NA         NA theory of radioactiv…
+```
+
+???
+Let me join two of the dataframes from our scientist dataset that, if you remember, are the ones with missing scientists. The "dates" dataframe is missing two scientists - Ada Lovelace and Marie Curie - and the "works" dataframe is missing one scientist - Rosalind Franklin. This is an interesting situation where there are no common missing scientists between datasheets, at least some information exists for each one. When I bring these two dataframes together I get the date information for the eight scientists for whom that information was available, and then I get the known information for Ade Lovelace and Marie Curie from the "works" dataframe. And likewise, even though the "works" dataframe is missing information on Rosalind Franklin, there is still information about her in the "dates" dataframe, which gets included.  
+
+---
+
+## `inner_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/inner-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+inner_join(x, y)
+```
+
+```
+## # A tibble: 2 × 3
+##      id value_x value_y
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+## 1     1 x1      y1     
+## 2     2 x2      y2
+```
+]
+
+???
+Alright. An inner_join is straightforward as it is the intersection between dataframes, only returning the rows for which we have data from both dataframes. 
+
+---
+
+## `inner_join()`
+
+
+```r
+dates %&gt;%
+* inner_join(works)
+```
+
+```
+## # A tibble: 7 × 4
+##   name               birth_year death_year known_for             
+##   &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                 
+## 1 Janaki Ammal             1897       1984 hybrid species, biodi…
+## 2 Chien-Shiung Wu          1912       1997 confim and refine the…
+## 3 Katherine Johnson        1918       2020 calculations of orbit…
+## 4 Vera Rubin               1928       2016 existence of dark mat…
+## 5 Gladys West              1930         NA mathematical modeling…
+## 6 Flossie Wong-Staal       1947       2020 first scientist to cl…
+## 7 Jennifer Doudna          1964         NA one of the primary de…
+```
+
+???
+So when doing this the "dates" and the "works" dataframes, I end up with seven rows, which are the seven scientists that we had complete data for in both the "dates" and "works" dataframes.
+
+---
+
+## `semi_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/semi-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+semi_join(x, y)
+```
+
+```
+## # A tibble: 2 × 2
+##      id value_x
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     1 x1     
+## 2     2 x2
+```
+]
+
+???
+And if I want to do a semi-join, this is very similar to a inner join. Except, this time, I am using the information from the second data frame to match up to my first data frame to see which rows to keep but I'm not actually bringing that information in with me. 
+
+---
+
+## `semi_join()`
+
+
+```r
+dates %&gt;%
+* semi_join(works)
+```
+
+```
+## # A tibble: 7 × 3
+##   name               birth_year death_year
+##   &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Janaki Ammal             1897       1984
+## 2 Chien-Shiung Wu          1912       1997
+## 3 Katherine Johnson        1918       2020
+## 4 Vera Rubin               1928       2016
+## 5 Gladys West              1930         NA
+## 6 Flossie Wong-Staal       1947       2020
+## 7 Jennifer Doudna          1964         NA
+```
+
+???
+So if I do a semi-join for our "dates" and "works" dataframe, I again have the rows that are at the intersection of the two data frames, but I didn't bring along the variables from the "works" dataframe. 
+
+---
+
+## `anti_join()`
+
+.pull-left[
+&lt;img src="mod-03-4-multi-df_files/anti-join.gif" width="80%" style="background-color: #FDF6E3" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+anti_join(x, y)
+```
+
+```
+## # A tibble: 1 × 2
+##      id value_x
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     3 x3
+```
+]
+
+???
+And finally, an anti_join. This is basically a subtraction. It gives you the rows in x (the first dataframe entered) that are not in y. 
+
+---
+
+## `anti_join()`
+
+
+```r
+dates %&gt;%
+* anti_join(works)
+```
+
+```
+## # A tibble: 1 × 3
+##   name              birth_year death_year
+##   &lt;chr&gt;                  &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Rosalind Franklin       1920       1958
+```
+
+???
+So if I was to do an anti_join, first entering the "dates" dataframe and comparing to the "works" dataframe, well, I end up with the one scientist who is in "dates" but who is not in the "works." And that is good ol' Rosalind Franklin. 
+
+---
+
+## Putting it altogether
+
+
+```r
+professions %&gt;%
+  left_join(dates) %&gt;%
+  left_join(works)
+```
+
+```
+## # A tibble: 10 × 5
+##    name               profession  birth_year death_year known_for
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;    
+##  1 Ada Lovelace       Mathematic…         NA         NA first co…
+##  2 Marie Curie        Physicist …         NA         NA theory o…
+##  3 Janaki Ammal       Botanist          1897       1984 hybrid s…
+##  4 Chien-Shiung Wu    Physicist         1912       1997 confim a…
+##  5 Katherine Johnson  Mathematic…       1918       2020 calculat…
+##  6 Rosalind Franklin  Chemist           1920       1958 &lt;NA&gt;     
+##  7 Vera Rubin         Astronomer        1928       2016 existenc…
+##  8 Gladys West        Mathematic…       1930         NA mathemat…
+##  9 Flossie Wong-Staal Virologist…       1947       2020 first sc…
+## 10 Jennifer Doudna    Biochemist        1964         NA one of t…
+```
+
+???
+Putting it all together, to get to my optimal output I showed you at the beginning of this lecture, I would want to start with the "professions" dataframe because I know that one has all of the rows that I need. And then I would want to left_join the "dates" dataframe so that I get the birth and death years for whoever I have that information for. So again, I'm keeping things at 10 rows. And then, I want to left_join the "works" dataframe to get all the columns for the scientists who I happen to have "known_for" information. Voila! So this is how I get to a final, complete dataframe from multiple dataframes.
+
+---
+
+class: middle
+
+# Case study: Student records
+
+???
+I'm going to now give you two very short case studies to exemplify other situations where data joins might be relevant. The first one is... 
+
+---
+
+## Student surveys
+
+- Have:
+  - Initial survey: survey taken at the beginning of the course
+  - Final survey: survey taken at the end of the course
+- Want: Info for everyone who took both surveys, those who only took the first survey (dropped the course? failed to take the final survey?), and those who only took the final survey (added the course late? failed to take the initial survey?)
+
+--
+
+
+
+.pull-left[
+
+```r
+initial_survey
+```
+
+```
+## # A tibble: 4 × 3
+##      id name          email                 
+##   &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;                 
+## 1     2 Hermine H.    hhubert@asu.edu       
+## 2     3 Sarah         chocotaco@gmail.com   
+## 3     4 Peter Schmidt partytime123@gmail.com
+## 4     5 Mark          m3424@gmail.com
+```
+]
+.pull-right[
+
+```r
+final_survey
+```
+
+```
+## # A tibble: 3 × 2
+##      id name             
+##   &lt;dbl&gt; &lt;chr&gt;            
+## 1     1 David Friedlander
+## 2     2 Hermine Humphreys
+## 3     3 Sarah Kovalenko
+```
+]
+
+???
+Imagine a situation where you ask students to complete an online survey at the beginning of some course. For each student you know their student ID from official records. You also ask them to self-report their names and email addresses. … And then, let’s say you administer the same online survey at the end of the course. Again, for each student you know their student ID from official records. You ask them to self-report their names and email addresses. … In an ideal world, all the people who responded to the initial survey are the same as those who responded to the final survey. But of course, in the real world, some students might have dropped the course after taking the initial survey or just failed to do the final survey – as it appears to be the case with Peter Schmidt and Mark. And some students who took the final survey did not do the initial survey – as with David Friedlander here – who might have added the course late or just failed to do the first survey. In this little example we have a class of very few students. We can just eyeball who did or didn’t do what, but imagine a class of hundreds of students. We need to write some code. 
+
+---
+
+## Student records
+
+.panelset[
+
+.panel[.panel-name[Both surveys]
+
+```r
+initial_survey %&gt;% 
+* inner_join(final_survey, by = "id")
+```
+
+```
+## # A tibble: 2 × 4
+##      id name.x     email               name.y           
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;            
+## 1     2 Hermine H. hhubert@asu.edu     Hermine Humphreys
+## 2     3 Sarah      chocotaco@gmail.com Sarah Kovalenko
+```
+]
+
+.panel[.panel-name[Only initial]
+
+```r
+initial_survey %&gt;% 
+* anti_join(final_survey, by = "id")
+```
+
+```
+## # A tibble: 2 × 3
+##      id name          email                 
+##   &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;                 
+## 1     4 Peter Schmidt partytime123@gmail.com
+## 2     5 Mark          m3424@gmail.com
+```
+]
+
+.panel[.panel-name[Only final]
+
+```r
+final_survey %&gt;% 
+* anti_join(initial_survey, by = "id")
+```
+
+```
+## # A tibble: 1 × 2
+##      id name             
+##   &lt;dbl&gt; &lt;chr&gt;            
+## 1     1 David Friedlander
+```
+]
+
+]
+
+???
+Alright, let’s start by finding those students who took both surveys. How would I build a new dataframe with just these students? If you said, an “inner_join,” then pat yourself on the back. In the code here, I started with the initial survey dataframe, but really, for an inner_join, it doesn’t really matter which dataframe I start with. An inner_join just finds those levels that appear across some common variable in the datasets. Notice I do something different here from the previous examples in that I explicitly tell R that the common variable to compare across is the one called “id.” Why? Because R assumes any variables with the same name between dataframes are the common variables we’re trying to join on. But the initial_survey dataframe and final_survey dataframe have TWO common variables, called “id” and “name.” And we don’t want to join on the “name” variable because none of the levels are the same. But luckily, with “id,” we can map observations between the datasets. And in building a single, merged dataset, R automatically renames the variables that would otherwise have the same name with the suffix “.x” and “.y” to distinguish them.  
+
+Next, let’s say I want to identify those students who took the initial survey but not the second survey. Which of the “something_join” commands should I use? “anti_join” is the winner. Starting with the initial_survey dataframe, this code is essentially saying to find everything in initial_survey that is NOT in the final_survey – and make the comparison based on the common “id” variable between datasets. 
+
+Now let’s say I want to find those students who didn’t take initial survey but took the final survey. Well, we would also use “anti_join” but now entering the dataframes in the opposite direction. The code here says to find everything in final_survey that is NOT in the initial_survey – and make the comparison based on the common “id” variable between datasets.
+
+---
+
+class: middle
+
+# Case study: Grocery sales
+
+???
+Alright, for the last quick demonstration where you have data spread across multiple databases and you need to combine into one. This is an example involving grocery sales. But again, to keep things simple, I'm keeping it down to just a couple of customer sales. 
+
+---
+
+## Grocery sales
+
+- Have:
+  - Purchases: One row per customer per item, listing purchases they made
+  - Prices: One row per item in the store, listing their prices
+- Want: Total revenue
+
+--
+
+
+
+.pull-left[
+
+```r
+purchases
+```
+
+```
+## # A tibble: 5 × 2
+##   customer_id item        
+##         &lt;dbl&gt; &lt;chr&gt;       
+## 1           1 bread       
+## 2           1 milk        
+## 3           1 banana      
+## 4           2 milk        
+## 5           2 toilet paper
+```
+]
+.pull-right[
+
+```r
+prices
+```
+
+```
+## # A tibble: 5 × 2
+##   item         price
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 avocado       0.5 
+## 2 banana        0.15
+## 3 bread         1   
+## 4 milk          0.8 
+## 5 toilet paper  3
+```
+]
+
+???
+So what I have are purchases where I have a customer_id column, with two customers, labeled "1" and "2." And for each observation, I have what each customer bought. So customer "1" here bought bread, milk, and a banana. In this other dataframe I have the prices for the various items for things that could be bought. What I want to do is calculate the total revenue I've made from my sales in the "purchases" dataframe based on the cost of things in the "prices" dataframe.  
+
+---
+
+## Grocery sales
+
+.panelset[
+
+.panel[.panel-name[Total revenue]
+.pull-left[
+
+```r
+purchases %&gt;% 
+* left_join(prices)
+```
+
+```
+## # A tibble: 5 × 3
+##   customer_id item         price
+##         &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;
+## 1           1 bread         1   
+## 2           1 milk          0.8 
+## 3           1 banana        0.15
+## 4           2 milk          0.8 
+## 5           2 toilet paper  3
+```
+]
+.pull-right[
+
+```r
+purchases %&gt;% 
+  left_join(prices) %&gt;%
+* summarise(total_revenue = sum(price))
+```
+
+```
+## # A tibble: 1 × 1
+##   total_revenue
+##           &lt;dbl&gt;
+## 1          5.75
+```
+]
+]
+
+.panel[.panel-name[Revenue per customer]
+
+.pull-left[
+
+```r
+purchases %&gt;% 
+  left_join(prices)
+```
+
+```
+## # A tibble: 5 × 3
+##   customer_id item         price
+##         &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;
+## 1           1 bread         1   
+## 2           1 milk          0.8 
+## 3           1 banana        0.15
+## 4           2 milk          0.8 
+## 5           2 toilet paper  3
+```
+]
+.pull-right[
+
+```r
+purchases %&gt;% 
+  left_join(prices) %&gt;%
+* group_by(customer_id) %&gt;%
+  summarise(total_revenue = sum(price))
+```
+
+```
+## # A tibble: 2 × 2
+##   customer_id total_revenue
+##         &lt;dbl&gt;         &lt;dbl&gt;
+## 1           1          1.95
+## 2           2          3.8
+```
+]
+
+]
+
+]
+
+???
+So how would I go about doing this calculation? In thinking through the logic of my various "something_join" functions, I know that I probably want to use "left_join." Starting with the purchases dataframe (my leftmost dataframe), I keep all the rows in the purchases dataframe and bring over corresponding information from the prices dataframe. Now I can see for each item that was purchased, the price for that item. Next, I can then simply use a summarize function that we learned about earlier. This code sums up all the values in the price colum and so my total revenue is 5 bucks and 75 cents.  
+
+I could also do something like revenue per customer. All I need to do for that is to add a "group by" layer right before the summarize, and now I know how much money was spent by customer id 1 and customer id 2. So in this example, as with all of the examples, I gave you some case studies that exemplify realistic situations where data might live in separate data sets or databases or data frames. 
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

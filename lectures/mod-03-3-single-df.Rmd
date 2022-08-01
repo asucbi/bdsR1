@@ -1,0 +1,632 @@
+---
+title: "Working with a single data frame"
+subtitle: "<br><br> Behavioral Data Science I in R"
+# author: "[datasciencebox.org](https://datasciencebox.org/)"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r child = "setup.Rmd"}
+
+# "cast_from": xaringan::inf_mr(cast_from = '../')
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+class: middle
+
+# .hand[We...]
+
+.huge[.green[have]] .hand[a single data frame]
+
+.huge[.pink[want]] .hand[to slice it, and dice it, and juice it, and process it]
+
+???
+Now that we've been introduced to the idea of grammar (remember verbs and nouns) of data wrangling let's start applying these functions to a single data frame. We're going to start with a single data frame and we want to slice it dice it juice it and process it. 
+
+---
+
+## Data: Hotel bookings
+
+- Data from two hotels: one resort and one city hotel
+- Observations: Each row represents a hotel booking
+
+```{r message=FALSE}
+hotels <- read_csv("mod-03-3-single-df_files/hotels.csv")
+```
+
+???
+We're going to continue working with the hotel's booking data set. Remember we have data from two hotels, a resort and a city hotel, and each observation represents a hotel booking.  
+---
+
+class: middle
+
+# `select`, `arrange`, and `slice`
+
+???
+We're going to first look at the verbs, i.e., functions, of "select" "arrange" and "slice" 
+
+---
+
+## `select` to keep variables
+
+```{r}
+hotels %>%
+  select(hotel, lead_time) #<<
+```
+
+???
+We can use select to keep variables. In this case I'm selecting the variables called hotel and lead time from the hotels data frame. 
+
+---
+
+## `select` to exclude variables
+
+.small[
+```{r output.lines=18}
+hotels %>%
+  select(-agent) #<<
+```
+]
+
+???
+Or we can also use select to exclude variables. One of the variables in the dataset was agent, which represents type of agent that did the booking. And so we can say give me all of the columns except for agent. To do that we use the minus sign, and so you can see that the number of columns is now reduced to 31 from 32, which was the full data set. 
+
+---
+
+## `select` a range of variables
+
+```{r}
+hotels %>%
+  select(hotel:arrival_date_month) #<<
+```
+
+???
+We can also select a range of variables. This requires that you know the order in which the variables in your data set appear because, with the colon operator, what we're basically saying is give me all of the variables between the hotel variable and the arrival date month variable. These so happen to be the first five columns of our data set so that's what we're seeing as a result here. 
+
+---
+
+## `select` variables with certain characteristics
+
+```{r}
+hotels %>%
+  select(starts_with("arrival")) #<<
+```
+
+???
+But selecting in this way might not be a useful way of selecting things because it requires that you know the order in which your variables appear in your data frame. It also assumes they were placed in some sensible way and that may not always be true, especially if you were not the person who prepared the data set. Something that sometimes works better is to select variables with certain characteristics in their names. So, here, what we're saying is select all of the variables that start with the word arrival. So this would give us four variables: "arrival date year" "arrival date month" "arrival date week" "arrival date day of month"
+
+---
+
+## `select` variables with certain characteristics
+
+```{r}
+hotels %>%
+  select(ends_with("type")) #<<
+```
+
+???
+There's another way of selecting. Instead of "start with" we can do "ends with." This will select all my variables that end with the character string "type." These are variables like "reserved room type" "assigned room type," for a total of four variables. Selecting variables in this way is great insofar that when you put the data together, or even if somebody else passed on the data set, the variable are named sensibly so that you can easily access them with these types of selectors. 
+---
+
+## Select helpers
+
+- `starts_with()`: Starts with a prefix
+- `ends_with()`: Ends with a suffix
+- `contains()`: Contains a literal string
+- `num_range()`: Matches a numerical range like x01, x02, x03
+- `one_of()`: Matches variable names in a character vector
+- `everything()`: Matches all variables
+- `last_col()`: Select last variable, possibly with an offset
+- `matches()`: Matches a regular expression (a sequence of symbols/characters expressing a string/pattern to be searched for within text)
+
+.footnote[
+See help for any of these functions for more info, e.g. `?everything`.
+]
+
+???
+And here's a list of the selectors. We have we talked about "starts with" and "ends with," but we can also select things if they, say, contain some literal string that appears anywhere in the variable name. 
+
+We could also select variables across a number range. This is especially helpful if you have something like time series data where each column is a year or has some date or some number. 
+
+This "one of" selector is great when you have a character vector of possible variable names and you just want to pull the corresponding variables from the dataframe. 
+
+"Everything" matches all of the variables. This one is sort of weird but it's actually really helpful in certain situations. I use it when I want to rebuild a dataframe by placing some key variables as the initial columns. After I place them, I usually call this "everything" selector to then grab and place all the remaining variables. 
+
+The "last col" grabs the last variable in the dataframe, and you can add an offset if you want, say, the second from the last, or the third from the last, or something like that. 
+
+And then finally you have "matches" which selects variables based on a regular expression. Regular expressions are for a whole other discussion and I think we'll be tackling these later in the course. But the gist of regular expressions is that they allow you to search for patterns in symbols/characters rather than literal words. Like, you could write a regular expression that finds all variable names that ends with the pattern "xyz" or all variable names that begin with any capital letter. 
+
+Ok- now, for any of these functions, you can also use a nifty "help" command if you forget what each does. All you need to do is type a question mark followed by the name of the function. R will show you a help file with information on what it does. It will also show you all the possible select functions so you don't have to memorize each and every one. A lot of the times you want to select some variables, but you can't remember the function for how to do it. Just use the "help" command.    
+
+---
+
+## `arrange` in ascending / descending order
+
+.pull-left[
+```{r}
+hotels %>%
+  select(adults, children, babies) %>%
+  arrange(babies) #<<
+```
+]
+.pull-right[
+```{r}
+hotels %>%
+  select(adults, children, babies) %>%
+  arrange(desc(babies)) #<<
+```
+]
+
+???
+The arrange function is something we've already seen and its main purpose is to reorder rows. So in the code here, I've selected some columns/variables in the dataframe: "adults" "children" "babies." These are the number of adults children or babies in a given booking. Then, what I've done is arranged by babies. So by default, arrange by default sorts in ascending order (lowest to highest). The first row shows that we have a booking here with zero babies, but also zero children, but with two adults. But another way of doing this is to arrange by babies in descending order (highest to lowest). What do we now get. The first row shows a booking with 10 babies and two adults. The next a booking with 9 babies and a single adult. 
+
+---
+
+## `slice` for certain row numbers
+
+.midi[
+```{r output.lines=17}
+# first five
+hotels %>%
+  slice(1:5) #<<
+```
+]
+
+???
+Alright, now I introduce you to "slice." This allows us to grab certain row numbers. So here I'm saying "slice out from the dataframe rows one through five." And indeed, five rows are returned. This is particularly useful to quickly inspect what is going on with your data. 
+
+---
+
+.tip[
+In R, you can use the `#` for adding comments to your code. 
+Any text following `#` will be printed as is, and won't be run as R code.
+This is useful for leaving comments in your code and for temporarily disabling 
+certain lines of code while debugging.
+]
+
+.small[
+```{r output.lines=10}
+hotels %>%
+  # slice the first five rows  # this line is a comment
+  #select(hotel) %>%           # this one doesn't run
+  slice(1:5)                   # this line runs
+```
+]
+
+???
+Here's another useful tip. In R we can use the hashtag symbol for adding comments to our code. Any text following the hashtag is ignored as executable code. If you didn't have the hashtag it would throw an error. It's very good to add notes to your code via comments so when you return to your code after some time has passed, or when someone else is reading your code, whatever you were trying to do will be obvious. Another use of hashtagging/commenting is to disable code while you're doing debugging. For example, here I started with the hotels data frame and I had initially selected just the hotel variable, but by commenting this out, I'm saying "this line is not going to run, just ignore it." It's almost like I never typed it. So when I slice, I get rows one through five for all the columns. 
+---
+
+class: middle
+
+# `filter`
+
+???
+So, slicing the data frame like this can be helpful for inspecting, but a lot of time we actually want to select rows with certain characteristics. And for that, we use "filter."
+
+---
+
+## `filter` to select a subset of rows
+
+.midi[
+```{r output.lines=17}
+# bookings in City Hotels
+hotels %>%
+  filter(hotel == "City Hotel") #<<
+```
+]
+
+???
+For example, If I want to say give me all the bookings for just city hotels, I would say filter for when the hotel variable is equal to city hotel. This gives me a data frame with 32 columns - so all of the columns - but only 79,330 rows out of the total of around 120,000 rows. These 79,330 rows correspond to bookings that correspond to just city hotels. 
+
+Notice that in the filter function we are giving it as an argument a logic statement. That is, the logic is "if hotel is equal to "city hotel" report back to me." Of course, implied in this is that if hotel does not equal "city hotel" then I don't want to know about it. 
+
+---
+
+## `filter` for many conditions at once
+
+```{r}
+hotels %>%
+  filter( 
+    adults == 0,     #<<
+    children >= 1    #<<
+    ) %>% 
+  select(adults, babies, children)
+```
+
+???
+We can also filter for many conditions at once. So here I'm saying filter for where adults are equal to zero and children are greater than or equal to one. I know it's a little bit weird that there would just be children in a hotel room, but it might be one of these things where you have like two adjoining rooms where the children are staying in one room and adults in the other room. We can see there are 223 hotel bookings where we have just children in the room but no adults. Some of these might have babies as well and some of these may not. The top six rows that we happen to be inspecting here don't happen to have babies in them. But what is important here is the filtering by multiple conditions. Note the comma that separates the different conditions. 
+
+---
+
+## `filter` for more complex conditions
+
+```{r}
+# bookings with no adults and some children or babies in the room
+hotels %>%
+  filter( 
+    adults == 0,     
+    children >= 1 | babies >= 1     # | means or  #<<
+    ) %>%
+  select(adults, babies, children)
+```
+
+???
+We can also set up more complex conditions. So here what I'm saying is I want bookings with zero adults in the room, and, thank you comma, I want one of two things. Give me rows where either the number of children is greater than or equal to one OR the number of babies is greater than or equal to one. And there are 223 such rows. This either/or logical statement is designated by the operator here, this straight vertical line you can type in. 
+
+---
+
+## Logical operators in R
+
+<br>
+
+operator    | definition                   || operator     | definition
+------------|------------------------------||--------------|----------------
+`<`         | less than                    ||`x`&nbsp;&#124;&nbsp;`y`     | `x` OR `y` 
+`<=`        |	less than or equal to        ||`is.na(x)`    | test if `x` is `NA`
+`>`         | greater than                 ||`!is.na(x)`   | test if `x` is not `NA`
+`>=`        |	greater than or equal to     ||`x %in% y`    | test if `x` is in `y`
+`==`        |	exactly equal to             ||`!(x %in% y)` | test if `x` is not in `y`
+`!=`        |	not equal to                 ||`!x`          | not `x`
+`x & y`     | `x` AND `y`                  ||              |
+
+???
+Alright, for logical operators, so far we've introduced a double equal sign, a greater than or equal to sign, and an "or operator" with a straight vertical line. Here's a list of even more logical operators that you should be familiar with. Some of these are very self-explanatory and some of them might look quite bizarre at first glance. In this first instance we have the "less than" operator. This should be self-explanatory. We want values less than some base value we provide in the logical statement. 
+
+Next, for "less than or equal to" note that we need to write out "less than sign" with an equal sign. 
+
+This guy here with two equal signs says to grab all values within some variable that are exactly equal to some base value in the logical statement. Just a heads-up to be careful with this one. It's easy to accidentally use a single equal sign in a logical statement. This will throw an error because a signal equal sign means "set one thing equal to another," not "compare one thing to another."  
+
+Ok, for comparing to see if two things are "not equal" to each other, we use the exclamation point with an equal sign. 
+
+Alright, the ampersand sign, when used in a logical, is saying I want multiple conditions to both be true. When I was doing those previous operations where I set a condition with adults equal to zero and the other condition with either children or babies equal to or greater than one, I used a comma to separate the conditions. But I could have also used the ampersand instead of the comma as it means the same thing. Also, when I used that straight vertical line for the either/or condition, I could have just written out "or" in place of the straight vertical line. 
+
+Alright, these operators that involve NAs are special snowflakes and I'll say more about them when we formally talk about data types and classes in R. But if you're looking to see if something is an NA, which means "not available," which often comes up when you have missing data, we can't use the double equal signs to see if a value is equal to NA. Instead, we need to use this "is.na" operator. And we can't use the exclamation point with the equal sign to check if some value is not equal to NA. Instead, we need to use an exclamation point with the is.na operator. 
+
+Now, don't worry about memorizing each and every one of these. At no point in this class will you be asked on the spot to report back on one of these. Every assessment we're doing is basically open book. But do take note that there are a lot of options that you can use in a filter function (or something else that makes use of a logical operator). If you can't quite remember how to test for some particular condition, just come back to this slide. 
+
+---
+
+.reminder[
+### Reminder!
+
+We will actually be playing around with the dplyr verbs we've covered so far in the live coding session. This is incentive to come to class if we're meeting in person, or if this is an online course, to code along with me in the recorded lesson.  
+
+---
+
+class: middle
+
+# `distinct` and `count`
+
+---
+
+```{r include=FALSE}
+options(dplyr.print_max = 20)
+```
+
+
+## `distinct` to filter for unique rows
+
+... and `arrange` to order alphabetically
+
+.small[
+.pull-left[
+```{r}
+hotels %>% 
+  distinct(market_segment) %>% #<<
+  arrange(market_segment)
+```
+]
+.pull-right[
+```{r output.lines=13}
+hotels %>% 
+  distinct(hotel, market_segment) %>% #<<
+  arrange(hotel, market_segment)
+```
+]
+]
+
+???
+Alright. So the distinct function allows us to filter for just unique rows. For example, in our hotels dataset we have a variable called market segment, which tells us that some bookings are made from various sources. There might be a lot of market segments across my nearly 120000 rows of data. I might be curious what exactly are all the distinct market segments. Another way of saying this is that I want to know what are the various levels of the "market_segment" variable. And this is where I can use the "distinct" function. 
+
+What gets outputted is a dataframe showing there are eight distinct market segments. Things like the aviation market (so, pilots/flight attendants staying over in a city) making bookings, corporate groups making bookings, etc. And for the fun of it, notice that I also arranged the levels in alphabetical order. Remember I can chain together operations by using the pipe operator. 
+
+Another thing we can do is to look for distinct pairs or distinct combinations of any variables. So the distinct function can take on multiple variables or multiple arguments. Here I'm saying give me the distinct combinations of hotel type with market segment. In the result I can see that in city hotel all eight market segments are represented, but in the resort hotel only six market segments are represented. Also note that I'm arranging the order of the output by hotel first, so that's why city, "c" comes before resort, "r," and then I sort within market segment.  
+
+---
+
+## `count` to create frequency tables
+
+.pull-left[
+```{r}
+# alphabetical order by default
+hotels %>%
+  count(market_segment) #<<
+```
+]
+--
+.pull-right[
+```{r}
+# descending frequency order
+hotels %>%
+  count(market_segment, sort = TRUE) #<<
+```
+]
+
+???
+Now, count is great because it takes the distinct observations for some target variable, like with what we just saw, but then also calculates the number of observations for each distinct observation. So I can see here that 237 of the bookings were from aviation, 743 were complementary, so on and so forth. And, by default, the count function will give you the results in alphabetical order for the distinct levels. 
+
+But what if I don't want things in alphabetical order by market_segment, but instead I want to order things in terms of the new frequency variable, the n variable that gets constructed when we call the count function? Since this is such a common task the count function actually offers an argument to get that done. This is the "sort" argument. We set it to equal "true," which means we want the function to sort things by the n variable. 
+
+---
+
+## `count` and `arrange`
+
+.pull-left[
+```{r}
+# ascending frequency order
+hotels %>%
+  count(market_segment) %>%
+  arrange(n) #<<
+```
+]
+.pull-right[
+```{r}
+# descending frequency order
+# just like adding sort = TRUE
+hotels %>%
+  count(market_segment) %>%
+  arrange(desc(n)) #<<
+```
+]
+
+???
+And if we had wanted, we could have used the count and arrange functions together to basically give you the same thing as that sort equals true argument. This slide is just exemplifying the fact that there are multiple ways of getting to the same output. So here what I've done is start with the hotels data frame, counted the various types of market segments, and then I arrange things in order of n. It will give me the results in increasing order of n. But if I use that "desc" function for descending, then it gives me the results in the same format as you saw before. Whichever method you choose is just a matter of personal preference. Do whichever one feels better for you. 
+
+---
+
+## `count` for multiple variables
+
+```{r}
+hotels %>%
+  count(hotel, market_segment) #<<
+```
+
+???
+Another interesting thing to do with the count function is to use it on multiple variables. Similar to what happened when we used the distinct function, I get unique combinations of hotel type and market segment but now with frequency counts. For example, looks like we have 542 complementary bookings for the city hotel, but only 201 complementary bookings for the resort hotel.  
+
+---
+
+## order matters when you `count`
+
+.midi[
+.pull-left[
+```{r}
+# hotel type first
+hotels %>%
+  count(hotel, market_segment) #<<
+```
+]
+.pull-right[
+```{r}
+# market segment first
+hotels %>%
+  count(market_segment, hotel) #<<
+```
+]
+]
+
+???
+So, the order in which you provide these variables to the count function does matter. It matters not for what is being counted but for the order in which the results are being displayed. If I say count the hotel type, and then within each hotel the various market segments, you can see that my output will be organized by hotel first and then market segment. 
+
+But if I say count the various market segments first, and then within each of the market segments tell me how many observations per each hotel type, then output is organized by market segment first. This might be useful as I can see, for a given market segment, how many are in city hotels and how many are in resort hotels. So if you look at the n columns for these two pieces of output, the numbers match, but the order in which they're presented is different. 
+
+---
+
+class: middle
+
+# `mutate`
+
+---
+
+## `mutate` to add a new variable
+
+```{r}
+hotels %>%
+  mutate(little_ones = children + babies) %>% #<<
+  select(children, babies, little_ones) %>%
+  arrange(desc(little_ones))
+```
+
+???
+Next up on our tour of dplyr functions is the mutate function. Remember that all dplyr functions operate on data frames so what we're mutating is the data frame. One incredibly useful thing we can do is mutate a dataframe to add a new variable. Here I'm creating a new variable called little ones. This variable will take on the value of the sum of the number of children and the number of babies in the hotel room. In this case, to create a new variable that wasn't originally in the dataframe, it's a simple addition. And just so things fit nicely on my slides, I'm going to just select the three very relevant variables, children, babies, and now, little ones. Lets also arrange things in descending order of little ones to see what is the most number of little ones we might be able to find in one of these bookings. We have here an observation with 10 children and 0 babies resulting in 10 little ones. Ok, and another one with zero children and 10 babies resulting in again 10 little ones. You probably don't want to be stuck next to in either of these hotel rooms if they're real. And this one with only babies might be some sort of data error that would be worth investigating further. The rest of these observations seem more reasonable. 
+
+---
+
+## Little ones in resort and city hotels
+
+.midi[
+.pull-left[
+```{r}
+# Resort Hotel
+hotels %>%
+  mutate(little_ones = children + babies) %>%
+  filter(
+    little_ones >= 1,
+    hotel == "Resort Hotel"
+    ) %>%
+  select(hotel, little_ones)
+```
+]
+.pull-right[
+```{r}
+# City Hotel
+hotels %>%
+  mutate(little_ones = children + babies) %>%
+  filter(
+    little_ones >= 1,
+    hotel == "City Hotel"
+    )  %>%
+  select(hotel, little_ones)
+```
+]
+]
+
+???
+Lets do some more data wrangling. We might be curious if there tends to be more children in resort hotels or city hotels. So after we do the mutate step to create the little ones variable, we can pipe this into a filter statement. I have on the slide here two separate filter statements. The one on the left is looking for little ones greater than or equal to one but where hotel is equal to resort hotel. The one on the right is again looking for little ones greater than or equal to one but the hotel is equal to a city hotel. And just for displaying purposes I've only selected the hotel and the little ones variables. What do we see? Well, I can see that in resort hotels there are 3929 bookings with little ones, and in the city hotels 5403. Now, based on these variables, we can say that in this data set there are more bookings for city hotels where there are little ones in a room. But also keep in mind that we cannot really make the claim that if people have kids they're more likely to book a city hotel, because, remember, that the number of overall observations for resort and city hotels are not equal. So when we're comparing these raw counts we very well might be comparing the fact that there were simply more bookings in city hotels to begin with. 
+
+---
+
+.question[
+What is happening in the following chunk?
+]
+
+.midi[
+```{r}
+hotels %>%
+  mutate(little_ones = children + babies) %>%
+  count(hotel, little_ones) %>%
+  mutate(prop = n / sum(n))
+```
+]
+
+???
+So how do we go about taking into account this issue with raw counts? In this chunk of code we've created the little ones variable with the mutate function, as before, and now what is done is to count the various combinations of hotel type and little ones. What I'm seeing here is that for the city hotel, the possible number of little ones is either 0, 1, 2, 3, 9, or 10. And I also get the frequency count of city hotel bookings with the various possibilities for little ones (there are a lot of bookings with zero little ones). I get the same information for the resort hotel. Now lets continue to pipe this out and include another mutate step where we create a proportion score based on the count of each hotel/little ones pair over all possible bookings. Here we see that the majority of bookings, 0.619 or around 62%, are in the city hotel room with no kids. 
+
+---
+
+class: middle
+
+# `summarise` and `group_by`
+
+???
+Alright, so now we're going to get more into calculating summary statistics like we did in the previous step. But now with more refinement. Let me show you what I mean. 
+
+---
+
+## `summarise` for summary stats
+
+```{r}
+# mean average daily rate for all bookings
+hotels %>%
+  summarise(mean_adr = mean(adr)) #<<
+```
+
+--
+
+.pull-left-wide[
+.tip[
+`summarise()` changes the data frame entirely, it collapses rows down to a single 
+summary statistic, and removes all columns that are irrelevant to the calculation.
+]
+]
+
+???
+I'm going to summarize a variable called "adr" which was in our original hotels dataframe. This variable, adr, takes, for each booking, the amount paid divided by the number of nights the booking happened to be for. Pretty straightforward. Now I'm going to get the mean of "average daily rate" across all 20,000 or so bookings, creating this new variable called "mean_adr." A couple things to notice. When calling the summarize function in this way, we're basically collapsing the entire dataframe to a single number to get this mean average daily rate. Also notice that we need to give a name to the summary statistic that we want to calculate, and then we give the mathematical expression by which to calculate it. And the name we gave becomes the column header.  
+
+---
+
+.tip[
+`summarise()` also lets you get away with being sloppy and not naming your new 
+column, but that's not recommended!
+]
+
+.pull-left[
+`r emo::ji("x")`
+
+```{r}
+hotels %>%
+  summarise(mean(adr))
+```
+]
+.pull-right[
+`r emo::ji("white_check_mark")`
+
+```{r}
+hotels %>%
+  summarise(mean_adr = mean(adr))
+```
+]
+
+???
+Also note that the summarize function actually lets you get away with being sloppy and not naming your new summary statistic. But i don't recommend it. What now becomes the column header in the result is a string corresponding to the mathematical expression. Not great. Always think carefully about what you want to name your summary statistics to make it concise but also informative. I didn't want to name this just "mean" because "mean" is also a function in R and I want it to be more explicit about what it is the mean of.  
+
+---
+
+## `group_by` for grouped operations
+
+```{r}
+# mean average daily rate for all booking at city and resort hotels
+hotels %>%
+  group_by(hotel) %>% #<<
+  summarise(mean_adr = mean(adr))
+```
+
+???
+Alright, the next thing that you might want to do once you start doing data summaries is to look at group summaries. Instead of finding the mean average daily rate for this entire data set, we might want to see how the average daily rates vary between our two distinct types of hotels: city ones and resort ones. What I do is stick a new layer into my pipeline, with the whole thing basically saying, "first take the hotels data set, then group by hotel, and then do the next calculation for each level of the hotel variable." Another way to think about this is that what the "group_by" function is doing is taking everything that comes after it and doing the specified calculation across the levels of the specified variable. In our case, there are two levels, city and resort, so the results show a mean daily average rate of 105 for city hotels and 105 for resort.   
+
+---
+
+## Calculating frequencies
+
+The following two give the same result, so `count` is simply short for `group_by` then determine frequencies 
+
+.pull-left[
+```{r}
+hotels %>%
+  group_by(hotel) %>%
+  summarise(n = n())
+```
+]
+.pull-right[
+```{r}
+hotels %>%
+  count(hotel)
+```
+]
+
+???
+Now, back to computing frequencies. Remember with the "count" function it automatically gave us the frequencies for each level of the "hotel" variable. But there are multiple ways of doing the same thing in R, and you can see here that you could also take the hotels dataframe, group by hotel, and then summarize with this n() mathematical expression (which we also happen to name as "n") to get frequency. Sure the approach on the left is more complex, but either approach works. All a matter of preference.   
+
+---
+
+## Multiple summary statistics
+
+`summarise` can be used for multiple summary statistics as well
+
+```{r}
+hotels %>%
+  summarise(
+    min_adr = min(adr),
+    mean_adr = mean(adr),
+    median_adr = median(adr),
+    max_adr = max(adr)
+    )
+```
+
+
+???
+And finally, we can also use summarize to calculate multiple summary statistics at once. In addition to calculating the mean average daily rate, I'm also calculating the minimum, the median, and the maximum in one go. The functions to do so are defaults in R, these min, mean, median, and max functions on the right side. And on the other side I'm giving these informative labels or names for what these summary statistics are going to be called in my data frame. As you can see, the resulting dataframe again is collapsed into a single row but it now has multiple columns: one for each of the summary statistics. The minimum average daily rate is -6.38, which is weird, maybe there was like a refund situation happening - and then the maximum is 5400, so that is one expensive hotel room. And the mean we already had seen that it's 102 and the median is uh 94.60. Ok, that's it for working with single data frames. 
+
+<!-- --- -->
+
+<!-- .your-turn[ -->
+<!-- ### Your turn! -->
+
+<!-- Time to actually play around with the Hotels dataset! -->
+
+<!-- - Go to RStudio Cloud and start `AE 04 - Hotels + Data wrangling`. -->
+<!-- - Open the R Markdown document and complete Exercises 7 and 8. -->
+<!-- ] -->
