@@ -1,7 +1,7 @@
 ---
 title: "Tidy data"
 subtitle: "<br><br> Behavioral Data Science I in R"
-# author: "[datasciencebox.org](https://datasciencebox.org/)"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]

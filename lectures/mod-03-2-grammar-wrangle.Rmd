@@ -1,7 +1,7 @@
 ---
 title: "Grammar of data wrangling"
 subtitle: "<br><br> Behavioral Data Science I in R"
-# author: "[datasciencebox.org](https://datasciencebox.org/)"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -246,6 +246,8 @@ What if we wanted to select these columns, and then arrange the data in descendi
 ???
 So what if I had wanted to select multiple columns? Say I wanted to view only the hotel type and lead time. What I can do is just keep adding variables. But, of course, the first argument has to stay hotels - which is the name of the dataframe - but all subsequent arguments can be all the variables I want to select. And the resulting dataframe will show the number of columns corresponding to the number of my selected variables. But the number of rows won't change because we're selecting columns and not messing with the rows.   
 
+Now, what if we wanted to select the same columns but now arrange the data rows in descending order of lead time? 
+
 ---
 
 ## Data wrangling, step-by-step
@@ -269,7 +271,7 @@ hotels %>%
 ]
 
 ???
-Now, what if we wanted to select the same columns but now arrange the data rows in descending order of lead time? We want the highest lead time on top and the lowest at the bottom. What I can do is start with the dataframe, then I select the two variables hotel and lead time as before, and then I call this new function: arrange with another function qualifier called "desc." What does this get me? Well, based on the example, the highest lead time of 737 days is at top. And we can also see that this booking happens to be for a resort hotel. Then the next one was 709 days also in a resort hotel and then we have a bunch of bookings in a city hotel that were 629 days prior to the stay. 
+We want the highest lead time on top and the lowest at the bottom. What I can do is start with the dataframe, then I select the two variables hotel and lead time as before, [ADVANCE] and then I call this new function: arrange with another function qualifier called "desc." What does this get me? Well, based on the example, the highest lead time of 737 days is at top. And we can also see that this booking happens to be for a resort hotel. Then the next one was 709 days also in a resort hotel and then we have a bunch of bookings in a city hotel that were 629 days prior to the stay. 
 
 Alright, so when I was reading out the code you might have noticed I kept saying "and then." "Do this and then." Where I was saying "and then" corresponds in the code to what is called a pipe operator. And this is what we're going to talk about next. 
 
@@ -370,8 +372,6 @@ knitr::include_graphics("mod-03-2-grammar-wrangle_files/magrittr.jpg")
 ]
 
 ???
-This pipe operator is actually implemented in a package called magrittr but we never really have to load this package explicitly. When we load the tidy verse it automatically loads magrittr with it because it's such a crucial component of working with these tidy verse functions
-
 So, this is just a silly aside, the magrittr package is named after this art piece by Rene Magritte. In his art piece, the French here says: "This is not a pipe." Magritte, a surrealist, was being meta, where the subtext of the message is that the image of something is just a representation, not the actual thing. I know, deep. But you'll find such naming quirkiness in a lot of R. 
 
 ---

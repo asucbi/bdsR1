@@ -1,7 +1,7 @@
 ---
 title: "Tidying data"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science I in R"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -11,6 +11,8 @@ output:
       highlightLines: true
       highlightStyle: solarized-light
       countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r child = "setup.Rmd"}
@@ -32,6 +34,9 @@ class: middle
 .huge[.green[have]] .hand[data organised in an unideal way for our analysis]
 
 .huge[.pink[want]] .hand[to reorganise the data to carry on with our analysis]
+
+???
+We started this series of lectures by defining what tidy data is. We then worked with tidy data frames as a single dataframe, transforming it in a variety of ways using functions from dplyr. We then worked with multiple tidy data frames and joined them together. In this last video we're going to be talking about what to do if I need to reorganize my tidy dataframe to do different kinds of analyses. 
 
 ---
 
@@ -61,6 +66,9 @@ customers %>%
 ```
 ]
 
+???
+Going back to that grocery sales example from the previous video, imagined if it had been arranged somewhat differently. In this dataframe setup, we have one row per customer - and looking at "id" we have two customers. There are also these three columns for the items that they bought. The first customer bought three items: bread milk and banana. The second customer bought two items: milk and toilet paper. For this customer I only have data on the first two columns. But say I don't like this format. I want to to get it back to a format like what we had earlier where we have one row per customer per item. This is useful as it makes it easier to to do a lot of future analyses (like plotting). How do I make the necessary transformations?
+
 ---
 
 ## A grammar of data tidying
@@ -79,12 +87,17 @@ The goal of tidyr is to help you tidy your data via
 - clarifying how `NA`s should be treated
 ]
 
+???
+For this we're going to use a new package from the tidyverse called tidyr. so again it's from the tidyverse so it gets automatically imported when I call library(tidyverse). This tidyr package provides a variety of functions, most classified under the four bullet points. What we're going to focus on in this video is pivoting and later on in the course we're going to touch on some of the others, such as splitting and combining character columns, nesting and unnesting columns, and clarifying how NAs should be treated.  
+
 ---
 
 class: middle
 
 # Pivoting data
 
+???
+So, focusing on pivoting data, if you've ever seen Friends, when I say pivot you're probably thinking about this.  
 ---
 
 ## Not this...
@@ -92,6 +105,9 @@ class: middle
 ```{r echo=FALSE,out.width="70%"}
 include_graphics("mod-03-5-tidying_files/pivot.gif")
 ```
+
+???
+Of course, pivoting in R is not quite that.
 
 ---
 
@@ -102,6 +118,9 @@ include_graphics("mod-03-5-tidying_files/pivot.gif")
 include_graphics("mod-03-5-tidying_files/tidyr-longer-wider.gif")
 ```
 ]
+
+???
+What we mean by pivoting in R is that we want to take data from a wide format to a long format. ... 
 
 ---
 
@@ -125,6 +144,9 @@ customers %>%
 ```
 ]
 
+???
+So going back to the dataframes we started with, the dataframe on the left is in this so-called wide format and the dataframe on the right is now in long format. This terminology can be a bit weird. What it basically means is that we are starting with some dataframe and we either are trying to shuffle around the columns to make it longer (reduce the number of columns and add more rows) or to make it wider (increase the number of columns and reduce the number of rows).  
+
 ---
 
 ## `pivot_longer()`
@@ -142,6 +164,9 @@ pivot_longer(
   )
 ```
 ]
+
+???
+Alright, so, for this particular set of code, what we are going to do is create a longer dataframe. That is, go from wider to longer. We start with this function "pivot_longer." The pivot_longer function is just like any of the other functions in the tidyverse. We start with a data argument, as usual,
 
 ---
 
@@ -162,6 +187,9 @@ pivot_longer(
 ```
 ]
 
+???
+and then we give it the columns we want to pivot into a longer format, 
+
 ---
 
 ## `pivot_longer()`
@@ -181,6 +209,9 @@ pivot_longer(
   )
 ```
 ]
+
+???
+and then we want to give it an argument called "names_to," which will be the new name of the column where the column names of the pivoted variables will go, 
 
 ---
 
@@ -203,6 +234,9 @@ pivot_longer(
 ```
 ]
 
+???
+and the last argument, "values_to," which is the name of the column where the data in the pivoted variables will go. Ok- I know, this is probably not clear at the moment. But I will attempt to make it clear by putting it in context. You can rewind and listen to my description here after I show the next example. 
+
 ---
 
 ## Customers $\rightarrow$ purchases
@@ -217,6 +251,9 @@ purchases <- customers %>%
 
 purchases
 ```
+
+???
+Ok, I want to start with the customers data frame [GO BACK] where I only had the two rows for each of the customers. And I want to [GO FORWARD] pivot it longer by reducing certain columns and adding rows. I'm going to say the columns/variables that I want to pivot (reduce down) are the ones that have the information about the items that the customers bought [GO BACK] so that's items 1 THROUGH 3. [GO FORWARD] And I'm indicating this THROUGH with the colon operator. I could have used the "select" function from the earlier lecture to select all columns that have the word "item" in them, or that starts with the word "item," any of these would have been fine. Alright, now that I've selected the columns/variables, I'm saying these are the ones that I want to pivot into the longer format - effectively taking the names of the columns/variables and placing them in a single column. I'm calling this new column "item_no." And the values that were within the cells of the three columns I'm pivoting, they are going to go into a new column called "item." Ok - to recap - the column names from the original dataframe go into a new column called "item_no" and the values in these columns go into a new column called "item." I end up with a "longer" dataframe, with six rows and three columns. I have not lost any information between dataframes, it's just simply reorganized.  
 
 ---
 
@@ -238,6 +275,11 @@ purchases %>%
 ```
 ]
 
+???
+And now you might be asking yourself, why do we want to pivot data in this way? Well, most likely, because the next step of your analysis needs it.
+
+So, for example, with my new "purchases" dataframe, it is now set up where, if I had a dataframe like "prices" (on the left) that I want to join with the purchases dataframe, well, now it's super easy.  
+
 ---
 
 ## Purchases $\rightarrow$ customers
@@ -257,6 +299,9 @@ purchases %>%
 ```
 ]
 
+???
+Alright, and of course, we can reverse the entire process to go from longer format back to wider format! Starting with the purchases dataframe, I call the "pivot_wider" function. The first argument is the dataframe, as usual, which is brought in via the pipe, and the "names_from" tells the function which column, currently in a long format, contains the values for naming the new columns [GO BACK / GO FORWARD]. And "values_from" tells the function which column, currently in a long format, contains what should be values in the new columns. [GO BACK] So these were the names of the items that were stored in "item." [GO FORWARD] 
+
 ---
 
 class: middle
@@ -273,6 +318,11 @@ knitr::include_graphics("mod-03-5-tidying_files/trump-approval.png")
 Source: [FiveThirtyEight](https://projects.fivethirtyeight.com/trump-approval-ratings/adults/)
 ]
 
+???
+To wrap things up and to examine a realistic case study where pivoting data might be helpful, we're going to look at data about the approval ratings of Donald Trump. By focusing on Trump I'm not trying to get political. This is just a really great set of publicly available data from the 538 blog. This blog has all kinds of interesting data, on politics, on sports, on all sorts of things. They also have data on a lot of politicians. I focus on Trump because the data for him is the most complete while also being the most recent. What 538 has done is they've looked at all possible reputable polls as they've come out during Trump's presidency, built models to aggregate information from the polls, and come up with some percentage from the responses of the polls that indicate disapproval and approval. 
+
+From the results, we can generate a visualization much like the one here, which is referenced on the 538 webpage. The orange line is a disapproval rate over time during Trump's entire presidency and the green line is the approval rate during his entire presidency. You can see that there's a drop down menu on the website that says allowed you to revisualize the plot based on polls from "all adults" or, not shown here, polls from just "likely voters." 
+
 ---
 
 ## Data
@@ -284,6 +334,11 @@ trump <- read_csv("mod-03-5-tidying_files/trump/trump.csv")
 ```{r}
 trump
 ```
+
+???
+So here is the dataframe that was downloaded off the 538 website and cleaned up a bit to make it more accessible for this particular video. Note the dataframe is called "trump." Lets unpack it a bit. 
+
+You can see that it has 2702 rows and four columns. This first column is called "subgroup" and there are two levels within this column: voters and adults. As I said earlier, this data involves polling data from all likely voters, hence the "Voters" observations, and also polling data from all adults, hence the "Adults" observations. We then have a column for "date," which is when the poll was taken. Also notice that we have two observations per date. Why? Well, one for the "Voters" and another for "Adults." And then, for any given day, we have estimate of the approval rating and an estimate of the disapproval rating (as a percentage). Remember, these are just estimates based on the models used by 538. This is not some absolute truth. But I have to say that 538 does a great job of being transparent in how they're collecting and analyzing their data. You can read more about it on their website. 
 
 ---
 
@@ -324,6 +379,11 @@ trump %>%
 `r emo::ji("check")`  `subgroup` (Adults and Voters)
 ]
 
+???
+This is the visualization we're going to create based on the previous dataframe. This is pretty similar to what is on the 538 site, but there are some key differences, like we're only looking at the estimates and not the estimates with error bands, and this is not a dynamic plot where we can toggle between "likely voters" and all "adults." I'm just displaying both in faceted plots. 
+
+Ok, looking at this visualization., we can start thinking about the pieces we will need to create this. Well, lets start with the x-axis. I know right away we need some column for dates. Well, great, that's already specified in the dataframe we're starting with. Now what needs to go in the y-axis? Looks like I need some column with all the ratings in a single column. Why a single column? From our lesson on making ggplots, we know that whatever variable is going on the y-axis it has to be stored within a single column. Shoot, going back to our original dataframe, I have ratings but they are spread out across two columns. So I need to do something with my dataframe to create a new variable that has all the rating values - but I also need to be sure I don't confuse which of the values are for approval or disapproval. I need to bring along the header names for "approval" and disapproval to associate with each of the rating values. I will do this by putting the header names as rows in an associated column. [GO BACK] I'll call this new column "rating_type" and this will be the variable I use to color the ratings as either orange or green. Also, see how we have two figures in our visualization, well looks I need to do some faceting. That is, I want to generate separate figures (facet) based on whether the ratings are coming from all likely voters or all adults. And that information I already have in my dataframe as a single column, so I'm good to go. So, looks like the only thing I really need to do to prep my data for visualization is reworking the ratings. 
+
 ---
 
 ## Pivot
@@ -339,6 +399,11 @@ trump_longer <- trump %>%
 trump_longer
 ```
 
+???
+And this is how we do it. I'm going to start with my trump dataframe, of course, and I'm going to pivot it longer. I start by giving the function the columns named "approval" and "disapproval" because the values in these columns are the ones I want to pivot into a single, longer column. And in doing this, the column names "approval" and "disapproval" are brought over as rows in a new column. So we are basically saying, "send these column names to" some new column. And we're going to name this new column "rating_type." Nice. And then, we say, "those values from the formerly named "approval" and "disapproval" columns that we're pivoting into a single, longer column, go ahead and call this new column "rating_value." 
+
+As a result, I get a data frame of size 5404, which is twice the size of what I had started with because, instead of having the approval and disapproval ratings spread across two columns, I now have them underneath each other in a single column. Do I have everything I need to make my visualization? Well, I have a single column for dates, which is going to go on my x-axis, and I now have a single column for ratings, which is going to go on my y-axis. I can also color my rating values as different colors by using the associated data in this "rating_type" column. Great. And finally, because I'm going to facet my visualization to have separate plots for "likely voters" and "all adult voters," I have what I need to do the separation from the "subgroup" variable. 
+
 ---
 
 ## Plot
@@ -349,6 +414,11 @@ ggplot(trump_longer,
   geom_line() +
   facet_wrap(~ subgroup)
 ```
+
+???
+Let's now take a first stab of creating our desired visualization. I start with the "trump_longer" dataframe we just created, for the x-axis I give it the "date" variable, for the y-axis I give it the "rating_value" variable, and I tell ggplot to color the rating values based on the information in the "rating_type" variable (which remember, is approval or disapproval) - and next - well, this is something that wasn't discussed in the ggplot lessons -but  we can use this "group" parameter to do something interesting. Instead of representing our data with points in the figure, we can draw a line joining each of the points - as you see here. To do this, we need to tell ggplot which groups of data points we want to join into lines. Well, we want to draw one line for approval and another line for disapproval, so that is why for the "group" parameter I give it "rating_type." And then I use this new geom called "geom_line" to actually draw the lines. And lastly, we add the final layer, which is to facet by subgroup of "likely voters" and "all adults."  
+
+This is looking good, but remember our desired optimization had some further tweaks. For example, we want the colors of our lines to be "orange" and "green." And we want better labels all-around, for our x and y axis, for our legend, and for our caption. 
 
 ---
 
@@ -378,6 +448,11 @@ ggplot(trump_longer,
 ]
 
 ]
+
+???
+Well, this is easy enough to do. I can add a new layer using "scale_color_manual" to manually change the colors for our lines (which there are two). I declare "darkgreen" and "orange," which R automatically recognizes. Do note that R won't recognize any color name you give it, but there is a list of color names - a really long list - you can choose from. And if you really want, instead of giving a color name you could use a hex code instead. 
+
+Alright, I can now work on my labels with this new layer "labs." I start with just changing the x-axis to "Date" and y-axis to "Rating." Then, I set color to NULL. This is one is sort of weird. [GO BACK] If you remember, in setting up our aesthetics, we declared color = "rating_type." What automatically happens is that our legend will take on the values in "rating_type" (which, if you're following along is, "approval" or "disapproval") and it will label the legend "rating_type," the name of the variable. But we don't want this. We don't want any label. So that is why we set color here to NULL. Ok, with that out of the way, next we want to change the "title", "subtitle," and "caption" for our visualization. Easy. Now lets look at what this code produces.
 
 ---
 
@@ -409,3 +484,10 @@ ggplot(trump_longer,
 ]
 
 ]
+
+???
+And finally, to wrap it all up, we're going to get rid of the grey background and move the legend to the bottom of the visualization. To do that, we add the layer "theme_minimal," which gives us a nice clean white background, and then the theme function here to move the legend. There are a lot of customization options available with theme. Keep in mind that there is absolutely no expectation that you learn or memorize all of the customization options. It's unlikely the developers of ggplot2 know all of them by heart. Just know that they exist and you'll just need to do a bit of google searching. Ok, let's see if we generated our desired final visualization. 
+
+Alright, in this video we went over a case study where we started with data that had the information we needed but not in the shape we wanted it in. Thus, what we wanted to do was to reorganize the shape to get it into the standard ggplot2 format. We then did some cosmetic adjustments to our visualization to make it look a little bit more visually appealing. And now you should be able to do the same.  
+
+
