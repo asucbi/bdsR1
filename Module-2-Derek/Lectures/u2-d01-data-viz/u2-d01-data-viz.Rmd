@@ -68,8 +68,11 @@ happy
 
 ## United States of America
 
-<!-- ![luke-skywalker](img/luke-skywalker.png) -->
-[create new diagrammatic representation]
+
+```{r echo = FALSE, warning = FALSE, cache = TRUE, out.width = "80%"}
+knitr::include_graphics("img/usa-stats.png")
+```
+
 ---
 
 ## What's in the Happy Planet Index data?
