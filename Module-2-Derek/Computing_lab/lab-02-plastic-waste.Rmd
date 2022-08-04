@@ -3,6 +3,9 @@ title: "Lab 02 - Plastic waste"
 # bibliography: references.bib
 # biblio-style: apalike
 # link-citations: yes
+knit: (function(inputFile, encoding) {
+    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs/labs/")
+  })
 params: 
     SHOW_SOLS: TRUE # if i wanted to give solutions, could toggle back on. 
     TOGGLE: TRUE
@@ -20,6 +23,7 @@ output:
 
 ```{r include = FALSE}
 source('assets/setup.R')
+
 # knitr::opts_chunk$set(eval = FALSE)
 ```
 
