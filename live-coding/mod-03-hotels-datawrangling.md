@@ -1,6 +1,6 @@
 Hotel bookings - data wrangling
 ================
-12 July, 2022
+05 August, 2022
 
 ``` r
 library(tidyverse)
