@@ -206,7 +206,9 @@ the file path name.</span></span></p>
 use the function <code>read_csv()</code> to do so.</p>
 <!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># phx_accidents &lt;- read_csv(&quot;data/phoenix_accidents.csv&quot;)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(day_of_week, severity, time)</span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
 <table>
 <colgroup>

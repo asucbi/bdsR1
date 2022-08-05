@@ -21,7 +21,7 @@ The data you find on Kaggle includes all accidents across the United States for 
 In this assignment we'll look at traffic accidents in Phoenix.
 The data are made available on Kaggle [online](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents?resource=download) by a scientist at Lyft named Sobhan Moosavi. We will see more on Kaggle throughout the course as it's a great way to find public datasets. 
 
-The data covers all recorded car accidents in Phoenix, Arizona from January 2016 to January 2022. Note that some of the variables were modified for the purpose of this assignment. 
+The data covers all recorded car accidents in Phoenix from January 2016 to January 2022. Note that some of the variables were modified for the purpose of this assignment. 
 
 <!-- https://smoosavi.org/datasets/us_accidents -->
 <!-- https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents?resource=download -->
@@ -68,7 +68,9 @@ We now need to load in the data before we can do anything with it. We use the fu
 
 ```{r load-data, message = FALSE, eval = TRUE}
 # phx_accidents <- read_csv("data/phoenix_accidents.csv")
-phx_accidents <- read_csv("https://asucbi.github.io/data/phoenix_accidents.csv")
+phx_accidents <- 
+  read_csv("https://asucbi.github.io/data/phoenix_accidents.csv") %>% 
+  select(day_of_week, severity, time)
 ```
 
 The variable descriptions are as follows:
