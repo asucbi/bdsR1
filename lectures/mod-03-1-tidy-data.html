@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidy data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="School of Social and Behavioral Sciences" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Tidy data
+]
+.subtitle[
+## <br><br> Behavioral Data Science I in R
+]
+.author[
+### School of Social and Behavioral Sciences
+]
+
+---
+
+
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+## Tidy data
+
+&gt;Happy families are all alike; every unhappy family is unhappy in its own way. 
+&gt;
+&gt;Leo Tolstoy
+
+
+???
+We've been talking about the tidyverse for awhile now and it's time to actually define what we mean by tidy data. Now, how does this Tolstoy quote possibly have anything to do with tidy data? Well, tidy data is like a happy family. 
+
+--
+
+.pull-left[
+**Characteristics of tidy data:**
+
+- Each variable forms a column.
+- Each observation forms a row.
+- Each type of observational unit forms a table.
+]
+
+???
+As you will see, for tidy data, all variables are arranged as columns, each observation forms a row, and each type of observational unit forms a table. Datasets arranged in the tidy data way are all alike, happy. 
+
+--
+.pull-right[
+**Characteristics of untidy data:**
+
+!@#$%^&amp;*()
+]
+
+???
+But, unhappy datasets, well, these can be untidy in many, many ways. The way variables, observations, etc. are arranged are unsystematic and might work for one kind of analysis, but fail for another kind of analysis. 
+
+---
+
+## 
+
+.question[
+What makes this data not tidy?
+]
+
+&lt;img src="mod-03-1-tidy-data_files/hyperwar-airplanes-on-hand.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+Source: [Army Air Forces Statistical Digest, WW II](https://www.ibiblio.org/hyperwar/AAF/StatDigest/aafsd-3.html)
+]
+
+???
+So lets start with some examples of what makes data untidy. These datasets are all found in the wild. This one here comes from a hobbyist maintaining some information on WWII aircrafts. This is only a snippet from a much larger table. So, what makes this untidy? Well, lets start with how year is displayed. Look at 1939 here, in it's own merged cell, with the months underneath supposed to belong to that year. But if we wanted to make this tidy by our standards, we would replace the first column with one simply labeled "year" and then add another column called "month." Why? Because each variable forms its own column. Then, for our new "year" column, in the first row you would have 1939, and in our new "month" column, staying in the first row, you would have July. Why? Because each observation, which happens to be for July 1939, would form a row. Now, what would you have in the second row? Well, "year" would stay 1939, and "month," our new observation, changes to August. 
+
+Ok. What other issues do we have? This merged row here with "Germany invades Poland" are obviously important when visualizing the data, but no good if we want to run it in future analyses. We could code this information as an additional column. It could be some variable we could code as some sort of pre or post event.  
+
+---
+
+.question[
+What makes this data not tidy?
+]
+
+&lt;br&gt;
+
+&lt;img src="mod-03-1-tidy-data_files/hiv-est-prevalence-15-49.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+Source: [Gapminder, Estimated HIV prevalence among 15-49 year olds](https://www.gapminder.org/data)
+]
+
+???
+Here's another wild and untidy dataset from "Gapminder," which is a really cool website that maintains lots and lots of country level information. Here we're looking at the estimated HIV prevalence among 15 to 19 year olds in various countries across various years. What makes this guy untidy? For now, lets focus on that orange cell A1. We basically have the title for our data in that column header. But that is not what we want. What we want is a nice succinct label for that variable. The most obvious label would be "country." And we have each individual year as separate variables across columns. Technically, not wrong. But I will be showing you later a way to "reshape" this data where we just have a single column/variable called "year" that makes things way easier for creating graphs and to run analyses.     
+
+---
+
+.question[
+What makes this data not tidy?
+]
+
+&lt;br&gt;
+
+&lt;img src="mod-03-1-tidy-data_files/us-general-economic-characteristic-acs-2017.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+Source: [US Census Fact Finder, General Economic Characteristics, ACS 2017](https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_17_5YR_DP03&amp;src=pt)
+]
+
+???
+Ok, moving on here is some data from the US Census. Yowzers. So, this format is pretty typical of census data where what is released is aggregated information about a population instead of individual-level information. So, what's the  problem here for a tidy dataset? I mean, it looks like we have rows and columns we can start manipulating. But, unfortunately, what we have here is a summary table where the columns do not correspond to unique variables and the rows do not capture "raw data" at the level of some observation. Thus, this is a lesson in distinguishing between a raw dataset (which this is not) versus a table of summary statistics. 
+
+---
+
+## Displaying vs. summarising data
+
+.panelset[
+
+.panel[.panel-name[Output]
+
+.pull-left[
+
+```
+## # A tibble: 87 × 3
+##   name           height  mass
+##   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;
+## 1 Luke Skywalker    172    77
+## 2 C-3PO             167    75
+## 3 R2-D2              96    32
+## 4 Darth Vader       202   136
+## 5 Leia Organa       150    49
+## 6 Owen Lars         178   120
+## # … with 81 more rows
+```
+]
+.pull-right[
+
+```
+## # A tibble: 3 × 2
+##   gender    avg_ht
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 feminine    165.
+## 2 masculine   177.
+## 3 &lt;NA&gt;        181.
+```
+]
+
+]
+
+.panel[.panel-name[Code]
+
+.pull-left[
+
+```r
+starwars %&gt;%
+  select(name, height, mass)
+```
+]
+.pull-right[
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  summarize(
+    avg_ht = mean(height, na.rm = TRUE)
+  )
+```
+]
+
+]
+
+]
+
+???
+OK, finally.. some star wars data. So in the dataframe on the left we have the names, heights, and masses of various star wars characters. I could have had another column/variable called "gender" if I had wanted, as this is also an interesting characteristic of each individual.
+
+Note that the number of rows is 87, which is the number of individual-level observations in the original dataset. In this case, there are 87 difference characters. 
+
+Now, the dataframe on the right should look/feel different to you. What we have here is gender as one of the columns and average height as the other column. So this also looks tidy in a way. I have rows and columns - but it's important to note that this is actually a summarized version of the raw data. What I did was aggregate across gender and height, meaning, of the 87 characters, the female characters are on average XX and the male characters XX. 
+
+This summary data might be exactly what I need for whatever analysis I'm doing, but it is critical to note that if all I had was this summary table, it's impossible to go back to the raw data set. So you want to, as much as possible, maintain your data in its raw format and then create summary statistics as needed. Never overwrite your original raw dataset. 
+
+And if you look at the code that generated these two tables, note that I started with the complete raw dataset, selected a few columns from it, but the right hand side, what I'm doing is grouping my data by gender and then calling average height to create summary statistics. Never do I overwrite my data. Moreover, on a separate note, what I'm doing here, starting with raw data and then doing various wrangling steps on it to create new variables or to calculate summary statistics - is the sort of stuff that we're going to be focusing on this week. See you in the next lecture. 
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
