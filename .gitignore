@@ -7,12 +7,15 @@
 .DS_store
 .DS_Store
 
-nicksandbox/
+
 
 # Ignore very large files
 Module-3-Nick/Homework/data/US_Accidents_Dec21_updated.csv
 
-# ignore caches and knitr files
-
+# ignore caches (but not knitr files)
 *_cache/
-*_files/
+
+## local testing files
+
+local/
+nicksandbox/
