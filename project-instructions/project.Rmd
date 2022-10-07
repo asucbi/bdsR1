@@ -153,14 +153,20 @@ Your projects will be **peer reviewed** by 3-4 of your peers and each of you wil
 **Your presentation should:**
 
 - Introduce the dataset
+
 - Introduce and explain your research question(s) 
+
    - Explain how you arrived at your research qeustion (was it based on theory? explain the theory. Based on earlier EDA? show this (at least partially))
+   
    - Explain/motivate why your question(s) is meaningful or interesting
+   
 - Present and explain the visualization(s) you used to address your research question(s)
+
 - (optionally) Present and explain any models you fit to address your research question(s)
 
 
 **Details:**
+
 - Prepare an RMarkdown document that you can use to support your presentation using the provided template. You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the notebook. Instead of advancing slides, you will just scroll through the notebook.
 
 - There is no limit to the length of the notebook, just a time limit for the presentation (10 min)
@@ -246,7 +252,7 @@ Teams will turn in two files, turning in the notebook both as an `.Rmd` and as a
 +----------------------------------------------------------+-----------+
 | Total                                                    | 100 pts   |
 +==========================================================+===========+
-| Proposal  (based on peer reviews)                        |  20 pts  |
+| Proposal                                                 |  20 pts  |
 +----------------------------------------------------------+-----------+
 | Presentation                                             |  60 pts  |
 <!-- +----------------------------------------------------------+-----------+ -->
