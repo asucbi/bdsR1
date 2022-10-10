@@ -75,7 +75,7 @@ library(tidyverse)
 
 We're going to work with two datasets in this lab, both of which can be found as CSV (comma separated values) files in the `data` folder of your repository.
 
-You can read the first of these in using the following, we'll label it `survey`.
+You can read the first of these in using the following, we'll call it `survey`.
 
 ```{r load-data, message = FALSE, eval = TRUE}
 # nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
@@ -100,7 +100,7 @@ The variable descriptions are as follows:
 |   `mean_age`| Avg. age of respondents |
 |   `n`| Number of respondents |
 
-The second dataset we will use is some country-level statistics for all European Union countries. You can read in the second dataset with the following, labeling it `eudata`:
+The second dataset we will use is some country-level statistics for all European Union countries. You can read in the second dataset with the following, calling it `eudata`:
 
 ```{r}
 eudata <- read_csv("../data/eu-country-data.csv")
@@ -119,7 +119,7 @@ You don't have to switch at each exercise, you can find your a cadence that work
 ---
 
 `r qbegin(1)`
-Look at the names of the variables in the `eudata` data. What do you think the data in each of these variables represents?
+I didn't give you an explanation of the `eudata` variables. Look at the names of the variables in the `eudata` data. What do you think the data in each of these variables represents?
 `r qend()`
 
 
@@ -136,20 +136,14 @@ Look at the names of the variables in the `eudata` data. What do you think the d
 
 `r qbegin(2)`
 
-Let's inspect our survey data to see if it contains responses from all EU countries. Are there any Countries missing in the `survey` dataset as compared to the `eudata` dataset?
-
-```{r echo=FALSE}
-survey %>% 
-  filter(!Country %in% eudata$Country)
-```
+Let's inspect our `survey` data to see if it contains responses from all EU countries. Are there any Countries missing in the `survey` dataset as compared to the `eudata` dataset?
 
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
-
-# Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. 
-
+```{r echo=FALSE}
+survey %>% 
+  filter(!Country %in% eudata$Country)
 ```
 `r solend()`
 
@@ -175,7 +169,7 @@ nrow(eudata)
 
 ## Joining data frames
 
-To investigate whether lead exposure is related to personality, we need to join these data frames into one. But, first we need to recode the `Country` variables so that they match. Fortunately there are only two that are trouble. 
+To investigate whether lead exposure is related to personality, we need to join these data frames into one. But, first we need to recode the `Country` variables so that they match.
 
 We know there's some problems related to Czech Republic and Bosnia & Herzegovina, so let's inspect the `Country` variable in each dataset to see what exactly is wrong.
 
@@ -210,10 +204,8 @@ eudata <- eudata %>%
 __NOTE:__ If we had a lot of countries to rename, we could also use the titular function from the `countrycode` package to rename countries according to standard naming conventions.
 :::
 
-
-
 `r qbegin(5)`
-Now we are ready to join the data frames. Join them on the `Country` variable.
+Now we are ready to join the data frames. Join them on the `Country` variable. Will it make a difference which kind of join you perform?
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
@@ -248,7 +240,7 @@ You have surely heard that "correlation is not causation" --- so we can't say wh
 
 One thing we might think could influence personality is geography. Without playing too much into broad stereotypes, there are many historical and cultural differences between people in Eastern Europe versus Western Europe. Maybe people in the East or West are more or less agreeable? Maybe they also happen to have more or less lead exposure?
 
-The `ggplot2` package includes a function called `map_data()` that loads datasets for plotting maps of different parts of the world. The code below loads data with latitude and longitude points marking the boundaries of all the different nations of the world and then makes that `data.frame` object into a `tibble`.
+The `ggplot2` package includes a function called `map_data()` that loads data for plotting maps of different parts of the world. The code below loads data with latitude and longitude points marking the boundaries of all the different nations of the world and then turns that `data.frame` object into a `tibble`.
 
 ```{r}
 map_data("world") %>% 
