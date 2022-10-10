@@ -131,7 +131,11 @@ wordbank %>%
   mutate(top_prop = max(prop), month=as.numeric(month)) %>% 
   ggplot(aes(x=month, y = prop, color=word, group=word)) +
   geom_line(size=1) +
-  scale_color_viridis_d()# +
+  scale_color_viridis_d()
+
+
+### 18-24mo is about when toddlers start running in addition to walking
+### possibly leading to more (painful) falls
 ```
 `r solend()`
 
@@ -231,7 +235,7 @@ Do you speak to a toddler the same way you speak to a friend? A professor?
 The word-frequency data came from Google Books data, based on the number of times words appeared in a collecton of about 8 million books. How might the words used in books differ from the words heard by toddlers?
 
 :::green
-This [paper](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0213554) discusses some more detailed concerns about using these kinds of datasets. It can be tempting to treat data as "truth"---but there is always more to it than that. 
+For the curious, this [paper](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0213554) discusses some more detailed concerns about using these kinds of datasets. And this [github repository](https://github.com/hackerb9/gwordlist) has some telling discussion of using raw word frequency counts generated from Google N-gram corpora. It can be tempting to treat data as "truth"---but things are rarely so straightforward.
 :::
 
 ```{r, echo=F}
