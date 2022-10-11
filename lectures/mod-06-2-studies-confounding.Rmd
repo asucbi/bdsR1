@@ -175,7 +175,7 @@ library(dagitty)
 library(xaringanthemer)
 library(ggdag)
 
-dag_spurious <- dagitty('dag {
+dag_confound <- dagitty('dag {
     Lead [pos="0,-1"]
     GDP [pos=".5,0"]
     Agree [pos="1,-1"]
@@ -184,7 +184,7 @@ dag_spurious <- dagitty('dag {
     GDP -> Agree
 }')
 
-ggdag::tidy_dagitty(dag_spurious, layout="auto") %>% 
+ggdag::tidy_dagitty(dag_confound, layout="auto") %>% 
   ggplot(aes(x=x,y=y,xend=xend,yend=yend)) +
   geom_dag_text(size=10) +
   geom_dag_edges_link(edge_color="white") +

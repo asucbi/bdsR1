@@ -4,7 +4,7 @@ subtitle: "<br><br> Data Science in a Box"
 author: "[datasciencebox.org](https://datasciencebox.org/)"
 output:
   xaringan::moon_reader:
-    css: ["../xaringan-themer.css", "../slides.css"]
+    css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
     anchor_sections: FALSE
     nature:
@@ -14,7 +14,7 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r child = "../setup.Rmd"}
+```{r child = "setup.Rmd"}
 ```
 
 ```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
@@ -76,7 +76,7 @@ Jeffery T. Leek and Roger D. Peng. "What is the question?." Science 347.6228 (20
 1. **Predictive:** what types of people will take Vitamin D supplements during the next year
 
 --
-1. **Causal:** whether people with COVID-19 who were randomly assigned to take Vitamin D supplements or those who were not are hospitalised
+1. **Causal:** whether people with COVID-19 who were randomly assigned to take Vitamin D supplements or those who were not are hospitalized
 
 --
 1. **Mechanistic:** how increased vitamin D intake leads to a reduction in the number of viral illnesses
@@ -125,109 +125,81 @@ class: middle
 
 ---
 
-## Read in your data
 
-- Place your data in a folder called `data`
-- Read it into R with `read_csv()` or friends (`read_delim()`, `read_excel()`, etc.)
+## Case study: Explanations in the wild!
 
-```{r}
-library(readxl)
-fav_food <- read_excel("../data/favourite-food.xlsx")
-fav_food
+> Why do some explanations strike people as highly satisfying while others, seemingly equally accurate, satisfy them less? We asked lay-people to generate and rate thousands of open-ended explanations in response to 'Why?' questions spanning multiple domains, and analyzed the properties of these explanations, to discover (1) what kinds of features are associated with greater explanation quality; (2) whether people can tell how good their explanations are; and (3) which cognitive traits predict the ability to generate good explanations. Our results support a pluralistic view of explanation, where satisfaction is best predicted by either functional or mechanistic content. Respondents were better able to judge how accurate their explanations were than how satisfying they were to others. Insight problem solving ability was the cognitive ability most strongly associated with the generation of satisfying explanations.
+
+```{r, include=F}
+eiw <- read_csv("../data/explanations-in-wild-s1-full.csv")
 ```
 
 ---
 
-## `clean_names()`
+## Formulate your question
 
-If the variable names are malformatted, use `janitor::clean_names()`
-
-```{r message=FALSE, warning=FALSE}
-library(janitor)
-fav_food %>% clean_names()  
-```
-
----
-
-## Case study: NYC Squirrels!
-
-- [The Squirrel Census](https://www.thesquirrelcensus.com/) is a multimedia science, design, and storytelling project focusing on the Eastern gray (*Sciurus carolinensis*). They count squirrels and present their findings to the public.
-- This table contains squirrel data for each of the 3,023 sightings, including location coordinates, age, primary and secondary fur color, elevation, activities, communications, and interactions between squirrels and with humans.
-
-```{r}
-#install_github("mine-cetinkaya-rundel/nycsquirrels18")
-library(nycsquirrels18)
-```
-
----
-
-## Locate the codebook
-
-[mine-cetinkaya-rundel.github.io/nycsquirrels18/reference/squirrels.html](https://mine-cetinkaya-rundel.github.io/nycsquirrels18/reference/squirrels.html)
-
-<br><br>
+- Generate some possible questions
+  - Do people give different kinds of explanations in different domains?
+  - Are *good* explanations different in different domains?
+  - What makes a satisfying explanation? How do mechanistic and functional explanations vary?
+  - Is more more? Are longer explanations better or do people prefer shorter explanations?
+  - Can people predict when their own explanations will be satisfying to others?  
 
 --
+
+- But as you do, ask yourself: "Do I have the right data to answer this question?"
+
+---
+
+## Figure out what is what
+
+- The data for this paper <reference> are on the open science foundation website [osf.io](https://osf.io)
+- As is often the case with open data (especially from preprints), we have to do some flipping back and forth between the paper and the data files online.
+
+--
+
+But once we do, we find there are 9 variables that look interesting: the question text, the explanation text, the domain of the question, and ratings for how accurate, satisfying, "causal", "mechanistic", "functional", and "general" each explanation is.
+
+---
 
 ## Check the dimensions
 
 ```{r}
-dim(squirrels)
+dim(eiw)
 ```
 
 ---
 
-## Look at the top...
+## Take a `glimpse()` at the data
 
 ```{r}
-squirrels %>% head()
+glimpse(eiw)
 ```
+
 
 ---
 
-## ...and the bottom
+<!-- ## Validate with at least one external data source -->
 
-.small[
-```{r}
-squirrels %>% tail()
-```
-]
+<!-- .pull-left[ -->
+<!-- ```{r echo=FALSE} -->
+<!-- squirrels %>% -->
+<!--   select(long, lat) %>% -->
+<!--   print(n = 15) -->
+<!-- ``` -->
+<!-- ] -->
+<!-- .pull-right[ -->
+<!-- ```{r echo=FALSE, out.width="100%"} -->
+<!-- knitr::include_graphics("img/central-park-coords.png") -->
+<!-- ``` -->
+<!-- ] -->
 
----
+<!-- --- -->
 
-## Validate with at least one external data source
 
-.pull-left[
-```{r echo=FALSE}
-squirrels %>%
-  select(long, lat) %>%
-  print(n = 15)
-```
-]
-.pull-right[
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/central-park-coords.png")
-```
-]
+## First, just plot it
 
----
-
-## Make a plot
-
-```{r out.width="45%"}
-ggplot(squirrels, aes(x = long, y = lat)) +
-  geom_point(alpha = 0.2)
-```
-
---
-
-.pull-left-wide[
-**Hypothesis:** There will be a higher density of sightings on the perimeter than inside the park.
-]
-
----
-
-## Try the easy solution first
+.hand[Do people give different explanations in different domains?]
 
 .panelset[
 
@@ -238,12 +210,15 @@ ggplot(squirrels, aes(x = long, y = lat)) +
 
 .panel[.panel-name[Code]
 ```{r easy-solution, fig.show = "hide"}
-squirrels <- squirrels %>%
-  separate(hectare, into = c("NS", "EW"), sep = 2, remove = FALSE) %>%
-  mutate(where = if_else(NS %in% c("01", "42") | EW %in% c("A", "I"), "perimeter", "inside")) 
+eiw %>% 
+  # filter(satisfaction > 4 ) %>% 
+  ggplot(aes(x=domain, y = functional, fill=domain)) +
+  geom_boxplot(width=.5)
 
-ggplot(squirrels, aes(x = long, y = lat, color = where)) +
-  geom_point(alpha = 0.2)
+eiw %>% 
+  # filter(satisfaction > 3 ) %>%
+  ggplot(aes(x=domain, y = mechanism, fill=domain)) +
+  geom_boxplot(width=.5)
 ```
 ]
 
@@ -253,44 +228,55 @@ ggplot(squirrels, aes(x = long, y = lat, color = where)) +
 
 ## Then go deeper...
 
-.panelset[
-
-.panel[.panel-name[Plot]
-```{r ref.label="hex-plot", echo = FALSE}
+.small[
+```{r facet-plot, echo=F}
+eiw %>% 
+  ggplot(aes(x = functional, y = satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  facet_wrap(~questionText, labeller = label_wrap_gen(width=25)) +
+  theme(aspect.ratio=1)
 ```
 ]
+---
 
-.panel[.panel-name[Code]
-```{r hex-plot, fig.show = "hide"}
-hectare_counts <- squirrels %>%
-  group_by(hectare) %>%
-  summarise(n = n()) 
+## Then go deeper... (still)
 
-hectare_centroids <- squirrels %>%
-  group_by(hectare) %>%
-  summarise(
-    centroid_x = mean(long),
-    centroid_y = mean(lat)
-  )
-
-squirrels %>%
-  left_join(hectare_counts, by = "hectare") %>%
-  left_join(hectare_centroids, by = "hectare") %>%
-  ggplot(aes(x = centroid_x, y = centroid_y, color = n)) +
-  geom_hex()
+.small[
+```{r hex-plot, echo=F}
+eiw %>% 
+  ggplot(aes(x = mechanism, y = satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  facet_wrap(~questionText, labeller = label_wrap_gen(width=25)) +
+  theme(aspect.ratio=1)
 ```
-]
-
 ]
 
 ---
 
-## The squirrel is staring at me!
+## And sometimes step back
 
-```{r}
-squirrels %>%
-  filter(str_detect(other_interactions, "star")) %>%
-  select(shift, age, other_interactions)
+Sometimes it helps to make visualizations of summaries as well.
+
+- We notice that both mechanistic and functional explanations are more satisfying.
+- New question: How much is everything correlated with everything else?
+
+```{r heatmap, echo=F}
+eiw %>% 
+  mutate(
+    log_text_length = log(stringr::str_length(text))
+  ) %>% 
+  select(satisfaction, accuracy, causation, mechanism, functional, log_text_length) %>% 
+  cor() %>% 
+  as_tibble(rownames = "var1") %>% 
+  gather(var2, val, -var1) %>%  
+  ggplot(aes(x=var1, y=var2, fill=val)) +
+  geom_tile() +
+  geom_text(aes(label=round(val,2))) +
+  scale_fill_viridis_c() +
+  theme(axis.text.x = element_text(angle=45, hjust=1, vjust=1), aspect.ratio=1) +
+  labs(fill="corr.", x="", y="")
 ```
 
 ---

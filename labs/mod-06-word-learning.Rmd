@@ -16,7 +16,7 @@ source('assets/setup.R')
 
 # :::red : use for pre-lab activity instructions
 # :::lo : use for outlining the learning objectives
-# :::green : use for tips on how to complete the task
+# :::green : use for tips on how to complete the task --- I've been using more for "extra info" DP
 # :::yellow : use for additional information on how to use R that does not directly have anything to do with the assignment tasks
 # :::frame : use when want to set some additional instructions/code/examples apart from the assignment task when explaining something about how to use R
 
@@ -26,7 +26,9 @@ source('assets/setup.R')
 ```
 
 
-< introduction to children's langauge learning >
+Young children are prodigious learners, especially when it comes to learning language. Children generally start producing simple one-word utterances around 12 months of age and their phonological processing (the processing of what words sound like) is quite mature by 18 months of age. Then, through the next few years of life to age five children learn an average of 6-7 words per day!
+
+Of course, children don't learn their vocabulary at random, by reading through the dictionary, or even primarily through formal education. Children learn words based on their day-to-day experiences and interactions. So what determines which words children learn and when?
 
 
 :::lo
@@ -165,9 +167,9 @@ wordbank %>%
 
 ## Word learning and word frequency
 
-So far we have seen that some words (and word categories) seem easier for children to learn. One reason something might be easier to learn is if it is encountered more frequently. We can learn the streets we drive more frequently, the recipes we cook more often, and so forth. Could it be that children are faster to learn the words that appear in the english language more frequently?
+So far we have seen that some words (and word categories) seem easier for children to learn. One reason something might be easier to learn is if it is encountered more frequently. We can learn the streets we drive more frequently, the recipes we cook more often, and so forth. Could it be that children are faster to learn the words that appear more frequently in the English language?
 
-The `freq` variable measures the frequency of the word in English, as the number of times the word appeared out of one trillion words collected by Google (1,024,908,267,229 to be exact).
+The `freq` variable measures the frequency of the word in English, as the number of times the word appeared out of a collection of written works collected by Google containing one trillion words (1,024,908,267,229 to be exact).
 
 `r qbegin(4)`
 Real quick, what are the 10 most frequent words in this dataset? The 10 least frequent? 
@@ -230,13 +232,15 @@ wordbank %>%
 
 Do you speak to a toddler the same way you speak to a friend? A professor?
 
-< So it seems like some word categories are harder to learn in that even though they are common words to which children would be frquently exposed, they still do not learn to produce them themselves until later in development. This might be something about the word categories themselves (some researchers think so). But it also might be something about child-directed speech.
+From our analyses, it seems like some word categories are harder for children to learn, in that even though they are common words to which children would be frequently exposed, children still do not learn to produce them themselves until later in development. This might be something about the word categories themselves. For instance, there is evidence that children find it easier to learn nouns than verbs or adjectives (e.g. Gentner, 1982; Markman & Hutchinson, 1984).
 
-The word-frequency data came from Google Books data, based on the number of times words appeared in a collecton of about 8 million books. How might the words used in books differ from the words heard by toddlers?
+However, the explanation might also be something about child-directed speech. The word-frequency data in this dataset came from Google Books data, based on the number of times words appeared in a collection of about 8 million books. How might the words used in books differ from the words heard by toddlers?
 
-:::green
+:::yellow
 For the curious, this [paper](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0213554) discusses some more detailed concerns about using these kinds of datasets. And this [github repository](https://github.com/hackerb9/gwordlist) has some telling discussion of using raw word frequency counts generated from Google N-gram corpora. It can be tempting to treat data as "truth"---but things are rarely so straightforward.
 :::
+
+This plot shows the proportion of children producing each word category (averaging over the words in that category) against the average frequency of those words. 
 
 ```{r, echo=F}
 library(ggrepel)
@@ -257,7 +261,7 @@ wordbank %>%
 
 
 `r qbegin(8)`
-Plotting the average proportion producing at 24mo and average log frequency of words for each category makes the unexpected negative relationship very clear. But as you look at this plot, are there any low frequency word categories children might hear relatively more often than they are written about in books?
+The plot above makes the unexpected negative relationship very clear. But as you look at this plot, are there any low frequency word categories children might hear relatively more often than they are written about in books?
 
 `r qend()`
 
@@ -283,6 +287,9 @@ wordbank %>%
 
 `r solend()`
 
+:::yellow
+For those interested in language learning, [this conference paper](http://langcog.stanford.edu/papers/RFR-cogsci2009.pdf) measures the frequency of words in child-directed speech by recording and transcribing all of the speech one child heard from birth to three years of age! The study finds somewhat different results than our analysis and is worth reflecting about as you think about the analyses we conducted here.
+:::
 
 ---
 

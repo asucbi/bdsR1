@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is code-along for module 6: Explanatiosnin the wild data
+
+```{r}
+## Are longer explanations better?
+
+eiw <- read_csv("explanations-in-wild-s1-full.csv")
+```
+
+
+```{r}
+## start out with a prediction task -- I just want to know how I can easily 
+## predict how good an explanation is.
+
+## So without doing anything fancy, is longer is better?
+
+eiw %>% 
+  mutate(
+    text_length = stringr::str_length(text)
+  ) %>% 
+  ggplot(aes(x=text_length, y=satisfaction)) +
+  geom_point()
+
+```
+
+```{r}
+## pretty skewed maybe better to look at log?
+eiw %>% 
+  mutate(
+    text_length = stringr::str_length(text)
+  ) %>% 
+  ggplot(aes(x=log(text_length), y=satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm")
+```
+
+Are bigger words satisfying?
+
+```{r}
+# two functions to operationalize this
+
+avg_word_length <- function(x){
+  str_length(x)/(str_count(x,  " ") + 1)
+}
+
+max_word_length <- function(x){
+  # from https://stackoverflow.com/questions/66951596/is-there-a-way-to-find-the-mean-length-of-words-in-a-string-in-r
+  max(nchar(unlist(strsplit(x, '\\W')))) 
+}
+
+```
+
+
+```{r}
+eiw %>% 
+  mutate(
+    text_length = stringr::str_length(text),
+    word_length = avg_word_length(text),
+    max_word_length = map_dbl(text, max_word_length) # note had to use map b/c my function is not vectorized
+  ) %>% 
+  ggplot(aes(x=max_word_length, y=satisfaction)) +
+  geom_jitter() +
+  geom_smooth(method="lm")
+
+```
+
+
+```{r a-fit-we-can-ignore}
+# d <- eiw %>% 
+#   mutate(
+#     text_length = stringr::str_length(text),
+#     word_length = avg_word_length(text),
+#     max_word_length = map_dbl(text, max_word_length) # note had to use map b/c my function is not vectorized
+#   )
+
+# summary(lm(satisfaction ~ log(text_length) + max_word_length, d)) # maybe come back to this someday
+```
+
+## Another research Q: are more mechanistic explanations more satisfying?
+
+
+```{r}
+
+eiw %>% 
+  ggplot(aes(x=mechanism, y=satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm")
+```
+
+
+```{r}
+## but now a confound, are longer explanations more mechanistic?
+eiw %>% 
+  mutate(
+    text_length = stringr::str_length(text)
+  ) %>% 
+  ggplot(aes(x=log(text_length), y=mechanism)) +
+  geom_point() +
+  geom_smooth(method="lm")
+
+```
+
+```{r}
+
+## What if I "control for" length of explanation?
+## within each facet, see same positive relationship
+
+eiw %>% 
+  mutate(
+    len_group = case_when(
+      stringr::str_length(text)<25 ~ "<025",
+      stringr::str_length(text)<50 ~ "<050",
+      stringr::str_length(text)<75 ~ "<075",
+      stringr::str_length(text)<100 ~ "<100",
+      stringr::str_length(text)<150 ~ "<150",
+      stringr::str_length(text)<200 ~ "<200",
+      stringr::str_length(text)>=200 ~ ">200"
+    )
+  ) %>%
+  ggplot(aes(x=mechanism, y=satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  facet_wrap(~len_group)
+```
+
+
