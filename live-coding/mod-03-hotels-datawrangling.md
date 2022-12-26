@@ -1,6 +1,6 @@
 Hotel bookings - data wrangling
 ================
-05 August, 2022
+23 December, 2022
 
 ``` r
 library(tidyverse)
@@ -116,9 +116,8 @@ How many bookings involve at least 1 child **or** baby?
 
 In the following chunk, replace
 
--   `[AT LEAST]` with the logical operator for “at least” (in two
-    places)
--   `[OR]` with the logical operator for “or”
+- `[AT LEAST]` with the logical operator for “at least” (in two places)
+- `[OR]` with the logical operator for “or”
 
 **Note:** You will need to set `eval=TRUE` when you have an answer you
 want to try out.

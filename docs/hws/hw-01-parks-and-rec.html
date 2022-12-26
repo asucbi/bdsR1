@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>HW 01 - Parks and Recreation</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<link href="site_libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="site_libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="../hw.css" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">HW 01 - Parks and Recreation</h1>
+<h3 class="subtitle">Meet the toolkit</h3>
+
+
+
+<p>
+<span class="marginnote shownote"> <!--
+<div class="figure">-->
+<img src="img/parksandrec.jpeg" alt=" " width="80%"  /> <!--
+<p class="caption marginnote">--> <!--</p>--> <!--</div>--></span>
+</p>
+<p>The goal of this assignment is to introduce you to R, RStudio, and
+integration with Canvas, which you’ll be using throughout the course
+both to learn the data science concepts discussed in the course and to
+analyze real data and come to informed conclusions.</p>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<div id="prerequisites" class="section level2"
+data-link="Prerequisites">
+<h2>Prerequisites</h2>
+<p>This assignment assumes that you have reviewed the lecture titled
+“Meet the toolkit: Programming.” If you haven’t yet done so, please
+pause and complete it before continuing.</p>
+</div>
+<div id="terminology" class="section level2">
+<h2>Terminology</h2>
+<p>We’ve already thrown around a couple of new terms, so let’s define
+them before we proceed.</p>
+<ul>
+<li><p><strong>R:</strong> Name of the programming language we will be
+using throughout the course.</p></li>
+<li><p><strong>RStudio:</strong> An integrated development environment
+for R. In other words, a convenient interface for writing and running R
+code.</p>
+<ul>
+<li>In this course, assignment instructions you work on (HWs, Labs,
+Project) will be available on Canvas; however, the “starter” documents
+needed to complete each assignment will be available on RStudio
+Cloud.</li>
+</ul></li>
+</ul>
+</div>
+<div id="starting-slow" class="section level2">
+<h2>Starting slow</h2>
+<p>As the course progresses, you are encouraged to explore beyond what
+the assignments dictate; a willingness to experiment will make you a
+much better programmer! Before we get to that stage, however, you need
+to build some basic fluency in R. First, we will explore the fundamental
+building blocks of R and RStudio.</p>
+<p>Before you can get started with the analysis, you need to make sure
+you:</p>
+<ul>
+<li>are a member of the course RStudio Cloud space; if you are not, then
+you did not complete the prerequisite for this assignment. Please go
+back to <a href="#prerequisites">Prerequisites</a> and complete it.</li>
+</ul>
+</div>
+</div>
+<div id="workflow" class="section level1">
+<h1>Workflow</h1>
+<p>For each assignment in this course you will go to a shared folder in
+RStudio Cloud that contains starter documents you will build upon when
+working on your assignment. In RStudio you will edit them, run them,
+view your results, and interpret them. In other words, all data analysis
+will happen in RStudio.</p>
+<p>Lets walk through some of the steps that will get you ready for
+analysis.</p>
+</div>
+<div id="hello-rstudio" class="section level1">
+<h1>Hello RStudio!</h1>
+<p>Go to <a href="https://rstudio.cloud/"
+title="RStudio Cloud">rstudio.cloud</a> and then <strong>navigate to the
+course workspace</strong> via the left sidebar. It’s very important that
+you do this for two reasons:</p>
+<ul>
+<li>It’s only when you’re in the course workspace that you’ll be able to
+benefit from R packages I’ve pre-installed for you so that your project
+can be configured correctly.</li>
+<li>It’s only when you’re in the course workspace that your usage of
+RStudio Cloud won’t count towards the free usage limits.</li>
+</ul>
+<p>
+<span class="marginnote shownote"> <!--
+<div class="figure">-->
+<img src="img/course-workspace.png" alt=" " width="80%"  /> <!--
+<p class="caption marginnote">--> <!--</p>--> <!--</div>--></span>
+</p>
+<p>Before you proceed, confirm that you are in the course workspace by
+checking out what’s on your top bar in RStudio Cloud.</p>
+<div id="rstudio-layout" class="section level2">
+<h2>RStudio Layout</h2>
+<p>RStudio is comprised of four panes.</p>
+<div class="figure fullwidth">
+<img src="img/rstudio-anatomy-new.png" alt=" " width="80%"  />
+<p class="caption marginnote shownote">
+</p>
+</div>
+<ul>
+<li>On the bottom left is the Console, this is where you can write code
+that will be evaluated. Try typing <code>2 + 2</code> here and hit
+enter, what do you get?</li>
+<li>On the bottom right is the Files pane, as well as other panes that
+will come handy as we start our analysis.</li>
+<li>If you click on a file, it will open in the editor, on the top left
+pane.</li>
+<li>Finally, the top right pane shows your Environment. If you define a
+variable it would show up there. Try typing <code>x &lt;- 2</code> in
+the Console and hit enter, what do you get in the
+<strong>Environment</strong> pane? Importantly, this pane is also where
+the <strong>Git</strong> interface lives. We will be using that
+regularly throughout this assignment.</li>
+</ul>
+</div>
+</div>
+<div id="warm-up" class="section level1">
+<h1>Warm up</h1>
+<p>Before we introduce the data, let’s warm up with some simple
+exercises.</p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">The top portion of your
+R Markdown file (between the three dashed lines) is called
+<strong>YAML</strong>. It stands for “YAML Ain’t Markup Language”. It is
+a human friendly data serialization standard for all programming
+languages. All you need to know is that this area is called the YAML (we
+will refer to it as such) and that it contains meta information about
+your document.</span></span></p>
+<div id="step-1.-update-the-yaml" class="section level2">
+<h2>Step 1. Update the YAML</h2>
+<p>Open the R Markdown (Rmd) file in your project, change the author
+name to your name.</p>
+<p><img src="img/yaml-raw-to-rendered-new.png" width="80%"  style="display: block; margin: auto;" /></p>
+</div>
+<div id="step-2-knit-it" class="section level2">
+<h2>Step 2: Knit it!</h2>
+</div>
+<div id="step-3.-submit-it-to-canvas" class="section level2">
+<h2>Step 3. Submit it to Canvas</h2>
+</div>
+</div>
+<div id="packages" class="section level1">
+<h1>Packages</h1>
+<p>R is an open-source language, and developers contribute functionality
+to R via packages. In this assignment we will use the following
+packages:pppiuhjg</p>
+<ul>
+<li><strong>tidyverse</strong>: a collection of packages for doing data
+analysis in a “tidy” way</li>
+<li><strong>openintro</strong>: a package that contains the datasets
+from OpenIntro resources</li>
+</ul>
+<p>We use the <code>library()</code> function to load packages. In your
+R Markdown document you should see an R chunk labelled
+<code>load-packages</code> which has the necessary code for loading both
+packages. You should also load these packages in your Console, which you
+can do by sending the code to your Console by clicking on the
+<strong>Run Current Chunk</strong> icon (green arrow pointing right
+icon).</p>
+<p><img src="img/load-packages-chunk.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<p>Note that these packages also get loaded in your R Markdown
+environment when you <strong>Knit</strong> your R Markdown document.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The city of <a href="https://en.wikipedia.org/wiki/Seattle">Seattle,
+WA</a> has an open data portal that includes pets registered in the
+city. For each registered pet, we have information on the pet’s name and
+species. The data used in this exercise can be found in the
+<strong>openintro</strong> package, and it’s called
+<code>seattlepets</code>. Since the dataset is distributed with the
+package, we don’t need to load it separately; it becomes available to us
+when we load the package.</p>
+<p>You can view the dataset as a spreadsheet using the
+<code>View()</code> function. Note that you should not put this function
+in your R Markdown document, but instead type it directly in the
+Console, as it pops open a new window (and the concept of popping open a
+window in a static document doesn’t really make sense…). When you run
+this in the console, you’ll see the following <strong>data
+viewer</strong> window pop up.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(seattlepets)</span></code></pre></div>
+<p><img src="img/view-data.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<p>You can find out more about the dataset by inspecting its
+documentation (which contains a <strong>data dictionary</strong>, name
+of each variable and its description), which you can access by running
+<code>?seattlepets</code> in the Console or using the Help menu in
+RStudio to search for <code>seattlepets</code>.</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<ol style="list-style-type: decimal">
+<li>According to the data dictionary, how many pets are included in this
+dataset?</li>
+</ol>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
+Exercise 1, knit the document, commit your changes with a commit message
+that says “Completed Exercise 1”, and push. Make sure to commit and push
+all changed files so that your Git pane is cleared up
+afterwards.</em></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Again, according to the data dictionary, how many variables do we
+have for each pet?</li>
+</ol>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
+Exercise 2, knit the document, commit your changes with a commit message
+that says “Completed Exercise 2”, and push. Make sure to commit and push
+all changed files so that your Git pane is cleared up
+afterwards.</em></p>
+<ol start="3" style="list-style-type: decimal">
+<li>What are the three most common pet names in Seattle? To do this you
+will need to count the frequencies of each pet name and display the
+results in descending order of frequency so that you can easily see the
+top three most popular names. The following code does exactly that.</li>
+</ol>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">The two lines of code
+can be read as “Start with the seattlepets data frame, and then count
+the animal_names, and display the results sorted in descending order.
+The ‘and then’ in the previous sentence maps to %&gt;%, the pipe
+operator, which takes what comes before it and plugs it in as the first
+argument of the function that comes after it.”</span></span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
+Exercise 3. In this exercise you will not only provide a written answer
+but also include some code and output. You should insert the code in the
+code chunk provided for you, knit the document to see the output, and
+then write your narrative for the answer based on the output of this
+function, and knit again to see your narrative, code, and output in the
+resulting document. Then, commit your changes with a commit message that
+says “Completed Exercise 3”, and push. Make sure to commit and push all
+changed files so that your Git pane is cleared up afterwards.</em></p>
+<p>Let’s also look to see what the most common pet names are for various
+species. For this we need to first <code>group_by()</code> the
+<code>species</code>, and then do the same counting we did before.</p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">Looks like many of
+those NAs were cats. Poor unnamed kitties…</span></span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 16,823 × 3
+## # Groups:   species [4]
+##    species animal_name     n
+##    &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
+##  1 Cat     &lt;NA&gt;          406
+##  2 Dog     Lucy          337
+##  3 Dog     Charlie       306
+##  4 Dog     Bella         249
+##  5 Dog     Luna          244
+##  6 Dog     Daisy         221
+##  7 Dog     Cooper        189
+##  8 Dog     Lola          187
+##  9 Dog     Max           186
+## 10 Dog     Molly         186
+## # … with 16,813 more rows</code></pre>
+<p>But this output isn’t exactly what we wanted. We wanted to know the
+most common cat and dog names, but there are barely any cats present in
+this output! This is because there are more dogs than cats in the
+dataset overall. We can confirm this by counting the various species in
+the data.</p>
+<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">6 pigs in the city? Ok…
+But we’ll continue with cats and dogs.</span></span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   species     n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 Dog     35181
+## 2 Cat     17294
+## 3 Goat       38
+## 4 Pig         6</code></pre>
+<p>Let’s search for the top 5 cat and dog names. To do this, we can use
+the <code>slice_max()</code> function. The first argument in the
+function is the variable we want to select the highest values of, which
+is <code>n</code>. The second argument is the number of rows to select,
+which is <code>n = 5</code> for the top 5. It may be a bit confusing
+that both of these are <code>n</code>, but this is because we already
+have a variable called <code>n</code> in the data frame.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 53 × 3
+## # Groups:   species [4]
+##    species animal_name     n
+##    &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
+##  1 Cat     &lt;NA&gt;          406
+##  2 Cat     Luna          111
+##  3 Cat     Lucy          102
+##  4 Cat     Lily           86
+##  5 Cat     Max            83
+##  6 Dog     Lucy          337
+##  7 Dog     Charlie       306
+##  8 Dog     Bella         249
+##  9 Dog     Luna          244
+## 10 Dog     Daisy         221
+## # … with 43 more rows</code></pre>
+<ol style="list-style-type: decimal">
+<li>Based on the previous output we can easily identify the most common
+cat and dog names in Seattle, but the output is sorted by <code>n</code>
+(the frequencies) as opposed to being organized by the
+<code>species</code>. Build on the pipeline to arrange the results so
+that they’re arranged by <code>species</code> first, and then
+<code>n</code>. This means you will need to add one more step to the
+pipeline, and you have two options: <code>arrange(species, n)</code> or
+<code>arrange(n, species)</code>. You should try both and decide which
+one organizes the output by species and then ranks the names in order of
+frequency for each species.</li>
+</ol>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
+Exercise 4. In this exercise you’re asked to complete the code provided
+for you. You should insert the code in the code chunk provided for you,
+knit the document to see the output, and then write your narrative for
+the answer based on the output of this function, and knit again to see
+your narrative, code, and output in the resulting document. Then, commit
+your changes with a commit message that says “Completed Exercise 4”, and
+push. Make sure to commit and push all changed files so that your Git
+pane is cleared up afterwards.</em></p>
+<p>The following visualization plots the proportion of dogs with a given
+name versus the proportion of cats with the same name. The 20 most
+common cat and dog names are displayed. The diagonal line on the plot is
+the <span class="math inline">\(x = y\)</span> line; if a name appeared
+on this line, the name’s popularity would be exactly the same for dogs
+and cats.</p>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.</code></pre>
+<div class="figure fullwidth">
+<img src="hw-01-parks-and-rec_files/figure-html/unnamed-chunk-8-1.png" alt=" " width="80%"  />
+<p class="caption marginnote shownote">
+</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>What names are more common for cats than dogs? The ones above the
+line or the ones below the line?</li>
+<li>Is the relationship between the two variables (proportion of cats
+with a given name and proportion of dogs with a given name) positive or
+negative? What does this mean in context of the data?</li>
+</ol>
+<p>🧶 ✅ ⬆️ <em>Now is a good time to commit and push your changes to
+GitHub with an appropriate commit message. Commit and push all changed
+files so that your Git pane is cleared up afterwards. Make sure that
+your last push to the repo comes before the deadline. You should confirm
+that what you committed and pushed are indeed in your repo that we will
+see by visiting your repo on GitHub.</em></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

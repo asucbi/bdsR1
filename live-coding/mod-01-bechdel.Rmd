@@ -1,5 +1,5 @@
 ---
-title: "Bechdel"
+title: "Bechdel + Programming"
 author: 
   - Nicholas Duran, Derek Powell^[Authored modifications to original code]
   - Mine Çetinkaya-Rundel^[Original author of exercise]

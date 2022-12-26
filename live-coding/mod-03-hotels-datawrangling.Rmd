@@ -1,15 +1,15 @@
 ---
-title: "Hotel bookings - data wrangling"
-# author: 
-#   - Nicholas Duran, Derek Powell^[Authored modifications to original code]
-#   - Mine Çetinkaya-Rundel^[Original author of exercise]
-# output:
-#   html_document:
-#     # theme: united
-#     theme: yeti
-#     highlight: pygments
+title: "Hotel bookings + Data Wrangling"
+author:
+  - Nicholas Duran, Derek Powell^[Authored modifications to original code]
+  - Mine Çetinkaya-Rundel^[Original author of exercise]
 output:
-  github_document
+  html_document:
+    # theme: united
+    theme: yeti
+    highlight: pygments
+# output:
+#   github_document
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
@@ -20,7 +20,7 @@ library(skimr)
 
 ```{r load-data, message = FALSE}
 # From TidyTuesday: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md
-hotels <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv")
+hotels <- read_csv("../data/hotels.csv")
 ```
 
 ## Exercises

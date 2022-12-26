@@ -81,7 +81,9 @@ The dataset for this assignment can be found as a CSV (comma separated values) f
 You can read it in using the following.
 
 ```{r load-data, message = FALSE, eval = TRUE}
-nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
+# nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
+nobel <- read_csv("../data/nobel.csv")
+
 ```
 
 The variable descriptions are as follows:
