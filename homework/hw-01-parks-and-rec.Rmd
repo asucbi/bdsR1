@@ -33,6 +33,8 @@ library(ggrepel)
 knitr::include_graphics("img/parksandrec.jpeg")
 ```
 
+I want to create my own library? Right? 
+
 The goal of this assignment is to introduce you to R, RStudio, and integration with Canvas, which you'll be using throughout the course both to learn the data science concepts discussed in the course and to analyze real data and come to informed conclusions.
 
 # Getting started
