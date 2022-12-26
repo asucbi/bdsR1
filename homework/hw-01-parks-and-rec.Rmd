@@ -27,13 +27,12 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(openintro)
 library(ggrepel)
+library(bdsdata)
 ```
 
 ```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, eval = TRUE}
 knitr::include_graphics("img/parksandrec.jpeg")
 ```
-
-I want to create my own library? Right? 
 
 The goal of this assignment is to introduce you to R, RStudio, and integration with Canvas, which you'll be using throughout the course both to learn the data science concepts discussed in the course and to analyze real data and come to informed conclusions.
 
@@ -122,59 +121,55 @@ R is an open-source language, and developers contribute functionality to R via p
 In this assignment we will use the following package:
 
 -   **tidyverse**: a collection of packages for doing data analysis in a "tidy" way
+-   **bdsdata**: a package that contains various data sets for this course (Behavioral Data Science I)
 
 We use the `library()` function to load packages.
 In your R Markdown document you should see an R chunk labelled `load-packages` which has the necessary code for loading both packages.
 You should also load these packages in your Console, which you can do by sending the code to your Console by clicking on the **Run Current Chunk** icon (green arrow pointing right icon).
 
 ```{r load-packages-chunk, echo = FALSE, eval = TRUE, fig.align = "left"}
-knitr::include_graphics("img/load-packages-chunk.png")
+knitr::include_graphics("img/load-packages-chunk-new.png")
 ```
 
 Note that these packages also get loaded in your R Markdown environment when you **Knit** your R Markdown document.
 
 # Data
 
-[Kaggle.com](http://kaggle.com) is a great online resource for aspiring and seasoned data scientists. On the site you can find lots of interesting data sets provided by a large community. For example, the data we will be working with for this assignment was uploaded by someone name Bill Cruise. You can find it [here](https://www.kaggle.com/datasets/bcruise/parks-and-recreation-episode-data). 
+The data we will be working with is all about the show ['Parks and Recreation,'](https://en.wikipedia.org/wiki/Parks_and_Recreation) a popular mockumentary style sitcom that ran from 2009-2015. The dataset contains some information about every episode from every season, and we will be focusing on which characters were mentioned in each episode's brief description on IMDB and the average IMDB user rating for each plot. 
 
 ```{marginfigure}
-To make things easier to work with, I have made some behind-the-scenes changes to the original dataset. So what you download on Kaggle will be slightly different than the CSV provided to you. 
+[IMBD](https://www.imdb.com/) is a community-led online database for information related to films and television. One of the features is "User Ratings" that allows people to rate each episode on a scale from 1 to 10 (with 10 being the highest possible score). 
 ```
 
-This data set contains data about the show ['Parks and Recreation,'](https://en.wikipedia.org/wiki/Parks_and_Recreation), a popular mockumentary style sitcom that ran from 2009-2015. This data set contains some information about every episode from every season, and we will be focusing on which characters were mentioned in the IMBD description of each episode's plot and the IMBD user rating for each plot. 
+The data can be found in the **bdsdata** package, and it's called `parks_rec`.
+Since the dataset is distributed with the package, we don't need to load it separately; it becomes available to us when we load the package.
 
 ```{marginfigure}
-[IMBD](https://www.imdb.com/) is another community-led online database for information related to films and television series. One of the features is "User Ratings" that allows people to rate each episode on a scale from 1 to 10 (with 10 being the highest possible score). 
-```
-
-This first thing to do is to load in the CSV file containing the data. This is done with the following code:
-
-```{r load-in-data}
-View(seattlepets)
+NOTE: 'parks_rec' is derived from a much more complete dataset that someone posted to the site [Kaggle.com](http://kaggle.com). Kaggle is a great online resource for aspiring and seasoned data scientists where lots of interesting datasets are provided by a large, open community. If curious, you can check out the original dataset [here](https://www.kaggle.com/datasets/bcruise/parks-and-recreation-episode-data). 
 ```
 
 You can view the dataset as a spreadsheet using the `View()` function. Note that you should not put this function in your R Markdown document, but instead type it directly in the Console, as it pops open a new window (and the concept of popping open a window in a static document doesn't really make sense...).
 When you run this in the console, you'll see the following **data viewer** window pop up.
 
 ```{r view-data}
-View(seattlepets)
+View(parks_rec)
 ```
 
 ```{r data.viewer, echo = FALSE, eval = TRUE, fig.align = "left"}
 knitr::include_graphics("img/view-data-new.png")
 ```
 
-You can find out more about the dataset by inspecting its documentation (which contains a **data dictionary**, name of each variable and its description), which you can access by running `?seattlepets` in the Console or using the Help menu in RStudio to search for `seattlepets`.
+You can find out more about the dataset by inspecting its documentation (which contains a **data dictionary**, name of each variable and its description), which you can access by running `?parks_rec` in the Console or using the Help menu in RStudio to search for `parks_rec`.
 
 # Exercises
 
-1.  According to the data dictionary, how many pets are included in this dataset?
+1.  According to the data dictionary, how many unique characters are included in this dataset?
 
-🧶 ✅ ⬆️ *Write your answer in your R Markdown document under Exercise 1, knit the document, commit your changes with a commit message that says "Completed Exercise 1", and push. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 1, knit the document as a "github_document" (default output in the YAML).*
 
-2.  Again, according to the data dictionary, how many variables do we have for each pet?
+2.  Again, according to the data dictionary, how many rows of data do we have for this dataset?
 
-🧶 ✅ ⬆️ *Write your answer in your R Markdown document under Exercise 2, knit the document, commit your changes with a commit message that says "Completed Exercise 2", and push. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 2 knit the document as a "github_document" (default output in the YAML).*
 
 3.  What are the three most common pet names in Seattle? To do this you will need to count the frequencies of each pet name and display the results in descending order of frequency so that you can easily see the top three most popular names. The following code does exactly that.
 

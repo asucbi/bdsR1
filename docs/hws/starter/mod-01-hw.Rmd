@@ -9,7 +9,7 @@ output: github_document
 
 ```{r load-packages, message = FALSE}
 library(tidyverse)
-library(openintro)
+library(bdsdata)
 ```
 
 This is a R Markdown document!

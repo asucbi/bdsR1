@@ -255,9 +255,7 @@ pane.</li>
 <li>Finally, the top right pane shows your Environment. If you define a
 variable it would show up there. Try typing <code>x &lt;- 2</code> in
 the Console and hit enter, what do you get in the
-<strong>Environment</strong> pane? Importantly, this pane is also where
-the <strong>Git</strong> interface lives. We will be using that
-regularly throughout this assignment.</li>
+<strong>Environment</strong> pane?</li>
 </ul>
 </div>
 </div>
@@ -290,12 +288,12 @@ name to your name.</p>
 <h1>Packages</h1>
 <p>R is an open-source language, and developers contribute functionality
 to R via packages. In this assignment we will use the following
-packages:pppiuhjg</p>
+package:</p>
 <ul>
 <li><strong>tidyverse</strong>: a collection of packages for doing data
 analysis in a “tidy” way</li>
-<li><strong>openintro</strong>: a package that contains the datasets
-from OpenIntro resources</li>
+<li><strong>bdsdata</strong>: a package that contains various data sets
+for this course (Behavioral Data Science I)</li>
 </ul>
 <p>We use the <code>library()</code> function to load packages. In your
 R Markdown document you should see an R chunk labelled
@@ -304,20 +302,38 @@ packages. You should also load these packages in your Console, which you
 can do by sending the code to your Console by clicking on the
 <strong>Run Current Chunk</strong> icon (green arrow pointing right
 icon).</p>
-<p><img src="img/load-packages-chunk.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="img/load-packages-chunk-new.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 <p>Note that these packages also get loaded in your R Markdown
 environment when you <strong>Knit</strong> your R Markdown document.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>The city of <a href="https://en.wikipedia.org/wiki/Seattle">Seattle,
-WA</a> has an open data portal that includes pets registered in the
-city. For each registered pet, we have information on the pet’s name and
-species. The data used in this exercise can be found in the
-<strong>openintro</strong> package, and it’s called
-<code>seattlepets</code>. Since the dataset is distributed with the
-package, we don’t need to load it separately; it becomes available to us
-when we load the package.</p>
+<p>The data we will be working with is all about the show <a
+href="https://en.wikipedia.org/wiki/Parks_and_Recreation">‘Parks and
+Recreation,’</a> a popular mockumentary style sitcom that ran from
+2009-2015. The dataset contains some information about every episode
+from every season, and we will be focusing on which characters were
+mentioned in each episode’s brief description on IMDB and the average
+IMDB user rating for each plot.</p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
+class="marginnote"><span
+style="display: block;"><a href="https://www.imdb.com/">IMBD</a> is
+another community-led online database for information related to films
+and television series. One of the features is “User Ratings” that allows
+people to rate each episode on a scale from 1 to 10 (with 10 being the
+highest possible score).</span></span></p>
+<p>The data can be found in the <strong>bdsdata</strong> package, and
+it’s called <code>parks_rec</code>. Since the dataset is distributed
+with the package, we don’t need to load it separately; it becomes
+available to us when we load the package.</p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">NOTE: ‘parks_rec’ is
+derived from a much more complete dataset that someone posted to the
+site <a href="http://kaggle.com">Kaggle.com</a>. Kaggle is a great
+online resource for aspiring and seasoned data scientists where lots of
+interesting datasets are provided by a large, open community. If
+curious, you can check out the original dataset <a
+href="https://www.kaggle.com/datasets/bcruise/parks-and-recreation-episode-data">here</a>.</span></span></p>
 <p>You can view the dataset as a spreadsheet using the
 <code>View()</code> function. Note that you should not put this function
 in your R Markdown document, but instead type it directly in the
@@ -325,13 +341,14 @@ Console, as it pops open a new window (and the concept of popping open a
 window in a static document doesn’t really make sense…). When you run
 this in the console, you’ll see the following <strong>data
 viewer</strong> window pop up.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(seattlepets)</span></code></pre></div>
-<p><img src="img/view-data.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(parks_rec)</span></code></pre></div>
+<p><img src="img/view-data-new.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>?parks_rec</span></code></pre></div>
 <p>You can find out more about the dataset by inspecting its
 documentation (which contains a <strong>data dictionary</strong>, name
 of each variable and its description), which you can access by running
-<code>?seattlepets</code> in the Console or using the Help menu in
-RStudio to search for <code>seattlepets</code>.</p>
+<code>?parks_rec</code> in the Console or using the Help menu in RStudio
+to search for <code>parks_rec</code>.</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -359,15 +376,15 @@ will need to count the frequencies of each pet name and display the
 results in descending order of frequency so that you can easily see the
 top three most popular names. The following code does exactly that.</li>
 </ol>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
+<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
 class="marginnote"><span style="display: block;">The two lines of code
 can be read as “Start with the seattlepets data frame, and then count
 the animal_names, and display the results sorted in descending order.
 The ‘and then’ in the previous sentence maps to %&gt;%, the pipe
 operator, which takes what comes before it and plugs it in as the first
 argument of the function that comes after it.”</span></span></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
 Exercise 3. In this exercise you will not only provide a written answer
 but also include some code and output. You should insert the code in the
@@ -380,12 +397,12 @@ changed files so that your Git pane is cleared up afterwards.</em></p>
 <p>Let’s also look to see what the most common pet names are for various
 species. For this we need to first <code>group_by()</code> the
 <code>species</code>, and then do the same counting we did before.</p>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span
+<p><label for="tufte-mn-5" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-5" class="margin-toggle"><span
 class="marginnote"><span style="display: block;">Looks like many of
 those NAs were cats. Poor unnamed kitties…</span></span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 16,823 × 3
 ## # Groups:   species [4]
 ##    species animal_name     n
@@ -406,11 +423,11 @@ most common cat and dog names, but there are barely any cats present in
 this output! This is because there are more dogs than cats in the
 dataset overall. We can confirm this by counting the various species in
 the data.</p>
-<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
+<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span
 class="marginnote"><span style="display: block;">6 pigs in the city? Ok…
 But we’ll continue with cats and dogs.</span></span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 2
 ##   species     n
 ##   &lt;chr&gt;   &lt;int&gt;
@@ -425,10 +442,10 @@ is <code>n</code>. The second argument is the number of rows to select,
 which is <code>n = 5</code> for the top 5. It may be a bit confusing
 that both of these are <code>n</code>, but this is because we already
 have a variable called <code>n</code> in the data frame.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 53 × 3
 ## # Groups:   species [4]
 ##    species animal_name     n
@@ -474,7 +491,7 @@ and cats.</p>
 <pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.</code></pre>
 <div class="figure fullwidth">
-<img src="hw-01-parks-and-rec_files/figure-html/unnamed-chunk-8-1.png" alt=" " width="80%"  />
+<img src="hw-01-parks-and-rec_files/figure-html/unnamed-chunk-11-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>

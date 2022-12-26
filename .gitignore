@@ -15,3 +15,6 @@
 ## local testing files
 local/
 nicksandbox/
+.Rproj.user
+
+bdsR1.Rproj
