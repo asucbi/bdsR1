@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="../hw.css" type="text/css" />
+<link rel="stylesheet" href="assets/hw.css" type="text/css" />
 
 
 
@@ -228,12 +228,7 @@ can be configured correctly.</li>
 <li>It’s only when you’re in the course workspace that your usage of
 RStudio Cloud won’t count towards the free usage limits.</li>
 </ul>
-<p>
-<span class="marginnote shownote"> <!--
-<div class="figure">-->
-<img src="img/course-workspace.png" alt=" " width="80%"  /> <!--
-<p class="caption marginnote">--> <!--</p>--> <!--</div>--></span>
-</p>
+<p><img src="img/course-workspace.png" width="80%"  style="display: block; margin: auto;" /></p>
 <p>Before you proceed, confirm that you are in the course workspace by
 checking out what’s on your top bar in RStudio Cloud.</p>
 <div id="rstudio-layout" class="section level2">
@@ -313,15 +308,16 @@ href="https://en.wikipedia.org/wiki/Parks_and_Recreation">‘Parks and
 Recreation,’</a> a popular mockumentary style sitcom that ran from
 2009-2015. The dataset contains some information about every episode
 from every season, and we will be focusing on which characters were
-mentioned in each episode’s brief description on IMDB and the average
-IMDB user rating for each plot.</p>
+mentioned in each episode’s brief description on IMDB. We also have the
+average IMDB user rating for each episode, but that is for another
+day.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
 class="marginnote"><span
-style="display: block;"><a href="https://www.imdb.com/">IMBD</a> is
-another community-led online database for information related to films
-and television series. One of the features is “User Ratings” that allows
-people to rate each episode on a scale from 1 to 10 (with 10 being the
-highest possible score).</span></span></p>
+style="display: block;"><a href="https://www.imdb.com/">IMBD</a> is a
+community-led online database for information related to films and
+television. One of the features is “User Ratings” that allows people to
+rate each episode on a scale from 1 to 10 (with 10 being the highest
+possible score).</span></span></p>
 <p>The data can be found in the <strong>bdsdata</strong> package, and
 it’s called <code>parks_rec</code>. Since the dataset is distributed
 with the package, we don’t need to load it separately; it becomes
@@ -343,7 +339,8 @@ this in the console, you’ll see the following <strong>data
 viewer</strong> window pop up.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(parks_rec)</span></code></pre></div>
 <p><img src="img/view-data-new.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>?parks_rec</span></code></pre></div>
+<p>If you hover over description of each episode in the data viewer you
+can see the full description.</p>
 <p>You can find out more about the dataset by inspecting its
 documentation (which contains a <strong>data dictionary</strong>, name
 of each variable and its description), which you can access by running
@@ -353,161 +350,150 @@ to search for <code>parks_rec</code>.</p>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <ol style="list-style-type: decimal">
-<li>According to the data dictionary, how many pets are included in this
-dataset?</li>
+<li>According to the data dictionary, how many unique characters from
+the show are included in this dataset?</li>
 </ol>
-<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
-Exercise 1, knit the document, commit your changes with a commit message
-that says “Completed Exercise 1”, and push. Make sure to commit and push
-all changed files so that your Git pane is cleared up
-afterwards.</em></p>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
+under Exercise 1, knit the document as a “github_document” (default
+output in the YAML).</em></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Again, according to the data dictionary, how many variables do we
-have for each pet?</li>
+<li>Again, according to the data dictionary, how many rows of data do we
+have for this dataset?</li>
 </ol>
-<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
-Exercise 2, knit the document, commit your changes with a commit message
-that says “Completed Exercise 2”, and push. Make sure to commit and push
-all changed files so that your Git pane is cleared up
-afterwards.</em></p>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
+under Exercise 2, knit the document as a “github_document” (default
+output in the YAML).</em></p>
 <ol start="3" style="list-style-type: decimal">
-<li>What are the three most common pet names in Seattle? To do this you
-will need to count the frequencies of each pet name and display the
-results in descending order of frequency so that you can easily see the
-top three most popular names. The following code does exactly that.</li>
+<li>Who are the three most mentioned show characters across all seasons?
+To do this you will need to count the frequencies of each character and
+display the results in descending order of frequency so that you can
+easily see the top three most mentioned characters. The following code
+does exactly that.</li>
 </ol>
 <p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
 class="marginnote"><span style="display: block;">The two lines of code
-can be read as “Start with the seattlepets data frame, and then count
-the animal_names, and display the results sorted in descending order.
-The ‘and then’ in the previous sentence maps to %&gt;%, the pipe
-operator, which takes what comes before it and plugs it in as the first
-argument of the function that comes after it.”</span></span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
-Exercise 3. In this exercise you will not only provide a written answer
-but also include some code and output. You should insert the code in the
-code chunk provided for you, knit the document to see the output, and
-then write your narrative for the answer based on the output of this
-function, and knit again to see your narrative, code, and output in the
-resulting document. Then, commit your changes with a commit message that
-says “Completed Exercise 3”, and push. Make sure to commit and push all
-changed files so that your Git pane is cleared up afterwards.</em></p>
-<p>Let’s also look to see what the most common pet names are for various
-species. For this we need to first <code>group_by()</code> the
-<code>species</code>, and then do the same counting we did before.</p>
-<p><label for="tufte-mn-5" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-5" class="margin-toggle"><span
-class="marginnote"><span style="display: block;">Looks like many of
-those NAs were cats. Poor unnamed kitties…</span></span></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 16,823 × 3
-## # Groups:   species [4]
-##    species animal_name     n
-##    &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
-##  1 Cat     &lt;NA&gt;          406
-##  2 Dog     Lucy          337
-##  3 Dog     Charlie       306
-##  4 Dog     Bella         249
-##  5 Dog     Luna          244
-##  6 Dog     Daisy         221
-##  7 Dog     Cooper        189
-##  8 Dog     Lola          187
-##  9 Dog     Max           186
-## 10 Dog     Molly         186
-## # … with 16,813 more rows</code></pre>
-<p>But this output isn’t exactly what we wanted. We wanted to know the
-most common cat and dog names, but there are barely any cats present in
-this output! This is because there are more dogs than cats in the
-dataset overall. We can confirm this by counting the various species in
-the data.</p>
-<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span
-class="marginnote"><span style="display: block;">6 pigs in the city? Ok…
-But we’ll continue with cats and dogs.</span></span></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 4 × 2
-##   species     n
-##   &lt;chr&gt;   &lt;int&gt;
-## 1 Dog     35181
-## 2 Cat     17294
-## 3 Goat       38
-## 4 Pig         6</code></pre>
-<p>Let’s search for the top 5 cat and dog names. To do this, we can use
-the <code>slice_max()</code> function. The first argument in the
-function is the variable we want to select the highest values of, which
-is <code>n</code>. The second argument is the number of rows to select,
-which is <code>n = 5</code> for the top 5. It may be a bit confusing
-that both of these are <code>n</code>, but this is because we already
-have a variable called <code>n</code> in the data frame.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>seattlepets <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(animal_name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 53 × 3
-## # Groups:   species [4]
-##    species animal_name     n
-##    &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
-##  1 Cat     &lt;NA&gt;          406
-##  2 Cat     Luna          111
-##  3 Cat     Lucy          102
-##  4 Cat     Lily           86
-##  5 Cat     Max            83
-##  6 Dog     Lucy          337
-##  7 Dog     Charlie       306
-##  8 Dog     Bella         249
-##  9 Dog     Luna          244
-## 10 Dog     Daisy         221
-## # … with 43 more rows</code></pre>
-<ol style="list-style-type: decimal">
-<li>Based on the previous output we can easily identify the most common
-cat and dog names in Seattle, but the output is sorted by <code>n</code>
-(the frequencies) as opposed to being organized by the
-<code>species</code>. Build on the pipeline to arrange the results so
-that they’re arranged by <code>species</code> first, and then
-<code>n</code>. This means you will need to add one more step to the
-pipeline, and you have two options: <code>arrange(species, n)</code> or
-<code>arrange(n, species)</code>. You should try both and decide which
-one organizes the output by species and then ranks the names in order of
-frequency for each species.</li>
+can be read as “Start with the parks_rec data frame, and then count the
+number of times each unique character shows up, and display the results
+sorted in descending order. The ‘and then’ in the previous sentence maps
+to %&gt;%, the pipe operator, which takes what comes before it and plugs
+it in as the first argument of the function that comes after
+it.”</span></span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
+under Exercise 3, knit the document as a “github_document” (default
+output in the YAML).</em></p>
+<p>Let’s now look at the character “Leslie” played by Amy Poehler. We
+want to find out which season she shows up the most within each
+episode’s description.</p>
+<p>For this we need to first <code>filter</code> the data to just get
+rows with “Leslie” as the character and count how many of these “Leslie”
+rows occur in each level of <code>season</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">==</span> <span class="st">&quot;Leslie&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(season, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##   season  n
+## 1      2 24
+## 2      4 22
+## 3      6 22
+## 4      5 21
+## 5      3 16
+## 6      7  8
+## 7      1  6</code></pre>
+<p>In examining Leslie’s mentions in each season, there looks like a big
+decline for some of the seasons compared to the rest. Is this really the
+case? In thinking critically, what else might be going on? Perhaps there
+are just fewer episodes in Seasons 1 and 7? Well, let’s find out.</p>
+<p>To do this, let’s start by grouping the data by season and then
+counting the number of rows in each season. R makes this really easy to
+do with the <code>group_by</code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(season) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 2
+## # Groups:   season [7]
+##   season     n
+##    &lt;int&gt; &lt;int&gt;
+## 1      6   100
+## 2      4    98
+## 3      5    97
+## 4      3    68
+## 5      2    62
+## 6      7    35
+## 7      1     9</code></pre>
+<p>Oh. Oh. This doesn’t look right. Were there really 100 episodes in
+Season 6?! Clearly each row does not correspond to a unique episode. So,
+what is going on? When we visually reinspect our data using
+<code>View(parks_rec)</code>, we might notice the following. Some of the
+rows have repeated episode numbers for each season because multiple
+characters can be mentioned for each episode.</p>
+<p><img src="img/repeated-lines.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>We want to run the same code as before but, after grouping by
+season, we want to get distinct episode numbers before counting. In
+other words, in the pipeline of the code, we want to add
+<code>distinct(episode_num)</code>. Go ahead and give it a try for the
+next exercise. When you run the code, you should get the following
+output:</li>
 </ol>
-<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown document under
-Exercise 4. In this exercise you’re asked to complete the code provided
-for you. You should insert the code in the code chunk provided for you,
-knit the document to see the output, and then write your narrative for
-the answer based on the output of this function, and knit again to see
-your narrative, code, and output in the resulting document. Then, commit
-your changes with a commit message that says “Completed Exercise 4”, and
-push. Make sure to commit and push all changed files so that your Git
-pane is cleared up afterwards.</em></p>
-<p>The following visualization plots the proportion of dogs with a given
-name versus the proportion of cats with the same name. The 20 most
-common cat and dog names are displayed. The diagonal line on the plot is
-the <span class="math inline">\(x = y\)</span> line; if a name appeared
-on this line, the name’s popularity would be exactly the same for dogs
-and cats.</p>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.</code></pre>
+<pre><code>## # A tibble: 7 × 2
+## # Groups:   season [7]
+##   season     n
+##    &lt;int&gt; &lt;int&gt;
+## 1      2    24
+## 2      4    22
+## 3      5    22
+## 4      6    22
+## 5      3    16
+## 6      7    11
+## 7      1     6</code></pre>
+<p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
+under Exercise 4, knit the document as a “github_document” (default
+output in the YAML).</em></p>
+<p>Now knowing there there are a different number of episodes for each
+season, looking at the raw count of how many times a character is
+mentioned across episodes does not really allow us to compare across
+seasons. For example, Leslie appears 6 times in Season 1, but 21 times
+in Season 5. But from our analysis, we know there are only 6 total
+episodes in Season 1, and she is featured in 100% of them
+(<code>6/6 = 1.0</code>). This is similar to the 95.45%
+(<code>21/22 = 0.95</code>) of episodes she is featured in for Season
+5.</p>
+<p><label for="tufte-mn-5" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-5" class="margin-toggle"><span
+class="marginnote"><span style="display: block;">Clearly Leslie is the
+focus of the show! Most of the plots involve her in some featured
+way.</span></span></p>
+<p>The following visualization compares Leslie’s mentions to some of the
+more mid-tier characters, taking proportion of overall episodes into
+account.</p>
 <div class="figure fullwidth">
 <img src="hw-01-parks-and-rec_files/figure-html/unnamed-chunk-11-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>
-<ol style="list-style-type: decimal">
-<li>What names are more common for cats than dogs? The ones above the
-line or the ones below the line?</li>
-<li>Is the relationship between the two variables (proportion of cats
-with a given name and proportion of dogs with a given name) positive or
-negative? What does this mean in context of the data?</li>
+<ol start="5" style="list-style-type: decimal">
+<li>Which character never is never featured more than 50% in any
+season?</li>
+<li>Which character is never mentioned in Seasons 1 and 2?</li>
 </ol>
-<p>🧶 ✅ ⬆️ <em>Now is a good time to commit and push your changes to
-GitHub with an appropriate commit message. Commit and push all changed
-files so that your Git pane is cleared up afterwards. Make sure that
-your last push to the repo comes before the deadline. You should confirm
-that what you committed and pushed are indeed in your repo that we will
-see by visiting your repo on GitHub.</em></p>
+</div>
+<div id="submit-to-canvas" class="section level1">
+<h1>Submit to Canvas</h1>
+<p>Now is a good time to do the final knit to submit this assignment on
+Canvas.</p>
+<!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
+<!-- Notice the use of the `$`. This is used to select a particular column from a dataset, in this case, the `imdb_rating` column within the `parks_rec` dataset.  -->
+<!-- ```{r} -->
+<!-- summary(parks_rec$imdb_rating) -->
+<!-- ``` -->
+<!-- <!-- What is the max and minimum IMDB values for all episodes? -->
+<p>–&gt;</p>
+<!-- Now lets see which episode from which season received the highest score.  -->
+<!-- ```{r} -->
+<!-- parks_rec %>% -->
+<!--   arrange(imdb_rating) -->
+<!-- ``` -->
+<!-- But this output isn't exactly what we wanted. We want the IMDB ranked in "descending" order, or highest IMDB scores to lowest. To do this,  ... -->
 </div>
 
 

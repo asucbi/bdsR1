@@ -1,36 +1,34 @@
 ---
 title: "HW 01 - Parks and Recreation"
 subtitle: "Meet the toolkit"
-# link-citations: yes
-
-output: 
-  tufte::tufte_html:
-    css: ../hw.css
-    tufte_variant: "envisioned"
-    highlight: pygments
 link-citations: yes
+
+# output: 
+#   tufte::tufte_html:
+#     css: ../hw.css
+#     tufte_variant: "envisioned"
+#     highlight: pygments
+# link-citations: yes
 
 ---
 
 ```{r include = FALSE}
-# source("assets/setup.R")
+source("assets/setup.R")
 # Need to download "dsbox" for accessing original Edinburgh data Not on CRAN: devtools::install_github("rstudio-education/dsbox")
 ```
 
-```{r include = FALSE}
-knitr::opts_chunk$set(
-  eval = FALSE,
-  out.width = "80%",
-  fig.asp = 0.618,
-  fig.width = 10
-)
+```{r include = FALSE, eval = TRUE}
+# knitr::opts_chunk$set(
+#   eval = FALSE,
+#   out.width = "80%",
+#   fig.asp = 0.618,
+#   fig.width = 10
+# )
 library(tidyverse)
-library(openintro)
-library(ggrepel)
 library(bdsdata)
 ```
 
-```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, eval = TRUE}
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 4, eval = TRUE}
 knitr::include_graphics("img/parksandrec.jpeg")
 ```
 
@@ -76,7 +74,7 @@ Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigat
 -   It's only when you're in the course workspace that you'll be able to benefit from R packages I've pre-installed for you so that your project can be configured correctly.
 -   It's only when you're in the course workspace that your usage of RStudio Cloud won't count towards the free usage limits.
 
-```{r course-workspace, fig.margin = TRUE, echo = FALSE, eval = TRUE}
+```{r course-workspace, echo = FALSE, eval = TRUE, fig.align = "center"}
 knitr::include_graphics("img/course-workspace.png")
 ```
 
@@ -135,7 +133,7 @@ Note that these packages also get loaded in your R Markdown environment when you
 
 # Data
 
-The data we will be working with is all about the show ['Parks and Recreation,'](https://en.wikipedia.org/wiki/Parks_and_Recreation) a popular mockumentary style sitcom that ran from 2009-2015. The dataset contains some information about every episode from every season, and we will be focusing on which characters were mentioned in each episode's brief description on IMDB and the average IMDB user rating for each plot. 
+The data we will be working with is all about the show ['Parks and Recreation,'](https://en.wikipedia.org/wiki/Parks_and_Recreation) a popular mockumentary style sitcom that ran from 2009-2015. The dataset contains some information about every episode from every season, and we will be focusing on which characters were mentioned in each episode's brief description on IMDB. We also have the average IMDB user rating for each episode, but that is for another day.
 
 ```{marginfigure}
 [IMBD](https://www.imdb.com/) is a community-led online database for information related to films and television. One of the features is "User Ratings" that allows people to rate each episode on a scale from 1 to 10 (with 10 being the highest possible score). 
@@ -159,130 +157,137 @@ View(parks_rec)
 knitr::include_graphics("img/view-data-new.png")
 ```
 
+If you hover over description of each episode in the data viewer you can see the full description. 
+
 You can find out more about the dataset by inspecting its documentation (which contains a **data dictionary**, name of each variable and its description), which you can access by running `?parks_rec` in the Console or using the Help menu in RStudio to search for `parks_rec`.
 
 # Exercises
 
-1.  According to the data dictionary, how many unique characters are included in this dataset?
+1.  According to the data dictionary, how many unique characters from the show are included in this dataset?
 
 🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 1, knit the document as a "github_document" (default output in the YAML).*
 
 2.  Again, according to the data dictionary, how many rows of data do we have for this dataset?
 
-🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 2 knit the document as a "github_document" (default output in the YAML).*
+🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 2, knit the document as a "github_document" (default output in the YAML).*
 
-3.  What are the three most common pet names in Seattle? To do this you will need to count the frequencies of each pet name and display the results in descending order of frequency so that you can easily see the top three most popular names. The following code does exactly that.
+3.  Who are the three most mentioned show characters across all seasons? To do this you will need to count the frequencies of each character and display the results in descending order of frequency so that you can easily see the top three most mentioned characters. The following code does exactly that.
 
 ```{marginfigure}
-The two lines of code can be read as "Start with the seattlepets data frame, and then count the animal_names, and display the results sorted in descending order. The 'and then' in the previous sentence maps to %>%, the pipe operator, which takes what comes before it and plugs it in as the first argument of the function that comes after it."
+The two lines of code can be read as "Start with the parks_rec data frame, and then count the number of times each unique character shows up, and display the results sorted in descending order. The 'and then' in the previous sentence maps to %>%, the pipe operator, which takes what comes before it and plugs it in as the first argument of the function that comes after it."
 ```
 
 ```{r}
-seattlepets %>%
-  count(animal_name, sort = TRUE)
+parks_rec %>%
+  count(character, sort = TRUE)
 ```
 
-🧶 ✅ ⬆️ *Write your answer in your R Markdown document under Exercise 3. In this exercise you will not only provide a written answer but also include some code and output. You should insert the code in the code chunk provided for you, knit the document to see the output, and then write your narrative for the answer based on the output of this function, and knit again to see your narrative, code, and output in the resulting document. Then, commit your changes with a commit message that says "Completed Exercise 3", and push. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 3, knit the document as a "github_document" (default output in the YAML).*
 
-Let's also look to see what the most common pet names are for various species.
-For this we need to first `group_by()` the `species`, and then do the same counting we did before.
+Let's now look at the character "Leslie" played by Amy Poehler. We want to find out which season she shows up the most within each episode's description.  
+
+For this we need to first `filter` the data to just get rows with "Leslie" as the character and count how many of these "Leslie" rows occur in each level of `season`. 
+
+```{r leslie-mentions, eval=TRUE}
+parks_rec %>%
+  filter(character == "Leslie") %>%
+  count(season, sort = TRUE)
+```
+In examining Leslie's mentions in each season, there looks like a big decline for some of the seasons compared to the rest. Is this really the case? In thinking critically, what else might be going on? Perhaps there are just fewer episodes in Seasons 1 and 7? Well, let's find out. 
+
+To do this, let's start by grouping the data by season and then counting the number of rows in each season. R makes this really easy to do with the `group_by` function. 
+
+```{r, eval=TRUE}
+parks_rec %>%
+  group_by(season) %>%
+  count(sort = TRUE)
+```
+Oh. Oh. This doesn't look right. Were there really 100 episodes in Season 6?! Clearly each row does not correspond to a unique episode. So, what is going on? When we visually reinspect our data using `View(parks_rec)`, we might notice the following. Some of the rows have repeated episode numbers for each season because multiple characters can be mentioned for each episode.
+
+```{r repeated.lines, echo = FALSE, eval = TRUE, fig.align = "left"}
+knitr::include_graphics("img/repeated-lines.png")
+```
+
+4.  We want to run the same code as before but, after grouping by season, we want to get distinct episode numbers before counting. In other words, in the pipeline of the code, we want to add `distinct(episode_num)`. Go ahead and give it a try for the next exercise. When you run the code, you should get the following output:
+
+```{r, eval = TRUE, echo=FALSE}
+parks_rec %>%
+  group_by(season) %>%
+  distinct(episode_num) %>%
+  count(sort = TRUE)
+```
+🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 4, knit the document as a "github_document" (default output in the YAML).*
+
+Now knowing there there are a different number of episodes for each season, looking at the raw count of how many times a character is mentioned across episodes does not really allow us to compare across seasons. For example, Leslie appears 6 times in Season 1, but 21 times in Season 5. But from our analysis, we know there are only 6 total episodes in Season 1, and she is featured in 100% of them (`6/6 = 1.0`). This is similar to the 95.45% (`21/22 = 0.95`) of episodes she is featured in for Season 5. 
 
 ```{marginfigure}
-Looks like many of those NAs were cats. Poor unnamed kitties…
+Clearly Leslie is the focus of the show! Most of the plots involve her in some featured way. 
 ```
 
-```{r species-names, eval=TRUE}
-seattlepets %>% 
-  group_by(species) %>%
-  count(animal_name, sort = TRUE)
+The following visualization compares Leslie's mentions to some of the more mid-tier characters, taking proportion of overall episodes into account. 
+
+```{r eval = TRUE, echo = FALSE, fig.fullwidth=TRUE}
+df1 = parks_rec %>%
+    distinct(season, episode_num) %>%
+    group_by(season) %>%
+    mutate(episode_num_season = max(episode_num)) %>%
+  right_join(parks_rec, by = c("season", "episode_num"))
+
+df2 = parks_rec %>%
+  group_by(character) %>%
+  count(season)
+
+df3 = left_join(df1, df2, by = c("season", "character"))
+
+final_props = df3 %>% 
+  distinct(character, season, episode_num_season, n) %>%
+  mutate(prop = n / episode_num_season) %>%
+  arrange(season, desc(prop))
+  
+final_props %>% 
+  filter(character %in% c("Leslie", "Andy", "April", "Ben")) %>%
+  ggplot(aes(x = season, y = prop)) +
+  geom_bar(stat="identity") + 
+  scale_x_continuous(breaks=seq(1,7,1))+
+  facet_wrap(~character) +
+  theme_bw() + 
+  labs(
+    title = "Character Mentions Across Seasons",
+    # subtitle = "Seasons 2, 3, 4, and 5",
+    y = "Proportion of Episodes Character was Mentioned",
+    x = "Season Number"
+  )
 ```
 
-But this output isn't exactly what we wanted.
-We wanted to know the most common cat and dog names, but there are barely any cats present in this output!
-This is because there are more dogs than cats in the dataset overall.
-We can confirm this by counting the various species in the data.
+5. Which character never is never featured more than 50% in any season? 
+6. Which character is never mentioned in Seasons 1 and 2?
 
-```{marginfigure}
-6 pigs in the city? Ok… But we'll continue with cats and dogs.
-```
+# Submit to Canvas
 
-```{r species, eval=TRUE}
-seattlepets %>%
-  count(species, sort = TRUE)
-```
+Now is a good time to do the final knit to submit this assignment on Canvas. Remember, you want to knit it as a PDF by changing the YAML. 
 
-Let's search for the top 5 cat and dog names.
-To do this, we can use the `slice_max()` function.
-The first argument in the function is the variable we want to select the highest values of, which is `n`.
-The second argument is the number of rows to select, which is `n = 5` for the top 5.
-It may be a bit confusing that both of these are `n`, but this is because we already have a variable called `n` in the data frame.
 
-```{r species-names-top5, eval=TRUE}
-seattlepets %>% 
-  group_by(species) %>%
-  count(animal_name, sort = TRUE) %>% 
-  slice_max(n, n = 5)
-```
 
-1.  Based on the previous output we can easily identify the most common cat and dog names in Seattle, but the output is sorted by `n` (the frequencies) as opposed to being organized by the `species`. Build on the pipeline to arrange the results so that they're arranged by `species` first, and then `n`. This means you will need to add one more step to the pipeline, and you have two options: `arrange(species, n)` or `arrange(n, species)`. You should try both and decide which one organizes the output by species and then ranks the names in order of frequency for each species.
+<!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
 
-🧶 ✅ ⬆️ *Write your answer in your R Markdown document under Exercise 4. In this exercise you're asked to complete the code provided for you. You should insert the code in the code chunk provided for you, knit the document to see the output, and then write your narrative for the answer based on the output of this function, and knit again to see your narrative, code, and output in the resulting document. Then, commit your changes with a commit message that says "Completed Exercise 4", and push. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+<!-- Notice the use of the `$`. This is used to select a particular column from a dataset, in this case, the `imdb_rating` column within the `parks_rec` dataset.  -->
+<!-- ```{r} -->
+<!-- summary(parks_rec$imdb_rating) -->
+<!-- ``` -->
 
-The following visualization plots the proportion of dogs with a given name versus the proportion of cats with the same name.
-The 20 most common cat and dog names are displayed.
-The diagonal line on the plot is the $x = y$ line; if a name appeared on this line, the name's popularity would be exactly the same for dogs and cats.
+<!-- <!-- What is the max and minimum IMDB values for all episodes? --> -->
 
-```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
-# data prep
-name_props <- seattlepets %>% 
-  filter(
-    !is.na(animal_name),
-    species %in% c("Dog", "Cat")
-    ) %>%
-  group_by(species) %>% 
-  count(animal_name, sort = TRUE) %>%
-  mutate(prop = n / sum(n))
-    
-cat_name_props <- name_props %>%
-  filter(species == "Cat") %>%
-  rename(cat_prop = prop) %>%
-  slice(1:30)
+<!-- Now lets see which episode from which season received the highest score.  -->
 
-dog_name_props <- name_props %>%
-  filter(species == "Dog") %>%
-  rename(dog_prop = prop) %>%
-  slice(1:30)
-    
-comb_name_props <- inner_join(cat_name_props, dog_name_props, 
-                              by = "animal_name") %>%
-  ungroup() %>%
-  select(animal_name, cat_prop, dog_prop)
-    
-# create viz
-ggplot(comb_name_props, aes(x = cat_prop, y = dog_prop)) +
-  geom_abline(intercept = 0, 
-              color = COL["lgray","full"], 
-              alpha = 0.8, 
-              size = 1.5) +
-  geom_text_repel(aes(label = animal_name), 
-                  segment.color = COL["gray","full"], 
-                  seed = 291252, max.iter = 10000) +
-  geom_point(color = COL["blue","full"], alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Proportion of cats", y = "Proportion of dogs") +
-  xlim(0.002, 0.01) +
-  ylim(0.002, 0.01) +
-  ggimage::geom_emoji(
-      image = "1f436", aes(x = 0.003, y = 0.009), size = 0.1
-      ) +
-  ggimage::geom_emoji(
-      image = "1f431", aes(x = 0.009, y = 0.003), size = 0.1
-      )
-```
+<!-- ```{r} -->
+<!-- parks_rec %>% -->
+<!--   arrange(imdb_rating) -->
+<!-- ``` -->
 
-1.  What names are more common for cats than dogs? The ones above the line or the ones below the line?
-2.  Is the relationship between the two variables (proportion of cats with a given name and proportion of dogs with a given name) positive or negative? What does this mean in context of the data?
+<!-- But this output isn't exactly what we wanted. We want the IMDB ranked in "descending" order, or highest IMDB scores to lowest. To do this,  ... -->
 
-🧶 ✅ ⬆️ *Now is a good time to commit and push your changes to GitHub with an appropriate commit message. Commit and push all changed files so that your Git pane is cleared up afterwards. Make sure that your last push to the repo comes before the deadline. You should confirm that what you committed and pushed are indeed in your repo that we will see by visiting your repo on GitHub.*
 
-[^hw-01-pet-names-1]: Only pushing requires talking to GitHub, this is why you're asked for your password at that point.
+
+
+
+
