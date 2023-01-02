@@ -278,7 +278,7 @@ name to your name. And go ahead and put in today’s date.</p>
 image below, it’s bounded in the red box). When you click it, you’ll see
 some some activity under the <strong>Render</strong> tab in the Console
 pane and a beautiful notebook (similar to what you’re reading now) will
-appear on the right in the bottom-right Console pane under the
+appear in the bottom-right Console pane under the
 <strong>Viewer</strong> tab.</p>
 <p><img src="img/knit1.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 </div>
@@ -287,10 +287,9 @@ appear on the right in the bottom-right Console pane under the
 <p>When you’re all done with the HW assignment and you’re ready to
 submit the rendered document to Canvas, you want to change the “Knit”
 setting to <strong>Knit to PDF.</strong> To do this, select the dropdown
-arrow and you will see the option for knitting to PDF. Select this and
-look for the PDF document that has been generated in the same folder
-where you found the HW starter file. You will submit the PDF on
-Canvas.</p>
+arrow and you will see the option for knitting to PDF. Click it and look
+for the PDF document that has been generated in the same folder where
+you found the HW starter file. You will submit the PDF on Canvas.</p>
 <p><img src="img/knit2.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
@@ -298,12 +297,13 @@ Canvas.</p>
 <h1>Packages</h1>
 <p>R is an open-source language, and developers contribute functionality
 to R via packages. In this assignment we will use the following
-package:</p>
+packages:</p>
 <ul>
 <li><strong>tidyverse</strong>: a collection of packages for doing data
 analysis in a “tidy” way</li>
-<li><strong>bdsdata</strong>: a package that contains various data sets
-for this course (Behavioral Data Science I)</li>
+<li><strong>bdsdata</strong>: a package (your instructors created) that
+contains various data sets for this course (Behavioral Data Science
+I)</li>
 </ul>
 <p>We use the <code>library()</code> function to load packages. In your
 R Markdown document you should see an R chunk labelled
@@ -369,15 +369,15 @@ to search for <code>parks_rec</code>.</p>
 the show are included in this dataset?</li>
 </ol>
 <p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
-under Exercise 1, knit the document as a “github_document” (default
-output in the YAML).</em></p>
+under Exercise 1, knit the document as a “html_document” (default output
+in the YAML).</em></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Again, according to the data dictionary, how many rows of data do we
 have for this dataset?</li>
 </ol>
 <p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
-under Exercise 2, knit the document as a “github_document” (default
-output in the YAML).</em></p>
+under Exercise 2, knit the document as a “html_document” (default output
+in the YAML).</em></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Who are the three most mentioned show characters across all seasons?
 To do this you will need to count the frequencies of each character and
@@ -396,8 +396,8 @@ it.”</span></span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
-under Exercise 3, knit the document as a “github_document” (default
-output in the YAML).</em></p>
+under Exercise 3, knit the document as a “html_document” (default output
+in the YAML).</em></p>
 <p>Let’s now look at the character “Leslie” played by Amy Poehler. We
 want to find out which season she shows up the most within each
 episode’s description.</p>
@@ -444,12 +444,12 @@ rows have repeated episode numbers for each season because multiple
 characters can be mentioned for each episode.</p>
 <p><img src="img/repeated-lines.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 <ol start="4" style="list-style-type: decimal">
-<li>We want to run the same code as before but, after grouping by
-season, we want to get distinct episode numbers before counting. In
-other words, in the pipeline of the code, we want to add
-<code>distinct(episode_num)</code>. Go ahead and give it a try for the
-next exercise. When you run the code, you should get the following
-output:</li>
+<li>We want to run the same code we just used (with the
+<code>group_by</code> function), but after grouping by season, we want
+to get distinct episode numbers before counting. In other words, in the
+pipeline of the code, we want to add <code>distinct(episode_num)</code>.
+Go ahead and give it a try for the next exercise. When you run the code,
+you should get the following output:</li>
 </ol>
 <pre><code>## # A tibble: 7 × 2
 ## # Groups:   season [7]
@@ -463,8 +463,8 @@ output:</li>
 ## 6      7    11
 ## 7      1     6</code></pre>
 <p>🧶 ✅ ⬆️ <em>Write your answer in your R Markdown starter document
-under Exercise 4, knit the document as a “github_document” (default
-output in the YAML).</em></p>
+under Exercise 4, knit the document as a “html_document” (default output
+in the YAML).</em></p>
 <p>Now knowing there there are a different number of episodes for each
 season, looking at the raw count of how many times a character is
 mentioned across episodes does not really allow us to compare across
@@ -503,7 +503,6 @@ submit the generated PDF document for grading!</p>
 <!-- summary(parks_rec$imdb_rating) -->
 <!-- ``` -->
 <!-- <!-- What is the max and minimum IMDB values for all episodes? -->
-<p>–&gt;</p>
 <!-- Now lets see which episode from which season received the highest score.  -->
 <!-- ```{r} -->
 <!-- parks_rec %>% -->

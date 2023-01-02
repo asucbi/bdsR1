@@ -2,7 +2,7 @@
 title: "HW 01 - Parks and Recreation"
 author: "Insert your name here"
 date: "Insert date here"
-output: github_document
+output: html_document
 ---
 
 ## Load packages and data
