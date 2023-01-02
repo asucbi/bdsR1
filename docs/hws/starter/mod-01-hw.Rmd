@@ -18,7 +18,7 @@ This is a R Markdown document!
 
 ### Exercise 1
 
-There are \_\_\_ pets in the dataset.
+There are \_\_\_ unique charachters from the show in the dataset.
 
 ### Exercise 2
 
@@ -28,16 +28,14 @@ Remove this text, and add your answer for Exercise 2 here.
 
 Remove this text, and add your answer for Exercise 3 here.
 
-```{r most-common-names}
-seattlepets %>%
-  count(animal_name, sort = TRUE)
+```{r most-common-characters}
+parks_rec %>%
+  count(character, sort = TRUE)
 ```
 
 ### Exercise 4
 
-Remove this text, and add your answer for Exercise 4 here.
-
-```{r most-common-cat-dog-names}
+```{r distinct-episodes-a-season}
 # remove this comment and add the code for Exercise 4 here
 ```
 

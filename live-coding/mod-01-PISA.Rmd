@@ -18,7 +18,7 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 
 ## Introduction
 
-How do 15-year-old students in various countries score on the same assessment of math performance, how do the scores differ between females and males^[note: that we call this variable gender and not sex as this term was used in the OECD PISA database], and how have the scores changed over time? Answering these questions (at a high level) is the focus of this analysis.
+How do 15-year-old students in various countries score on the same math test? How do the scores differ between females and males? How have the scores changed over time? Answering these questions (at a high level) is the focus of this analysis.
 
 ### Packages
 
@@ -32,7 +32,7 @@ library(learningtower)
 
 ### Data
 
-The data we're using originally come from the **learningtower** package. The package allows easy access to a subset of variables from the Programme for International Student Assessment (PISA) data collected for the years 2000-2018. PISA assesses the extent to which 15-year-old students have acquired some of the knowledge and skills that are essential for full participation in society, and how well they are prepared for lifelong learning in the areas of reading, mathematical and scientific literacy. In 2018, PISA involved 79 countries and 600,000+ students worldwide.
+The data we're using comes from the **learningtower** package. The package allows easy access to a subset of variables from a massive dataset put together by the Programme for International Student Assessment (PISA). Every three years, PISA administers standardized tests in areas of reading, mathematics, and scientific literacy with 600,000+ 15-year-old students across 80 countries. The over-arching goal is to assess the    extent to which students worldwide have acquired some of the knowledge and skills that are essential for full participation in society. 
 
 In the chunks below we load in two of three datasets in **learningtower** and modify the data by joining the data frames to help you get started with the analysis.
 
@@ -46,14 +46,14 @@ student_scores <- student_subset_2018 %>%
   inner_join(countrycode, by = "country") 
 ```
 
-```{r}
+```{r, echo=FALSE}
 # View(student_scores)
 # glimpse(student_scores)
 ```
 
 ## Student scores on math for 2018
 
-Let's create a data visualization that displays how students performed in math for eight countries, breaking the scores down by sex. We can easily change which countries are being plotted by changing which countries the code below `filter`s for. Note that the country name should be spelled and capitalized exactly the same way as it appears in the data. See the [Appendix](#appendix) for a list of the countries in the data.
+Let's create a data visualization that displays how students performed on the math assessment for seven countries, breaking the scores down by gender^[note: that we call this variable gender and not sex as this term was used in the OECD PISA database]. We can easily change which countries are being plotted by changing which countries the code below filters for. Note that the country name should be spelled and capitalized exactly the same way as it appears in the data. See the [Appendix](#appendix) for a list of the countries in the data.
 
 ```{r, plot-math-scores, fig.width=10, fig.height=8, message=FALSE}
 # prepare new data frame, 'student_scores,' to be used in plot
@@ -86,10 +86,10 @@ student_scores %>%
 
 In this figure, we can see how the average math score for each country changed from 2012 to 2018. 
 
-```{r, plot-math-change, eval = FALSE, echo = FALSE, message = FALSE}
+```{r, prepare-time-plot, eval = TRUE, echo = FALSE, message = FALSE}
 # prepare new data frame, 'student_data_2012_2018,' to be used in plot
 student_data_2012_2018 <- load_student(c(2012, 2018))
-plot_data <- student_data_2012_2018 %>% 
+student_data_2012_2018 %>% 
   group_by(country, year) %>%  
   dplyr::filter(country %in% c("UKR", "QAT", "USA" , "JPN", 
                                "MEX", "GBR",  "SGP")) %>%   
@@ -103,9 +103,9 @@ plot_data <- student_data_2012_2018 %>%
     label = ifelse(
       year == 2012,
       paste0(country_name, ", ", round(avg_math)),
-      round(avg_math))) %>% 
-
-# now use 'ggplot' function to plot the prepared data frame  
+      round(avg_math))) %>%
+  
+  # now use 'ggplot' function to plot the prepared data frame  
   ggplot(aes(x = year, 
              y = avg_math,
              label = label,
@@ -132,6 +132,7 @@ plot_data <- student_data_2012_2018 %>%
         axis.title=element_text(size=18,face="bold"),
         axis.text=element_text(size=14),
         legend.position = "none")
+  
 ```
 
 ## References

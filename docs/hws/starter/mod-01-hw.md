@@ -7,7 +7,7 @@ Insert date here
 
 ``` r
 library(tidyverse)
-library(openintro)
+library(bdsdata)
 ```
 
 This is a R Markdown document!
@@ -16,7 +16,7 @@ This is a R Markdown document!
 
 ### Exercise 1
 
-There are \_\_\_ pets in the dataset.
+There are \_\_\_ unique charachters from the show in the dataset.
 
 ### Exercise 2
 
@@ -27,28 +27,23 @@ Remove this text, and add your answer for Exercise 2 here.
 Remove this text, and add your answer for Exercise 3 here.
 
 ``` r
-seattlepets %>%
-  count(animal_name, sort = TRUE)
+parks_rec %>%
+  count(character, sort = TRUE)
 ```
 
-    ## # A tibble: 13,930 × 2
-    ##    animal_name     n
-    ##    <chr>       <int>
-    ##  1 <NA>          483
-    ##  2 Lucy          439
-    ##  3 Charlie       387
-    ##  4 Luna          355
-    ##  5 Bella         331
-    ##  6 Max           270
-    ##  7 Daisy         261
-    ##  8 Molly         240
-    ##  9 Jack          232
-    ## 10 Lily          232
-    ## # … with 13,920 more rows
+    ##    character   n
+    ## 1     Leslie 119
+    ## 2        Ron  64
+    ## 3        Tom  55
+    ## 4        Ben  54
+    ## 5       Andy  51
+    ## 6      Chris  38
+    ## 7        Ann  36
+    ## 8      April  35
+    ## 9      Donna   9
+    ## 10     Jerry   8
 
 ### Exercise 4
-
-Remove this text, and add your answer for Exercise 4 here.
 
 ``` r
 # remove this comment and add the code for Exercise 4 here

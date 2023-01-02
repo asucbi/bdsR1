@@ -1,8 +1,8 @@
 ---
 title: "Lab 01 - Hello R"
-author: "Insert your name here"
-date: "Insert date here"
-output: github_document
+author: "Nicholas Duran"
+date: "1/02/2022"
+output: html_document
 ---
 
 ## Load packages and data
@@ -76,3 +76,5 @@ Use the convention from above to name them appropriately.
 
 Add code and narrative as needed.
 To add R chunks either type out the backticks, curly braces, and the letter `r` or use the Insert chunk button above, green C+.
+
+

@@ -269,14 +269,29 @@ your document.</span></span></p>
 <div id="step-1.-update-the-yaml" class="section level2">
 <h2>Step 1. Update the YAML</h2>
 <p>Open the R Markdown (Rmd) file in your project, change the author
-name to your name.</p>
+name to your name. And go ahead and put in today’s date.</p>
 <p><img src="img/yaml-raw-to-rendered-new.png" width="80%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="step-2-knit-it" class="section level2">
 <h2>Step 2: Knit it!</h2>
+<p>Now, look for that little button at the top called “Knit” (in the
+image below, it’s bounded in the red box). When you click it, you’ll see
+some some activity under the <strong>Render</strong> tab in the Console
+pane and a beautiful notebook (similar to what you’re reading now) will
+appear on the right in the bottom-right Console pane under the
+<strong>Viewer</strong> tab.</p>
+<p><img src="img/knit1.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <div id="step-3.-submit-it-to-canvas" class="section level2">
 <h2>Step 3. Submit it to Canvas</h2>
+<p>When you’re all done with the HW assignment and you’re ready to
+submit the rendered document to Canvas, you want to change the “Knit”
+setting to <strong>Knit to PDF.</strong> To do this, select the dropdown
+arrow and you will see the option for knitting to PDF. Select this and
+look for the PDF document that has been generated in the same folder
+where you found the HW starter file. You will submit the PDF on
+Canvas.</p>
+<p><img src="img/knit2.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
 <div id="packages" class="section level1">
@@ -479,8 +494,9 @@ season?</li>
 </div>
 <div id="submit-to-canvas" class="section level1">
 <h1>Submit to Canvas</h1>
-<p>Now is a good time to do the final knit to submit this assignment on
-Canvas.</p>
+<p>When you’re all done, it’s now time to do the final knit to submit
+this assignment on Canvas. Remember, you want to knit as a PDF and
+submit the generated PDF document for grading!</p>
 <!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
 <!-- Notice the use of the `$`. This is used to select a particular column from a dataset, in this case, the `imdb_rating` column within the `parks_rec` dataset.  -->
 <!-- ```{r} -->
