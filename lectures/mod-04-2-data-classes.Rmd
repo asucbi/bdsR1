@@ -1,7 +1,7 @@
 ---
 title: "Data classes"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -32,7 +32,8 @@ We talked about *types* so far, next we'll introduce the concept of *classes*
 
 | \- We stick them together to build more complicated constructs, e.g. *representations of data*                                                                                                                                                                  |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| \- The **class** attribute relates to the S3 class of an object which determines its behaviour - You don't need to worry about what S3 classes really mean, but you can read more about it [here](https://adv-r.hadley.nz/s3.html#s3-classes) if you're curious |
+| \- The **class** attribute relates to the S3 class of an object which determines its behavior 
+| \- You don't need to worry about what S3 classes really mean, but you can read more about it [here](https://adv-r.hadley.nz/s3.html#s3-classes) if you're curious |
 
 -   Examples: factors, dates, and data frames
 
@@ -47,16 +48,8 @@ x <- factor(c("BS", "MS", "PhD", "MS"))
 x
 ```
 
---
-
-.pull-left[
-- this is a left thing
-] .pull-right[
-__this is a right thing__
-]
-
 ---
-                                               NN
+                                               
 ## More on factors
 
 We can think of factors like character (level labels) and an integer (level numbers) glued together
@@ -170,7 +163,7 @@ cat_lovers %>%
 
 ---
 
-## Come for the functionality
+## Why factors?
 
 - Factors are useful when you have true categorical data and you want to override the ordering of character vectors to improve display 
 - They are also useful in modeling scenarios 
@@ -184,7 +177,7 @@ cat_lovers %>%
 if (!file.exists("data/hotels")) {
   download.file("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv", "data/hotels.csv")
 }
-hotels <- readr::read_csv("data/hotels.csv") %>% filter(arrival_date_year == 2016)
+hotels <- readr::read_csv("data/hotels.csv")# %>% filter(arrival_date_year == 2016)
 
 hotels %>%
   mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name)) %>%
@@ -218,10 +211,15 @@ class: middle
 ## Make a date
 
 - **lubridate** is the tidyverse-friendly package that makes dealing with dates a little easier 
-- It's not one of the *core* tidyverse packages, hence it's installed with `install.packages("tidyverse)` but it's not loaded with it, and needs to be explicitly loaded with `library(lubridate)`
-- we're just going to scratch the surface of working with dates in R here...
+- It's not one of the *core* tidyverse packages, hence it's installed with `install.packages("tidyverse")` but it's not loaded with it, and needs to be explicitly loaded with `library(lubridate)`
+- We're just going to scratch the surface of working with dates in R here...
 
---
+---
+
+## Hotels data
+
+- Dataset of individual hotel bookings from 2015 to 2017
+
 .small[
 Calculate and visualize the number of bookings on any given arrival date.
 
@@ -230,9 +228,11 @@ hotels %>%
   select(starts_with("arrival_"))
 ```
 ]
+
 ---
 
 ## Step 1. Construct dates
+
 .small[
 ```{r}
 hotels %>%
@@ -264,13 +264,13 @@ hotels %>%
 
 ```{r, eval=F}
 ... %>% 
-  ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
+  ggplot(aes(x=arrival_date, y = n, group=1)) +
+  geom_line() +
   theme(axis.text.x = element_text(angle=90, size=4))
 ```
 
 
-```{r, include=F}
+```{r, echo=F}
 hotels %>%
   mutate(
     arrival_date = 
@@ -278,8 +278,8 @@ hotels %>%
       ) %>% 
   select(hotel, arrival_date) %>% 
   count(arrival_date) %>% 
-  ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
+  ggplot(aes(x=arrival_date, y = n, group=1)) +
+  geom_line() +
   theme(axis.text.x = element_text(angle=90, size=4))
 ```
 
@@ -300,8 +300,8 @@ hotels %>%
   select(hotel, arrival_date) %>% 
   count(arrival_date) %>% 
   head(60) %>% 
-  ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
+  ggplot(aes(x=arrival_date, y = n, group=1)) +
+  geom_line() +
   theme(axis.text.x = element_text(angle=90, hjust=1, size=6))
 ```
 
@@ -318,8 +318,7 @@ library(lubridate)
 hotels %>%
   mutate(
     arrival_date_str = paste(arrival_date_month, arrival_date_day_of_month, arrival_date_year),
-    arrival_date_str = parse_date_time(arrival_date_str, "mdY"),
-    arrival_date = as_date(arrival_date_str)
+    arrival_date = mdy(arrival_date_str) #<<
   ) %>% 
   select(hotel, arrival_date_str, arrival_date) 
 ```
@@ -332,11 +331,10 @@ hotels %>%
 hotels %>%
   mutate(
     arrival_date_str = paste(arrival_date_month, arrival_date_day_of_month, arrival_date_year),
-    arrival_date_str = parse_date_time(arrival_date_str, "mdY"),
-    arrival_date = as_date(arrival_date_str)
+    arrival_date = mdy(arrival_date_str)
   ) %>% 
   select(hotel, arrival_date_str, arrival_date) %>% 
-  count(arrival_date)
+  count(arrival_date) #<<
 ```
 
 
@@ -346,9 +344,8 @@ hotels %>%
 
 ```{r, eval=F}
 ... %>% 
-  ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
-  theme(axis.text.x = element_text(angle=0, hjust=1, size=6))
+  ggplot(aes(x=arrival_date, y = n, group=1)) +
+  geom_line() 
 ```
 
 
@@ -361,9 +358,8 @@ hotels %>%
   ) %>% 
   select(hotel, arrival_date_str, arrival_date) %>% 
   count(arrival_date) %>% 
-  ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
-  theme(axis.text.x = element_text(angle=0, hjust=1, size=6))
+  ggplot(aes(x=arrival_date, y = n, group=1)) +
+  geom_line() 
 ```
 
 
@@ -374,9 +370,7 @@ hotels %>%
 ```{r, eval=F}
 ... %>% 
   ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
-  geom_smooth() +
-  theme(axis.text.x = element_text(angle=0, hjust=1, size=6))
+  geom_smooth() 
 ```
 
 
@@ -390,8 +384,8 @@ hotels %>%
   select(hotel, arrival_date_str, arrival_date) %>% 
   count(arrival_date) %>% 
   ggplot(aes(x=arrival_date, y = n)) +
-  geom_point() +
-  geom_smooth() +
-  theme(axis.text.x = element_text(angle=0, hjust=1, size=6))
+  # geom_point() +
+  geom_smooth() 
+  # theme(axis.text.x = element_text(angle=0, hjust=1, size=6))
 ```
 

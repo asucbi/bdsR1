@@ -1,7 +1,7 @@
 ---
 title: "Recoding data"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -23,7 +23,7 @@ library(scales)
 
 class: middle
 
-# Case study: Religion and income
+# Case study: Religion and income   
 
 ---
 
@@ -179,28 +179,6 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency)) +
 
 ---
 
-## Reverse religion order
-
-.panelset[
-
-.panel[.panel-name[Recode]
-```{r}
-rel_inc_long <- rel_inc_long %>%
-  mutate(religion = fct_rev(religion)) 
-```
-]
-
-.panel[.panel-name[Plot]
-```{r out.width="65%", echo=FALSE}
-ggplot(rel_inc_long, aes(y = religion, x = frequency)) + 
-  geom_col()
-```
-]
-
-]
-
----
-
 ## Add income
 
 .panelset[
@@ -221,13 +199,56 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 
 ---
 
+
+## Make `income` ordered
+
+.panelset[
+
+.panel[.panel-name[Recode]
+```{r}
+rel_inc_long <- rel_inc_long %>%
+  mutate(income = ordered(income, levels=unique(income)))
+```
+]
+
+.panel[.panel-name[Plot]
+```{r out.width="65%", echo=FALSE}
+ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) + #<<
+  geom_col() 
+```
+]
+
+]
+
+---
+
+## Reverse `income` plotting order
+
+.panelset[
+
+.panel[.panel-name[Plot]
+```{r rel-income-rev, out.width = "65%", echo = FALSE}
+ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = fct_rev(income))) +
+  geom_col()
+```
+]
+
+.panel[.panel-name[Code]
+```{r ref.label = "rel-income-rev", fig.show = "hide"}
+```
+]
+
+]
+
+---
+
 ## Fill bars
 
 .panelset[
 
 .panel[.panel-name[Plot]
 ```{r rel-income-fill, out.width = "65%", echo = FALSE}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
+ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = fct_rev(income))) +
   geom_col(position = "fill")
 ```
 ]
@@ -241,15 +262,20 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 
 ---
 
-## Change colors
+## Reorder religions
 
 .panelset[
 
 .panel[.panel-name[Plot]
 ```{r rel-income-fill-viridis, out.width = "65%", echo = FALSE}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
-  geom_col(position = "fill") +
-  scale_fill_viridis_d()
+
+rel_inc_long %>%
+  mutate( #<<
+    religion = fct_reorder(religion, as.integer(income)*proportion, mean) #<<
+    ) %>% #<<
+  ggplot(aes(y = religion, x = frequency, fill = fct_rev(income))) +
+  geom_col(position = "fill") 
+
 ```
 ]
 
@@ -263,16 +289,20 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 ---
 
 
-## Change theme
+## Change theme and swap palette direction
 
 .panelset[
 
 .panel[.panel-name[Plot]
 ```{r rel-income-fill-viridis-minimal, out.width = "65%", echo = FALSE}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
+rel_inc_long %>%
+  mutate(
+    religion = fct_reorder(religion, as.integer(income)*proportion, mean)
+    ) %>%
+  ggplot(aes(y = religion, x = frequency, fill = fct_rev(income))) +
   geom_col(position = "fill") +
-  scale_fill_viridis_d() +
-  theme_minimal() 
+  scale_fill_viridis_d(direction=-1) + #<<
+  theme_minimal() #<<
 ```
 ]
 
@@ -291,9 +321,13 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 
 .panel[.panel-name[Plot]
 ```{r bottom-legend, out.width = "65%", echo = FALSE}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
+rel_inc_long %>%
+  mutate(
+    religion = fct_reorder(religion, as.integer(income)*proportion, mean)
+    ) %>%
+  ggplot(aes(y = religion, x = frequency, fill = fct_rev(income))) +
   geom_col(position = "fill") +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(direction=-1) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
@@ -319,9 +353,13 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 
 .panel[.panel-name[Code]
 ```{r legend-adjust, fig.show="hide"}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
+rel_inc_long %>%
+  mutate(
+    religion = fct_reorder(religion, as.integer(income)*proportion, mean)
+    ) %>%
+  ggplot(aes(y = religion, x = frequency, fill = fct_rev(income))) +
   geom_col(position = "fill") +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(direction=-1) +
   theme_minimal() +
   theme(legend.position = "bottom") +
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) 
@@ -343,18 +381,22 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
 
 .panel[.panel-name[Code]
 ```{r fix-labels, fig.show="hide"}
-ggplot(rel_inc_long, aes(y = religion, x = frequency, fill = income)) +
+rel_inc_long %>%
+  mutate(
+    religion = fct_reorder(religion, as.integer(income) * proportion, mean)
+  ) %>%
+  ggplot(aes(y = religion, x = frequency, fill = fct_rev(income))) +
   geom_col(position = "fill") +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(direction=-1) +
   theme_minimal() +
   theme(legend.position = "bottom") +
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
   labs(
-    x = "Proportion", y = "", 
-    title = "Income distribution by religious group", 
-    subtitle = "Source: Pew Research Center, Religious Landscape Study", 
-    fill = "Income" 
-    )
+    x = "Proportion", y = "",
+    title = "Income distribution by religious group",
+    subtitle = "Source: Pew Research Center, Religious Landscape Study",
+    fill = "Income"
+  )
 ```
 ]
 

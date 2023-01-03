@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Visualising numerical data</title>
+    <title>Visualizing numerical data</title>
     <meta charset="utf-8" />
-    <meta name="author" content="datasciencebox.org" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
@@ -17,13 +17,13 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Visualising numerical data
+# Visualizing numerical data
 ]
 .subtitle[
-## <br><br> Data Science in a Box
+## <br><br> Behavioral Data Science in R
 ]
 .author[
-### <a href="https://datasciencebox.org/">datasciencebox.org</a>
+### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -288,7 +288,32 @@ ggplot(loans, aes(x = loan_amount)) +
 ggplot(loans, aes(x = loan_amount, 
 *                 fill = homeownership)) +
   geom_histogram(binwidth = 5000,
-*                alpha = 0.5) +
+*                alpha = 1) +
+  labs(
+    x = "Loan amount ($)",
+    y = "Frequency",
+    title = "Amounts of Lending Club loans"
+  )
+```
+]
+]
+
+---
+
+## Fill with a categorical variable (overlaid)
+
+.panelset[
+.panel[.panel-name[Plot]
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+.panel[.panel-name[Code]
+
+```r
+ggplot(loans, aes(x = loan_amount, 
+*                 fill = homeownership)) +
+  geom_histogram(binwidth = 5000,
+                 alpha = 0.5,
+*                position="identity") +
   labs(
     x = "Loan amount ($)",
     y = "Frequency",
@@ -304,7 +329,7 @@ ggplot(loans, aes(x = loan_amount,
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -337,7 +362,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-12-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -351,7 +376,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 0.5)
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[adjust = 1]
 
@@ -360,7 +385,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 1) # default bandwidth
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[adjust = 2]
 
@@ -369,7 +394,7 @@ ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 2)
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -379,7 +404,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -401,7 +426,7 @@ ggplot(loans, aes(x = loan_amount)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -436,7 +461,7 @@ ggplot(loans, aes(x = interest_rate)) +
   geom_boxplot()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-19-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -448,7 +473,7 @@ ggplot(loans, aes(x = annual_income)) +
   geom_boxplot()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-19-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-20-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -456,7 +481,7 @@ ggplot(loans, aes(x = annual_income)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-20-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -482,7 +507,32 @@ ggplot(loans, aes(x = interest_rate)) +
 
 .panelset[
 .panel[.panel-name[Plot]
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-22-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+.panel[.panel-name[Code]
+
+```r
+ggplot(loans, aes(y = interest_rate,
+*                 x = grade)) +
+  geom_boxplot() +
+  labs(
+    x = "Grade",
+    y = "Interest rate (%)",
+    title = "Interest rates of Lending Club loans",
+*   subtitle = "by grade of loan"
+  )
+```
+]
+]
+
+---
+
+
+## Adding a categorical variable (y) 
+
+.panelset[
+.panel[.panel-name[Plot]
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Code]
 
@@ -491,8 +541,8 @@ ggplot(loans, aes(x = interest_rate,
 *                 y = grade)) +
   geom_boxplot() +
   labs(
-    x = "Interest rate (%)",
     y = "Grade",
+    x = "Interest rate (%)",
     title = "Interest rates of Lending Club loans",
 *   subtitle = "by grade of loan"
   )
@@ -516,7 +566,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_point()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-22-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-24-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -528,7 +578,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_hex()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-25-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -541,7 +591,7 @@ ggplot(loans %&gt;% filter(debt_to_income &lt; 100),
   geom_hex()
 ```
 
-&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-24-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-26-1.png" width="60%" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

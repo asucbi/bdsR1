@@ -3,7 +3,7 @@
   <head>
     <title>Data and visualisation</title>
     <meta charset="utf-8" />
-    <meta name="author" content="datasciencebox.org" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
@@ -20,10 +20,10 @@ class: center, middle, inverse, title-slide
 # Data and visualisation
 ]
 .subtitle[
-## <br><br> Data Science in a Box
+## <br><br> Behavioral Data Science in R
 ]
 .author[
-### <a href="https://datasciencebox.org/">datasciencebox.org</a>
+### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -64,17 +64,52 @@ happy
 
 ```
 ## # A tibble: 143 × 12
-##   Country   Region Happiness LifeExpectancy Footprint   HLY   HPI
-##   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Albania   Forme…       5.5           76.2       2.2  41.7  47.9
-## 2 Algeria   Middl…       5.6           71.7       1.7  40.1  51.2
-## 3 Angola    SubSa…       4.3           41.7       0.9  17.8  26.8
-## 4 Argentina Latin…       7.1           74.8       2.5  53.4  59.0
-## 5 Armenia   Forme…       5             71.7       1.4  36.1  48.3
-## 6 Australia Weste…       7.9           80.9       7.8  63.7  36.6
-## # … with 137 more rows, and 5 more variables: HPIRank &lt;dbl&gt;,
-## #   GDPperCapita &lt;dbl&gt;, HDI &lt;dbl&gt;, Population &lt;dbl&gt;,
-## #   HDI_group &lt;ord&gt;
+##   Country   Region    Happi…¹ LifeE…² Footp…³   HLY   HPI HPIRank
+##   &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Albania   Former S…     5.5    76.2     2.2  41.7  47.9      54
+## 2 Algeria   Middle E…     5.6    71.7     1.7  40.1  51.2      40
+## 3 Angola    SubSahar…     4.3    41.7     0.9  17.8  26.8     130
+## 4 Argentina Latin Am…     7.1    74.8     2.5  53.4  59.0      15
+## 5 Armenia   Former S…     5      71.7     1.4  36.1  48.3      48
+## 6 Australia Western       7.9    80.9     7.8  63.7  36.6     102
+## # … with 137 more rows, 4 more variables: GDPperCapita &lt;dbl&gt;,
+## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;, and
+## #   abbreviated variable names ¹​Happiness, ²​LifeExpectancy,
+## #   ³​Footprint
+```
+
+]
+
+---
+
+## Dataset terminology
+
+.question[
+How many rows and columns does this dataset have?
+What does each row represent?
+]
+
+.small[
+
+
+```r
+happy
+```
+
+```
+## # A tibble: 143 × 12
+##   Country   Region    Happi…¹ LifeE…² Footp…³   HLY   HPI HPIRank
+##   &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Albania   Former S…     5.5    76.2     2.2  41.7  47.9      54
+## 2 Algeria   Middle E…     5.6    71.7     1.7  40.1  51.2      40
+## 3 Angola    SubSahar…     4.3    41.7     0.9  17.8  26.8     130
+## 4 Argentina Latin Am…     7.1    74.8     2.5  53.4  59.0      15
+## 5 Armenia   Former S…     5      71.7     1.4  36.1  48.3      48
+## 6 Australia Western       7.9    80.9     7.8  63.7  36.6     102
+## # … with 137 more rows, 4 more variables: GDPperCapita &lt;dbl&gt;,
+## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;, and
+## #   abbreviated variable names ¹​Happiness, ²​LifeExpectancy,
+## #   ³​Footprint
 ```
 
 ]
@@ -83,8 +118,23 @@ happy
 
 ## United States of America
 
-
 &lt;img src="img/usa-stats.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+---
+
+class: middle
+
+# Exploratory data analysis
+
+---
+
+## What is EDA?
+
+- Exploratory data analysis (EDA) is an approach to analysing data sets to summarize its main characteristics
+- Often, this is visual -- this is what we'll focus on first
+- But we might also calculate summary statistics and perform data wrangling/manipulation/transformation at (or before) this stage of the analysis -- this is what we'll focus on next
 
 ---
 
@@ -116,35 +166,7 @@ glimpse(happy)
 
 ---
 
-.question[
-How many rows and columns does this dataset have?
-What does each row represent?
-What does each column represent?
-]
-
-
-```r
-glimpse(happy)
-```
-
-```
-## Rows: 143
-## Columns: 12
-## $ Country        &lt;chr&gt; "Albania", "Algeria", "Angola", "Argenti…
-## $ Region         &lt;chr&gt; "Former Soviet", "Middle East", "SubSaha…
-## $ Happiness      &lt;dbl&gt; 5.5, 5.6, 4.3, 7.1, 5.0, 7.9, 7.8, 5.3, …
-## $ LifeExpectancy &lt;dbl&gt; 76.2, 71.7, 41.7, 74.8, 71.7, 80.9, 79.4…
-## $ Footprint      &lt;dbl&gt; 2.2, 1.7, 0.9, 2.5, 1.4, 7.8, 5.0, 2.2, …
-## $ HLY            &lt;dbl&gt; 41.7, 40.1, 17.8, 53.4, 36.1, 63.7, 61.9…
-## $ HPI            &lt;dbl&gt; 47.91, 51.23, 26.78, 58.95, 48.28, 36.64…
-## $ HPIRank        &lt;dbl&gt; 54, 40, 130, 15, 48, 102, 57, 85, 31, 10…
-## $ GDPperCapita   &lt;dbl&gt; 5316, 7062, 2335, 14280, 4945, 31794, 33…
-## $ HDI            &lt;dbl&gt; 0.801, 0.733, 0.446, 0.869, 0.775, 0.962…
-## $ Population     &lt;dbl&gt; 3.15, 32.85, 16.10, 38.75, 3.02, 20.40, …
-## $ HDI_group      &lt;ord&gt; Very high, High, Low, Very high, High, V…
-```
-
----
+## Basic exploration
 
 .question[
 How many rows and columns does this dataset have?
@@ -179,25 +201,10 @@ dim(happy)  # dimensions (row column)
 
 ---
 
-class: middle
-
-# Exploratory data analysis
-
----
-
-## What is EDA?
-
-- Exploratory data analysis (EDA) is an approach to analysing data sets to summarize its main characteristics
-- Often, this is visual -- this is what we'll focus on first
-- But we might also calculate summary statistics and perform data wrangling/manipulation/transformation at (or before) this stage of the analysis -- this is what we'll focus on next
-
----
-
 ## Does money buy happiness?
 
 .question[ 
 How would you describe the relationship between a country's GDP per capita and average happiness?
-What other variables would help us understand data points that don't follow the overall trend?
 Which is that not-that-rich but very happy country?
 ]
 
@@ -208,6 +215,28 @@ Which is that not-that-rich but very happy country?
 ## Costa Rica!
 
 &lt;img src="img/costa-rica.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Why Costa Rica?
+
+&lt;!-- _Es Pura Vida, y es economia_--&gt;
+
+&gt; “Costa Rica tells us that there is something beyond money that is important”
+
+&gt; —Mariano Rojas
+
+--
+
+__Googling suggests some answers__
+
+- Economics:
+  - In 1948, the Costa Rican government abolished its military and redirected its budget to education, health, and pensions
+  - Costa Rica offers nationalized health care available to all citizens—life expectancy is 81, higher than the U.S.
+  - Costa Rica spends a very large amount on education as a proportion of GDP
+- Lifestyle:
+  - Costa Ricans spend more time with their families than people in most other countries
+  - _Pura Vida_: a common phrase that refers to the laid-back and peaceful lifestyle that Costa Rica has become known for.
 
 ---
 
@@ -264,6 +293,10 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point(data = happy %&gt;% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
 ```
 
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
+
 &lt;img src="mod-02-1-data-viz_files/figure-html/mass-height-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -282,6 +315,10 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   labs(title = "Happiness and GDP per-capita",
        y = "Avg. Happiness (0-10)", x = "GDP per-capita") +
   geom_point(data = happy %&gt;% filter(Country == "Costa Rica"), size = 5, pch = 1, color = "pink", stroke = 3)
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
 .footnote[
@@ -438,6 +475,7 @@ How are people reporting lower vs. higher values of FB visits?
 
 &lt;img src="mod-02-1-data-viz_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
+---
 
 ## Money and happiness
 

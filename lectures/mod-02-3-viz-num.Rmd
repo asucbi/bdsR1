@@ -1,7 +1,7 @@
 ---
-title: "Visualising numerical data"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+title: "Visualizing numerical data"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -215,7 +215,32 @@ ggplot(loans, aes(x = loan_amount)) +
 ggplot(loans, aes(x = loan_amount, 
                   fill = homeownership)) + #<<
   geom_histogram(binwidth = 5000,
-                 alpha = 0.5) + #<<
+                 alpha = 1) + #<<
+  labs(
+    x = "Loan amount ($)",
+    y = "Frequency",
+    title = "Amounts of Lending Club loans"
+  )
+```
+]
+]
+
+---
+
+## Fill with a categorical variable (overlaid)
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "hist-fill-over", echo = FALSE, warning = FALSE}
+```
+]
+.panel[.panel-name[Code]
+```{r hist-fill-over, fig.show = "hide", warning = FALSE}
+ggplot(loans, aes(x = loan_amount, 
+                  fill = homeownership)) + #<<
+  geom_histogram(binwidth = 5000,
+                 alpha = 0.5,
+                 position="identity") + #<<
   labs(
     x = "Loan amount ($)",
     y = "Frequency",
@@ -396,12 +421,37 @@ ggplot(loans, aes(x = interest_rate)) +
 ]
 .panel[.panel-name[Code]
 ```{r box-cat, fig.show = "hide", warning = FALSE}
+ggplot(loans, aes(y = interest_rate,
+                  x = grade)) + #<<
+  geom_boxplot() +
+  labs(
+    x = "Grade",
+    y = "Interest rate (%)",
+    title = "Interest rates of Lending Club loans",
+    subtitle = "by grade of loan" #<<
+  )
+```
+]
+]
+
+---
+
+
+## Adding a categorical variable (y) 
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "box-cat-h", echo = FALSE, warning = FALSE}
+```
+]
+.panel[.panel-name[Code]
+```{r box-cat-h, fig.show = "hide", warning = FALSE}
 ggplot(loans, aes(x = interest_rate,
                   y = grade)) + #<<
   geom_boxplot() +
   labs(
-    x = "Interest rate (%)",
     y = "Grade",
+    x = "Interest rate (%)",
     title = "Interest rates of Lending Club loans",
     subtitle = "by grade of loan" #<<
   )

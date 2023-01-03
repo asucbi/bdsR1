@@ -1,7 +1,7 @@
 ---
 title: "Visualising data with ggplot2"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -21,11 +21,6 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
-class: middle
-
-# ggplot2 `r emo::ji("heart")` `r emo::ji("penguin")`
-
----
 
 ## ggplot2 $\in$ tidyverse
 
@@ -725,7 +720,7 @@ ggplot(
 
 ---
 
-## Face and color, no legend
+## Facet and color, no legend
 
 .pull-left-narrow[
 ```{r facet-color-no-legend, fig.show = "hide", warning = FALSE}
