@@ -3,15 +3,17 @@ title: "HW 02 - Phoenix city employee salaries"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs/hws/")
   })
-output: 
-  tufte::tufte_html:
-    css: hw.css
-    tufte_variant: "envisioned"
-    highlight: pygments
-link-citations: yes
+# output: 
+#   tufte::tufte_html:
+#     css: hw.css
+#     tufte_variant: "envisioned"
+#     highlight: pygments
+# link-citations: yes
 ---
 
 ```{r include = FALSE}
+source("assets/setup.R")
+
 knitr::opts_chunk$set(
   eval = FALSE,
   out.width = "80%",
@@ -80,7 +82,7 @@ You can also view the data with the `head()` and `glimpse()` functions. These ar
 ```
 
 1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
-2.  Run `View(edibnb)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
+2.  Run `View(phxsal)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
 3. Show a bit of the data in your report so that readers can see the important variables. You can use either `head()` or `glimpse()` depending on which you prefer.
 
 🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
