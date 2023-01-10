@@ -1,11 +1,8 @@
 # Ignore Mac system
-.DS_store/
-.DS_Store/
-
-.Rhistory/
-
-.DS_store
+*/.DS_Store
+*/*/.DS_Store
 .DS_Store
+.Rhistory/
 
 # Ignore very large files
 
