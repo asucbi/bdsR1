@@ -18,7 +18,7 @@ This is a R Markdown document!
 
 ### Exercise 1
 
-There are \_\_\_ unique charachters from the show in the dataset.
+There are \_\_\_ unique characters from the show in the dataset.
 
 ### Exercise 2
 
@@ -26,7 +26,7 @@ Remove this text, and add your answer for Exercise 2 here.
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 3 here.
+Remove this text, and add your answer for Exercise 3 here. (Hint: You might also want to click on the green arrow pointing right icon in the code chunk below to help with your answer)
 
 ```{r most-common-characters}
 parks_rec %>%

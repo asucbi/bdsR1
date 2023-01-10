@@ -18,7 +18,7 @@ This is a R Markdown document!
 
 ### Exercise 1
 
-There are \_\_\_ unique charachters from the show in the dataset.
+There are \_\_\_ unique characters from the show in the dataset.
 
 ### Exercise 2
 

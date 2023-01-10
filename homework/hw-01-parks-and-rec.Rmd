@@ -30,7 +30,7 @@ The goal of this assignment is to introduce you to R, RStudio, and integration w
 
 ## Prerequisites {data-link="Prerequisites"}
 
-This assignment assumes that you have completed all the steps in the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get yourself set up on Posit Cloud. If you haven't yet done so, please pause and complete it before continuing.
+This assignment assumes that you have completed all the steps in the Canvas pages: "Posit Cloud: Setting up for Week 1" and on "Posit Cloud: Editing and Preparing for Submission" to get yourself set up on Posit Cloud. If you haven't yet done so, please pause and complete it before continuing.
 
 ## Terminology
 
@@ -63,7 +63,7 @@ Lets walk through some of the steps that will get you ready for analysis.
 
 # Hello RStudio!
 
-For Week 1 only, you need to follow the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get the homework .RMD file loaded into your Posit Cloud/RStudio environment. 
+For Week 1 only, you need to follow the instructions on the Canvas page: "Posit Cloud: Setting up for Week 1" to get the homework .RMD file loaded into your Posit Cloud/RStudio environment. 
 
 <!-- Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigate to the course workspace** via the left sidebar. It's very important that you do this for two reasons: -->
 
@@ -281,7 +281,7 @@ final_props %>%
 
 # Submit to Canvas
 
-When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch my little video and read the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)"
+When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch my little video in the Canvas page: "Posit Cloud: Editing and Preparing for Submission"
 
 <!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
 
