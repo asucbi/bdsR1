@@ -1,7 +1,7 @@
 ---
 title: "Data and visualisation"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -66,48 +66,30 @@ happy
 
 ---
 
-## United States of America
+## Dataset terminology
 
+.question[
+How many rows and columns does this dataset have?
+What does each row represent?
+]
+
+.small[
+
+```{r message=FALSE}
+happy
+```
+
+]
+
+---
+
+## United States of America
 
 ```{r echo = FALSE, warning = FALSE, cache = TRUE, out.width = "80%"}
 knitr::include_graphics("img/usa-stats.png")
 ```
 
 ---
-
-## What's in the Happy Planet Index data?
-
-Take a `glimpse` at the data:
-
-```{r}
-glimpse(happy)
-```
-
----
-
-.question[
-How many rows and columns does this dataset have?
-What does each row represent?
-What does each column represent?
-]
-
-```{r}
-glimpse(happy)
-```
-
----
-
-.question[
-How many rows and columns does this dataset have?
-]
-
-.pull-left[
-```{r}
-nrow(happy) # number of rows
-ncol(happy) # number of columns
-dim(happy)  # dimensions (row column)
-```
-]
 
 ---
 
@@ -125,11 +107,36 @@ class: middle
 
 ---
 
+## What's in the Happy Planet Index data?
+
+Take a `glimpse` at the data:
+
+```{r}
+glimpse(happy)
+```
+
+---
+
+## Basic exploration
+
+.question[
+How many rows and columns does this dataset have?
+]
+
+.pull-left[
+```{r}
+nrow(happy) # number of rows
+ncol(happy) # number of columns
+dim(happy)  # dimensions (row column)
+```
+]
+
+---
+
 ## Does money buy happiness?
 
 .question[ 
 How would you describe the relationship between a country's GDP per capita and average happiness?
-What other variables would help us understand data points that don't follow the overall trend?
 Which is that not-that-rich but very happy country?
 ]
 
@@ -162,6 +169,28 @@ knitr::include_graphics("img/costa-rica.png")
 
 
 ```
+
+---
+
+## Why Costa Rica?
+
+<!-- _Es Pura Vida, y es economia_-->
+
+> “Costa Rica tells us that there is something beyond money that is important”
+
+> —Mariano Rojas
+
+--
+
+__Googling suggests some answers__
+
+- Economics:
+  - In 1948, the Costa Rican government abolished its military and redirected its budget to education, health, and pensions
+  - Costa Rica offers nationalized health care available to all citizens—life expectancy is 81, higher than the U.S.
+  - Costa Rica spends a very large amount on education as a proportion of GDP
+- Lifestyle:
+  - Costa Ricans spend more time with their families than people in most other countries
+  - _Pura Vida_: a common phrase that refers to the laid-back and peaceful lifestyle that Costa Rica has become known for.
 
 ---
 
@@ -349,6 +378,7 @@ ggplot(student_survey, aes(x = fb_visits_per_day)) +
     )
 ```
 
+---
 
 ## Money and happiness
 

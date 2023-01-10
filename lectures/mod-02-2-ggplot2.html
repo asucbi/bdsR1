@@ -3,7 +3,7 @@
   <head>
     <title>Visualising data with ggplot2</title>
     <meta charset="utf-8" />
-    <meta name="author" content="datasciencebox.org" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
@@ -20,10 +20,10 @@ class: center, middle, inverse, title-slide
 # Visualising data with ggplot2
 ]
 .subtitle[
-## <br><br> Data Science in a Box
+## <br><br> Behavioral Data Science in R
 ]
 .author[
-### <a href="https://datasciencebox.org/">datasciencebox.org</a>
+### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -44,11 +44,6 @@ class: center, middle, inverse, title-slide
 
 
 
-class: middle
-
-# ggplot2 ❤️ 🐧
-
----
 
 ## ggplot2 `\(\in\)` tidyverse
 
@@ -117,6 +112,10 @@ ggplot(data = penguins,
        subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
        x = "Bill depth (mm)", y = "Bill length (mm)",
        colour = "Species")
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 ]
 ]
@@ -435,6 +434,10 @@ ggplot(data = penguins,
        caption = "Source: Palmer Station LTER / palmerpenguins package") +
   scale_colour_viridis_d()
 ```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
 ]
 .panel[.panel-name[Narrative]
 .pull-left-wide[
@@ -680,6 +683,10 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
   geom_point() +
 * facet_grid(species ~ island)
 ```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
 ]
 ]
 
@@ -782,7 +789,7 @@ ggplot(
 
 ---
 
-## Face and color, no legend
+## Facet and color, no legend
 
 .pull-left-narrow[
 
