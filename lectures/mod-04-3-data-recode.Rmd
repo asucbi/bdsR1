@@ -125,7 +125,7 @@ rel_inc %>%
 
 ---
 
-## Save data
+## Assign data to variable
 
 ```{r}
 rel_inc_long <- rel_inc %>% 
