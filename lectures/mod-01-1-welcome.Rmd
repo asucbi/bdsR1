@@ -253,7 +253,7 @@ class: middle
 
 - Click the `.RMD` file to see it Viewer. You may be automatically asked to install a package called `tidyverse`. If so, accept the install. Otherwise I will show you how to install manually using something called `install.packages()`
 
-- In the Console window, type `install.packages(install.packages("devtools"))` then type `devtools::install_github("asucbi/bdsdata")`
+- In the Console window, type `install.packages("devtools")` then type `devtools::install_github("asucbi/bdsdata")`
 
 - Knit the starter file and see what happens
 
