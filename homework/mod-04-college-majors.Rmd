@@ -8,7 +8,7 @@ link-citations: yes
 
 ```{r include = FALSE}
 knitr::opts_chunk$set(
-  eval = FALSE,
+  eval = TRUE,
   out.width = "80%",
   fig.asp = 0.618,
   fig.width = 10,
@@ -55,7 +55,7 @@ We'll use the **tidyverse** package for much of the data wrangling and visualisa
 These packages are already installed for you.
 You can load them by running the following in your Console:
 
-```{r load-packages, message = FALSE, eval = TRUE}
+```{r load-packages, message = FALSE, eval = TRUE, warning=FALSE}
 library(tidyverse)
 library(scales)
 library(fivethirtyeight)
@@ -163,7 +163,7 @@ These correspond to the 25th, 50th, and 75th percentiles of the income distribut
 
 2. Why do we often choose the median, rather than the mean, to describe the typical income of a group of people?
 
-The question we want to answer "How do the distributions of median income compare across major categories?".
+The question we want to answer is "How do the distributions of median income compare across major categories?".
 We need to do a few things to answer this question: First, we need to group the data by `major_category`.
 Then, we need a way to summarize the distributions of median income within these groups.
 This decision will depend on the shapes of these distributions.
