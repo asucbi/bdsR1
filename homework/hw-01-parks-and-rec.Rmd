@@ -49,7 +49,7 @@ We've already thrown around a couple of new terms, so let's define them before w
 -   **RStudio:** An integrated development environment for R.
     In other words, a convenient interface for writing and running R code.
 
--   *Posit Cloud** The online service for accessing RStudio. 
+-   **Posit Cloud** The online service for accessing RStudio. 
 
     -   In this course, assignment instructions you work on (HWs, Labs, Project) will be available on Canvas. The "starter" documents needed to complete each assignment will typically be available on Posit Cloud; however, for Week 1, you need to download from the instruction page in Canvas. 
 
