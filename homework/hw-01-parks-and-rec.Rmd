@@ -38,7 +38,7 @@ The goal of this assignment is to introduce you to R, RStudio, and integration w
 
 ## Prerequisites {data-link="Prerequisites"}
 
-This assignment assumes that you have reviewed the lecture titled "Meet the toolkit: Programming." If you haven't yet done so, please pause and complete it before continuing.
+This assignment assumes that you have completed all the steps in the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get yourself set up on Posit Cloud. If you haven't yet done so, please pause and complete it before continuing.
 
 ## Terminology
 
@@ -49,7 +49,9 @@ We've already thrown around a couple of new terms, so let's define them before w
 -   **RStudio:** An integrated development environment for R.
     In other words, a convenient interface for writing and running R code.
 
-    -   In this course, assignment instructions you work on (HWs, Labs, Project) will be available on Canvas; however, the "starter" documents needed to complete each assignment will be available on RStudio Cloud.  
+-   *Posit Cloud** The online service for accessing RStudio. 
+
+    -   In this course, assignment instructions you work on (HWs, Labs, Project) will be available on Canvas. The "starter" documents needed to complete each assignment will typically be available on Posit Cloud; however, for Week 1, you need to download from the instruction page in Canvas. 
 
 ## Starting slow
 
@@ -59,11 +61,11 @@ First, we will explore the fundamental building blocks of R and RStudio.
 
 Before you can get started with the analysis, you need to make sure you:
 
--   are a member of the course RStudio Cloud space; if you are not, then you did not complete the prerequisite for this assignment. Please go back to [Prerequisites] and complete it.
+-   are a member of the course Posit Cloud space; if you are not, then you did not complete the prerequisite for this assignment. Please go back to [Prerequisites] and complete it.
 
 # Workflow
 
-For each assignment in this course you will go to a shared folder in RStudio Cloud that contains starter documents you will build upon when working on your assignment. In RStudio you will edit them, run them,  view your results, and interpret them. In other words, all data analysis will happen in RStudio. 
+For each assignment in this course you will go to a shared folder in Posit Cloud that contains starter documents (except for Week 1 where you will upload the document yourself). You will build upon this document when working on your assignment. In Posit Cloud/RStudio you will edit them, run them, view your results, and interpret them. In other words, all data analysis will happen in RStudio. 
 
 Lets walk through some of the steps that will get you ready for analysis. 
 
