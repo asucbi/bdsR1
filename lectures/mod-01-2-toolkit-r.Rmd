@@ -32,7 +32,7 @@ library(lubridate)
 .pull-left[
 ### .gray[Course operation]
 .gray[
-- introds.org
+<!-- - introds.org -->
 - Learn
 - Zoom
 - Teams
