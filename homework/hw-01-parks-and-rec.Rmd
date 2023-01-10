@@ -1,15 +1,7 @@
 ---
 title: "HW 01 - Parks and Recreation"
-subtitle: "Meet the toolkit"
+subtitle: Meet the toolkit
 link-citations: yes
-
-# output: 
-#   tufte::tufte_html:
-#     css: ../hw.css
-#     tufte_variant: "envisioned"
-#     highlight: pygments
-# link-citations: yes
-
 ---
 
 ```{r include = FALSE}
@@ -42,7 +34,7 @@ This assignment assumes that you have completed all the steps in the Canvas page
 
 ## Terminology
 
-We've already thrown around a couple of new terms, so let's define them before we proceed.
+We've already thrown around a few new terms, so let's define them before we proceed.
 
 -   **R:** Name of the programming language we will be using throughout the course.
 
@@ -61,17 +53,17 @@ First, we will explore the fundamental building blocks of R and RStudio.
 
 Before you can get started with the analysis, you need to make sure you:
 
--   are a member of the course Posit Cloud space; if you are not, then you did not complete the prerequisite for this assignment. Please go back to [Prerequisites] and complete it.
+-   you are set up in the Posit Cloud space; if you are not, then you did not complete the prerequisite for this assignment. Please go back to [Prerequisites] and complete it.
 
 # Workflow
 
-For each assignment in this course you will go to a shared folder in Posit Cloud that contains starter documents (except for Week 1 where you will upload the document yourself). You will build upon this document when working on your assignment. In Posit Cloud/RStudio you will edit them, run them, view your results, and interpret them. In other words, all data analysis will happen in RStudio. 
+For each assignment in this course you will go to a shared folder in Posit Cloud that contains starter documents (except for Week 1 where you will upload the document yourself). You will build upon this document when working on your assignment. In Posit Cloud/RStudio you will edit them, run them, view your results, and interpret them. In other words, all data analysis will happen in Posit Cloud/RStudio. 
 
 Lets walk through some of the steps that will get you ready for analysis. 
 
 # Hello RStudio!
 
-For Week 1 only, you need to follow the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get the HW .RMD file loaded into your Posit Cloud/RStudio environment. 
+For Week 1 only, you need to follow the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get the homework .RMD file loaded into your Posit Cloud/RStudio environment. 
 
 <!-- Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigate to the course workspace** via the left sidebar. It's very important that you do this for two reasons: -->
 
@@ -224,7 +216,7 @@ Oh. Oh. This doesn't look right. Were there really 100 episodes in Season 6?! Cl
 knitr::include_graphics("img/repeated-lines.png")
 ```
 
-4.  We want to run the same code we just used (with the `group_by` function), but after grouping by season, we want to get distinct episode numbers before counting. In other words, in the pipeline of the code, we want to add `distinct(episode_num)`. Go ahead and give it a try for the next exercise. When you run the code, you should get the following output:
+We want to run the same code we just used (with the `group_by` function), but after grouping by season, we want to get distinct episode numbers before counting. In other words, in the pipeline of the code, we want to add `distinct(episode_num)` somewhere. When you run the udpated code, you should get the following output:
 
 ```{r, eval = TRUE, echo=FALSE}
 parks_rec %>%
@@ -232,6 +224,15 @@ parks_rec %>%
   distinct(episode_num) %>%
   count(sort = TRUE)
 ```
+
+4. Write the following code, just like before, but you need to update it by adding into the pipeline the code `distinct(episode_num)` (don't forget to use the `%>%`)
+
+```{r leslie-mentions-2, eval=FALSE, echo=TRUE}
+parks_rec %>%
+  filter(character == "Leslie") %>%
+  count(season, sort = TRUE)
+```
+
 🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 4, knit the document as a "html_document" (default output in the YAML).*
 
 Now knowing there there are a different number of episodes for each season, looking at the raw count of how many times a character is mentioned across episodes does not really allow us to compare across seasons. For example, Leslie appears 6 times in Season 1, but 21 times in Season 5. But from our analysis, we know there are only 6 total episodes in Season 1, and she is featured in 100% of them (`6/6 = 1.0`). This is similar to the 95.45% (`21/22 = 0.95`) of episodes she is featured in for Season 5. 
@@ -275,13 +276,12 @@ final_props %>%
   )
 ```
 
-5. Which character never is never featured more than 50% in any season? 
-6. Which character is never mentioned in Seasons 1 and 2?
+5. Using information from the visual, which character is never featured in more than 50% of any season? 
+6. Using information from the visual, which character is never mentioned in Seasons 1 and 2?
 
 # Submit to Canvas
 
-When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, please watch my little video and read the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)"
-
+When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch my little video and read the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)"
 
 <!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
 
