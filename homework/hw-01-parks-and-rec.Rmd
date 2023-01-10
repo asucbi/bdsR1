@@ -71,16 +71,18 @@ Lets walk through some of the steps that will get you ready for analysis.
 
 # Hello RStudio!
 
-Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigate to the course workspace** via the left sidebar. It's very important that you do this for two reasons:
+For Week 1 only, you need to follow the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)" to get the HW .RMD file loaded into your Posit Cloud/RStudio environment. 
 
--   It's only when you're in the course workspace that you'll be able to benefit from R packages I've pre-installed for you so that your project can be configured correctly.
--   It's only when you're in the course workspace that your usage of RStudio Cloud won't count towards the free usage limits.
+<!-- Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigate to the course workspace** via the left sidebar. It's very important that you do this for two reasons: -->
+
+<!-- -   It's only when you're in the course workspace that you'll be able to benefit from R packages I've pre-installed for you so that your project can be configured correctly. -->
+<!-- -   It's only when you're in the course workspace that your usage of RStudio Cloud won't count towards the free usage limits. -->
 
 ```{r course-workspace, echo = FALSE, eval = TRUE, fig.align = "center"}
 knitr::include_graphics("img/course-workspace.png")
 ```
 
-Before you proceed, confirm that you are in the course workspace by checking out what's on your top bar in RStudio Cloud.
+<!-- Before you proceed, confirm that you are in the course workspace by checking out what's on your top bar in RStudio Cloud. -->
 
 ## RStudio Layout
 
@@ -121,7 +123,7 @@ knitr::include_graphics("img/knit1.png")
 
 ## Step 3. Submit it to Canvas
 
-When you're all done with the HW assignment and you're ready to submit the rendered document to Canvas, you want to change the "Knit" setting to **Knit to PDF.** To do this, select the dropdown arrow and you will see the option for knitting to PDF. Click it and look for the PDF document that has been generated in the same folder where you found the HW starter file. You will submit the PDF on Canvas.     
+When you're all done with the HW assignment and you're ready to submit the rendered document to Canvas, you want to change the "Knit" setting to **Knit to PDF.** To do this, select the dropdown arrow and you will see the option for knitting to PDF. Click it and look for the PDF document that has been generated in the same folder where you placed the HW starter file. You will submit the PDF on Canvas.     
 
 ```{r knit-to-pdf, echo = FALSE, eval = TRUE, fig.align = "left"}
 knitr::include_graphics("img/knit2.png")
@@ -278,7 +280,7 @@ final_props %>%
 
 # Submit to Canvas
 
-When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading!
+When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, please watch my little video and read the instructions on the Canvas page: "Info on Posit Cloud (for HWs, Labs, and All Analyses)"
 
 
 <!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->

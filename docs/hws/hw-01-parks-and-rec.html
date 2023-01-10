@@ -167,8 +167,9 @@ analyze real data and come to informed conclusions.</p>
 <div id="prerequisites" class="section level2"
 data-link="Prerequisites">
 <h2>Prerequisites</h2>
-<p>This assignment assumes that you have reviewed the lecture titled
-“Meet the toolkit: Programming.” If you haven’t yet done so, please
+<p>This assignment assumes that you have completed all the steps in the
+Canvas page: “Info on Posit Cloud (for HWs, Labs, and All Analyses)” to
+get yourself set up on Posit Cloud. If you haven’t yet done so, please
 pause and complete it before continuing.</p>
 </div>
 <div id="terminology" class="section level2">
@@ -180,12 +181,14 @@ them before we proceed.</p>
 using throughout the course.</p></li>
 <li><p><strong>RStudio:</strong> An integrated development environment
 for R. In other words, a convenient interface for writing and running R
-code.</p>
+code.</p></li>
+<li><p>*Posit Cloud** The online service for accessing RStudio.</p>
 <ul>
 <li>In this course, assignment instructions you work on (HWs, Labs,
-Project) will be available on Canvas; however, the “starter” documents
-needed to complete each assignment will be available on RStudio
-Cloud.</li>
+Project) will be available on Canvas. The “starter” documents needed to
+complete each assignment will typically be available on Posit Cloud;
+however, for Week 1, you need to download from the instruction page in
+Canvas.</li>
 </ul></li>
 </ul>
 </div>
@@ -199,7 +202,7 @@ building blocks of R and RStudio.</p>
 <p>Before you can get started with the analysis, you need to make sure
 you:</p>
 <ul>
-<li>are a member of the course RStudio Cloud space; if you are not, then
+<li>are a member of the course Posit Cloud space; if you are not, then
 you did not complete the prerequisite for this assignment. Please go
 back to <a href="#prerequisites">Prerequisites</a> and complete it.</li>
 </ul>
@@ -208,29 +211,24 @@ back to <a href="#prerequisites">Prerequisites</a> and complete it.</li>
 <div id="workflow" class="section level1">
 <h1>Workflow</h1>
 <p>For each assignment in this course you will go to a shared folder in
-RStudio Cloud that contains starter documents you will build upon when
-working on your assignment. In RStudio you will edit them, run them,
-view your results, and interpret them. In other words, all data analysis
-will happen in RStudio.</p>
+Posit Cloud that contains starter documents (except for Week 1 where you
+will upload the document yourself). You will build upon this document
+when working on your assignment. In Posit Cloud/RStudio you will edit
+them, run them, view your results, and interpret them. In other words,
+all data analysis will happen in RStudio.</p>
 <p>Lets walk through some of the steps that will get you ready for
 analysis.</p>
 </div>
 <div id="hello-rstudio" class="section level1">
 <h1>Hello RStudio!</h1>
-<p>Go to <a href="https://rstudio.cloud/"
-title="RStudio Cloud">rstudio.cloud</a> and then <strong>navigate to the
-course workspace</strong> via the left sidebar. It’s very important that
-you do this for two reasons:</p>
-<ul>
-<li>It’s only when you’re in the course workspace that you’ll be able to
-benefit from R packages I’ve pre-installed for you so that your project
-can be configured correctly.</li>
-<li>It’s only when you’re in the course workspace that your usage of
-RStudio Cloud won’t count towards the free usage limits.</li>
-</ul>
+<p>For Week 1 only, you need to follow the instructions on the Canvas
+page: “Info on Posit Cloud (for HWs, Labs, and All Analyses)” to get the
+HW .RMD file loaded into your Posit Cloud/RStudio environment.</p>
+<!-- Go to [rstudio.cloud](https://rstudio.cloud/ "RStudio Cloud") and then **navigate to the course workspace** via the left sidebar. It's very important that you do this for two reasons: -->
+<!-- -   It's only when you're in the course workspace that you'll be able to benefit from R packages I've pre-installed for you so that your project can be configured correctly. -->
+<!-- -   It's only when you're in the course workspace that your usage of RStudio Cloud won't count towards the free usage limits. -->
 <p><img src="img/course-workspace.png" width="80%"  style="display: block; margin: auto;" /></p>
-<p>Before you proceed, confirm that you are in the course workspace by
-checking out what’s on your top bar in RStudio Cloud.</p>
+<!-- Before you proceed, confirm that you are in the course workspace by checking out what's on your top bar in RStudio Cloud. -->
 <div id="rstudio-layout" class="section level2">
 <h2>RStudio Layout</h2>
 <p>RStudio is comprised of four panes.</p>
@@ -289,7 +287,7 @@ submit the rendered document to Canvas, you want to change the “Knit”
 setting to <strong>Knit to PDF.</strong> To do this, select the dropdown
 arrow and you will see the option for knitting to PDF. Click it and look
 for the PDF document that has been generated in the same folder where
-you found the HW starter file. You will submit the PDF on Canvas.</p>
+you placed the HW starter file. You will submit the PDF on Canvas.</p>
 <p><img src="img/knit2.png" width="80%"  style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
@@ -496,7 +494,9 @@ season?</li>
 <h1>Submit to Canvas</h1>
 <p>When you’re all done, it’s now time to do the final knit to submit
 this assignment on Canvas. Remember, you want to knit as a PDF and
-submit the generated PDF document for grading!</p>
+submit the generated PDF document for grading! If you cannot remember
+how, please watch my little video and read the instructions on the
+Canvas page: “Info on Posit Cloud (for HWs, Labs, and All Analyses)”</p>
 <!-- Now let's shift gears and take a look at the IMDB ratings. It might be interesting to see which episodes received the highest ratings. But first, lets get some simple summary statistics on the IMDB ratings so we know what we're working with. To do this we can run R's built-in `summary` function on our IMDB column. These functions are "generic" in that they get automatically loaded every time you open R.     -->
 <!-- Notice the use of the `$`. This is used to select a particular column from a dataset, in this case, the `imdb_rating` column within the `parks_rec` dataset.  -->
 <!-- ```{r} -->
