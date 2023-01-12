@@ -229,8 +229,8 @@ parks_rec %>%
 
 ```{r leslie-mentions-2, eval=FALSE, echo=TRUE}
 parks_rec %>%
-  filter(character == "Leslie") %>%
-  count(season, sort = TRUE)
+  group_by(season) %>%
+  count(sort = TRUE)
 ```
 
 🧶 ✅ ⬆️ *Write your answer in your R Markdown starter document under Exercise 4, knit the document as a "html_document" (default output in the YAML).*
