@@ -1,7 +1,7 @@
 ---
 title: "HW 02 - Phoenix city employee salaries"
 knit: (function(inputFile, encoding) {
-    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs/hws/")
+    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
   })
 # output: 
 #   tufte::tufte_html:
