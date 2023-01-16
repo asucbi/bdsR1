@@ -29,7 +29,7 @@ knitr::include_graphics("img/1024px-phx-city.jpg")
 
 <!-- Note: data from https://data.world/city-of-phoenix/2b41f4f8-fe6f-48d3-8097-ad44ee5bd616 -->
 
-The City of Phoenix employs thousands of people to perform different jobs. How much does it pay them individually and in total for different departments and jobs? The priorities of a government can be shown through what the jobs to which it dedicates its money and personnel.
+The City of Phoenix employs thousands of people to perform different jobs. How much does it pay them individually and in total for different departments and jobs? The priorities of a government can be shown through how it dedicates its money and personnel.
 
 # Getting started
 
