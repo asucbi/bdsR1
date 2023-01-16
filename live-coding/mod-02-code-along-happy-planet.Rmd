@@ -1,0 +1,178 @@
+---
+title: "Happy Planet live code-along exercise"
+author: "Derek Powell"
+output: html_document
+---
+
+```{r load-packages, include=FALSE}
+library(tidyverse)
+```
+
+
+# Introduction
+
+Before we start in earnest, we need to introduce some basic points about `R` and markdown
+
+## Markdown
+
+A simple markup language for creating text documents
+
+- Can use basic syntax to create formatted text, such as headings, (with `#`) bullet points with **bolding**, *italics*, and `code_syntax`. 
+- You can also embed `R` code in text, like `2+2 =` `r 2+2`
+- and embed code chunks and their outputs (creation hotkey: `cmd-option-i`)
+
+  
+## Coding in R
+
+Things we'll go over ...
+
+- Typing commands in the console
+- R is dumb
+  - Avoid typos (but flexibility with spacing, line breaks)
+  - Read left to right
+  - Errors happen! Read your error messages
+- Mathematical operators (`+ - * / ^`)
+- Order of operations
+- Variable assignment (`<-`) hotkey: `option+-`
+- Calculations with variables
+- Naming variables (rules and conventions)
+- Using functions
+  - Arguments, named arguments, and defaults
+  - E.g. `round()`
+  - Piping (` %>% `) hotkey: `shift-ctrl-M`
+- Tab completion
+- Indexing dataframes/tibbles and lists (`$`)
+- Comments (`#`)
+
+
+# Exploratory data analysis
+
+## Questions:
+
+* How much does average happiness vary across countries?
+* Which countries are happiest? Which are least happy?
+* Can you buy happiness? How does per capita GDP relate to happiness?
+* What is the cost of happiness? How does a country's happiness relate to its ecological footprint?
+
+### Load the Happy Planet Index data frame we will be using 
+
+```{r}
+
+happy <- read_csv("https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv") %>% 
+  mutate(
+    Region = case_when(
+      Region == 1 ~ "Latin America",
+      Region == 2 ~ "Western",
+      Region == 3 ~ "Middle East",
+      Region == 4 ~ "SubSaharan Africa",
+      Region == 5 ~ "South Asia",
+      Region == 6 ~ "East Asia",
+      Region == 7 ~ "Former Soviet",
+      TRUE ~ NA_character_
+    ),
+    HDI_group = ordered(case_when(
+      HDI <= .55 ~ "Low",
+      HDI < .699 ~ "Medium",
+      HDI < .799 ~ "High",
+      HDI >= .799 ~ "Very high",
+      is.na(HDI) ~ NA_character_
+    ), levels = c("Low","Medium","High","Very high")
+  )
+  )
+```
+
+
+### Glimpse at the data
+
+We'll make a code chunk and use "glimpse" for a view we can include in an output notebook.
+
+
+### How much does happiness vary across countries?
+
+```{r, eval=FALSE}
+ggplot(happy, aes(x=____)) +
+  geom_ # ...
+```
+
+#### Which are the happiest countries?
+
+
+#### Which are the saddest countries?
+
+
+#### How does happiness vary by region?
+
+## Can you buy happiness?
+
+### Modify the following starter plot to change the color of all points to `"pink"`.
+
+```{r scatterplot}
+ggplot(happy, 
+       aes(x = GDPperCapita, y = Happiness, size=Population)) +
+  geom_point()
+```
+
+### Add labels for title, x and y axes, and size of points. 
+
+```{r scatterplot-labels}
+## .... previous code goes here first ...
+  labs(
+    #title = "___",
+    #x = "___",
+    #y = "___",
+    #___
+    )
+```
+
+### Does money buy happiness everywhere?
+
+### Is there an environmental cost of happiness?
+
+
+-------
+
+
+# More practice
+
+### How many countries are developed? 
+
+Make a bar plot of the distribution of `HDI_group`
+
+(A little bit of starter code is provided below, and the code chunk is set to not be evaluated with `eval = FALSE` because the current code in there is not valid code and hence the document wouldn't knit. Once you replace the code with valid code, set the chunk option to `eval = TRUE`, or remove the `eval` option altogether since it's set to `TRUE` by default.)
+
+```{r barplot, eval = FALSE}
+ggplot(happy, aes(x=____)) + geom_bar()
+```
+
+### Histogram
+
+Pick a single numerical variable and make a histogram of it.
+
+(This time no starter code is provided, you're on your own!)
+
+```{r my-chunk}
+
+```
+
+### Numerical data visualization
+
+Pick a numerical variable and a visualisation (you pick the type!) to visualise the relationship between this variable and `Region`. Along with your code and output, provide an interpretation of the visualisation.
+
+```{r num-cat}
+
+```
+
+### Categorical visualization
+
+Focus on the two categorical variables of `Region` and `HDI_group` and make a visualisation to visualise the relationship between them. Along with your code and output, provide an interpretation of the visualisation.
+
+```{r cat-cat}
+```
+
+### Multivariate, numerical and categorical
+
+Pick two numerical variables to consider alongside a categorical variable (either `Region` or `HDI_group`) and make a visualisation that incorportes all of them. Then, provide an interpretation with your answer.
+
+```{r multi}
+
+```
