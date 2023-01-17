@@ -33,10 +33,10 @@ library(lubridate)
 ### .gray[Course operation]
 .gray[
 <!-- - introds.org -->
-- Learn
+- Canvas
+- Perusall
+- Peerceptiv
 - Zoom
-- Teams
-- Piazza
 ]
 ]
 .pull-right[
@@ -133,7 +133,6 @@ knitr::include_graphics("mod-01-2-toolkit-r/rstudio-logo.png")
 - RStudio is a convenient interface for R called an **IDE** (integrated development environment), e.g. *"I write R code in the RStudio IDE"*
 - RStudio is not a requirement for programming with R, but it's very commonly used by R programmers and data scientists
 ]
-
 
 ---
 

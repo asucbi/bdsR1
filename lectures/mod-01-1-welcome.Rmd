@@ -24,20 +24,20 @@ library(emo)
 packageVersion("xaringan")
 ```
 
----
+<!-- --- -->
 
-class: middle
+<!-- class: middle -->
 
-# Dr. Nicholas Duran
-# Dr. Derek Powell
+<!-- # Dr. Nicholas Duran -->
+<!-- # Dr. Derek Powell -->
 
----
+<!-- --- -->
 
-class: middle
+<!-- class: middle -->
 
-# Hello world!
+<!-- # Hello world! -->
 
----
+<!-- --- -->
 
 ## Data science
 
