@@ -89,15 +89,6 @@ Souce: [Study: Cereal Keeps Girls Slim](https://www.cbsnews.com/news/study-cerea
 
 ---
 
-## Explanatory and response variables
-
-- Explanatory variable: Whether the participant ate breakfast or not
-
-- Reponse variable: BMI of the participant
-
-
----
-
 ## Three possible explanations
 
 --
