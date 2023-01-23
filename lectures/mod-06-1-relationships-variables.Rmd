@@ -13,6 +13,18 @@ output:
       countIncrementalSlides: false
 ---
 
+<style>
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+</style>
+
 ```{r child = "setup.Rmd"}
 ```
 
@@ -187,7 +199,10 @@ In this plot, it looks like there is a positive association between X and Y: wit
 This **correlation** means that X and Y are **dependent**.
 ]
 
+.vertical-center[
 .pull-right[
+
+
 
 ```{r, echo=F, fig.height=10}
 set.seed(12235)
@@ -200,6 +215,7 @@ tibble(
   geom_point() +
   theme(aspect.ratio=1)
 ```
+]
 ]
 
 ---
