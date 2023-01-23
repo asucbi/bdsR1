@@ -1,10 +1,10 @@
 ---
 title: "Relationships among variables"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
-    css: ["../xaringan-themer.css", "../slides.css"]
+    css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -177,27 +177,45 @@ class: middle
 
 ## Correlation is a kind of dependence
 
-So far we've primarily focused on _visualizing_ relationships between variables with plots like this:
 
-< example plot >
+.pull-left[
+
+So far we've primarily focused on _visualizing_ relationships between variables with plots like this:
 
 In this plot, it looks like there is a positive association between X and Y: with higher values of X, we tend to see higher values of Y (and vice versa).
 
 This **correlation** means that X and Y are **dependent**.
+]
+
+.pull-right[
+
+```{r, echo=F, fig.height=10}
+set.seed(12235)
+
+tibble(
+  X = rnorm(50),
+  Y = .3*X + rnorm(50,0,.5)
+) %>% 
+  ggplot(aes(x=X, y=Y)) +
+  geom_point() +
+  theme(aspect.ratio=1)
+```
+]
 
 ---
 
 ## Correlation values
-
+.small[
 - Usually when someone refers to a correlation they refer to the "Pearson product-moment coefficient" or "Pearson correlation" (named for Karl Pearson).
 
 - Typically denoted $\rho_{x,y}$, this is a number between -1 and 1 that determines the degree of linear association between two variables.
+]
 
 --
 
 These plots show data with different $\rho_{x,y}$ values.
 
-```{r, echo=F}
+```{r, echo=F, warning=F}
 
 make_2dcorr_samples <- function(n, rho){
   d <-  MASS::mvrnorm(n=n, mu=c(0, 0), Sigma=matrix(c(1, rho, rho, 1), nrow=2), empirical=TRUE) %>% 
