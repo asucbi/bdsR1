@@ -65,32 +65,16 @@ data("Whickham")
 1.  What type of study do you think these data come from: observational or experiment?
     Why?
     
-```{r, include=include_sol}
-## observational, it would be unethical to do otherwise
-```
-    
 
 2.  How many observations are in this dataset?
     What does each observation represent?
-    
-```{r, include=include_sol}
-nrow(Whickham) # one observed person
-```
 
 3.  How many variables are in this dataset?
     What type of variable is each?
-    
-```{r, include=include_sol}
-glimpse(Whickham) # 3, factor, factor, and int
-```
    
 🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
 4.  What would you expect the relationship between smoking status and health outcome to be?
-
-```{r, include=include_sol}
-## Would expect smoking to lead to more dead / fewer alive
-```
 
 5. Describe the relationship between smoking status and health outcomes in terms of (estimated) conditional probabilities. Calculate $P(H)$, $P(H|S)$, and $P(H|\neg S)$.  Here is some code to get you started:
 
@@ -106,9 +90,7 @@ Whickham %>%
   -   `age > 44 & age <= 64 ~ "45-64"`
   -   `age > 64 ~ "65+"`
 
-
 8.  Re-create the visualization depicting the relationship between smoking status and health outcome, faceted by `age_cat`. What changed? What might explain this change? Extend the contingency table from earlier by breaking it down by age category and use it to help your narrative.
-
 
 🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
