@@ -55,10 +55,10 @@ library(tidyverse)
 The data is in two files and both are hanging out in some online repository. The first file is called `phoenix_accidents_1.csv` and the second file is called `phoenix_accidents_2.csv`. 
 
 ```{marginfigure}
-Notice that the `read_csv` function is able to retrieve these file just as long as you give it the correct URL to the repository. 
+Notice that the `read_csv` function is able to retrieve these files just as long as you give it the correct URL to the repository. 
 ```
 
-We now need to load in the data before we can do anything with it. We use the function `read_csv()` to do so. 
+We need to load in the data before we can do anything with it. We use the function `read_csv()` to do so. 
 
 ```{r load-data, message = FALSE, eval = TRUE}
 phx_accidents_1 <- 
@@ -68,17 +68,17 @@ phx_accidents_2 <-
   read_csv("https://asucbi.github.io/data/phoenix_accidents_2.csv") 
 ```
 
-# Exercises
-
-1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
-
-```{r join-data-frames}
-
+```{r echo = FALSE, eval = TRUE}
+phx_accidents = left_join(phx_accidents_1, phx_accidents_2, by="id")
 ```
 
+# Exercises
 
+1.  How many observations (rows) do the two datasets have? Instead of hard coding the number in your answer, use inline code.
 
-The variable descriptions are as follows. Read through them, try to get a sense of what you have available:
+1.  Join `phx_accidents_1` and `phx_accidents_2` datasets into a single dataset called `phx_accidents`. Be sure to join `by=` the common variable between the two datasets.  
+
+The variable (column) descriptions are as follows. Read through them, try to get a sense of what you have available:
 
 | Variable Name                                      | Description                                                                                                                                                |
 |----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -104,10 +104,6 @@ The variable descriptions are as follows. Read through them, try to get a sense 
 | `precipitation` | Shows precipitation amount in inches, if there is any. |
 | `visibility` | Shows visibility (in miles). |
 
-
-
-1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
-
 1.  Run `View(phx_accidents)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
 
 <!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
@@ -116,12 +112,24 @@ The variable descriptions are as follows. Read through them, try to get a sense 
 
 ```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
 phx_accidents %>%
+  
+  # 1. record the lecture 4 to show how to pivot
+  # 2. use a mutate of some sort but 
+  
+  # they should know how to do a mutate but the lecture so far has never introduced them to an "if_else" sort of statement with %in% ... either future lectures needs to be adjusted or the assignment here modified. just keep an eye on things if this is assumed knowledge for other hws/labs  
+  
   mutate(day_of_week_type = if_else(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday")) %>%
   ggplot(aes(x = time, fill = severity)) +
   geom_density(alpha = 0.50) +
   facet_wrap(~day_of_week_type, ncol = 1) +
+  
+  # to know how to use theme_minimal they need access to the 4th lecture
   theme_minimal() +
-  scale_fill_viridis_d() +
+  
+  # i do not believe they were ever introduced to this scale_fill_viridis_d() option. check with Derek. but this needs to be removed or explained in a lecture.   
+  # scale_fill_viridis_d() +
+  
+  # were they introduced on how to do things using "labs"
   labs(
     title = "Number of accidents throughout the day",
     subtitle = "By day of week and severity",

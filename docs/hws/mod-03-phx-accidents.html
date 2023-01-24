@@ -200,18 +200,35 @@ wrangling and visualization.</p>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The data is hanging out in some online repository, and it’s called
-<code>phoenix_accidents.csv</code>.</p>
+<p>The data is in two files and both are hanging out in some online
+repository. The first file is called
+<code>phoenix_accidents_1.csv</code> and the second file is called
+<code>phoenix_accidents_2.csv</code>.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
-class="marginnote"><span style="display: block;">Notice this .csv file
-is stored in an online database. The <code>read_csv</code> function is
-able to retrieve this file just as long as you give it the correct
-URL.</span></span></p>
-<p>We now need to load in the data before we can do anything with it. We
-use the function <code>read_csv()</code> to do so.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) </span></code></pre></div>
-<p>The variable descriptions are as follows:</p>
+class="marginnote"><span style="display: block;">Notice that the
+<code>read_csv</code> function is able to retrieve these files just as
+long as you give it the correct URL to the repository.</span></span></p>
+<p>We need to load in the data before we can do anything with it. We use
+the function <code>read_csv()</code> to do so.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents_1 <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents_1.csv&quot;</span>) </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>phx_accidents_2 <span class="ot">&lt;-</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents_2.csv&quot;</span>) </span></code></pre></div>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<ol style="list-style-type: decimal">
+<li><p>How many observations (rows) do the two datasets have? Instead of
+hard coding the number in your answer, use inline code.</p></li>
+<li><p>Join <code>phx_accidents_1</code> and
+<code>phx_accidents_2</code> datasets into a single dataset called
+<code>phx_accidents</code>. Be sure to join <code>by=</code> the common
+variable between the two datasets.</p></li>
+</ol>
+<p>The variable (column) descriptions are as follows. Read through them,
+try to get a sense of what you have available:</p>
 <table>
 <colgroup>
 <col width="25%" />
@@ -318,16 +335,10 @@ Fog or smoke or dust, Other, Unknown</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
 <ol style="list-style-type: decimal">
-<li><p>How many observations (rows) does the dataset have? Instead of
-hard coding the number in your answer, use inline code.</p></li>
-<li><p>Run <code>View(phx_accidents)</code> in your Console to view the
+<li>Run <code>View(phx_accidents)</code> in your Console to view the
 data in the data viewer. What does each row in the dataset
-represent?</p></li>
+represent?</li>
 </ol>
 <!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
 <ol start="3" style="list-style-type: decimal">
@@ -338,7 +349,7 @@ shouldn’t include spaces, and shouldn’t shouldn’t repeat a previous
 label.</li>
 </ol>
 <div class="figure fullwidth">
-<img src="mod-03-phx-accidents_files/figure-html/unnamed-chunk-4-1.png" alt=" " width="80%"  />
+<img src="mod-03-phx-accidents_files/figure-html/unnamed-chunk-5-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>
