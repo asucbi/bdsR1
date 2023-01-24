@@ -206,16 +206,16 @@ wrangling and visualization.
 <p>The data can be found in a separate folder called <code>data</code>,
 and it’s called <code>phoenix_accidents.csv</code>.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
-class="marginnote"><span style="display: block;">Because our .csv file
-is in the <code>data</code> folder, note that we need to include that in
-the file path name.</span></span></p>
+class="marginnote"><span style="display: block;">Notice this .csv file
+is stored in an online database. The <code>read_csv</code> function is
+able to retrieve this file just as long as you give it the correct
+URL.</span></span></p>
 <p>We now need to load in the data before we can do anything with it. We
 use the function <code>read_csv()</code> to do so.</p>
 <!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># phx_accidents &lt;- read_csv(&quot;data/phoenix_accidents.csv&quot;)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(day_of_week, severity, time)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(day_of_week, severity, time)</span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
 <table>
 <colgroup>

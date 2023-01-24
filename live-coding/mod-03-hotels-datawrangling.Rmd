@@ -9,8 +9,9 @@ output:
     theme: yeti
     highlight: pygments
 # output:
-#   github_document
 date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r load-pkg, message = FALSE}
