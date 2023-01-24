@@ -28,11 +28,9 @@ The data covers all recorded car accidents in Phoenix from January 2016 to Janua
 
 # Getting started
 
-First, open the R Markdown document `hw-03.Rmd` and knit it.
+First, open the R Markdown document `mod-03-hw.Rmd` and knit it.
 
 Make sure it compiles without errors.
-
-The output will be in the file markdown `.md` file with the same name.
 
 ## Warm up
 
@@ -43,11 +41,10 @@ Before we introduce the data, let's warm up with a simple exercise.
 ## Packages
 
 We'll use the **tidyverse** package for much of the data wrangling and visualization. 
-<!-- and the data lives in the **dsbox** package. -->
 
-These packages are already installed for you.
+This package is already installed for you.
 
-You can load them by running the following in your Console:
+You can load it by running the following in your Console:
 
 ```{r load-packages, message = FALSE, eval = TRUE}
 library(tidyverse)
@@ -55,7 +52,7 @@ library(tidyverse)
 
 ## Data
 
-The data can be found in a separate folder called `data`, and it's called `phoenix_accidents.csv`. 
+The data is hanging out in some online repository, and it's called `phoenix_accidents.csv`. 
 
 ```{marginfigure}
 Notice this .csv file is stored in an online database. The `read_csv` function is able to retrieve this file just as long as you give it the correct URL. 
@@ -63,12 +60,9 @@ Notice this .csv file is stored in an online database. The `read_csv` function i
 
 We now need to load in the data before we can do anything with it. We use the function `read_csv()` to do so. 
 
-<!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
-
 ```{r load-data, message = FALSE, eval = TRUE}
 phx_accidents <- 
-  read_csv("https://asucbi.github.io/data/phoenix_accidents.csv") %>% 
-  select(day_of_week, severity, time)
+  read_csv("https://asucbi.github.io/data/phoenix_accidents.csv") 
 ```
 
 The variable descriptions are as follows:
@@ -101,7 +95,7 @@ The variable descriptions are as follows:
 
 1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
 
-1.  Run `View(az_accidents)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
+1.  Run `View(phx_accidents)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
 
 <!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
 

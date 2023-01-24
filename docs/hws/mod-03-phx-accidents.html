@@ -178,11 +178,9 @@ the purpose of this assignment.</p>
 <!-- Sobhan Moosavi; Scientist at Lyft, former CSE PhD student at Ohio State University -->
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>First, open the R Markdown document <code>hw-03.Rmd</code> and knit
-it.</p>
+<p>First, open the R Markdown document <code>mod-03-hw.Rmd</code> and
+knit it.</p>
 <p>Make sure it compiles without errors.</p>
-<p>The output will be in the file markdown <code>.md</code> file with
-the same name.</p>
 <div id="warm-up" class="section level2">
 <h2>Warm up</h2>
 <p>Before we introduce the data, let’s warm up with a simple
@@ -195,16 +193,15 @@ exercise.</p>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>We’ll use the <strong>tidyverse</strong> package for much of the data
-wrangling and visualization.
-<!-- and the data lives in the **dsbox** package. --></p>
-<p>These packages are already installed for you.</p>
-<p>You can load them by running the following in your Console:</p>
+wrangling and visualization.</p>
+<p>This package is already installed for you.</p>
+<p>You can load it by running the following in your Console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The data can be found in a separate folder called <code>data</code>,
-and it’s called <code>phoenix_accidents.csv</code>.</p>
+<p>The data is hanging out in some online repository, and it’s called
+<code>phoenix_accidents.csv</code>.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
 class="marginnote"><span style="display: block;">Notice this .csv file
 is stored in an online database. The <code>read_csv</code> function is
@@ -212,10 +209,8 @@ able to retrieve this file just as long as you give it the correct
 URL.</span></span></p>
 <p>We now need to load in the data before we can do anything with it. We
 use the function <code>read_csv()</code> to do so.</p>
-<!-- Will need to figure out the best way to load in data from RStudio server or directly from Github -->
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="ot">&lt;-</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(day_of_week, severity, time)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&quot;https://asucbi.github.io/data/phoenix_accidents.csv&quot;</span>) </span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
 <table>
 <colgroup>
@@ -330,7 +325,7 @@ Fog or smoke or dust, Other, Unknown</td>
 <ol style="list-style-type: decimal">
 <li><p>How many observations (rows) does the dataset have? Instead of
 hard coding the number in your answer, use inline code.</p></li>
-<li><p>Run <code>View(az_accidents)</code> in your Console to view the
+<li><p>Run <code>View(phx_accidents)</code> in your Console to view the
 data in the data viewer. What does each row in the dataset
 represent?</p></li>
 </ol>
@@ -343,7 +338,7 @@ shouldn’t include spaces, and shouldn’t shouldn’t repeat a previous
 label.</li>
 </ol>
 <div class="figure fullwidth">
-<img src="mod-03-az-accidents_files/figure-html/unnamed-chunk-4-1.png" alt=" " width="80%"  />
+<img src="mod-03-phx-accidents_files/figure-html/unnamed-chunk-4-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>
