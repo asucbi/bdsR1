@@ -20,9 +20,34 @@ library(skimr)
 ```
 
 ```{r load-data, message = FALSE}
-# From TidyTuesday: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md
 hotels <- read_csv("../data/hotels.csv")
 ```
+
+## Starters
+
+### Announcements
+
+- HW 3 due date moved to January 31st (same date as when the lab is due). Part of the reason I'm doing this is that I need to create a lecture on something known as data reshaping using the `pivot_wider` and `pivot_longer` functions. You will need one of these functions for doing the HW. 
+
+- Updates to Module 3 project folder - Do the updates automatically show up? 
+
+### Understanding where our data comes from
+
+Today's dataset comes from the "R For Data Science" community. They used to put out a podcast called Tidy Tuesday that features some open dataset and a "community challenge" to do fun things with the dataset. 
+
+- https://github.com/rfordatascience/tidytuesday
+
+We will be working with a dataset from Week 7 of 2020 called "Hotel Bookings:" Learn more here:
+
+- https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md
+
+### What to do when you cannot figure things out?
+
+- Using the readings as a resource
+- Take advantage of online resources, such as community forums
+  - https://stats.stackexchange.com/
+- Check the help file with `?`
+- Good ol' fashioned Google searching
 
 ## Exercises
 

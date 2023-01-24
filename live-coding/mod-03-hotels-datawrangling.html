@@ -462,15 +462,56 @@ display: none;
 <h1 class="title toc-ignore">Hotel bookings + Data Wrangling</h1>
 <h4 class="author">Nicholas Duran, Derek Powell<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
 <h4 class="author">Mine Çetinkaya-Rundel<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></h4>
-<h4 class="date">23 January, 2023</h4>
+<h4 class="date">24 January, 2023</h4>
 
 </div>
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From TidyTuesday: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>hotels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../data/hotels.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hotels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../data/hotels.csv&quot;</span>)</span></code></pre></div>
+<div id="starters" class="section level2">
+<h2>Starters</h2>
+<div id="announcements" class="section level3">
+<h3>Announcements</h3>
+<ul>
+<li><p>HW 3 due date moved to January 31st (same date as when the lab is
+due). Part of the reason I’m doing this is that I need to create a
+lecture on something known as data reshaping using the
+<code>pivot_wider</code> and <code>pivot_longer</code> functions. You
+will need one of these functions for doing the HW.</p></li>
+<li><p>Updates to Module 3 project folder - Do the updates automatically
+show up?</p></li>
+</ul>
+</div>
+<div id="understanding-where-our-data-comes-from" class="section level3">
+<h3>Understanding where our data comes from</h3>
+<p>Today’s dataset comes from the “R For Data Science” community. They
+used to put out a podcast called Tidy Tuesday that features some open
+dataset and a “community challenge” to do fun things with the
+dataset.</p>
+<ul>
+<li><a href="https://github.com/rfordatascience/tidytuesday" class="uri">https://github.com/rfordatascience/tidytuesday</a></li>
+</ul>
+<p>We will be working with a dataset from Week 7 of 2020 called “Hotel
+Bookings:” Learn more here:</p>
+<ul>
+<li><a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md" class="uri">https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md</a></li>
+</ul>
+</div>
+<div id="what-to-do-when-you-cannot-figure-things-out" class="section level3">
+<h3>What to do when you cannot figure things out?</h3>
+<ul>
+<li>Using the readings as a resource</li>
+<li>Take advantage of online resources, such as community forums
+<ul>
+<li><a href="https://stats.stackexchange.com/" class="uri">https://stats.stackexchange.com/</a></li>
+</ul></li>
+<li>Check the help file with <code>?</code></li>
+<li>Good ol’ fashioned Google searching</li>
+</ul>
+</div>
+</div>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
 <div id="exercise-1." class="section level3">
