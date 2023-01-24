@@ -52,20 +52,33 @@ library(tidyverse)
 
 ## Data
 
-The data is hanging out in some online repository, and it's called `phoenix_accidents.csv`. 
+The data is in two files and both are hanging out in some online repository. The first file is called `phoenix_accidents_1.csv` and the second file is called `phoenix_accidents_2.csv`. 
 
 ```{marginfigure}
-Notice this .csv file is stored in an online database. The `read_csv` function is able to retrieve this file just as long as you give it the correct URL. 
+Notice that the `read_csv` function is able to retrieve these file just as long as you give it the correct URL to the repository. 
 ```
 
 We now need to load in the data before we can do anything with it. We use the function `read_csv()` to do so. 
 
 ```{r load-data, message = FALSE, eval = TRUE}
-phx_accidents <- 
-  read_csv("https://asucbi.github.io/data/phoenix_accidents.csv") 
+phx_accidents_1 <- 
+  read_csv("https://asucbi.github.io/data/phoenix_accidents_1.csv") 
+
+phx_accidents_2 <- 
+  read_csv("https://asucbi.github.io/data/phoenix_accidents_2.csv") 
 ```
 
-The variable descriptions are as follows:
+# Exercises
+
+1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
+
+```{r join-data-frames}
+
+```
+
+
+
+The variable descriptions are as follows. Read through them, try to get a sense of what you have available:
 
 | Variable Name                                      | Description                                                                                                                                                |
 |----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -91,7 +104,7 @@ The variable descriptions are as follows:
 | `precipitation` | Shows precipitation amount in inches, if there is any. |
 | `visibility` | Shows visibility (in miles). |
 
-# Exercises
+
 
 1.  How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
 
