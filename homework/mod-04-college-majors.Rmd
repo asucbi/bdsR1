@@ -32,7 +32,7 @@ Keep this in mind as you analyze the data.
 
 # Getting started
 
-Go to the course RStudio Cloud Workspace and locate the folder for the homework assignment, which should be named `hw-04-college-majors`.
+Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `hw-04-college-majors`.
 
 First, open the R Markdown document `hw-04.Rmd` and Knit it.
 
@@ -143,14 +143,6 @@ college_recent_grads %>%
 
 1.  Using what you've learned so far, arrange the data in descending order with respect to proportion of women in a major, and display only the major, the total number of people with major, and proportion of women. Show only the top 3 majors by using the `head()` function at the end of the pipeline.
 
-```{r, include=F}
-## ANSWER KEY
-college_recent_grads %>%
-  arrange(desc(sharewomen)) %>%
-  select(rank, major, sharewomen) %>% 
-  head(3)
-```
-
 
 ## How do the distributions of median income compare across major categories?
 
@@ -189,16 +181,6 @@ You might ask yourself: "What would be a meaningful difference in median incomes
 
 3. Try binwidths of \$1000 and \$5000 and choose one. Explain your reasoning for your choice. Note that the binwidth is an argument for the `geom_histogram` function. So to specify a binwidth of \$1000, you would use `geom_histogram(binwidth = 1000)`.
 
-```{r, include=F}
-## ANSWER KEY
-ggplot(data = college_recent_grads, mapping = aes(x = median)) +
-  geom_histogram(binwidth=1000)
-
-ggplot(data = college_recent_grads, mapping = aes(x = median)) +
-  geom_histogram(binwidth=5000)
-```
-
-
 4. We can also calculate summary statistics for this distribution using the `summarize` function:
 
 ```{r}
@@ -218,14 +200,6 @@ Based on the shape of the histogram you created in the previous exercise, determ
 
 Now that we've seen the shapes of the distributions of median incomes for each major category, we should have a better idea for which summary statistic to use to quantify the typical median income.
 
-```{r, include=F}
-## ANSWER KEY
-college_recent_grads %>% 
-  ggplot(aes(x=median)) +
-  geom_histogram(binwidth=5000) +
-  facet_wrap(~major_category)
-```
-
 
 6. Which major category has the highest typical (you'll need to decide what this means) median income? Use the partial code below, filling it in with the appropriate statistic and function. Also note that we are looking for the highest statistic, so make sure to arrange in the correct direction.
 
@@ -234,14 +208,6 @@ college_recent_grads %>%
   group_by(major_category) %>%
   summarise(___ = ___(median)) %>%
   arrange(___)
-```
-
-```{r, include=F}
-## ANSWER KEY
-college_recent_grads %>%
-  group_by(major_category) %>%
-  summarise(typical_median = median(median)) %>% # one possible choice
-  arrange(desc(typical_median))
 ```
 
 
@@ -253,15 +219,8 @@ college_recent_grads %>%
 ```
 
 
-```{r, include=F}
-## ANSWER KEY
-college_recent_grads %>%
-  count(major_category) %>% 
-  arrange(n)
-```
 
-
-🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
+🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
 ## All STEM fields aren't the same
 
@@ -315,39 +274,20 @@ college_recent_grads %>%
 
 8. Which STEM majors have median salaries equal to or less than the median for all majors' median earnings? Your output should only show the major name and median, 25th percentile, and 75th percentile earning for that major as and should be sorted such that the major with the highest median earning is on top.
 
-```{r, include=F}
-## ANSWER KEY
 
-college_recent_grads %>%
-  mutate(overall_median = median(median)) %>%
-  filter(
-    major_type == "stem",
-    median <= overall_median 
-  ) %>% 
-  select(major, median, p25th, p75th) %>% 
-  arrange(desc(median))
-
-```
-
-🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
+🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
 ## What types of majors do women tend to major in?
 
 9. Create a scatterplot of median income vs. proportion of women in that major, coloured by whether the major is in a STEM field or not. Describe the association between these three variables.
-
-```{r, include=F}
-## ANSWER KEY
-
-college_recent_grads %>% 
-  ggplot(aes(x=sharewomen, y = median, color=major_type)) +
-  geom_point()
-```
 
 
 ## Further exploration
 
 10. Ask a question of interest to you, and answer it using summary statistic(s) and/or visualization(s).
 
+🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
-🧶 ✅ ⬆️  *When you are finished, save and knit your document and confirm the outputs look as you expect them to.*
+# Submitting your work
 
+Once you are happy with the final state of your work, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF to the Canvas assignment.  

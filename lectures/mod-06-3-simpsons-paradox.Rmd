@@ -1,7 +1,7 @@
 ---
 title: "Simpson's paradox"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]

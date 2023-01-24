@@ -1,7 +1,7 @@
 ---
 title: "Scientific studies and confounding"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -89,15 +89,6 @@ Souce: [Study: Cereal Keeps Girls Slim](https://www.cbsnews.com/news/study-cerea
 
 ---
 
-## Explanatory and response variables
-
-- Explanatory variable: Whether the participant ate breakfast or not
-
-- Reponse variable: BMI of the participant
-
-
----
-
 ## Three possible explanations
 
 --
@@ -152,17 +143,53 @@ In our dataset of country-level averages, we saw there was an _association_ betw
 
 In our earlier lab, we speculated there might be some cultural differences that might explain the differences, and made some maps to explore these.
 
-```{r}
+```{r, echo=FALSE}
+library(patchwork)
+## noticing some xaringan theme problems
+survey <- read_csv("../data/eu-pers-survey.csv")
+eudata <- read_csv("../data/eu-country-data.csv")
+
+eudata <- eudata %>% 
+  mutate(
+    Country = case_when(
+     Country=="Bosnia and Herzegovina" ~  "Bosnia & Herzegovina",
+     Country== "Czech Republic" ~ "Czechia",
+     TRUE ~ Country
+  )
+  )
+
+combined <- left_join(eudata, survey, by = "Country")
+
+d <- map_data("world") %>% 
+  right_join(combined, by = c("region"="Country"))
+
 # insert the maps here
+
+# 
+# d %>% 
+#   pivot_longer(
+#     c(mean_a, mean_leadexposure),
+#     names_to = "Var",
+#     values_to = "Value"
+#   ) %>% 
+ggplot(d, aes(x=long, y = lat, group=group, fill = mean_leadexposure)) + 
+  geom_polygon() + 
+  scale_fill_viridis_c() +
+  coord_fixed()  +
+  labs(fill="Lead Exposure") 
+  # theme(legend.position="bottom") +
+
+# ggplot(d, aes(x=long, y = lat, group=group, fill = mean_a)) + 
+#   geom_polygon() + 
+#   scale_fill_viridis_c() +
+#   coord_fixed() +
+#   labs(fill="Agreeableness") +
+#   theme(legend.position="bottom")
 ```
 
 ---
 
 ## Potential confound 2: Economic prosperity
-
-<!-- .hand[Could economic factors be a confound influencing both lead exposure and agreeableness?] -->
-
-<!-- -- -->
 
 Could it be true that:
 
@@ -170,7 +197,7 @@ Could it be true that:
 - Prosperity makes people more agreeable?
 
 
-```{r, echo=F, warning=F}
+```{r, echo=F, warning=F, fig.showtext=TRUE}
 library(dagitty)
 library(xaringanthemer)
 library(ggdag)
@@ -209,21 +236,6 @@ Are lead exposure, agreableness, and GDP per capita dependent or independent?
 ```{r, echo=F, warning=F}
 library(patchwork)
 # 3 scatterplots here
-
-## noticing some xaringan theme problems
-survey <- read_csv("../data/eu-pers-survey.csv")
-eudata <- read_csv("../data/eu-country-data.csv")
-
-eudata <- eudata %>% 
-  mutate(
-    Country = case_when(
-     Country=="Bosnia and Herzegovina" ~  "Bosnia & Herzegovina",
-     Country== "Czech Republic" ~ "Czechia",
-     TRUE ~ Country
-  )
-  )
-
-combined <- left_join(eudata, survey, by = "Country")
 
 ggplot(combined, aes(x=mean_leadexposure, y=mean_a)) +
   geom_point() +

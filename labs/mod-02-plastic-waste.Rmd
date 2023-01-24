@@ -36,9 +36,9 @@ Additionally, National Geographic ran a data visualization communication contest
 :::lo
 **LEARNING OBJECTIVES**
 
--   Visualising numerical and categorical data and interpreting visualisations
+-   Visualizing numerical and categorical data and interpreting visualizations
 -   Recreating visualizations
--   Getting more practice using with R, RStudio, Git, and GitHub
+-   Getting more practice using with R and RStudio
 :::
 
 # Getting started
@@ -155,7 +155,7 @@ You might consider doing some research on Trinidad and Tobago to see why plastic
 
 
 `r qbegin(4)`
-1.  Plot, using histograms, the distribution of plastic waste per capita faceted by continent. What can you say about how the continents compare to each other in terms of their plastic waste per capita?
+Plot, using histograms, the distribution of plastic waste per capita faceted by continent. What can you say about how the continents compare to each other in terms of their plastic waste per capita?
 
 **NOTE:** From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can and should the code and view the results yourself.
 `r qend()`
@@ -204,12 +204,12 @@ This still doesn't look great...
 
 
 `r qbegin(5)`
-1.  Recreate the density plots above using a different (lower) alpha level that works better for displaying the density curves for all continents.
+Recreate the density plots above using a different (lower) alpha level that works better for displaying the density curves for all continents.
 `r qend()`
 
 
 `r qbegin(6)`
-2.  Describe why we defined the `color` and `fill` of the curves by mapping aesthetics of the plot but we defined the `alpha` level as a characteristic of the plotting geom.
+Describe why we defined the `color` and `fill` of the curves by mapping aesthetics of the plot but we defined the `alpha` level as a characteristic of the plotting geom.
 `r qend()`
 
 
@@ -265,7 +265,7 @@ If you haven't had time to finish the exercises above, please ask for help befor
 
 `r qbegin(11)`
 
-1.  Recreate the following plot, and interpret what you see in context of the data.
+Recreate the following plot, and interpret what you see in context of the data.
 
 ```{r echo=FALSE, message=FALSE, eval=TRUE, warning=FALSE}
 plastic_waste %>% 

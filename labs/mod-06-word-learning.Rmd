@@ -41,7 +41,7 @@ Of course, children don't learn their vocabulary at random, by reading through t
 
 # Getting started
 
-Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-06-word-learning`.
+Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-06-word-learning`.
 
 First, open the R Markdown document `lab-06.Rmd` and Knit it.
 
@@ -80,7 +80,7 @@ The data for this lab originally comes from the [Wordbank](http://wordbank.stanf
 
 This dataset has a few key variables:
 
-- `item_definition`: The 
+- `item_definition`: The word
 - `category`: The Wordbank category to which the word belongs
 - `16:30`: These variables indicate the proportion of children who produce the word at each month from 16 mo (`16`) to 30 mo (`30`).
 - `freq`: The number of times the word appears in Google's [Trillion Word Corpus](https://ai.googleblog.com/2006/08/all-our-n-gram-are-belong-to-you.html).
@@ -125,20 +125,6 @@ Let's plot the trajectory of children's word learning across time for some diffe
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
 
-```{r, include=F, echo=FALSE}
-wordbank %>% 
-  filter(category=="sounds") %>%
-  gather(month, prop, `16`:`30`) %>% 
-  group_by(word) %>% 
-  mutate(top_prop = max(prop), month=as.numeric(month)) %>% 
-  ggplot(aes(x=month, y = prop, color=word, group=word)) +
-  geom_line(size=1) +
-  scale_color_viridis_d()
-
-
-### 18-24mo is about when toddlers start running in addition to walking
-### possibly leading to more (painful) falls
-```
 `r solend()`
 
 `r qbegin(3)`
@@ -148,17 +134,7 @@ Now let's plot the trajectory of children's word learning across time for some d
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r, include=F}
-wordbank %>% 
-  filter(category %in% c("sounds", "games_routines", "body_parts", "animals","clothing","people","pronouns","connecting_words","quantifiers","helping_verbs")) %>% 
-  gather(month, prop, `16`:`30`) %>% 
-  group_by(category, month) %>% 
-  summarize(prop = mean(prop), top_prop = mean(ifelse(month==30, prop, NA), na.rm=T)) %>% 
-  mutate(month=as.numeric(month)) %>% 
-  ggplot(aes(x=month, y = prop, color=category, linetype=category, group=category)) +
-  geom_line( size=1) +
-  scale_color_viridis_d()
-```
+
 `r solend()`
 
 <!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
@@ -189,14 +165,7 @@ To help you visualize, you may also want to add a linear fit to the plot with `g
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r, include=F}
-wordbank %>% 
-  filter(category!="time_words", category!="locations") %>%
-  select(-downloaded, -item_id) %>%
-  ggplot(aes(x=log(freq), y = `24`)) +
-  geom_point() +
-  geom_smooth(method="lm")
-```
+
 `r solend()`
 
 
@@ -206,7 +175,7 @@ Is the relationship positive, negative, or basically non-existent? Is that at al
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-Negative, and yes surprising. Simpson's paradox
+
 `r solend()`
 
 
@@ -218,14 +187,7 @@ Can you put into words the set of relationships observed between these two plots
 `r qend()`
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r, include=F}
-wordbank %>% 
-  select(-downloaded, -item_id) %>%
-  ggplot(aes(x=log(freq), y = `24`)) +
-  geom_point() +
-  facet_wrap(~category) +
-  geom_smooth(method="lm") 
-```
+
 `r solend()`
 
 ## Digging in qualitatively
@@ -277,12 +239,7 @@ What about the high-frequency word categories children struggle to learn like qu
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
 
-```{r, include=F}
-wordbank %>% 
-  filter(category=="helping_verbs") %>% 
-  arrange(desc(freq)) %>% 
-  select(word, freq)
-```
+
 
 
 `r solend()`

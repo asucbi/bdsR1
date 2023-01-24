@@ -1,7 +1,7 @@
 ---
 title: "Doing data science"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "School of Social and Behavioral Sciences"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -156,6 +156,11 @@ eiw <- read_csv("../data/explanations-in-wild-s1-full.csv")
 - The data for this paper <reference> are on the open science foundation website [osf.io](https://osf.io)
 - As is often the case with open data (especially from preprints), we have to do some flipping back and forth between the paper and the data files online.
 
+```{r, eval=FALSE, echo=TRUE}
+eiw <- read_csv("explanations-in-wild.csv")
+```
+
+
 --
 
 But once we do, we find there are 9 variables that look interesting: the question text, the explanation text, the domain of the question, and ratings for how accurate, satisfying, "causal", "mechanistic", "functional", and "general" each explanation is.
@@ -179,24 +184,6 @@ glimpse(eiw)
 
 ---
 
-<!-- ## Validate with at least one external data source -->
-
-<!-- .pull-left[ -->
-<!-- ```{r echo=FALSE} -->
-<!-- squirrels %>% -->
-<!--   select(long, lat) %>% -->
-<!--   print(n = 15) -->
-<!-- ``` -->
-<!-- ] -->
-<!-- .pull-right[ -->
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("img/central-park-coords.png") -->
-<!-- ``` -->
-<!-- ] -->
-
-<!-- --- -->
-
-
 ## First, just plot it
 
 .hand[Do people give different explanations in different domains?]
@@ -211,13 +198,12 @@ glimpse(eiw)
 .panel[.panel-name[Code]
 ```{r easy-solution, fig.show = "hide"}
 eiw %>% 
-  # filter(satisfaction > 4 ) %>% 
-  ggplot(aes(x=domain, y = functional, fill=domain)) +
-  geom_boxplot(width=.5)
-
-eiw %>% 
-  # filter(satisfaction > 3 ) %>%
-  ggplot(aes(x=domain, y = mechanism, fill=domain)) +
+  pivot_longer(
+    c(functional, mechanism),
+    names_to = "type",
+    values_to = "rating"
+  ) %>% 
+    ggplot(aes(x=domain, y = rating, fill=type)) +
   geom_boxplot(width=.5)
 ```
 ]
@@ -234,13 +220,13 @@ eiw %>%
   ggplot(aes(x = functional, y = satisfaction)) +
   geom_point() +
   geom_smooth(method="lm") +
-  facet_wrap(~questionText, labeller = label_wrap_gen(width=25)) +
+  facet_wrap(~domain, labeller = label_wrap_gen(width=25)) +
   theme(aspect.ratio=1)
 ```
 ]
 ---
 
-## Then go deeper... (still)
+## Then go deeper... again
 
 .small[
 ```{r hex-plot, echo=F}
@@ -248,7 +234,7 @@ eiw %>%
   ggplot(aes(x = mechanism, y = satisfaction)) +
   geom_point() +
   geom_smooth(method="lm") +
-  facet_wrap(~questionText, labeller = label_wrap_gen(width=25)) +
+  facet_wrap(~domain, labeller = label_wrap_gen(width=25)) +
   theme(aspect.ratio=1)
 ```
 ]
@@ -274,6 +260,7 @@ eiw %>%
   ggplot(aes(x=var1, y=var2, fill=val)) +
   geom_tile() +
   geom_text(aes(label=round(val,2))) +
+  scale_x_discrete(limits=rev) +
   scale_fill_viridis_c() +
   theme(axis.text.x = element_text(angle=45, hjust=1, vjust=1), aspect.ratio=1) +
   labs(fill="corr.", x="", y="")
