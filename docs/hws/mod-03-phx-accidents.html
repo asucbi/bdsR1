@@ -179,8 +179,7 @@ the purpose of this assignment.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
 <p>First, open the R Markdown document <code>mod-03-hw.Rmd</code> and
-knit it.</p>
-<p>Make sure it compiles without errors.</p>
+knit it. Make sure it compiles without errors.</p>
 <div id="warm-up" class="section level2">
 <h2>Warm up</h2>
 <p>Before we introduce the data, let’s warm up with a simple
@@ -193,14 +192,13 @@ exercise.</p>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>We’ll use the <strong>tidyverse</strong> package for much of the data
-wrangling and visualization.</p>
-<p>This package is already installed for you.</p>
-<p>You can load it by running the following in your Console:</p>
+wrangling and visualization. This package is already installed for you.
+You can load it by running the following in your Console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The data is in two files and both are hanging out in some online
+<p>The data is in two files and both are hanging out in an online
 repository. The first file is called
 <code>phoenix_accidents_1.csv</code> and the second file is called
 <code>phoenix_accidents_2.csv</code>.</p>
@@ -220,15 +218,16 @@ the function <code>read_csv()</code> to do so.</p>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <ol style="list-style-type: decimal">
-<li><p>How many observations (rows) do the two datasets have? Instead of
-hard coding the number in your answer, use inline code.</p></li>
-<li><p>Join <code>phx_accidents_1</code> and
-<code>phx_accidents_2</code> datasets into a single dataset called
-<code>phx_accidents</code>. Be sure to join <code>by=</code> the common
-variable between the two datasets.</p></li>
+<li><p>Create a code chunk (give it a sensible name) and join
+<code>phx_accidents_1</code> and <code>phx_accidents_2</code> datasets
+into a single dataset and call it <code>phx_accidents</code>. Be sure to
+join <code>by=</code> the common variable between the two
+datasets.</p></li>
+<li><p>What does each row in the joined dataset represent?</p></li>
 </ol>
-<p>The variable (column) descriptions are as follows. Read through them,
-try to get a sense of what you have available:</p>
+<p>The variable (column) descriptions for the joined dataset are as
+follows. Read through them, try to get a sense of what you have
+available:</p>
 <table>
 <colgroup>
 <col width="25%" />
@@ -336,25 +335,31 @@ Fog or smoke or dust, Other, Unknown</td>
 </tbody>
 </table>
 <ol style="list-style-type: decimal">
-<li>Run <code>View(phx_accidents)</code> in your Console to view the
-data in the data viewer. What does each row in the dataset
-represent?</li>
-</ol>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
-<ol start="3" style="list-style-type: decimal">
-<li>Recreate the following plot, and describe in context of the data. In
-your answer, don’t forget to label your R chunk as well (where it says
-<code>label-me-1</code>). Your label should be short, informative,
+<li><p>Create a new variable within the dataset called
+<code>day_of_week_type</code> that indicates whether the accident
+occurred on a Saturday or Sunday (if so, call it “Weekend”), and if not,
+call it “Weekday.” You’re going to need it for Exercise 4.</p></li>
+<li><p>Recreate the following plot, and describe in context of the data.
+In your answer, don’t forget to label your R chunk as well (where it
+says <code>label-me-1</code>). Your label should be short, informative,
 shouldn’t include spaces, and shouldn’t shouldn’t repeat a previous
-label.</li>
+label.</p></li>
 </ol>
 <div class="figure fullwidth">
-<img src="mod-03-phx-accidents_files/figure-html/unnamed-chunk-5-1.png" alt=" " width="80%"  />
+<img src="mod-03-phx-accidents_files/figure-html/unnamed-chunk-6-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
-<ol start="4" style="list-style-type: decimal">
+<ul>
+<li><strong>HINT</strong> Somewhere in your code you want to add
+“theme_minimal()” to accurately recreate.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>phx_accidents <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(___) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">___</span>() <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<ol style="list-style-type: decimal">
 <li>Create another data visualization based on these data and interpret
 it. You can choose any variables and any type of visualization you like,
 but it must have at least three variables, e.g. a scatterplot of x vs. y
@@ -362,7 +367,6 @@ isn’t enough, but if points are colored by z, that’s fine. In your
 answer, don’t forget to label your R chunk as well (where it says
 <code>label-me-2</code>).</li>
 </ol>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
 </div>
 <div id="submitting-your-work" class="section level1">
 <h1>Submitting your work</h1>

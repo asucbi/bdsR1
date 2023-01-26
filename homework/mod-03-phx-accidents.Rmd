@@ -28,9 +28,7 @@ The data covers all recorded car accidents in Phoenix from January 2016 to Janua
 
 # Getting started
 
-First, open the R Markdown document `mod-03-hw.Rmd` and knit it.
-
-Make sure it compiles without errors.
+First, open the R Markdown document `mod-03-hw.Rmd` and knit it. Make sure it compiles without errors.
 
 ## Warm up
 
@@ -40,11 +38,7 @@ Before we introduce the data, let's warm up with a simple exercise.
 
 ## Packages
 
-We'll use the **tidyverse** package for much of the data wrangling and visualization. 
-
-This package is already installed for you.
-
-You can load it by running the following in your Console:
+We'll use the **tidyverse** package for much of the data wrangling and visualization. This package is already installed for you. You can load it by running the following in your Console:
 
 ```{r load-packages, message = FALSE, eval = TRUE}
 library(tidyverse)
@@ -52,7 +46,7 @@ library(tidyverse)
 
 ## Data
 
-The data is in two files and both are hanging out in some online repository. The first file is called `phoenix_accidents_1.csv` and the second file is called `phoenix_accidents_2.csv`. 
+The data is in two files and both are hanging out in an online repository. The first file is called `phoenix_accidents_1.csv` and the second file is called `phoenix_accidents_2.csv`. 
 
 ```{marginfigure}
 Notice that the `read_csv` function is able to retrieve these files just as long as you give it the correct URL to the repository. 
@@ -74,11 +68,11 @@ phx_accidents = left_join(phx_accidents_1, phx_accidents_2, by="id")
 
 # Exercises
 
-1.  How many observations (rows) do the two datasets have? Instead of hard coding the number in your answer, use inline code.
+1.  Create a code chunk (give it a sensible name) and join `phx_accidents_1` and `phx_accidents_2` datasets into a single dataset and call it `phx_accidents`. Be sure to join `by=` the common variable between the two datasets. 
 
-1.  Join `phx_accidents_1` and `phx_accidents_2` datasets into a single dataset called `phx_accidents`. Be sure to join `by=` the common variable between the two datasets.  
+1. What does each row in the joined dataset represent?
 
-The variable (column) descriptions are as follows. Read through them, try to get a sense of what you have available:
+The variable (column) descriptions for the joined dataset are as follows. Read through them, try to get a sense of what you have available:
 
 | Variable Name                                      | Description                                                                                                                                                |
 |----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -104,46 +98,41 @@ The variable (column) descriptions are as follows. Read through them, try to get
 | `precipitation` | Shows precipitation amount in inches, if there is any. |
 | `visibility` | Shows visibility (in miles). |
 
-1.  Run `View(phx_accidents)` in your Console to view the data in the data viewer. What does each row in the dataset represent?
+1.  Create a new variable within the dataset called `day_of_week_type` that indicates whether the accident occurred on a Saturday or Sunday (if so, call it "Weekend"), and if not, call it "Weekday." You're going to need it for Exercise 4. 
 
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+```{r eval = TRUE, echo = FALSE}
+phx_accidents <- phx_accidents %>% mutate(day_of_week_type = if_else(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday"))
+```
 
-3.  Recreate the following plot, and describe in context of the data. In your answer, don't forget to label your R chunk as well (where it says `label-me-1`). Your label should be short, informative, shouldn't include spaces, and shouldn't shouldn't repeat a previous label.
+1.  Recreate the following plot, and describe in context of the data. In your answer, don't forget to label your R chunk as well (where it says `label-me-1`). Your label should be short, informative, shouldn't include spaces, and shouldn't shouldn't repeat a previous label.
 
 ```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
 phx_accidents %>%
-  
-  # 1. record the lecture 4 to show how to pivot
-  # 2. use a mutate of some sort but 
-  
-  # they should know how to do a mutate but the lecture so far has never introduced them to an "if_else" sort of statement with %in% ... either future lectures needs to be adjusted or the assignment here modified. just keep an eye on things if this is assumed knowledge for other hws/labs  
-  
-  mutate(day_of_week_type = if_else(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday")) %>%
   ggplot(aes(x = time, fill = severity)) +
   geom_density(alpha = 0.50) +
   facet_wrap(~day_of_week_type, ncol = 1) +
-  
-  # to know how to use theme_minimal they need access to the 4th lecture
   theme_minimal() +
-  
-  # i do not believe they were ever introduced to this scale_fill_viridis_d() option. check with Derek. but this needs to be removed or explained in a lecture.   
-  # scale_fill_viridis_d() +
-  
-  # were they introduced on how to do things using "labs"
+  scale_fill_viridis_d() +
   labs(
     title = "Number of accidents throughout the day",
     subtitle = "By day of week and severity",
     x = "Time of day",
     y = "Density",
     fill = "Severity"
-  )
+  ) 
 ```
 
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+- __HINT__ Somewhere in your code you want to add "theme_minimal()" to accurately recreate.
 
-4.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like, but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
+```{r eval = FALSE, echo = TRUE}
+phx_accidents %>%
+  ggplot(___) +
+  ___() +
+  ___() +
+  theme_minimal()
+```
 
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
+1.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like, but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
 
 # Submitting your work
 

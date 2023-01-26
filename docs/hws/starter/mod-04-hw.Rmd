@@ -7,6 +7,11 @@ output: html_document
 
 ## Load packages and data
 
+```{r, include=F}
+library(tidyverse)
+library(scales)
+library(fivethirtyeight)
+```
 
 ## Exercises
 
