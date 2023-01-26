@@ -11,7 +11,8 @@ library(tidyverse)
 ```
 
 ```{r load-data, message=FALSE}
-nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
+survey <- read_csv("data/eu-pers-survey.csv")
+eudata <- read_csv("data/eu-country-data.csv")
 ```
 
 ## Exercises

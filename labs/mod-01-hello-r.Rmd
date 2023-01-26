@@ -94,8 +94,7 @@ To do so we can make a *frequency table* of the dataset variable:
 
 ```{r}
 datasaurus_dozen %>%
-  count(dataset) %>%
-  print(13)
+  count(dataset)
 ```
 
 :::frame
@@ -184,8 +183,7 @@ And we can use the `group_by` function to generate all the summary correlation c
 ```{r all-r, eval=FALSE}
 datasaurus_dozen %>%
   group_by(dataset) %>%
-  summarize(r = cor(x, y)) %>%
-  print(13)
+  summarize(r = cor(x, y)) 
 ```
 
 You're done with the data analysis exercises, but we'd like you to do two more things:

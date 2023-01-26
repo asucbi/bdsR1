@@ -398,29 +398,23 @@ This command must be ran in the Console.</p>
 <p>Let’s take a look at what these datasets are.
 To do so we can make a <em>frequency table</em> of the dataset variable:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datasaurus_dozen <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(dataset) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="dv">13</span>)</span></code></pre></div>
-<pre><code>## # A tibble:
-## #   13 × 2
-##    dataset   
-##    &lt;chr&gt;     
-##  1 away      
-##  2 bullseye  
-##  3 circle    
-##  4 dino      
-##  5 dots      
-##  6 h_lines   
-##  7 high_lines
-##  8 slant_down
-##  9 slant_up  
-## 10 star      
-## 11 v_lines   
-## 12 wide_lines
-## 13 x_shape   
-## # … with 1
-## #   more
-## #   variable:
-## #   n &lt;int&gt;</code></pre>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(dataset)</span></code></pre></div>
+<pre><code>## # A tibble: 13 × 2
+##    dataset        n
+##    &lt;chr&gt;      &lt;int&gt;
+##  1 away         142
+##  2 bullseye     142
+##  3 circle       142
+##  4 dino         142
+##  5 dots         142
+##  6 h_lines      142
+##  7 high_lines   142
+##  8 slant_down   142
+##  9 slant_up     142
+## 10 star         142
+## 11 v_lines      142
+## 12 wide_lines   142
+## 13 x_shape      142</code></pre>
 <div class="frame">
 <p>Matejka, Justin, and George Fitzmaurice. “Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing.” Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems. ACM, 2017.</p>
 </div>
@@ -472,13 +466,11 @@ In this case, calculating a correlation coefficient really doesn’t make sense 
 <ol start="3" style="list-style-type: decimal">
 <li><p>Plot <code>y</code> vs. <code>x</code> for the <code>star</code> dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between <code>x</code> and <code>y</code> for this dataset. How does this value compare to the <code>r</code> of <code>dino</code>?</p></li>
 <li><p>Plot <code>y</code> vs. <code>x</code> for the <code>circle</code> dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between <code>x</code> and <code>y</code> for this dataset. How does this value compare to the <code>r</code> of <code>dino</code>?</p></li>
+<li><p>Finally, let’s plot all datasets at once. In order to do this we will make use of faceting.</p></li>
 </ol>
 <div class="green">
 <p>Facet by the dataset variable, placing the plots in a 3 column grid, and don’t add a legend.</p>
 </div>
-<ol start="5" style="list-style-type: decimal">
-<li>Finally, let’s plot all datasets at once. In order to do this we will make use of faceting.</li>
-</ol>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datasaurus_dozen, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> dataset))<span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> dataset, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
@@ -486,8 +478,7 @@ In this case, calculating a correlation coefficient really doesn’t make sense 
 <p>And we can use the <code>group_by</code> function to generate all the summary correlation coefficients.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>datasaurus_dozen <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dataset) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(x, y)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="dv">13</span>)</span></code></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(x, y)) </span></code></pre></div>
 <p>You’re done with the data analysis exercises, but we’d like you to do two more things:</p>
 <ul>
 <li><strong>Resize your figures:</strong></li>
