@@ -29,7 +29,7 @@ hotels <- read_csv("../data/hotels.csv")
 
 - HW 3 due date moved to January 31st (same date as when the lab is due). Part of the reason I'm doing this is that I need to create a lecture on something known as data reshaping using the `pivot_wider` and `pivot_longer` functions. You will need one of these functions for doing the HW. 
 
-- Updates to Module 3 project folder - Will send new HW starter file
+- Updates to Module 3 project folder - Will need to download new HW starter file with a simple terminal command
 
 ### Understanding where our data comes from
 

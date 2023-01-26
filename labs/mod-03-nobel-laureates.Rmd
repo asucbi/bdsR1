@@ -229,7 +229,7 @@ This means you'll need to define this data frame in your starter document, even 
 
 Create a faceted bar plot visualizing the relationship between the category of prize and whether the laureate was in the US when they won the nobel prize.
 
-Interpret your visualization, and say a few words about whether the Buzzfeed headline is supported by the data.
+Interpret your visualization, and say a few words about whether Buzzfeed's claim for this section is supported by the data.
 
     -   Your visualization should be faceted by category.
     -   For each facet you should have two bars, one for winners in the US and one for Other.
@@ -277,7 +277,7 @@ How many of the winners are born in the US?
 
 Add a second variable to your visualization from Exercise 3 based on whether the laureate was born in the US or not.
 
-Based on your visualization, do the data appear to support Buzzfeed's claim? Explain your reasoning in 1-2 sentences.
+Based on your visualization, do the data appear to support Buzzfeed's claim for this section? Explain your reasoning in 1-2 sentences.
 
     -   Your final visualization should contain a facet for each category.
     -   Within each facet, there should be a bar for whether the laureate won the award in the US or not.
