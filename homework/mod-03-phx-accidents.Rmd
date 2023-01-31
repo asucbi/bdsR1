@@ -132,7 +132,7 @@ phx_accidents %>%
   theme_minimal()
 ```
 
-1.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like, but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
+1.  Create another data visualization based on these data and interpret it. You can choose any variables and any type of visualization you like^[however,  no animated plots please], but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
 
 # Submitting your work
 
