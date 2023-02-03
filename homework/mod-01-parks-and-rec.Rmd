@@ -2,6 +2,7 @@
 title: "HW 01 - Parks and Recreation"
 subtitle: Meet the toolkit
 link-citations: yes
+output: html_document
 ---
 
 ```{r include = FALSE}
