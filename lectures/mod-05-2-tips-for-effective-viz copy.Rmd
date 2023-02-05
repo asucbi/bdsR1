@@ -1,0 +1,180 @@
+---
+title: "Tips for effective data visualization"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Nicholas Duran & Derek Powell"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    anchor_sections: FALSE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(scales)
+```
+
+class: middle
+
+# Designing effective visualizations
+
+---
+
+## Keep it simple
+
+.pull-left-narrow[
+```{r pie-3d, echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/pie-3d.jpg")
+```
+]
+.pull-right-wide[
+```{r pie-to-bar, echo = FALSE, out.width="100%"}
+d <- tribble(
+  ~category, ~value,
+  "Cutting tools", 0.03,
+  "Buildings and administration", 0.22,
+  "Labor", 0.31,
+  "Machinery", 0.27,
+  "Workplace materials", 0.17
+)
+ggplot(d, aes(x = fct_reorder(category, value), y = value)) +
+  geom_col() +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "", y = "")
+```
+]
+
+
+
+---
+
+## Use	color	to	draw	attention
+
+.pull-left[
+```{r echo = FALSE, out.width="100%"}
+d %>%
+  mutate(category = str_replace(category, " ", "\n")) %>%
+  ggplot(aes(x = category, y = value, fill = category)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x = "", y = "") +
+  theme(legend.position = "none")
+```
+]
+.pull-right[
+```{r echo = FALSE, out.width="100%"}
+ggplot(d, aes(x = fct_reorder(category, value), y = value, fill = category)) +
+  geom_col() +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "", y = "") +
+  scale_fill_manual(values = c("red", rep("gray", 4))) +
+  theme(legend.position = "none")
+```
+]
+
+---
+
+## Tell a story
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/time-series-story.png")
+```
+
+.footnote[
+Credit: Angela Zoss and Eric Monson, Duke DVS
+]
+
+---
+
+class: middle
+
+# Principles	for	effective	visualizations
+
+---
+
+## Principles	for	effective	visualizations
+
+- Order matters
+- Put long categories on the y-axis
+- Keep	scales consistent
+- Select meaningful colors
+- Use meaningful and nonredundant labels
+
+---
+
+## Data
+
+In January 2023, YouGovAmerica survey asked 915 US adults the following question:
+
+> Which ONE, if any, of the following statements do you MOST agree with?
+>
+>- Most robots have already developed higher levels of intelligence than humans
+>- Robots will be able to develop higher levels of intelligence than humans in the future
+>- Robots will never be able to develop higher levels of intelligence than humans
+
+--
+
+> Which ONE, if any, of the following statements do you MOST agree with?
+>
+>- Already surpassed
+>- Surpass in future
+>- Never surpass
+
+
+
+```{r robots, echo = FALSE}
+# robots <- tibble(
+#   opinion = c(
+#     rep("Most robots have already developed higher levels of intelligence than humans", 238), rep("Robots will be able to develop higher levels of intelligence than humans in the future", 676), rep("Robots will never be able to develop higher levels of intelligence than humans", 387)
+#   ),
+#   education = c(
+#     rep("NO HS", 37), rep("High School graduate", 96), rep("Some College", 50), rep("4-year", 40), rep("Post-grad", 15),
+#     rep("NO HS", 28), rep("High School graduate", 251), rep("Some College", 156), rep("4-year", 157), rep("Post-grad", 84),
+#     rep("NO HS", 11), rep("High School graduate", 160), rep("Some College", 83), rep("4-year", 80), rep("Post-grad", 53)
+#   )
+# )
+
+robots <- tibble(
+  opinion = c(
+    rep("Most robots have already developed higher levels of intelligence than humans", 116), rep("Robots will be able to develop higher levels of intelligence than humans in the future", 334), rep("Robots will never be able to develop higher levels of intelligence than humans", 190)
+  ),
+  education = c(
+    rep("NO HS", 20), rep("High School graduate", 49), rep("Some College", 20), rep("4-year", 17), rep("Post-grad", 10),
+    rep("NO HS", 17), rep("High School graduate", 119), rep("Some College", 71), rep("4-year", 80), rep("Post-grad", 47),
+    rep("NO HS", 7), rep("High School graduate", 81), rep("Some College", 38), rep("4-year", 43), rep("Post-grad", 21)
+  )
+)
+
+```
+
+---
+
+## Data
+
+From June 2022 to January 2023, YouGovAmerica survey asked 1813 US adults the following question:
+
+.pull-left[
+> Which ONE, if any, of the following statements do you MOST agree with?
+>
+>- Already surpassed
+>- Surpass in future
+>- Never surpass
+
+]
+.pull-right[
+Which ONE, if any, of the following statements do you MOST agree with?
+
+- Already surpassed
+- Surpass in future
+- Never surpass
+]
