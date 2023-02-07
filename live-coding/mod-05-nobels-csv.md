@@ -1,23 +1,21 @@
----
-title: "Nobel winners"
-author: "Nicholas Duran"
-output: github_document
----
+Nobel winners
+================
+Nicholas Duran
 
-```{r load-packages, message=FALSE}
+``` r
 library(tidyverse)
 ```
 
-Let's first load the data:
+Let’s first load the data:
 
-```{r label-me1, eval=FALSE}
+``` r
 nobel <- ___(___)
 ```
 
-Then let's split the data into two:
+Then let’s split the data into two:
 <!-- **Hint:** Use the `%in%` operator when `filter()`ing. -->
 
-```{r label-me2, eval=FALSE}
+``` r
 # stem laureates
 ___ <- nobel %>%
   filter(___)
@@ -29,11 +27,10 @@ ___ <- nobel %>%
 
 And finally write out the data:
 
-```{r label-me3}
+``` r
 # add code for writing out the two data frames here
 ```
 
 <!-- NOTES TO SELF: -->
 <!-- Could, at this point, talk about fct_relevel and how these changes do not save to .csv and require you to save to .rsd-->
-
 <!-- Could also demonstrate when NAs work their way in and what to do in terms of column specification-->

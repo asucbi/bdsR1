@@ -1,32 +1,30 @@
----
-title: "Robot Intelligence"
-author: "Nicholas Duran"
-output: github_document
----
-
-```{r load-packages, message = FALSE, echo = FALSE}
-library(tidyverse)
-```
+Robot Intelligence
+================
+Nicholas Duran
 
 <!-- Change the visualization in three different ways to tell slightly different stories with it each time. -->
 
-In January 2023, YouGovAmerica survey asked 915 US adults the following question:
+In January 2023, YouGovAmerica survey asked 915 US adults the following
+question:
 
 > Which ONE, if any, of the following statements do you MOST agree with?
 >
->- Most robots have already developed higher levels of intelligence than humans
->- Robots will be able to develop higher levels of intelligence than humans in the future
->- Robots will never be able to develop higher levels of intelligence than humans
+> - Most robots have already developed higher levels of intelligence
+>   than humans
+> - Robots will be able to develop higher levels of intelligence than
+>   humans in the future
+> - Robots will never be able to develop higher levels of intelligence
+>   than humans
 
-The data from the survey is in `data-raw/robot-intelligence.csv`.
+The data from the survey is in `data-raw/robots.csv`.
 
-```{r message = FALSE}
+``` r
 robots <- read_csv("mod-05-data-raw/robot-intelligence.csv")
 ```
 
 In the course video we made the following visualization.
 
-```{r}
+``` r
 robots <- robots %>%
   mutate(
     education = fct_recode(education, "High School" = "High School graduate", "BA / BS" = "4-year", "Some College" = "Some College", "Graduate" = "Post-grad", "No High School" = "NO HS"),
@@ -58,15 +56,18 @@ ggplot(robots, aes(y = opinion, fill = opinion)) +
   theme_minimal()
 ```
 
-In this application exercise we tell different stories with the same data.
+![](mod-05-robot-intelligence_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+In this application exercise we tell different stories with the same
+data.
 
 ### Exercise 1 - Free scales
 
 Add `scales = "free_x"` as an argument to the `facet_wrap()` function.
-How does the visualisation change?
-How is the story this visualisation telling different than the story the original plot tells?
+How does the visualisation change? How is the story this visualisation
+telling different than the story the original plot tells?
 
-```{r}
+``` r
 ggplot(robots, aes(y = opinion, fill = opinion)) +
   geom_bar() +
   facet_wrap(~education,
@@ -88,21 +89,30 @@ ggplot(robots, aes(y = opinion, fill = opinion)) +
   theme_minimal()
 ```
 
+![](mod-05-robot-intelligence_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 ### Exercise 2 - Comparing proportions across facets
 
-First, calculate the proportion of "never surpass", "already surpass", and "surpass in future" answers in each category and then plot these proportions (rather than the counts) and then improve axis labeling.
-How is the story this visualization telling different than the story the original plot tells?
-**Hint:** You'll need the **scales** package to improve axis labeling, which means you'll need to load it on top of the document as well.
+First, calculate the proportion of “never surpass”, “already surpass”,
+and “surpass in future” answers in each category and then plot these
+proportions (rather than the counts) and then improve axis labeling. How
+is the story this visualization telling different than the story the
+original plot tells? **Hint:** You’ll need the **scales** package to
+improve axis labeling, which means you’ll need to load it on top of the
+document as well.
 
-```{r}
+``` r
 # code goes here
 ```
 
 ### Exercise 3 - Comparing proportions across bars
 
-Recreate the same visualization from the previous exercise, this time dodging the bars for opinion proportions for each education level, rather than faceting by education level and then improve the legend.
-How is the story this visualization telling different than the story the previous plot tells?
+Recreate the same visualization from the previous exercise, this time
+dodging the bars for opinion proportions for each education level,
+rather than faceting by education level and then improve the legend. How
+is the story this visualization telling different than the story the
+previous plot tells?
 
-```{r}
+``` r
 # code goes here
 ```

@@ -133,6 +133,14 @@ class: middle
 
 ```{r message=FALSE}
 airbnb_badnames <- read_csv("data/airbnb-badnames.csv")
+glimpse(airbnb_badnames)
+```
+
+---
+
+## Data with bad names
+
+```{r}
 names(airbnb_badnames)
 ```
 
@@ -153,7 +161,7 @@ ggplot(airbnb_badnames, aes(x = Number of bathrooms, y = Price)) +
 ```{r}
 airbnb_col_names <- read_csv("data/airbnb-badnames.csv",
                              col_names = c("id", "price", 
-                                           "neighbourhood", "accommodates",
+                                           "neighborhood", "accommodates",
                                            "bathroom", "bedroom", 
                                            "bed", "review_scores_rating", 
                                            "n_reviews", "url"))
@@ -261,14 +269,12 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 `col_time()`       | time
 ]
 
----
-
-.question[
-Wondering where you remember these from?
-]
-
-```{r message=TRUE, output.lines=7}
-read_csv("data/df-na.csv")
+```{r message=TRUE, output.lines=7, echo=FALSE}
+# .question[
+# Wondering where you remember these from?
+# ]
+# 
+# read_csv("data/df-na.csv")
 ```
 
 ---
@@ -464,41 +470,42 @@ class: middle
 - **httr**: web APIs
 - **sparklyr**: data loaded into spark
 
-```{r, echo=FALSE}
-# .your-turn[
-# ### .hand[Your turn!]
-# .midi[
-# - RStudio Cloud > `AE 06 - Nobels and sales + Data import` > `sales-excel.Rmd`. 
-# - Load the `sales.xlsx` file from the `data-raw/` folder, using appropriate arguments for the `read_excel()` function such that it looks like the output on the left.
-# - **Stretch goal:** Manipulate the sales data such that it looks like the output on the right.
-# ]
-# ]
+---
 
-# .pull-left[
-# 
-# {r echo=FALSE}
-# sales <- read_excel("data/sales.xlsx", skip = 3, col_names = c("id", "n"))
-# sales
-# 
-# ]
+.your-turn[
+### .hand[Your turn!]
+.midi[
+- RStudio Cloud > `AE 06 - Nobels and sales + Data import` > `sales-excel.Rmd`.
+- Load the `sales.xlsx` file from the `data-raw/` folder, using appropriate arguments for the `read_excel()` function such that it looks like the output on the left.
+- **Stretch goal:** Manipulate the sales data such that it looks like the output on the right.
+]
+]
 
-# .pull-right[
-# 
-# {r echo=FALSE}
-# sales %>%
-#   mutate(
-#     is_brand_name = str_detect(id, "Brand"),
-#     brand = if_else(is_brand_name, id, NA_character_)
-#   ) %>%
-#   fill(brand) %>%
-#   filter(!is_brand_name) %>%
-#   select(brand, id, n) %>%
-#   mutate(
-#     id = as.numeric(id),
-#     n = as.numeric(n)
-#   )
-# 
-# ]
+.pull-left[
+
+```{r echo=FALSE}
+sales <- read_excel("data/sales.xlsx", skip = 3, col_names = c("id", "n"))
+sales
 ```
+]
+
+.pull-right[
+
+```{r echo=FALSE}
+sales %>%
+  mutate(
+    is_brand_name = str_detect(id, "Brand"),
+    brand = if_else(is_brand_name, id, NA_character_)
+  ) %>%
+  fill(brand) %>%
+  filter(!is_brand_name) %>%
+  select(brand, id, n) %>%
+  mutate(
+    id = as.numeric(id),
+    n = as.numeric(n)
+  )
+```
+]
+
 
 

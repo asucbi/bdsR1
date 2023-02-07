@@ -262,9 +262,9 @@ class: middle
 .panel[.panel-name[Code]
 
 ```{r flip, fig.show = "hide"}
-ggplot(robots, aes(y = education)) +
+ggplot(robots, aes(y = education)) + #<<
   geom_bar() +
-  labs(x = "count", y = "education") #<<
+  labs(x = "count", y = "education") 
 ```
 ]
 

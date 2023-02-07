@@ -164,6 +164,30 @@ class: middle
 
 ```r
 airbnb_badnames &lt;- read_csv("data/airbnb-badnames.csv")
+glimpse(airbnb_badnames)
+```
+
+```
+## Rows: 13,245
+## Columns: 10
+## $ ID                     &lt;dbl&gt; 15420, 24288, 38628, 44552, 4761…
+## $ Price                  &lt;dbl&gt; 80, 115, 46, 32, 100, 71, 175, 1…
+## $ neighbourhood          &lt;chr&gt; "New Town", "Southside", NA, "Le…
+## $ accommodates           &lt;dbl&gt; 2, 4, 2, 2, 2, 3, 5, 5, 6, 10, 2…
+## $ `Number of bathrooms`  &lt;dbl&gt; 1.0, 1.5, 1.0, 1.0, 1.0, 1.0, 1.…
+## $ `Number of Bedrooms`   &lt;dbl&gt; 1, 2, 0, 1, 1, 1, 2, 3, 4, 4, 1,…
+## $ `n beds`               &lt;dbl&gt; 1, 2, 2, 1, 1, 2, 3, 4, 5, 7, 1,…
+## $ `Review Scores Rating` &lt;dbl&gt; 99, 92, 94, 93, 98, 97, 100, 92,…
+## $ `Number of reviews`    &lt;dbl&gt; 283, 199, 52, 184, 32, 762, 7, 2…
+## $ listing_url            &lt;chr&gt; "https://www.airbnb.com/rooms/15…
+```
+
+---
+
+## Data with bad names
+
+
+```r
 names(airbnb_badnames)
 ```
 
@@ -200,7 +224,7 @@ ggplot(airbnb_badnames, aes(x = Number of bathrooms, y = Price)) +
 ```r
 airbnb_col_names &lt;- read_csv("data/airbnb-badnames.csv",
                              col_names = c("id", "price", 
-                                           "neighbourhood", "accommodates",
+                                           "neighborhood", "accommodates",
                                            "bathroom", "bedroom", 
                                            "bed", "review_scores_rating", 
                                            "n_reviews", "url"))
@@ -210,7 +234,7 @@ names(airbnb_col_names)
 
 ```
 ##  [1] "id"                   "price"               
-##  [3] "neighbourhood"        "accommodates"        
+##  [3] "neighborhood"         "accommodates"        
 ##  [5] "bathroom"             "bedroom"             
 ##  [7] "bed"                  "review_scores_rating"
 ##  [9] "n_reviews"            "url"
@@ -358,37 +382,7 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 `col_time()`       | time
 ]
 
----
 
-.question[
-Wondering where you remember these from?
-]
-
-
-```r
-read_csv("data/df-na.csv")
-```
-
-```
-## Rows: 9 Columns: 3
-## ── Column specification ─────────────────────────────────────────
-## Delimiter: ","
-## chr (3): x, y, z
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```
-## # A tibble: 9 × 3
-##   x     y              z     
-##   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt; 
-## 1 1     a              hi    
-## 2 &lt;NA&gt;  b              hello 
-## 3 3     Not applicable 9999  
-## 4 4     d              ola   
-...
-```
 
 ---
 
@@ -679,6 +673,50 @@ class: middle
 - **httr**: web APIs
 - **sparklyr**: data loaded into spark
 
+---
+
+.your-turn[
+### .hand[Your turn!]
+.midi[
+- RStudio Cloud &gt; `AE 06 - Nobels and sales + Data import` &gt; `sales-excel.Rmd`.
+- Load the `sales.xlsx` file from the `data-raw/` folder, using appropriate arguments for the `read_excel()` function such that it looks like the output on the left.
+- **Stretch goal:** Manipulate the sales data such that it looks like the output on the right.
+]
+]
+
+.pull-left[
+
+
+```
+## # A tibble: 9 × 2
+##   id      n    
+##   &lt;chr&gt;   &lt;chr&gt;
+## 1 Brand 1 n    
+## 2 1234    8    
+## 3 8721    2    
+## 4 1822    3    
+## 5 Brand 2 n    
+## 6 3333    1    
+## # … with 3 more rows
+```
+]
+
+.pull-right[
+
+
+```
+## # A tibble: 7 × 3
+##   brand      id     n
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Brand 1  1234     8
+## 2 Brand 1  8721     2
+## 3 Brand 1  1822     3
+## 4 Brand 2  3333     1
+## 5 Brand 2  2156     3
+## 6 Brand 2  3987     6
+## # … with 1 more row
+```
+]
 
 
 
