@@ -1,0 +1,49 @@
+---
+title: "Lab 05 - Sad plots"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+### Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse) 
+library(dsbox) 
+```
+
+```{r label-me, eval=FALSE}
+staff <- "___"
+```
+
+### Question 1
+
+Remove this text, and add your answer for Question 1 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+```{r label-me-1, eval=FALSE}
+staff_long <- "convert from wide to long"
+```
+
+### Question 2
+
+Remove this text, and add your answer for Question 2 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+```{r label-me-2}
+
+```
+
+### Question 3
+
+```{r label-me-3, fig.width = 10, fig.fullwidth = TRUE}
+
+```
+
+...
+
+Add question headings as needed.
