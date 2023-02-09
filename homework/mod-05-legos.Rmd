@@ -1,0 +1,82 @@
+---
+title: "HW 05 - Legos"
+link-citations: yes
+---
+
+```{r include = FALSE}
+source("assets/setup.R")
+```
+
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, fig.cap = "Photo by Daniel Cheung on Unsplash", eval = TRUE}
+knitr::include_graphics("img/daniel-cheung-ZqqlOZyGG7g-unsplash.jpg")
+```
+
+This week we'll do some data gymnastics to refresh and review what we learned over the past few weeks using (simulated) data from Lego sales in 2018. You will be using functions and operations you've seen many times (e.g., `mutate`, `count`, `filter`, `group_by`, `arrange`, etc.), plus a new string manipulation function you've never seen (at least I think). 
+
+None of these exercises are super hard, but you will likely find yourself engaging in trial and error and iteratively adjusting your code. This is data wrangling.  
+
+# Getting started
+
+Go to Posit Cloud and locate the project folder for "Module 5 - Lab and HW" and open the starter R Markdown document.
+
+Knit the document to make sure it compiles without errors.
+
+Update the YAML of your R Markdown file with your information.
+
+## Packages
+
+We'll use the **tidyverse** package for much of the data wrangling and visualization.
+
+```{r load-packages, message = FALSE, eval = TRUE}
+library(tidyverse)
+```
+
+## Data
+
+The data can be found in the `data` folder, and the file you are looking for is called:  `lego_sales.csv`. You are going to need to import it in order to work with it. 
+
+Please read more about the dataset by inspecting its documentation, which you can find [here](https://rstudio-education.github.io/dsbox/reference/lego_sales.html).
+
+# Exercises
+
+Answer the following exercises using pipelines.
+
+For each exercise, state your answer in a sentence, e.g. "In this sample, the first three common names of purchasers are ...".
+
+Note that the answers to all exercises are within the context of this particular sample of sales, i.e. you shouldn't make inferences about the population of all Lego sales based on this sample.
+
+1.  What are the three most common first names of purchasers?
+
+2.  What are the three most common themes of Lego sets purchased?
+
+3.  Among the most common theme of Lego sets purchased, what is the most common subtheme?
+
+```{marginfigure}
+**Hint:** For Ex. 4, use the `case_when()` function.
+```
+
+4.  Create a new variable called `age_group` and group the ages into the following categories: "18 and under", "19 - 25", "26 - 35", "36 - 50", "51 and over".
+
+```{marginfigure}
+**Hint:** For Ex. 5, you will need to consider quantity of purchases.
+```
+
+5.  Which age group has purchased the highest number of Lego sets.
+
+```{marginfigure}
+**Hint:** For Ex. 6, you will need to consider quantity of purchases as well as price of lego sets.
+```
+
+6.  Which age group has spent the most money on Legos?
+
+7.  Which Lego theme has made the most money for Lego?
+
+```{marginfigure}
+**Hint:** For Ex. 8, you're going to have to manipulate a string to create a new variable. The [`str_sub()`](https://stringr.tidyverse.org/reference/str_sub.html) function will be helpful here! Read the help documentation, google search it, hack away. The best way to learn. 
+```
+
+8.  Which area code has spent the most money on Legos?
+    Remember an area code is the first 3 digits of a phone number.
+
+9.  Come up with a question you want to answer using these data, and write it down.
+    Then, create a data visualization that answers the question, and explain how your visualization answers the question.

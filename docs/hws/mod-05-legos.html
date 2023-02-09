@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>HW 05 - Legos</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<link href="site_libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="site_libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/hw.css" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">HW 05 - Legos</h1>
+
+
+
+<p>
+<span class="marginnote shownote"> <!--
+<div class="figure">-->
+<img src="img/daniel-cheung-ZqqlOZyGG7g-unsplash.jpg" alt="Photo by Daniel Cheung on Unsplash" width="80%"  />
+<!--
+<p class="caption marginnote">-->Photo by Daniel Cheung on
+Unsplash<!--</p>--> <!--</div>--></span>
+</p>
+<p>This week we’ll do some data gymnastics to refresh and review what we
+learned over the past few weeks using (simulated) data from Lego sales
+in 2018. You will be using functions and operations you’ve seen many
+times (e.g., <code>mutate</code>, <code>count</code>,
+<code>filter</code>, <code>group_by</code>, <code>arrange</code>, etc.),
+plus a new string manipulation function you’ve never seen (at least I
+think).</p>
+<p>None of these exercises are super hard, but you will likely find
+yourself engaging in trial and error and iteratively adjusting your
+code. This is data wrangling.</p>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>Go to Posit Cloud and locate the project folder for “Module 5 - Lab
+and HW” and open the starter R Markdown document.</p>
+<p>Knit the document to make sure it compiles without errors.</p>
+<p>Update the YAML of your R Markdown file with your information.</p>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data
+wrangling and visualization.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The data can be found in the <code>data</code> folder, and the file
+you are looking for is called: <code>lego_sales.csv</code>. You are
+going to need to import it in order to work with it.</p>
+<p>Please read more about the dataset by inspecting its documentation,
+which you can find <a
+href="https://rstudio-education.github.io/dsbox/reference/lego_sales.html">here</a>.</p>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p>Answer the following exercises using pipelines.</p>
+<p>For each exercise, state your answer in a sentence, e.g. “In this
+sample, the first three common names of purchasers are …”.</p>
+<p>Note that the answers to all exercises are within the context of this
+particular sample of sales, i.e. you shouldn’t make inferences about the
+population of all Lego sales based on this sample.</p>
+<ol style="list-style-type: decimal">
+<li><p>What are the three most common first names of
+purchasers?</p></li>
+<li><p>What are the three most common themes of Lego sets
+purchased?</p></li>
+<li><p>Among the most common theme of Lego sets purchased, what is the
+most common subtheme?</p></li>
+</ol>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span
+class="marginnote"><span style="display: block;"><strong>Hint:</strong>
+For Ex. 4, use the <code>case_when()</code> function.</span></span></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a new variable called <code>age_group</code> and group the
+ages into the following categories: “18 and under”, “19 - 25”, “26 -
+35”, “36 - 50”, “51 and over”.</li>
+</ol>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
+class="marginnote"><span style="display: block;"><strong>Hint:</strong>
+For Ex. 5, you will need to consider quantity of
+purchases.</span></span></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Which age group has purchased the highest number of Lego sets.</li>
+</ol>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span
+class="marginnote"><span style="display: block;"><strong>Hint:</strong>
+For Ex. 6, you will need to consider quantity of purchases as well as
+price of lego sets.</span></span></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Which age group has spent the most money on Legos?</p></li>
+<li><p>Which Lego theme has made the most money for Lego?</p></li>
+</ol>
+<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
+class="marginnote"><span style="display: block;"><strong>Hint:</strong>
+For Ex. 8, you’re going to have to manipulate a string to create a new
+variable. The <a
+href="https://stringr.tidyverse.org/reference/str_sub.html"><code>str_sub()</code></a>
+function will be helpful here! Read the help documentation, google
+search it, hack away. The best way to learn.</span></span></p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Which area code has spent the most money on Legos? Remember an
+area code is the first 3 digits of a phone number.</p></li>
+<li><p>Come up with a question you want to answer using these data, and
+write it down. Then, create a data visualization that answers the
+question, and explain how your visualization answers the
+question.</p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
