@@ -9,8 +9,10 @@ output: html_document
 
 ```{r load-packages, message = FALSE}
 library(tidyverse) 
-library(dsbox) 
+library(readxl) 
 ```
+
+### Instructional staff employment trends
 
 ```{r label-me, eval=FALSE}
 staff <- "___"
@@ -47,3 +49,4 @@ Do not use spaces in code chunk labels.
 ...
 
 Add question headings as needed.
+

@@ -24,7 +24,7 @@ Below are two data visualizations that violate many data visualization best prac
 
 Improve these visualizations using R and the tips for effective visualizations that we introduced in class (and in the lecture).
 
-You should produce one visualization per dataset.
+__You should produce one visualization per dataset.__
 
 Your visualization should be accompanied by a brief paragraph describing the choices you made in your improvement, specifically discussing what you didn't like in the original plots and why, and how you addressed them in the visualization you created.
 
@@ -39,33 +39,31 @@ Your visualization should be accompanied by a brief paragraph describing the cho
 # Getting started
 
 Go to the Posit Cloud and locate the project folder for "Module 5 - Lab" and open the starter R Markdown document.
+
 Knit the document to make sure it compiles without errors.
 
 ## Warm up
 
 Before we introduce the data, let's warm up with some simple exercises.
+
 Update the YAML of your R Markdown file with your information and knit.
 
 ## Packages
 
-We'll use the **tidyverse** package for much of the data wrangling and visualization and the data lives in the **dsbox** package.
-These packages are already installed for you.
-You can load them by running the following in your Console:
+Per usual, we'll use the **tidyverse** package for much of the data wrangling, and also the **readxl** package which will be obvious when you go to work with the second dataset. 
+
+You can load it by running the following in your Console:
 
 ```{r eval = TRUE, message = FALSE}
 library(tidyverse) 
-library(dsbox) 
+library(readxl)
 ```
 
 ## Data
 
-The datasets we'll use are called `instructors` and `fisheries` from the **dsbox** package.
+The datasets we'll use are called `instructional-staff.csv` and `fisheries.xlsx` in the `data` folder.
 
-Since the datasets are distributed with the package, we don't need to load them separately; they become available to us when we load the package.
-
-You can find out more about the datasets by inspecting their documentation, which you can access by running `?instructors` and `?fisheries` in the Console or using the Help menu in RStudio to search for `instructors` or `fisheries`.
-
-You can also find this information [here](https://rstudio-education.github.io/dsbox/reference/instructors.html) and [here](https://rstudio-education.github.io/dsbox/reference/fisheries.html).
+You can find out more about the datasets by inspecting their documentation [here](https://rstudio-education.github.io/dsbox/reference/instructors.html) and [here](https://rstudio-education.github.io/dsbox/reference/fisheries.html). It might be a good idea to quickly do so now to get a better feel of what you're dealing with. 
 
 # Exercises
 
@@ -83,7 +81,7 @@ To start your journey in improving visualization story-telling, let's start by l
 
 ```{r load-data-staff, eval = FALSE}
 # What is the function you should be using to load in this data type? 
-# Where should you be looking for it?
+# Where should you be looking for the data file?
 staff <- ___ 
 ```
 
@@ -215,7 +213,7 @@ To format with bullet points (lists) in R Markdown and you don't remember how, w
 
 `r qbegin(5)`
 
-Implement the changes you proposed in the previous exercise. That is, create an improved figure! Your new figure should be substantially different from what we started with. 
+Implement the changes you proposed in the previous exercise. That is, create an improved figure! Your new figure should be different from what we started with, and there is no one right answer.  
 
 Your visualization should be accompanied by a brief paragraph describing the following:
 
@@ -233,9 +231,9 @@ Fisheries and Aquaculture Department of the Food and Agriculture Organization of
 
 [This Wikipedia page](https://en.wikipedia.org/wiki/Fishing_industry_by_country) lists fishery production of countries for 2016.
 
-For each country, tonnage from capture and aquaculture are listed.
+For each country, tonnage from capture (Variable 1) and aquaculture (Variable 2) are listed.
 
-Note that countries whose total harvest was less than 100,000 tons are not included in the visualization.
+__Note that there are a lot of countries whose total harvest was relatively small so they are not included in the visualization. You might want to do something similar.__
 
 A researcher shared with you the following visualization they created based on these data. Yikes!
 😳
@@ -254,21 +252,25 @@ Write up the changes/decisions you made as bullet points. It's ok if some of you
 
 `r qend()`
 
-:::green
-You might find it helpful to load in the data and `glimpse` it or `View` it to see what you're working with in greater depth.
-:::
-
 ---
+
+```{r message = FALSE, echo= FALSE, eval = TRUE}
+fisheries <- read_excel("data/fisheries.xlsx")
+```
 
 `r qbegin(7)`
 
-Create a new data visualization for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).
+Create a new data visualization for these data that implements the improvements you proposed in the previous exercise (or many of them as you can). And remember: there is no one right answer. 
 
 Your visualization should be accompanied by a brief paragraph describing the following:
 
 - What were options you considered in your improvement?
 - What did you not like in the original plot and why?
 - How did you specifically address the things you didn't like in your new visualization?
+
+:::green
+Although this might be obvious at this point, you need to import the data associated with fisheries to start working with it. You are a pro by now. But note that you're no longer working with a ".csv" file. 
+:::
 
 `r qend()`
 

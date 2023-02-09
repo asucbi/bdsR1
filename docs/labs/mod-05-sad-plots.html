@@ -346,7 +346,7 @@ div.tocify {
 
 <p>Below are two data visualizations that violate many data visualization best practices.</p>
 <p>Improve these visualizations using R and the tips for effective visualizations that we introduced in class (and in the lecture).</p>
-<p>You should produce one visualization per dataset.</p>
+<p><strong>You should produce one visualization per dataset.</strong></p>
 <p>Your visualization should be accompanied by a brief paragraph describing the choices you made in your improvement, specifically discussing what you didn’t like in the original plots and why, and how you addressed them in the visualization you created.</p>
 <div class="lo">
 <p><strong>LEARNING OBJECTIVES</strong></p>
@@ -358,27 +358,24 @@ div.tocify {
 </div>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>Go to the Posit Cloud and locate the project folder for “Module 5 - Lab” and open the starter R Markdown document.
-Knit the document to make sure it compiles without errors.</p>
+<p>Go to the Posit Cloud and locate the project folder for “Module 5 - Lab” and open the starter R Markdown document.</p>
+<p>Knit the document to make sure it compiles without errors.</p>
 <div id="warm-up" class="section level2">
 <h2>Warm up</h2>
-<p>Before we introduce the data, let’s warm up with some simple exercises.
-Update the YAML of your R Markdown file with your information and knit.</p>
+<p>Before we introduce the data, let’s warm up with some simple exercises.</p>
+<p>Update the YAML of your R Markdown file with your information and knit.</p>
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling and visualization and the data lives in the <strong>dsbox</strong> package.
-These packages are already installed for you.
-You can load them by running the following in your Console:</p>
+<p>Per usual, we’ll use the <strong>tidyverse</strong> package for much of the data wrangling, and also the <strong>readxl</strong> package which will be obvious when you go to work with the second dataset.</p>
+<p>You can load it by running the following in your Console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dsbox) </span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The datasets we’ll use are called <code>instructors</code> and <code>fisheries</code> from the <strong>dsbox</strong> package.</p>
-<p>Since the datasets are distributed with the package, we don’t need to load them separately; they become available to us when we load the package.</p>
-<p>You can find out more about the datasets by inspecting their documentation, which you can access by running <code>?instructors</code> and <code>?fisheries</code> in the Console or using the Help menu in RStudio to search for <code>instructors</code> or <code>fisheries</code>.</p>
-<p>You can also find this information <a href="https://rstudio-education.github.io/dsbox/reference/instructors.html">here</a> and <a href="https://rstudio-education.github.io/dsbox/reference/fisheries.html">here</a>.</p>
+<p>The datasets we’ll use are called <code>instructional-staff.csv</code> and <code>fisheries.xlsx</code> in the <code>data</code> folder.</p>
+<p>You can find out more about the datasets by inspecting their documentation <a href="https://rstudio-education.github.io/dsbox/reference/instructors.html">here</a> and <a href="https://rstudio-education.github.io/dsbox/reference/fisheries.html">here</a>. It might be a good idea to quickly do so now to get a better feel of what you’re dealing with.</p>
 </div>
 </div>
 <div id="exercises" class="section level1">
@@ -390,7 +387,7 @@ You can load them by running the following in your Console:</p>
 <p><img src="img/staff-employment.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>To start your journey in improving visualization story-telling, let’s start by loading the data used to create this plot. Instead of doing it for you, go ahead and do it for yourself. Make sure to call the imported data <code>staff</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the function you should be using to load in this data type? </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Where should you be looking for it?</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Where should you be looking for the data file?</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>staff <span class="ot">&lt;-</span> ___ </span></code></pre></div>
 <p>Once imported, you will see that each row in this dataset represents a faculty type, and the columns are the years for which we have data.</p>
 <p>The values are percentage of hires of that type of faculty for each year.</p>
@@ -498,7 +495,7 @@ Question 4
 Question 5
 </div>
 <div class="question-body">
-<p>Implement the changes you proposed in the previous exercise. That is, create an improved figure! Your new figure should be substantially different from what we started with.</p>
+<p>Implement the changes you proposed in the previous exercise. That is, create an improved figure! Your new figure should be different from what we started with, and there is no one right answer.</p>
 <p>Your visualization should be accompanied by a brief paragraph describing the following:</p>
 <ul>
 <li>What were options you considered in your improvement?</li>
@@ -514,8 +511,8 @@ Question 5
 <h2>Fisheries</h2>
 <p>Fisheries and Aquaculture Department of the Food and Agriculture Organization of the United Nations collects data on fisheries production of countries.</p>
 <p><a href="https://en.wikipedia.org/wiki/Fishing_industry_by_country">This Wikipedia page</a> lists fishery production of countries for 2016.</p>
-<p>For each country, tonnage from capture and aquaculture are listed.</p>
-<p>Note that countries whose total harvest was less than 100,000 tons are not included in the visualization.</p>
+<p>For each country, tonnage from capture (Variable 1) and aquaculture (Variable 2) are listed.</p>
+<p><strong>Note that there are a lot of countries whose total harvest was relatively small so they are not included in the visualization. You might want to do something similar.</strong></p>
 <p>A researcher shared with you the following visualization they created based on these data. Yikes!
 😳</p>
 <p><img src="img/fisheries.png" width="80%" style="display: block; margin: auto;" /></p>
@@ -529,21 +526,21 @@ Question 6
 </div>
 <p class="question-end">
 </p>
-<div class="green">
-<p>You might find it helpful to load in the data and <code>glimpse</code> it or <code>View</code> it to see what you’re working with in greater depth.</p>
-</div>
 <hr />
 <div class="question-begin">
 Question 7
 </div>
 <div class="question-body">
-<p>Create a new data visualization for these data that implements the improvements you proposed in the previous exercise (or many of them as you can).</p>
+<p>Create a new data visualization for these data that implements the improvements you proposed in the previous exercise (or many of them as you can). And remember: there is no one right answer.</p>
 <p>Your visualization should be accompanied by a brief paragraph describing the following:</p>
 <ul>
 <li>What were options you considered in your improvement?</li>
 <li>What did you not like in the original plot and why?</li>
 <li>How did you specifically address the things you didn’t like in your new visualization?</li>
 </ul>
+<div class="green">
+<p>Although this might be obvious at this point, you need to import the data associated with fisheries to start working with it. You are a pro by now. But note that you’re no longer working with a “.csv” file.</p>
+</div>
 </div>
 <p class="question-end">
 </p>
