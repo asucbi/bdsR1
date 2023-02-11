@@ -1,5 +1,5 @@
 ---
-title: "Hotel bookings - data wrangling"
+title: "Module 4 Code Along: Hotel bookings"
 # author: 
 #   - Nicholas Duran, Derek Powell^[Authored modifications to original code]
 #   - Mine Çetinkaya-Rundel^[Original author of exercise]
@@ -9,13 +9,13 @@ title: "Hotel bookings - data wrangling"
 #     theme: yeti
 #     highlight: pygments
 output:
-  github_document
+  html_document
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 ```{r load-pkg, message = FALSE}
 library(tidyverse)
-# library(skimr)
+
 ```
 
 ```{r}
@@ -27,7 +27,9 @@ Let's visualize different aspects of hotel bookings on a few different timescale
 
 ## Plot adr by month
 
-```{r}
+First let's plot average adr by month of the year.
+
+```{r adr-by-month}
 hotels %>%
   group_by(hotel, arrival_date_month) %>%   # group by hotel type and arrival month
   summarise(mean_adr = mean(adr)) %>%       # calculate mean adr for each group
@@ -38,12 +40,13 @@ hotels %>%
     color = hotel)                          # and color by hotel type
     ) +
   geom_line() 
-  
 ```
 
-## Fix ordering of the months (factors)
+## Fix ordering of the months (as factors)
 
-```{r}
+We will want to use a function from the **forcats** package, see <https://forcats.tidyverse.org/reference/index.html> for inspiration and help.
+
+```{r adr-by-month-ordered}
 hotels %>%
   mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name)) %>% 
   group_by(hotel, arrival_date_month) %>%   # group by hotel type and arrival month
@@ -57,13 +60,9 @@ hotels %>%
   geom_line() 
 ```
 
-
-You will want to use a function from the **forcats** package, see <https://forcats.tidyverse.org/reference/index.html> for inspiration and help.
-
-
 ## Make it pretty
 
-```{r}
+```{r adr-by-month-pretty}
 hotels %>%
   mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name)) %>%  # show to be careful w/ month.name[12:1]
   mutate(arrival_date_month = factor(arrival_date_month, labels = month.abb)) %>%
@@ -87,17 +86,18 @@ hotels %>%
   scale_y_continuous(labels=scales::dollar_format())
 ```
 
+**A final touch:** Change the y-axis label so the values are shown with dollar signs, e.g. \$80 instead of 80.
+We can use a function from the **scales** package, see <https://scales.r-lib.org/reference/index.html>.
 
-**Stretch goal:** If you finish the above task before time is up, change the y-axis label so the values are shown with dollar signs, e.g. \$80 instead of 80.
-You will want to use a function from the **scales** package, see <https://scales.r-lib.org/reference/index.html> for inspiration and help.
-
-## Plot by day of week
+## Plot cancellations by day of week
 
 When do people cancel their plans more? Are travelers arriving different days more likely to cancel their plans?
 
 uh oh, no day of the week variable! we can use **lubridate** for this
 
-```{r}
+```{r cancel-by-day-of-week}
+library(lubridate)
+
 days_of_week <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 
 hotels %>%
