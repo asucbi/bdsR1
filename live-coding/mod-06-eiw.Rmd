@@ -8,7 +8,7 @@ This is code-along for module 6: Explanatiosnin the wild data
 ```{r}
 ## Are longer explanations better?
 
-eiw <- read_csv("explanations-in-wild-s1-full.csv")
+eiw <- read_csv("../data/explanations-in-wild-s1-full.csv")
 ```
 
 
@@ -82,7 +82,6 @@ eiw %>%
 
 ## Another research Q: are more mechanistic explanations more satisfying?
 
-
 ```{r}
 
 eiw %>% 
@@ -120,6 +119,19 @@ eiw %>%
       stringr::str_length(text)<200 ~ "<200",
       stringr::str_length(text)>=200 ~ ">200"
     )
+  ) %>%
+  ggplot(aes(x=mechanism, y=satisfaction)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  facet_wrap(~len_group)
+```
+
+
+```{r}
+eiw %>% 
+  mutate(
+    exp_len = str_length(text),
+    len_group = cut(exp_len, c(0, 25, 50, 75, 100, 150, 200, Inf))
   ) %>%
   ggplot(aes(x=mechanism, y=satisfaction)) +
   geom_point() +
