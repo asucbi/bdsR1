@@ -193,15 +193,19 @@ Fix the title, axis labels, and legend label.
 
 ---
 
+:::yellow
+__Remember__ not every solution you might employ is going to be something we explicitly covered in class. While there are lots of things we will have covered, you might need to do some Google searching with different keywords to figure out the right bit of code to do what you want to do. That is totally ok.    
+:::
+
 `r qbegin(4)`
 
-Suppose the objective of this plot was to show that the proportion of part-time faculty have gone up over time compared to other instructional staff types.
+Suppose the objective of this plot was to show that the percentage of part-time faculty have gone up over time compared to other instructional staff types. 
 
-What changes would you propose making to this plot to tell this story and why?
+The plot should already be telling you this, but what changes could you make to this plot to really make the story obvious?
 
 __Do not actually create a figure (that's the next question).__ This is brainstorming time! Think about (and write out) how the figure could look to tell the targeted story. 
 
-Write up the changes/decisions you made as bullet points (i.e., as a list).
+Write up the change(s)/decision(s) you made as bullet points (i.e., as a list).
 
 `r qend()`
 
@@ -248,7 +252,13 @@ Can you help them make improve it?
 
 First, brainstorm how you would improve it. 
 
-Write up the changes/decisions you made as bullet points. It's ok if some of your improvements are aspirational, i.e. you don't know how to implement it, but you think it's a good idea.
+Write up the changes/decisions you made as bullet points. It's ok if some of your improvements are aspirational, i.e. you don't know how to implement it, but you think it's a good idea. 
+
+In your write-up, consider the following:
+
+- What were options you considered in your improvement?
+- What did you not like in the original plot and why?
+- How did you specifically address the things you didn't like in your new visualization?
 
 `r qend()`
 
@@ -262,17 +272,11 @@ fisheries <- read_excel("data/fisheries.xlsx")
 
 Create a new data visualization for these data that implements the improvements you proposed in the previous exercise (or many of them as you can). And remember: there is no one right answer. 
 
-Your visualization should be accompanied by a brief paragraph describing the following:
-
-- What were options you considered in your improvement?
-- What did you not like in the original plot and why?
-- How did you specifically address the things you didn't like in your new visualization?
+`r qend()`
 
 :::green
 Although this might be obvious at this point, you need to import the data associated with fisheries to start working with it. You are a pro by now. But note that you're no longer working with a ".csv" file. 
 :::
-
-`r qend()`
 
 # Wrapping up
 
