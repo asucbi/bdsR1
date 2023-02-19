@@ -1,20 +1,21 @@
 ---
 title: "Functions"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Nicholas Duran & Derek Powell"
 output:
   xaringan::moon_reader:
-    css: ["../xaringan-themer.css", "../slides.css"]
+    css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
-    anchor_sections: FALSE
     nature:
       ratio: "16:9"
       highlightLines: true
       highlightStyle: solarized-light
       countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r child = "../setup.Rmd"}
+```{r child = "setup.Rmd"}
 ```
 
 ```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
@@ -25,14 +26,14 @@ library(DT)
 
 class: middle
 
-# First Minister's COVID speeches
+# White House Speeches
 
 ---
 
 ## 🏁 Start with
 
-```{r echo=FALSE, out.width="75%"}
-knitr::include_graphics("img/fm-speeches.png")
+```{r echo=FALSE, out.width="45%"}
+knitr::include_graphics("img/wh-speeches.png")
 ```
 
 ---
@@ -40,7 +41,7 @@ knitr::include_graphics("img/fm-speeches.png")
 ## End with 🛑
 
 ```{r echo=FALSE}
-covid_speeches <- read_rds("data/covid-speeches-scot.rds") %>%
+covid_speeches <- read_rds("data/wh_speeches.rds") %>%
   print(n = 15)
 ```
 
@@ -48,49 +49,49 @@ covid_speeches <- read_rds("data/covid-speeches-scot.rds") %>%
 ---
 
 #### .center[
-[www.gov.scot/collections/first-ministers-speeches](https://www.gov.scot/collections/first-ministers-speeches/)
+[https://www.whitehouse.gov/briefing-room/speeches-remarks](https://www.whitehouse.gov/briefing-room/speeches-remarks/)
 ]
 
 ```{r echo=FALSE, out.width="75%"}
-knitr::include_graphics("img/fm-speeches-annotated.png")
+knitr::include_graphics("img/wh-speeches-annotated.png")
 ```
 
 ---
 
 ```{r echo=FALSE, out.width="65%"}
-knitr::include_graphics("img/fm-speech-oct-26-annotated.png")
+knitr::include_graphics("img/wh-speech-feb-16-annotated.png")
 ```
 
 ---
 
 ## Plan
 
-1. Scrape `title`, `date`, `location`, `abstract`, and `text` from a few COVID-19 speech pages to develop the code
+1. Scrape `title`, `date`, `location`, and `text` from a few of the individual pages of White House speeches to develop the code
 
-2. Write a function that scrapes `title`, `date`, `location`, `abstract`, and `text` from COVID-19 speech pages
+2. Write a function that scrapes `title`, `date`, `location`, and `text` from each speech page
 
-3. Scrape the `url`s of COVID-19 speeches from the main page
+3. Scrape the `url`s of all White House speeches from the main page
 
-4. Use this function to scrape from each individual COVID-19 speech from these `url`s and create a data frame with the columns `title`, `date`, `location`, `abstract`, `text`, and `url`
+4. Use this function to scrape from each individual speech from these `url`s and create a data frame with the columns `title`, `date`, `location`, `text`, and `url`
 
 ---
 
 class: middle
 
-# Scrape data from a few COVID-19 speech pages
+# Scrape data from a few of the individual pages of White House speeches
 
 ---
 
-## Read page for 26 Oct speech
+## Read page for Biden's Feb 16 speech on UFOs
 
 ```{r eval=FALSE}
-url <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-26-october/"
+url <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"
 speech_page <- read_html(url)
 ```
 
 ```{r include=FALSE}
-url <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-26-october/"
-speech_page <- read_html("data/oct-26.html")
+url <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"
+speech_page <- read_html("data/feb-16-biden-UFO.html")
 ```
 
 .pull-left[
@@ -100,7 +101,7 @@ speech_page
 ]
 .pull-right[
 ```{r echo=FALSE, out.width="80%"}
-knitr::include_graphics("img/fm-speech-oct-26.png")
+knitr::include_graphics("img/wh-speech-feb-16.png")
 ```
 ]
 
@@ -112,8 +113,8 @@ knitr::include_graphics("img/fm-speech-oct-26.png")
 <br><br>
 ```{r}
 title <- speech_page %>%
-    html_node(".article-header__title") %>%
-    html_text()
+    html_node(".news") %>%
+    html_text2() 
 
 title
 ```
@@ -133,14 +134,15 @@ knitr::include_graphics("img/title.png")
 library(lubridate)
 
 speech_page %>%
-    html_node(".content-data__list:nth-child(1) strong") %>%
-    html_text() 
+    html_node(".updated") %>%
+    html_text()
 
 date <- speech_page %>%
-    html_node(".content-data__list:nth-child(1) strong") %>%
+    html_node(".updated") %>%
     html_text() %>%
-    dmy()
+    mdy()
 date
+
 ```
 ]
 .pull-right-narrow[
@@ -156,34 +158,17 @@ knitr::include_graphics("img/date.png")
 .pull-left-wide[
 ```{r}
 location <- speech_page %>%
-    html_node(".content-data__list+ .content-data__list strong") %>%
-    html_text()
+    html_node(".has-text-align-center") %>%
+    html_text2() 
 
 location
+  
 ```
 ]
+
 .pull-right-narrow[
 ```{r echo=FALSE, out.width="100%"}
 knitr::include_graphics("img/location.png")
-```
-]
-
----
-
-## Extract abstract
-
-.pull-left-wide[
-```{r}
-abstract <- speech_page %>%
-    html_node(".leader--first-para p") %>%
-    html_text()
-
-abstract
-```
-]
-.pull-right-narrow[
-```{r echo=FALSE, out.width="100%"}
-knitr::include_graphics("img/abstract.png")
 ```
 ]
 
@@ -194,8 +179,8 @@ knitr::include_graphics("img/abstract.png")
 .pull-left-wide[
 ```{r output.lines=11}
 text <- speech_page %>% 
-    html_nodes("#preamble p") %>%
-    html_text() %>%
+    html_nodes("p") %>%
+    html_text2() %>%
     list()
 
 text
@@ -213,36 +198,37 @@ knitr::include_graphics("img/text.png")
 
 .pull-left[
 ```{r}
-oct_26_speech <- tibble(
+biden_speech <- tibble(
   title    = title,
   date     = date,
   location = location,
-  abstract = abstract,
   text     = text,
   url      = url
 )
 
-oct_26_speech
+glimpse(biden_speech)
+
 ```
 ]
 .pull-right[
-```{r echo=FALSE, out.width="75%"}
-knitr::include_graphics("img/fm-speech-oct-26.png")
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("img/wh-speech-feb-16.png")
 ```
 ]
 
 ---
 
-## Read page for 23 Oct speech
+## Read page for Jill Biden's Feb 13th remarks at Mesa Community College
 
 ```{r eval=FALSE}
-url <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-23-october/"
+url <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
 speech_page <- read_html(url)
 ```
 
 ```{r include=FALSE}
-url <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-23-october/"
-speech_page <- read_html("data/oct-23.html")
+url <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
+speech_page <- read_html("data/jill-biden-remarks.html")
+
 ```
 
 ```{r}
@@ -251,29 +237,25 @@ speech_page
 
 ---
 
-## Extract components of 23 Oct speech
+## Extract components of Jill Biden's remarks
 
 ```{r}
 title <- speech_page %>%
-  html_node(".article-header__title") %>%
-  html_text()
+  html_node(".news") %>%
+  html_text2()
 
 date <- speech_page %>%
-  html_node(".content-data__list:nth-child(1) strong") %>%
+  html_node(".updated") %>%
   html_text() %>%
-  dmy()
+  mdy()
 
 location <- speech_page %>%
-  html_node(".content-data__list+ .content-data__list strong") %>%
-  html_text()
-
-abstract <- speech_page %>%
-  html_node(".leader--first-para p") %>%
-  html_text()
+  html_node(".has-text-align-center") %>%
+  html_text2()
 
 text <- speech_page %>%
-  html_nodes("#preamble p") %>%
-  html_text() %>%
+  html_nodes("p") %>%
+  html_text2() %>%
   list()
 ```
 
@@ -283,21 +265,20 @@ text <- speech_page %>%
 
 .pull-left[
 ```{r}
-oct_23_speech <- tibble(
+jill_biden_remarks <- tibble(
   title    = title,
   date     = date,
   location = location,
-  abstract = abstract,
   text     = text,
   url      = url
 )
 
-oct_23_speech
+glimpse(jill_biden_remarks)
 ```
 ]
 .pull-right[
 ```{r echo=FALSE, out.width="75%"}
-knitr::include_graphics("img/fm-speech-oct-23.png")
+knitr::include_graphics("img/jill-biden-remarks.png")
 ```
 ]
 
@@ -337,11 +318,11 @@ When you’ve copied and pasted a block of code more than twice.
 ---
 
 .question[
-How many times will we need to copy and paste the code we developed to scrape data on all of First Minister's COVID-19 speeches?
+How many times will we need to copy and paste the code we developed to scrape data on all of the White House speeches?
 ]
 
-```{r echo=FALSE, out.width="55%"}
-knitr::include_graphics("img/search-result.png")
+```{r echo=FALSE, out.width="45%"}
+knitr::include_graphics("img/wh-speeches-annotated2.png")
 ```
 
 ---
@@ -366,34 +347,31 @@ Assuming that the page structure is the same for each speech page, how many "thi
 .pull-left-wide[
 .xsmall[
 ```{r eval=FALSE}
-url_23_oct <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-23-october/"
-speech_page <- read_html(url_23_oct)
+url_to_scrape <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-at-the-munich-security-conference-2/"
+
+speech_page <- read_html(url_to_scrape)
 
 title <- speech_page %>%
-  html_node(".article-header__title") %>%
-  html_text()
+  html_node(".news") %>%
+  html_text2()
 
 date <- speech_page %>%
-  html_node(".content-data__list:nth-child(1) strong") %>%
+  html_node(".updated") %>%
   html_text() %>%
-  dmy()
+  mdy()
 
 location <- speech_page %>%
-  html_node(".content-data__list+ .content-data__list strong") %>%
-  html_text()
-
-abstract <- speech_page %>%
-  html_node(".leader--first-para p") %>%
-  html_text()
+  html_node(".has-text-align-center") %>%
+  html_text2()
 
 text <- speech_page %>%
-  html_nodes("#preamble p") %>%
-  html_text() %>%
+  html_nodes("p") %>%
+  html_text2() %>%
   list()
 
 tibble(
   title = title, date = date, location = location,
-  abstract = abstract, text = text, url= url
+  text = text, url= url
 )
 ```
 ]
@@ -448,10 +426,10 @@ scrape_speech <- function(x){
 - Place the **code** you have developed in body of the function, a `{` block that immediately follows `function(...)`.
 
 ```{r eval=FALSE}
-scrape_speech <- function(url){
+scrape_speech <- function(url_to_scrape){
 
   # code we developed earlier to scrape info 
-  # on single art piece goes here
+  # on single speech goes here
   
 }
 ```
@@ -463,35 +441,31 @@ scrape_speech <- function(url){
 .pull-left-wide[
 .small[
 ```{r}
-scrape_speech <- function(url) {
+scrape_speech <- function(url_to_scrape) {
   
-  speech_page <- read_html(url)
+  speech_page <- read_html(url_to_scrape)
 
   title <- speech_page %>%
-    html_node(".article-header__title") %>%
-    html_text()
-
+    html_node(".news") %>%
+    html_text2()
+  
   date <- speech_page %>%
-    html_node(".content-data__list:nth-child(1) strong") %>%
+    html_node(".updated") %>%
     html_text() %>%
-    dmy()
-
+    mdy()
+  
   location <- speech_page %>%
-    html_node(".content-data__list+ .content-data__list strong") %>%
-    html_text()
-
-  abstract <- speech_page %>%
-    html_node(".leader--first-para p") %>%
-    html_text()
-
+    html_node(".has-text-align-center") %>%
+    html_text2()
+  
   text <- speech_page %>%
-    html_nodes("#preamble p") %>%
-    html_text() %>%
+    html_nodes("p") %>%
+    html_text2() %>%
     list()
-
+  
   tibble(
     title = title, date = date, location = location,
-    abstract = abstract, text = text, url = url
+    text = text, url= url_to_scrape
   )
 }
 ```
@@ -503,7 +477,7 @@ scrape_speech <- function(url) {
 ## Function in action
 
 ```{r}
-scrape_speech(url = "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-26-october/") %>%
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/") %>%
   glimpse()
 ```
 
@@ -512,7 +486,7 @@ scrape_speech(url = "https://www.gov.scot/publications/coronavirus-covid-19-upda
 ## Function in action
 
 ```{r}
-scrape_speech(url = "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-23-october/") %>%
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/") %>%
   glimpse()
 ```
 
@@ -521,7 +495,7 @@ scrape_speech(url = "https://www.gov.scot/publications/coronavirus-covid-19-upda
 ## Function in action
 
 ```{r}
-scrape_speech(url = "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-22-october/") %>%
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-at-the-munich-security-conference-2/") %>%
   glimpse()
 ```
 

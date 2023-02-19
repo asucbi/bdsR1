@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Iteration</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Nicholas Duran &amp; Derek Powell" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Iteration
+]
+.subtitle[
+## <br><br> Behavioral Data Science in R
+]
+.author[
+### Nicholas Duran &amp; Derek Powell
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+class: middle
+
+# White House Speeches
+
+---
+
+## 🏁 Start with
+
+&lt;img src="img/wh-speeches.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## End with 🛑
+
+
+```
+## # A tibble: 30 × 5
+##    title                           date       locat…¹ text  url  
+##    &lt;chr&gt;                           &lt;date&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;chr&gt;
+##  1 Remarks by Vice President Harr… 2023-02-18 "Comme… &lt;chr&gt; http…
+##  2 Remarks by Vice President Harr… 2023-02-18 "\nCom… &lt;chr&gt; http…
+##  3 Remarks by Vice President Harr… 2023-02-18 "Hotel… &lt;chr&gt; http…
+##  4 Remarks by Vice President Harr… 2023-02-17 "Bayer… &lt;chr&gt; http…
+##  5 Remarks by President Biden at … 2023-02-16 "East … &lt;chr&gt; http…
+##  6 Remarks by President Biden on … 2023-02-16 "South… &lt;chr&gt; http…
+##  7 Remarks by President Biden on … 2023-02-15 "IBEW … &lt;chr&gt; http…
+##  8 Excerpt from Remarks as Prepar… 2023-02-15 "\n###" &lt;chr&gt; http…
+##  9 Remarks by President Biden at … 2023-02-14 "Washi… &lt;chr&gt; http…
+## 10 Remarks as Prepared for Delive… 2023-02-13 "Mesa,… &lt;chr&gt; http…
+## # … with 20 more rows, and abbreviated variable name ¹​location
+```
+
+
+---
+
+## Define `scrape_speech()`
+
+.pull-left-wide[
+.small[
+
+```r
+scrape_speech &lt;- function(url_to_scrape) {
+  
+  speech_page &lt;- read_html(url_to_scrape)
+
+  title &lt;- speech_page %&gt;%
+    html_node(".news") %&gt;%
+    html_text2()
+  
+  date &lt;- speech_page %&gt;%
+    html_node(".updated") %&gt;%
+    html_text() %&gt;%
+    mdy()
+  
+  location &lt;- speech_page %&gt;%
+    html_node(".has-text-align-center") %&gt;%
+    html_text2()
+  
+  text &lt;- speech_page %&gt;%
+    html_nodes("p") %&gt;%
+    html_text2() %&gt;%
+    list()
+  
+  tibble(
+    title = title, date = date, location = location,
+    text = text, url= url_to_scrape
+  )
+}
+```
+]
+]
+
+---
+
+## Use `scrape_speech()`
+
+
+```r
+url_biden_UFO &lt;- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"
+scrape_speech(url = url_biden_UFO)
+```
+
+```
+## # A tibble: 1 × 5
+##   title                            date       locat…¹ text  url  
+##   &lt;chr&gt;                            &lt;date&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;chr&gt;
+## 1 Remarks by President Biden on t… 2023-02-16 "South… &lt;chr&gt; http…
+## # … with abbreviated variable name ¹​location
+```
+
+```r
+url_jill_biden &lt;- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
+scrape_speech(url = url_jill_biden)
+```
+
+```
+## # A tibble: 1 × 5
+##   title                            date       locat…¹ text  url  
+##   &lt;chr&gt;                            &lt;date&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;chr&gt;
+## 1 Remarks as Prepared for Deliver… 2023-02-13 Mesa, … &lt;chr&gt; http…
+## # … with abbreviated variable name ¹​location
+```
+
+---
+
+class: middle
+
+# Inputs
+
+---
+
+## Inputs
+
+.question[
+You now have a function that will scrape the relevant info on speeches given the URL of the page of the speech. Where can we get a list of URLs of each of the speeches?
+]
+
+&lt;img src="img/wh-speeches-links.png" width="32%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## All URLs
+
+
+```r
+all_speeches_page &lt;- read_html("https://www.whitehouse.gov/briefing-room/speeches-remarks/")
+
+wh_speech_urls &lt;- all_speeches_page %&gt;%
+  html_nodes(".news-item__title") %&gt;%
+  html_attr("href")
+
+wh_speech_urls
+```
+
+```
+##  [1] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-prime-minister-marin-of-finland-and-prime-minister-kristersson-of-sweden-before-trilateral-meeting/"                                                              
+##  [2] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-and-prime-minister-sunak-of-the-united-kingdom-before-bilateral-meeting/"                                                                                         
+##  [3] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-at-the-munich-security-conference-2/"                                                                                                                             
+##  [4] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/17/remarks-by-vice-president-harris-and-president-macron-of-france-before-bilateral-meeting/"                                                                                                         
+##  [5] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-at-till-movie-screening/"                                                                                                                                               
+##  [6] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"                                                                                                                
+##  [7] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/15/remarks-by-president-biden-on-the-economy-7/"                                                                                                                                                      
+##  [8] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/15/excerpt-from-remarks-as-prepared-for-delivery-by-president-biden-on-his-plan-to-reduce-the-deficit-while-investing-in-america-bringing-down-costs-for-families-and-protecting-and-strengthening-s/"
+##  [9] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/14/remarks-by-president-biden-at-the-national-association-of-counties-nac-conference/"                                                                                                                
+## [10] "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
+```
+
+---
+
+class: middle
+
+# Iteration
+
+---
+
+## Define the task
+
+- Goal: Scrape info on all White House speeches
+- So far:
+
+```r
+scrape_speech(wh_speech_urls[1])
+scrape_speech(wh_speech_urls[2])
+scrape_speech(wh_speech_urls[3])
+```
+- What else do we need to do?
+  - Run the `scrape_speech()` function on all White House speech links
+  - Combine the resulting data frames from each run into one giant data frame
+
+---
+
+## Iteration
+
+.question[
+How can we tell R to apply the `scrape_speech()` function to each link in `wh_speech_urls`?
+]
+
+--
+
+- Option 1: Write a **for loop**, i.e. explicitly tell R to visit a link, apply the function, store the result, then visit the next link, apply the function, append the result to the stored result from the previous link, and so on and so forth.
+--
+
+- Option 2: **Map** the function to each element in the list of links, and let R take care of the storing and appending of results.
+--
+
+- We'll go with Option 2!
+
+---
+
+## How does mapping work?
+
+Suppose we have exam 1 and exam 2 scores of 4 students stored in a list...
+
+
+```r
+exam_scores &lt;- list(
+  exam1 &lt;- c(80, 90, 70, 50),
+  exam2 &lt;- c(85, 83, 45, 60)
+)
+```
+
+--
+
+...and we find the mean score in each exam
+
+
+```r
+map(exam_scores, mean)
+```
+
+```
+## [[1]]
+## [1] 72.5
+## 
+## [[2]]
+## [1] 68.25
+```
+
+---
+
+...and suppose we want the results as a numeric (double) vector
+
+
+```r
+map_dbl(exam_scores, mean)
+```
+
+```
+## [1] 72.50 68.25
+```
+
+...or as a character string
+
+
+```r
+map_chr(exam_scores, mean)
+```
+
+```
+## [1] "72.500000" "68.250000"
+```
+
+---
+
+## `map_something`
+
+Functions for looping over an object and returning a value (of a specific type):
+
+* `map()` - returns a list
+* `map_lgl()` - returns a logical vector
+* `map_int()` - returns a integer vector
+* `map_dbl()` - returns a double vector
+* `map_chr()` - returns a character vector
+* `map_df()` / `map_dfr()` - returns a data frame by row binding
+* `map_dfc()` - returns a data frame by column binding
+* ...
+
+---
+
+## Go to each page, scrape speech
+
+- Map the `scrape_speech()` function
+- to each element of `wh_speech_urls`
+- and return a data frame by row binding
+
+
+```r
+wh_speeches &lt;- map_dfr(wh_speech_urls, scrape_speech)
+```
+
+---
+
+
+
+
+```r
+wh_speeches %&gt;%
+  print(n = 15)
+```
+
+```
+## # A tibble: 30 × 5
+##    title                           date       locat…¹ text  url  
+##    &lt;chr&gt;                           &lt;date&gt;     &lt;chr&gt;   &lt;lis&gt; &lt;chr&gt;
+##  1 Remarks by Vice President Harr… 2023-02-18 "Comme… &lt;chr&gt; http…
+##  2 Remarks by Vice President Harr… 2023-02-18 "\nCom… &lt;chr&gt; http…
+##  3 Remarks by Vice President Harr… 2023-02-18 "Hotel… &lt;chr&gt; http…
+##  4 Remarks by Vice President Harr… 2023-02-17 "Bayer… &lt;chr&gt; http…
+##  5 Remarks by President Biden at … 2023-02-16 "East … &lt;chr&gt; http…
+##  6 Remarks by President Biden on … 2023-02-16 "South… &lt;chr&gt; http…
+##  7 Remarks by President Biden on … 2023-02-15 "IBEW … &lt;chr&gt; http…
+##  8 Excerpt from Remarks as Prepar… 2023-02-15 "\n###" &lt;chr&gt; http…
+##  9 Remarks by President Biden at … 2023-02-14 "Washi… &lt;chr&gt; http…
+## 10 Remarks as Prepared for Delive… 2023-02-13 "Mesa,… &lt;chr&gt; http…
+## 11 Remarks by President Biden at … 2023-02-11 "State… &lt;chr&gt; http…
+## 12 Remarks as Prepared for Delive… 2023-02-11 "Decat… &lt;chr&gt; http…
+## 13 Remarks by President Biden and… 2023-02-10 " \nOv… &lt;chr&gt; http…
+## 14 Remarks by President Biden and… 2023-02-10 "East … &lt;chr&gt; http…
+## 15 Remarks by President Biden on … 2023-02-09 "Unive… &lt;chr&gt; http…
+## # … with 15 more rows, and abbreviated variable name ¹​location
+```
+
+---
+
+## What could go wrong?
+
+
+```r
+wh_speeches &lt;- map_dfr(wh_speech_urls, scrape_speech)
+```
+
+- This will take a while to run
+- If you get `HTTP Error 429 (Too many requests)` you might want to slow down your hits by modifying your function to slow it down by adding a random wait (sleep) time between hitting each link
+
+
+```r
+scrape_speech &lt;- function(url){
+  
+  # Sleep for randomly generated number of seconds
+  # Generated from a uniform distribution between 0 and 1
+* Sys.sleep(runif(1))
+  
+  # Rest of your function code goes here...
+}
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

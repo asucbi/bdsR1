@@ -1,10 +1,10 @@
 ---
 title: "Iteration"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Nicholas Duran & Derek Powell"
 output:
   xaringan::moon_reader:
-    css: ["../xaringan-themer.css", "../slides.css"]
+    css: ["xaringan-themer.css", "slides.css"]
     lib_dir: libs
     anchor_sections: FALSE
     nature:
@@ -12,9 +12,11 @@ output:
       highlightLines: true
       highlightStyle: solarized-light
       countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r child = "../setup.Rmd"}
+```{r child = "setup.Rmd"}
 ```
 
 ```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
@@ -25,14 +27,14 @@ library(lubridate)
 
 class: middle
 
-# First Minister's COVID speeches
+# White House Speeches
 
 ---
 
 ## 🏁 Start with
 
-```{r echo=FALSE, out.width="75%"}
-knitr::include_graphics("img/fm-speeches.png")
+```{r echo=FALSE, out.width="40%"}
+knitr::include_graphics("img/wh-speeches.png")
 ```
 
 ---
@@ -40,8 +42,8 @@ knitr::include_graphics("img/fm-speeches.png")
 ## End with 🛑
 
 ```{r echo=FALSE}
-covid_speeches <- read_rds("data/covid-speeches-scot.rds") %>%
-  print(n = 15)
+wh_speeches <- read_rds("data/wh_speeches.rds") %>%
+  print(n = 10)
 ```
 
 
@@ -52,35 +54,31 @@ covid_speeches <- read_rds("data/covid-speeches-scot.rds") %>%
 .pull-left-wide[
 .small[
 ```{r}
-scrape_speech <- function(url) {
+scrape_speech <- function(url_to_scrape) {
   
-  speech_page <- read_html(url)
+  speech_page <- read_html(url_to_scrape)
 
   title <- speech_page %>%
-    html_node(".article-header__title") %>%
-    html_text()
-
+    html_node(".news") %>%
+    html_text2()
+  
   date <- speech_page %>%
-    html_node(".content-data__list:nth-child(1) strong") %>%
+    html_node(".updated") %>%
     html_text() %>%
-    dmy()
-
+    mdy()
+  
   location <- speech_page %>%
-    html_node(".content-data__list+ .content-data__list strong") %>%
-    html_text()
-
-  abstract <- speech_page %>%
-    html_node(".leader--first-para p") %>%
-    html_text()
-
+    html_node(".has-text-align-center") %>%
+    html_text2()
+  
   text <- speech_page %>%
-    html_nodes("#preamble p") %>%
-    html_text() %>%
+    html_nodes("p") %>%
+    html_text2() %>%
     list()
-
+  
   tibble(
     title = title, date = date, location = location,
-    abstract = abstract, text = text, url = url
+    text = text, url= url_to_scrape
   )
 }
 ```
@@ -92,11 +90,11 @@ scrape_speech <- function(url) {
 ## Use `scrape_speech()`
 
 ```{r}
-url_26_oct <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-26-october/"
-scrape_speech(url = url_26_oct)
+url_biden_UFO <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"
+scrape_speech(url = url_biden_UFO)
 
-url_23_oct <- "https://www.gov.scot/publications/coronavirus-covid-19-update-first-ministers-speech-23-october/"
-scrape_speech(url = url_23_oct)
+url_jill_biden <- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
+scrape_speech(url = url_jill_biden)
 ```
 
 ---
@@ -113,8 +111,8 @@ class: middle
 You now have a function that will scrape the relevant info on speeches given the URL of the page of the speech. Where can we get a list of URLs of each of the speeches?
 ]
 
-```{r echo=FALSE}
-knitr::include_graphics("img/fm-speeches-links.png")
+```{r echo=FALSE, out.width="32%"}
+knitr::include_graphics("img/wh-speeches-links.png")
 ```
 
 
@@ -123,48 +121,13 @@ knitr::include_graphics("img/fm-speeches-links.png")
 ## All URLs
 
 ```{r output.lines=10}
-all_speeches_page <- read_html("https://www.gov.scot/collections/first-ministers-speeches/")
+all_speeches_page <- read_html("https://www.whitehouse.gov/briefing-room/speeches-remarks/")
 
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
+wh_speech_urls <- all_speeches_page %>%
+  html_nodes(".news-item__title") %>%
   html_attr("href")
-```
 
----
-
-## COVID-19 URLs *fragments*
-
-```{r output.lines=10}
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
-  str_subset("covid-19")
-```
-
----
-
-## COVID-19 URLs
-
-```{r output.lines=10}
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
-  str_subset("covid-19") %>%
-  str_c("https://www.gov.scot", .)
-```
-
----
-
-## Save COVID-19 URLs
-
-```{r output.lines=10}
-covid_speech_urls <- all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
-  str_subset("covid-19") %>%
-  str_c("https://www.gov.scot", .)
-
-covid_speech_urls
+wh_speech_urls
 ```
 
 ---
@@ -177,15 +140,15 @@ class: middle
 
 ## Define the task
 
-- Goal: Scrape info on all COVID-19 speeches of the First Minister
+- Goal: Scrape info on all White House speeches
 - So far:
 ```{r eval=FALSE}
-scrape_speech(covid_speech_urls[1])
-scrape_speech(covid_speech_urls[2])
-scrape_speech(covid_speech_urls[3])
+scrape_speech(wh_speech_urls[1])
+scrape_speech(wh_speech_urls[2])
+scrape_speech(wh_speech_urls[3])
 ```
 - What else do we need to do?
-  - Run the `scrape_speech()` function on all COVID-19 speech links
+  - Run the `scrape_speech()` function on all White House speech links
   - Combine the resulting data frames from each run into one giant data frame
 
 ---
@@ -193,7 +156,7 @@ scrape_speech(covid_speech_urls[3])
 ## Iteration
 
 .question[
-How can we tell R to apply the `scrape_speech()` function to each link in `covid_speech_urls`?
+How can we tell R to apply the `scrape_speech()` function to each link in `wh_speech_urls`?
 ]
 
 --
@@ -261,21 +224,21 @@ Functions for looping over an object and returning a value (of a specific type):
 ## Go to each page, scrape speech
 
 - Map the `scrape_speech()` function
-- to each element of `covid_speech_urls`
+- to each element of `wh_speech_urls`
 - and return a data frame by row binding
 
 ```{r eval=FALSE}
-covid_speeches <- map_dfr(covid_speech_urls, scrape_speech)
+wh_speeches <- map_dfr(wh_speech_urls, scrape_speech)
 ```
 
 ---
 
 ```{r include=FALSE}
-covid_speeches <- read_rds("data/covid-speeches-scot.rds")
+wh_speeches <- read_rds("data/wh_speeches.rds")
 ```
 
 ```{r}
-covid_speeches %>%
+wh_speeches %>%
   print(n = 15)
 ```
 
@@ -284,7 +247,7 @@ covid_speeches %>%
 ## What could go wrong?
 
 ```{r eval=FALSE}
-covid_speeches <- map_dfr(covid_speech_urls, scrape_speech)
+wh_speeches <- map_dfr(wh_speech_urls, scrape_speech)
 ```
 
 - This will take a while to run
