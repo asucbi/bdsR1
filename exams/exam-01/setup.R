@@ -20,12 +20,3 @@ theme_set(
     theme_bw(base_size = 15)
 )
 
-## Exam 1 specific
-
-library(tidyverse)
-library(nycflights13)
-
-set.seed(42)
-
-flights <- flights %>% 
-  slice_sample(prop=.35)
