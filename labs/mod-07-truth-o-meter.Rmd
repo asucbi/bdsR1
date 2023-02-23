@@ -76,9 +76,9 @@ Here is the organization of your repo, and the corresponding section in the lab 
 
 ```{results=asis}
 |-data
-|  |- README.md
-|-lab-07-truth-o-meter.Rmd          # analysis
-|-lab-07-truth-o-meter.Rproj
+|  |- # to be created by you!
+|-lab-07.Rmd                        # analysis
+|-lab-07.Rproj
 |-scripts                           # webscraping
 |  |- 01-scrape-page-one.R          # scraping a single page
 |  |- 02-scrape-page-function.R     # functions
