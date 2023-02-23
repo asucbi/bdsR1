@@ -1,0 +1,26 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, include=F, dependson="setup.R"}
+## Exam 1 specific
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+```
+
+
+Which of the following code chunks would produce an output that could identify the ten most common destinations for flights from NYC airports?
+
+A) `flights %>% count(dest) %>% arrange(desc(n)) %>% head(10)`
+B) `flights %>% count(dest) %>% filter(n < 10)`
+C) `flights %>% filter(percent_rank(dest) < .10)`
+D) `flights %>% count(dest) %>% arrange(origin) %>% head()`
