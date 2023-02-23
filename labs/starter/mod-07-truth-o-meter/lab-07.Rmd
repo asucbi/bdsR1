@@ -55,7 +55,8 @@ fact_checks <- fact_checks %>%
 ```{r separate-description-date-3}
 
 fact_checks <- fact_checks %>%
-  rename(date = "___")
+  rename(date = "___") %>%
+  select(-part2)
 
 ```
 
