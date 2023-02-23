@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 07 - Truth-O-Meter</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-chevron-circle-right')) {
+    f.classList.add('fa-chevron-circle-down')
+    f.classList.remove('fa-chevron-circle-right')
+} else {
+    f.classList.add('fa-chevron-circle-right')
+    f.classList.remove('fa-chevron-circle-down')
+}
+}
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/style-labs.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 07 - Truth-O-Meter</h1>
+
+</div>
+
+
+<p><em>“Fake news has become an important topic of research in a variety of disciplines including psychology, linguistics, and computer science. A critical goal in this line of work is in building systems to automatically detect misinformation in news. However, a major challenge is in collecting quality data, i.e., instances of fake and real news articles on a balanced distribution of topics.”</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>In this lab we’re going to scrape data from <a href="https://www.politifact.com/article/2018/feb/12/principles-truth-o-meter-politifacts-methodology-i/">PolitiFact’s fact-checking website</a>, following a similar strategy used in the paper “Big Data and quality data for fake news and misinformation detection.”</p>
+<p>PolitiFact has a regular feature called the “Truth-O-Meter.” They focus on specific statements made by politicians, selecting the most newsworthy and significant ones, and rate them for accuracy. To do so they use on-the-record interviews and publish a list of sources with every fact-check. Statements can be rated on one of six levels of accuracy. We are going to focus on statements that PolitiFact has deemed “PANTS ON FIRE,” which are statements not at all accurate and makes a ridiculous claim, and statements deemed as “MOSTLY TRUE,” which are statements that are accurate but needs clarification or additional information.</p>
+<div class="red">
+<p>If you’re interested in the topic of fake news and natural language processing, definitely check out the paper we’re partly basing this lab on <a href="https://journals.sagepub.com/doi/10.1177/2053951719843310">“Big Data and quality data for fake news and misinformation detection”</a>.</p>
+</div>
+<div class="lo">
+<p><strong>LEARNING OBJECTIVES</strong></p>
+<ul>
+<li>Working with R scripts</li>
+<li>Web scraping from a single page</li>
+<li>Writing functions</li>
+<li>Iteration by mapping functions</li>
+<li>Writing data out</li>
+</ul>
+</div>
+<div id="lab-prep" class="section level1">
+<h1>Lab prep</h1>
+<p><img src="img/selectorgadget.png" width="80%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>Download and install the SelectorGadget for your browser.
+Once you do, you should now be able to access SelectorGadget by clicking on the icon next to the search bar in your Chrome or Firefox browser.</p>
+<ul>
+<li>See <a href="https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb">here</a> for Chrome (recommended)</li>
+<li>See <a href="https://addons.mozilla.org/en-US/firefox/addon/chropath-for-firefox">here</a> for Firefox</li>
+</ul></li>
+<li><p>Read the following on working with R Markdown documents vs. R scripts.</p></li>
+</ul>
+<div id="r-scripts-vs.-r-markdown-documents" class="section level2">
+<h2>R scripts vs. R Markdown documents</h2>
+<p>Today we will be using both R scripts and R Markdown documents:</p>
+<ul>
+<li><p><code>.R</code>: R scripts are plain text files containing <strong>only</strong> code and brief comments,</p>
+<ul>
+<li>We’ll use R scripts in the web scraping stage and ultimately save the scraped data as a csv.</li>
+<li>YOU CANNOT KNIT AN R SCRIPT FILE! But, of course, you can run the code in your console as normal.</li>
+</ul></li>
+<li><p><code>.Rmd</code>: R Markdown documents is formatted for making dynamic documents in R, and is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code.</p>
+<ul>
+<li>We’ll use an R Markdown document in the web analysis stage, where we start off by reading in the csv file we wrote out in the scraping stage.</li>
+</ul></li>
+</ul>
+<p>Here is the organization of your repo, and the corresponding section in the lab that each file will be used for:</p>
+<pre results="asis"><code>|-data
+|  |- README.md
+|-lab-07-truth-o-meter.Rmd          # analysis
+|-lab-07-truth-o-meter.Rproj
+|-scripts                           # webscraping
+|  |- 01-scrape-page-one.R          # scraping a single page
+|  |- 02-scrape-page-function.R     # functions
+|  |- 03-scrape-page-many-lies.R    # iteration
+|  |- 04-scrape-page-many-truths.R  # iteration</code></pre>
+</div>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>Go to the course Posit Cloud and locate this module’s project, and open the R Markdown document within it. Knit the document to make sure it compiles without errors.</p>
+<p>Also open up each of the files that end in the <code>.R</code> suffix. You’re going to be filling in information for these files as well.</p>
+<div id="warm-up" class="section level2">
+<h2>Warm up</h2>
+<p>Update the YAML of your R Markdown file with your information and knit it.</p>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling and visualization, the <strong>robotstxt</strong> package to check if we’re allowed to scrape the data, the <strong>rvest</strong> package for data scraping.</p>
+<p>These packages are already installed for you.</p>
+<p>You can load them by running the following in your Console:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>This assignment does not come with any prepared datasets.</p>
+<p>Instead you’ll be scraping the data!</p>
+<p>But before doing so, let’s check that a bot has permissions to access pages on this domain.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">&quot;https://www.politifact.com/&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<div id="scraping-a-single-page" class="section level2">
+<h2>Scraping a single page</h2>
+<div class="lo">
+<p>Work in <code>scripts/01-scrape-page-one.R</code>.</p>
+</div>
+<div class="yellow">
+<p><strong>Tip:</strong> To run the code within the <code>*.R</code> file, you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter for Mac or CTRL+Enter for PC.</p>
+</div>
+<p>We will start off by scraping data on the first 30 fact-checks on the “PANTS ON FIRE” page <a href="https://www.politifact.com/factchecks/list/?ruling=pants-fire">here</a>. Please open it in your web browser.</p>
+<p>First, we define a new object called <code>first_url</code>, which is the link above.</p>
+<p>Then, we read the page at this url with the <code>read_html()</code> function from the <strong>rvest</strong> package.</p>
+<p>The code for this is already provided in <code>01-scrape-page-one.R</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set url</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>first_url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.politifact.com/factchecks/list/?ruling=pants-fire&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read html page</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(first_url)</span></code></pre></div>
+<p>For the 30 pieces on this page we will extract <code>statement</code>, <code>link</code>, <code>source</code>, and <code>description</code> information, and put these four variables in a data frame.</p>
+<p><img src="img/info-to-extract.png" width="80%" style="display: block; margin: auto;" /></p>
+<div id="statement" class="section level3">
+<h3>Statement</h3>
+<p>Let’s start with the statement.</p>
+<p>We make use of the SelectorGadget to identify the tags for the relevant nodes:</p>
+<p><img src="img/iteminfo-m7a.gif" width="80%" style="display: block; margin: auto;" /></p>
+<p>We then run <code>html_nodes()</code> on the appropriate CSS selector</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;xml_nodeset&quot;</code></pre>
+<p>But this just returns an object called <code>xml_nodeset</code> that is not in a particularly helpful format. But it should contain the info we need. Let’s use <code>rvest</code> functions to extract.</p>
+<p>To extract the text we use <code>html_text2()</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;“I never claimed to be Jewish.”&quot;                                                                                                                                                       
+##  [2] &quot;“No administration has ever looked less like America, just by the numbers, than the Biden administration.”&quot;                                                                            
+##  [3] &quot;President Joe Biden said “this s--- will turn your pacemaker off.”&quot;                                                                                                                    
+##  [4] &quot;Russian President Vladimir Putin “intercepts adrenochrome shipment headed to United States.”&quot;                                                                                          
+##  [5] &quot;The Kansas City Chiefs’ Super Bowl win has been “put on hold as NFL plans to launch an investigation on possible (performance-enhancing drug) use by Patrick Mahomes during halftime.”&quot;
+##  [6] &quot;“Joe Biden put his pants on backwards”&quot;                                                                                                                                                
+##  [7] &quot;Photos show someone in a President Joe Biden mask at the State of the Union.&quot;                                                                                                          
+##  [8] &quot;Earthquake in Turkey and Syria is \&quot;a systemic attack against Kurdish people.\&quot;&quot;                                                                                                       
+##  [9] &quot;Image shows a \&quot;Super Bowl script was leaked.”&quot;                                                                                                                                        
+## [10] &quot;“‘Satellites’ are on balloons and not in space.”&quot;                                                                                                                                      
+## [11] &quot;In Ukraine, 2,458 NATO soldiers and 234 NATO military trainers have died, some of whom are from the U.S.&quot;                                                                              
+## [12] &quot;Joe Biden said to transgender women, “you will never be a real woman.”&quot;                                                                                                                
+## [13] &quot;Black Americans are not descended from people who were taken from Africa to be enslaved.&quot;                                                                                              
+## [14] &quot;“NASA stopped exploring the ocean.”&quot;                                                                                                                                                   
+## [15] &quot;The United States of America “no longer exists” because President Joe Biden “signed away our sovereignty as a nation.”&quot;                                                                
+## [16] &quot;A photo shows “Barack Obama dressed up as Baphomet (Lucifer).”&quot;                                                                                                                        
+## [17] &quot;Hospital photo of Damar Hamlin proves “he’s a corpse.”&quot;                                                                                                                                
+## [18] &quot;The sinking of the Titanic was orchestrated by the Rothschilds and J.P. Morgan to kill prominent businessmen who opposed the creation of the Federal Reserve.&quot;                         
+## [19] &quot;Sen. Josh Hawley told professor, “I will not use your pronouns.”&quot;                                                                                                                      
+## [20] &quot;“Putin destroys adrenochrome lab in Ukraine.”&quot;                                                                                                                                         
+## [21] &quot;Actor Isaac Kappy was murdered for exposing Hollywood pedophiles.&quot;                                                                                                                     
+## [22] &quot;Damar Hamlin wasn’t at the Buffalo Bills&#39; playoff game.&quot;                                                                                                                               
+## [23] &quot;\&quot;New York is bombed. At this moment, there are many injured.”&quot;                                                                                                                        
+## [24] &quot;Bill Gates tweeted that “vaccines in our food supply solves the problem of vaccine hesitancy.”&quot;                                                                                        
+## [25] &quot;Video shows hidden theater “where elites sacrifice kids.”&quot;                                                                                                                             
+## [26] &quot;Joan Rivers was killed for revealing that Barack Obama is gay and Michelle Obama is transgender.&quot;                                                                                      
+## [27] &quot;Magic Johnson tested positive for HIV \&quot;because Fauci’s gain of function study used a contaminated Hepatitis B vaccine.\&quot;&quot;                                                             
+## [28] &quot;Video shows John F. Kennedy Jr. at Donald Trump’s presidential inauguration.&quot;                                                                                                          
+## [29] &quot;Video shows Hillary Clinton being arrested.&quot;                                                                                                                                           
+## [30] &quot;“Lula&#39;s staff infiltrated and caused damage while the Brazilian Patriots cleaned up.”&quot;</code></pre>
+<p>And simply save the resulting data as a vector of length 30:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
+<div class="question-begin">
+Question 1
+</div>
+<div class="question-body">
+<p>Go ahead and fill in this information above in the appropriate place within <code>01-scrape-page-one.R</code>.</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="links" class="section level3">
+<h3>Links</h3>
+<p>The same nodes that contain the text for the statements also contains information on the links to more in-depth reporting on the fact-checks associated with each statement. This might be useful later on to have if we wanted to dig in further to extract additional information for each fact-check.</p>
+<p>We can extract this information using a new function from the rvest package, <code>html_attr()</code>, which extracts attributes.</p>
+<p>A mini HTML lesson!</p>
+<p>The following is how we define hyperlinked text in HTML:</p>
+<pre><code>&lt;a href=&quot;https://www.google.com&quot;&gt;Seach on Google&lt;/a&gt;</code></pre>
+<p>And this is how the text would look like on a webpage: <a href="https://www.google.com">Seach on Google</a>.</p>
+<p>Here the text is <code>Seach on Google</code> and the <code>href</code> attribute contains the url of the website you’d go to if you click on the hyperlinked text: <code>https://www.google.com</code>.</p>
+<p>The moral of the story is: the link is stored in the <code>href</code> attribute.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
+<pre><code>##  [1] &quot;/factchecks/2023/feb/22/george-santos/george-santos-said-he-never-claimed-to-be-jewish-b/&quot;  
+##  [2] &quot;/factchecks/2023/feb/17/tucker-carlson/tucker-carlson-wrong-diversity-makes-biden-adminis/&quot; 
+##  [3] &quot;/factchecks/2023/feb/16/viral-image/did-joe-biden-profanely-mention-pacemakers-speech/&quot;     
+##  [4] &quot;/factchecks/2023/feb/16/blog-posting/vladimir-putin-didnt-intercept-shipment-of-chemica/&quot;   
+##  [5] &quot;/factchecks/2023/feb/13/tweets/rumor-about-nfl-investigating-patrick-mahomes-drug/&quot;         
+##  [6] &quot;/factchecks/2023/feb/10/instagram-posts/we-know-all-about-pants-doctored-image-falsely-sho/&quot;
+##  [7] &quot;/factchecks/2023/feb/10/facebook-posts/was-someone-joe-biden-mask-state-union-no-it-was-b/&quot; 
+##  [8] &quot;/factchecks/2023/feb/09/instagram-posts/earthquake-syria-and-turkey-was-real-natural-disas/&quot;
+##  [9] &quot;/factchecks/2023/feb/07/tweets/a-leaked-super-bowl-script-we-throw-a-flag-on-this/&quot;         
+## [10] &quot;/factchecks/2023/feb/07/instagram-posts/balloon-powered-satellites-space-conspiracies-flou/&quot;
+## [11] &quot;/factchecks/2023/feb/06/tweets/nato-and-us-troops-and-trainers-have-not-died-ukra/&quot;         
+## [12] &quot;/factchecks/2023/feb/06/instagram-posts/joe-biden-has-offered-support-transgender-american/&quot;
+## [13] &quot;/factchecks/2023/jan/31/facebook-posts/the-evidence-is-plentiful-black-americans-ancestor/&quot; 
+## [14] &quot;/factchecks/2023/jan/30/instagram-posts/final-frontier-no-nasa-didnt-stop-studying-oceans/&quot; 
+## [15] &quot;/factchecks/2023/jan/30/facebook-posts/the-us-still-exists-biden-didnt-sign-away-the-coun/&quot; 
+## [16] &quot;/factchecks/2023/jan/27/viral-image/flames-from-hell-thats-just-the-truth-o-meter-burn/&quot;    
+## [17] &quot;/factchecks/2023/jan/27/facebook-posts/damar-hamlin-alive-despite-baseless-claims-contrar/&quot; 
+## [18] &quot;/factchecks/2023/jan/26/instagram-posts/titanic-sinking-was-accident-caused-over-1500-deat/&quot;
+## [19] &quot;/factchecks/2023/jan/26/facebook-posts/sen-josh-hawley-didnt-tell-professor-he-refused-to/&quot; 
+## [20] &quot;/factchecks/2023/jan/25/blog-posting/fabricated-story-falsely-claims-vladimir-putin-des/&quot;   
+## [21] &quot;/factchecks/2023/jan/24/facebook-posts/actor-isaac-kappy-died-years-ago-qanon-claims-he-w/&quot; 
+## [22] &quot;/factchecks/2023/jan/23/tiktok-posts/damar-hamlin-appeared-at-the-buffalo-bills-game-co/&quot;   
+## [23] &quot;/factchecks/2023/jan/23/instagram-posts/photo-2017-used-false-post-alleging-recent-new-yor/&quot;
+## [24] &quot;/factchecks/2023/jan/20/instagram-posts/bill-gates-didnt-tweet-about-adding-vaccines-to-fo/&quot;
+## [25] &quot;/factchecks/2023/jan/20/instagram-posts/this-hidden-theater-in-italy-hosts-childrens-shows/&quot;
+## [26] &quot;/factchecks/2023/jan/19/instagram-posts/comedian-joan-rivers-was-wrong-about-obamas/&quot;       
+## [27] &quot;/factchecks/2023/jan/13/instagram-posts/magic-johnson-did-not-contract-hiv-contaminated-va/&quot;
+## [28] &quot;/factchecks/2023/jan/12/viral-image/no-jfk-jr-didnt-attend-donald-trumps-inauguration/&quot;     
+## [29] &quot;/factchecks/2023/jan/12/viral-image/no-this-isnt-a-video-of-hillary-clinton-getting-ar/&quot;    
+## [30] &quot;/factchecks/2023/jan/12/instagram-posts/evidence-shows-bolsonaro-supporters-were-behind-br/&quot;</code></pre>
+<p>These don’t really look like URLs as we know them though.</p>
+<p>These are URL fragments. Some minor work needs to be done to get them looking like actual URLs.</p>
+<p>Click on one of fact-check statements in your browser and take note of the url of the webpage it takes you to. Think about how that URL compares to what we scraped above? How is it different?</p>
+<div class="question-begin">
+Question 2
+</div>
+<div class="question-body">
+<p>Using <code>str_c()</code>, fix the URLs. You’ll note something special happening with the <code>.</code>. Remember that whatever is being passed down by the pipeline to another function is represented by the <code>.</code>.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p>See the help for <code>str_c()</code> to find out how it works. You’ll be using this to fix the URL fragments by creating a new character string. You want to add something to the beginning of your fragments.</p>
+</div>
+</div>
+<div id="source" class="section level3">
+<h3>Source</h3>
+<div class="question-begin">
+Question 3
+</div>
+<div class="question-body">
+<p>Fill in the blanks to scrape source names.</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="description" class="section level3">
+<h3>Description</h3>
+<div class="question-begin">
+Question 4
+</div>
+<div class="question-body">
+<p>Fill in the blanks to scrape additional description information.</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="put-it-altogether" class="section level3">
+<h3>Put it altogether</h3>
+<div class="question-begin">
+Question 5
+</div>
+<div class="question-body">
+<ol start="4" style="list-style-type: decimal">
+<li>Fill in the blanks to organize everything in a tibble.</li>
+</ol>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="scrape-the-next-page" class="section level3">
+<h3>Scrape the next page</h3>
+<div class="question-begin">
+Question 6
+</div>
+<div class="question-body">
+<p>Scroll to the bottom and click “Next” to take you to the next page, and grab its URL. Fill in the blank to define a new object: <code>second_url</code>. Copy-paste code from top of the R script to scrape the new set of fact-checks, and save the resulting data frame as <code>second_thirty</code>.</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<div class="lo">
+<p>Work in <code>scripts/02-scrape-page-function.R</code>.</p>
+</div>
+<p>You’ve been using R functions, now it’s time to write your own!</p>
+<p>Let’s start simple.</p>
+<p>Here is a function that takes in an argument <code>x</code>, and adds 2 to it.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>add_two <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Let’s test it:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
+<p>The skeleton for defining functions in R is as follows:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do something with the input(s)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return something</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then, a function for scraping a page should look something like:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read page at url</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract statement, link, source, and description info for n pieces on page</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return a n x 4 tibble</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="yellow">
+<p><strong>Reminder:</strong> Function names should be short but evocative verbs.</p>
+</div>
+<div class="question-begin">
+Question 7
+</div>
+<div class="question-body">
+<p>Fill in the blanks using code you already developed in the previous exercises. Name the function <code>scrape_page</code>.</p>
+</div>
+<p class="question-end">
+</p>
+<p>Test out your new function by running the following in the console.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(first_url)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(second_url)</span></code></pre></div>
+<p>Does the output look right? Discuss with teammates whether you’re getting the same results as before.</p>
+</div>
+<div id="iteration" class="section level2">
+<h2>Iteration</h2>
+<div class="lo">
+<p>Work in <code>scripts/03-scrape-page-many-lies.R</code>.</p>
+</div>
+<p>We went from manually scraping individual pages to writing a function to do the same.</p>
+<p>Next, we will work on making our workflow a little more efficient by using R to iterate over 20 more pages that contain information on fact-checks.</p>
+<div class="yellow">
+<p><strong>Reminder:</strong> PolitiFact has been fact-checking statements since 2007, so there are a lot of pages! We’re only going to scrape from 20 of the most recent pages.</p>
+</div>
+<p>That means we can develop a list of pages/URLs (where each page has have info on 30 fact-checks), and write some code that applies the <code>scrape_page()</code> function to each page, and combines the resulting data frames from each page into a single data frame with 600 rows and 4 columns.</p>
+<div id="list-of-urls" class="section level3">
+<h3>List of URLs</h3>
+<p>Click through the first few of the pages in the fact-checks (by clicking “Next” at the bottom of each page) and observe their URLs to confirm the following pattern:</p>
+<pre><code>[sometext-prefix]page=1[sometext-suffix]    # Fact-checks 1-30
+[sometext-prefix]page=2[sometext-suffix]    # Fact-checks 31-60
+[sometext-prefix]page=3[sometext-suffix]    # Fact-checks 61-90
+[sometext-prefix]page=4[sometext-suffix]    # Fact-checks 91-120
+...
+[sometext-prefix]page=20[sometext-suffix]   # Fact-checks 571-600</code></pre>
+<p>We can construct these URLs in R by pasting together three pieces: (1) a common text <code>prefix</code> for the beginning of the URL, (2) numbers starting at 0, increasing by 1, all the way up to 20, and (3) a common text <code>suffix</code> at the end of the URL.</p>
+<p>Two new functions are helpful for accomplishing this: <code>glue()</code> for pasting multiple pieces of text and <code>seq()</code> for generating a sequence of numbers.</p>
+<div class="question-begin">
+Question 8
+</div>
+<div class="question-body">
+<p>Fill in the blanks to construct the list of URLs.</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="mapping" class="section level3">
+<h3>Mapping</h3>
+<p>Finally, we’re ready to iterate over the list of URLs we constructed.</p>
+<p>We will do this by <strong>map</strong>ping the function we developed over the list of URLs.</p>
+<p>There are a series of mapping functions in R (which were discussed in the lecture), and they each take the following form:</p>
+<pre><code>map([x], [function to apply to each element of x])</code></pre>
+<p>In our case <code>x</code> is the list of URLs we just constructed and the function to apply to each element of <code>x</code> is the function we developed earlier, <code>scrape_page</code>.</p>
+<p>And as a result we want a data frame, so we use <code>map_dfr</code> function:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dfr</span>(urls, scrape_page)</span></code></pre></div>
+<div class="question-begin">
+Question 9
+</div>
+<div class="question-body">
+<p>Fill in the blanks to scrape all pages, and to create a new data frame called <code>fact_checks_lie</code>. Then write out the data frame you constructed into the <code>data</code> folder so that you can use it in the analysis section.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p>Iterating over 20 pages to build a dataframe might take a few minutes. Be patient. And if you get an error, I discussed in the lecture one line of code you should add to the beginning of your function to be more “polite.”</p>
+</div>
+</div>
+</div>
+<div id="one-more-time-now-with-feeling" class="section level2">
+<h2>One more time, now with feeling!</h2>
+<div class="lo">
+<p>Work in <code>scripts/04-scrape-page-many-truths.R</code>.</p>
+</div>
+<p>PolitiFact not only has a list of “Pants on Fire” statements, they also have a list of “Mostly Truth” statements that you can find <a href="https://www.politifact.com/factchecks/list/?ruling=mostly-true">here</a>.</p>
+<p>I’m going to keep the instructions minimal other than to tell you that both the “Pants on Fire” and “Mostly True” sites are set up pretty much the same way. It should be straightforward to apply all of what you have done so far to create a new 600 x 4 data frame but now with “Mostly True” statements.</p>
+<div class="question-begin">
+Question 10
+</div>
+<div class="question-body">
+<p>Fill out the sections with the correct code, essentially copying from the code you wrote earlier, but make sure you update the text <code>suffix</code> and call this new data frame <code>fact_checks_truth</code>.</p>
+<p>Then write out the data frame you constructed into the <code>data</code> folder so that you can use it in the data cleaning section below.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="frame">
+<p>Aim to make it to this point during today’s lab</p>
+</div>
+</div>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
+<div class="lo">
+<p>Work in <code>lab-07.Rmd</code> for the rest of the lab.</p>
+</div>
+<p>Now that we have out tidy datasets, we can do some data cleaning. Fun!</p>
+<p>The first task is to create a new variable for each data frame to ensure we know that the statements are lies or truths, and then append the two data frames together to create a single 1200 (rows) x 5 (column) data frame.</p>
+<p>To add a new variable, we will use the <code>add_column</code> function. As input, just give the function the new column name and the values you want to assign to it. In our case it’s either the character string <code>lie</code> or <code>truth</code>.</p>
+<p>Then, use the <code>rows_append</code> function to append the two data frames together.</p>
+<div class="question-begin">
+Question 11
+</div>
+<div class="question-body">
+<p>Go ahead and add a new column to each data frame and name it as <code>type</code> for both. Make sure that the column is taking on the appropriate character string <code>lie</code> or <code>truth</code>. And then append the data frames to create a single data frame called <code>fact_checks</code>.</p>
+</div>
+<p class="question-end">
+</p>
+<p>Next, I’m most interested in cleaning up that <code>description</code> variable in our data frame.</p>
+<p>The information I most care about in <code>description</code> is the date. But notice that it is embedded among some text I don’t really care about. So what I really want to do is separate out the date from the rest of the text.</p>
+<p>There are several ways of doing this, but one thing I immediately notice is that the dates are always preceded by the word “on” + white space, and is followed by the white space + the word “in”. So, it looks like I can separate the string in the <code>description</code> column into multiple parts based on these regular occurrences.</p>
+<p>Luckily, there’s a function to do this called: <code>separate()</code>!</p>
+<p>And once we have completed separating the single <code>description</code> column and extracted the date information into a new column called <code>date</code>, we need to convert it into a format R recognizes using a function from the <code>lubridate</code> package.</p>
+<div class="question-begin">
+Question 12
+</div>
+<div class="question-body">
+<p>Fill in the blanks in to implement the data wrangling we described above. Note that this will result in some warnings when you run the code, and that’s OK for what we are wanting to do.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="question-begin">
+Question 12
+</div>
+<div class="question-body">
+<p>Load in the <code>lubridate</code> package (you have to do this yourself) and convert the newly created <code>date</code> variable to a format that R recognizes as a data format.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="question-begin">
+Question 13
+</div>
+<div class="question-body">
+<p>Finally, print out a summary of the data frame using the <code>skim()</code> function. Make sure that <code>date</code> is recognized as the correct variable type. What is the earliest date for which we have a statement?</p>
+</div>
+<p class="question-end">
+</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>For another time. Good work on the lab!</p>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Source: <a href="https://journals.sagepub.com/doi/10.1177/2053951719843310" class="uri">https://journals.sagepub.com/doi/10.1177/2053951719843310</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
