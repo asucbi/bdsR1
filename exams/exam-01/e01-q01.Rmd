@@ -20,7 +20,7 @@ flights <- flights %>%
 
 Which of the following code chunks would produce an output that could identify the ten most common destinations for flights from NYC airports?
 
-A) `flights %>% count(dest) %>% arrange(desc(n)) %>% head(10)`
-B) `flights %>% count(dest) %>% filter(n < 10)`
-C) `flights %>% filter(percent_rank(dest) < .10)`
-D) `flights %>% count(dest) %>% arrange(origin) %>% head()`
+A) `flights %>% filter(percent_rank(dest) < .10)`
+B) `flights %>% count(dest) %>% filter(n > 10)`
+C) `flights %>% count(dest) %>% arrange(desc(n)) %>% head(10)`
+D) `flights %>% count(dest) %>% arrange(dest) %>% head()`

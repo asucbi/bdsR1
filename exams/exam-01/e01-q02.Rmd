@@ -1,8 +1,7 @@
 ---
 title: '&#32;'
 output:
-  html_document:
-    df_print: paged
+  html_document
 ---
 
 ```{r, include=F, dependson="setup.R"}
@@ -18,9 +17,41 @@ flights <- flights %>%
 ```
 
 
-Which of the following code chunks would produce an output that could identify the ten most common destinations for flights from NYC airports?
+What code could have produced the output below showing the raw number and proportion of flights originating at each NY-area airport: 
 
-A) `flights %>% count(dest) %>% arrange(desc(n)) %>% head(10)`
-B) `flights %>% count(dest) %>% filter(n < 10)`
-C) `flights %>% filter(percent_rank(dest) < .10)`
-D) `flights %>% count(dest) %>% arrange(origin) %>% head()`
+```{r, echo=F}
+flights %>% 
+  count(origin) %>% 
+  mutate(
+  prop = n/sum(n)
+)
+```
+
+
+A)
+```
+flights %>% 
+  count(origin) %>% 
+  mutate(
+  prop = n/sum(n)
+)
+```
+B)
+```
+flights %>% 
+  count(origin, n, prop)
+```
+C) 
+```
+flights %>% 
+  distinct(origin, n, prop)
+```
+D)
+```
+flights %>% 
+  group_by(origin) %>% 
+  summarize(
+  n = n(),
+  prop = n/total
+)
+```
