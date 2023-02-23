@@ -466,13 +466,13 @@ Fill in the blanks in to implement the data wrangling we described above. Note t
 
 `r qend()`
 
-`r qbegin(12)`
+`r qbegin(13)`
 
 Load in the `lubridate` package (you have to do this yourself) and convert the newly created `date` variable to a format that R recognizes as a data format. 
 
 `r qend()`
 
-`r qbegin(13)`
+`r qbegin(14)`
 
 Finally, print out a summary of the data frame using the `skim()` function. Make sure that `date` is recognized as the correct variable type. What is the earliest date for which we have a statement?
 
@@ -481,6 +481,11 @@ Finally, print out a summary of the data frame using the `skim()` function. Make
 ## Analysis
 
 For another time. Good work on the lab! 
+
+## WHAT YOU ARE GOING TO SUBMIT
+
+Please complete `lab-07.Rmd`, knit it, make sure it looks great, and upload to Canvas. Please leave all your completed `.R` script files in Posit Cloud. 
+
 
 ```{r, echo=FALSE}
 # `r qbegin(13)`
