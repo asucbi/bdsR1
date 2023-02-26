@@ -1,0 +1,18 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, include=F, dependson="setup.R"}
+
+```
+
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer imperdiet at neque vel auctor. Mauris in imperdiet tellus. Vestibulum tincidunt maximus pretium. Nullam molestie viverra purus, ut viverra mauris. Aliquam pulvinar nec ante eu elementum. Donec at faucibus urna. Cras semper egestas lectus, et vulputate sapien gravida pulvinar. Proin sit amet laoreet est. Sed auctor, mauris in ultricies tristique, justo ipsum pulvinar risus, non tincidunt sem massa id libero. Etiam eget volutpat nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean rhoncus urna efficitur nunc tincidunt tristique. Sed rhoncus erat nec suscipit lobortis. Duis efficitur pellentesque enim ac feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
+
+A) `some code`
+B) `other code`
+C) `more code`
+D) `final code`
