@@ -17,7 +17,7 @@ flights <- flights %>%
 ```
 
 
-Which of the following could **NOT** have produced the output below?
+Which of the following could have produced the output below? Select all that apply.
 
 ```{r, echo=F}
 flights %>% 
@@ -51,4 +51,10 @@ flights %>%
   count(carrier, origin) %>% 
   arrange(desc(n))
 ```
-D) None of the above
+D)
+```
+flights %>% 
+  filter(dest == "JFK") %>%
+  count(carrier, origin) %>% 
+  arrange(desc(n))
+```
