@@ -210,8 +210,8 @@ all that apply.</p>
 </ol>
 <pre><code>flights %&gt;% 
   filter(dest == &quot;JFK&quot;) %&gt;%
-  count(carrier, origin) %&gt;% 
-  arrange(desc(n))</code></pre>
+  group_by(carrier) %&gt;% 
+  summarize(n = sum(origin))</code></pre>
 
 
 

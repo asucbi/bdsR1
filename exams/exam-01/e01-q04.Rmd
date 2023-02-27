@@ -55,6 +55,6 @@ D)
 ```
 flights %>% 
   filter(dest == "JFK") %>%
-  count(carrier, origin) %>% 
-  arrange(desc(n))
+  group_by(carrier) %>% 
+  summarize(n = sum(origin))
 ```
