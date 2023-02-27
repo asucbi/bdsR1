@@ -18,7 +18,7 @@ flights <- flights %>%
 ```
 
 
-Which of the following code chunks would produce an output that could identify the ten most common destinations for flights from NYC airports?
+> Which of the following code chunks would produce an output that could identify the ten most common destinations for flights from NYC airports?
 
 A) `flights %>% filter(percent_rank(dest) < .10)`
 B) `flights %>% count(dest) %>% filter(n > 10)`
