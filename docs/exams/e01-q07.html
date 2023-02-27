@@ -172,41 +172,36 @@ pre code {
 </div>
 
 
-<p>What code could have produced the output below showing the raw number
-and proportion of flights originating at each NYC-area airport:</p>
-<pre><code>## # A tibble: 3 × 3
-##   origin     n  prop
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 EWR    42421 0.360
-## 2 JFK    38605 0.328
-## 3 LGA    36845 0.313</code></pre>
+<p>The nycflights13 package contains information about all flights that
+departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in
+the <code>flights</code> data frame, but there are additional data sets
+which may help understand what causes delays, specifically:</p>
+<ul>
+<li><code>weather</code>: hourly meteorological data for each
+airport</li>
+<li><code>planes</code>: construction information about each plane</li>
+<li><code>airports</code>: airport names and locations</li>
+<li><code>airlines</code>: translation between two letter carrier codes
+and names</li>
+</ul>
+<pre class="r"><code>nrow(flights)</code></pre>
+<pre><code>## [1] 117871</code></pre>
+<pre class="r"><code>flights %&gt;% 
+  right_join(weather) %&gt;% 
+  nrow()</code></pre>
+<pre><code>## Joining, by = c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;origin&quot;, &quot;hour&quot;, &quot;time_hour&quot;)</code></pre>
+<pre><code>## [1] 124943</code></pre>
+<p>What can you tell about these datasets from this output?</p>
 <ol style="list-style-type: upper-alpha">
-<li></li>
+<li>The <code>flights</code> dataset contains rows that cannot be
+uniquely identified in the <code>weather</code> dataset</li>
+<li>The <code>weather</code> dataset has some extra duplicate rows that
+should be filtered with <code>remove_duplicates()</code>.</li>
+<li>There are some rows in the <code>weather</code> dataset representing
+locations and times where there were no flights.</li>
+<li>The <code>flights</code> dataset contains extra rows that do not
+match with any rows in the <code>weather</code> dataset.</li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin) %&gt;% 
-  mutate(
-  prop = n/sum(n)
-)</code></pre>
-<ol start="2" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  count(origin, n, prop)</code></pre>
-<ol start="3" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  distinct(origin, n, prop)</code></pre>
-<ol start="4" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  group_by(origin) %&gt;% 
-  summarize(
-  n = n(),
-  prop = n/total
-)</code></pre>
 
 
 

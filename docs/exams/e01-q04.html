@@ -13,7 +13,7 @@
 
 <title> </title>
 
-<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -104,8 +104,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -113,9 +113,16 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -165,15 +172,46 @@ pre code {
 </div>
 
 
-<p>Sometimes when a flight leaves late you can “make it up in the
-air”—you can arrive on-time despite your late departure. Which of the
-following would add a variable representing this made-up time to the
-flights dataset?</p>
+<p>Which of the following could <strong>NOT</strong> have produced the
+output below?</p>
+<pre><code>## # A tibble: 10 × 3
+##    carrier origin     n
+##    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt;
+##  1 B6      JFK    14562
+##  2 DL      JFK     7151
+##  3 9E      JFK     5113
+##  4 AA      JFK     4732
+##  5 MQ      JFK     2497
+##  6 UA      JFK     1609
+##  7 VX      JFK     1292
+##  8 US      JFK     1040
+##  9 EV      JFK      492
+## 10 HA      JFK      117</code></pre>
 <ol style="list-style-type: upper-alpha">
-<li><code>flights &lt;- flights %&gt;% mutate(make_up = dep_delay - arr_delay)</code></li>
-<li><code>flights &lt;- flights %&gt;% summarize(make_up = dep_delay - arr_delay)</code></li>
-<li><code>flights &lt;- flights %&gt;% mutate(make_up == dep_delay / arr_delay)</code></li>
-<li><code>flights &lt;- flights %&gt;% summarize(make_up == dep_delay / arr_delay)</code></li>
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  filter(origin == &quot;JFK&quot;) %&gt;%
+  count(carrier, origin) %&gt;% 
+  arrange(desc(n))</code></pre>
+<ol start="2" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  filter(origin == &quot;JFK&quot;) %&gt;%
+  group_by(carrier, origin) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(n))</code></pre>
+<ol start="3" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  filter(origin == &quot;JFK&quot;) %&gt;%
+  count(carrier, origin) %&gt;% 
+  arrange(desc(n))</code></pre>
+<ol start="4" style="list-style-type: upper-alpha">
+<li>None of the above</li>
 </ol>
 
 

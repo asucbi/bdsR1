@@ -1,7 +1,8 @@
 ---
 title: '&#32;'
 output:
-  html_document
+  html_document:
+    df_print: paged
 ---
 
 ```{r, include=F, dependson="setup.R"}
@@ -17,41 +18,9 @@ flights <- flights %>%
 ```
 
 
-What code could have produced the output below showing the raw number and proportion of flights originating at each NY-area airport: 
+Say we just wanted to focus on all the flights leaving from or arriving to JFK. How could we begin a pipeline that would analyze only these flights?
 
-```{r, echo=F}
-flights %>% 
-  count(origin) %>% 
-  mutate(
-  prop = n/sum(n)
-)
-```
-
-
-A)
-```
-flights %>% 
-  count(origin) %>% 
-  mutate(
-  prop = n/sum(n)
-)
-```
-B)
-```
-flights %>% 
-  count(origin, n, prop)
-```
-C) 
-```
-flights %>% 
-  distinct(origin, n, prop)
-```
-D)
-```
-flights %>% 
-  group_by(origin) %>% 
-  summarize(
-  n = n(),
-  prop = n/total
-)
-```
+A) `flights %>% filter(origin == "JFK", dest == "JFK")`
+B) `flights %>% select(origin == "JFK", dest == "JFK")`
+C) `flights %>% filter(origin == "JFK" | dest == "JFK")`
+D) `flights %>% select(origin == "JFK" | dest == "JFK")`

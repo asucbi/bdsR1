@@ -1,0 +1,50 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, include=F, dependson="setup.R"}
+## Exam 1 specific
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+```
+
+
+What code needs to go in the place of the ? to create the dataframe previewed below?
+
+```{r, echo=T, eval=F}
+flights %>% 
+  mutate(
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400)),
+    arr_delay_bin = ?
+    ) %>%
+  group_by(dep_time_bin, arr_delay_bin) %>% 
+  summarize(n = n()) %>% 
+  mutate(prop = n/sum(n))
+```
+
+```{r, echo=F}
+flights %>% 
+  mutate(
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400)),
+    arr_delay_bin = cut(arr_delay, c(-Inf, 0, 10, 30, 60, 120, 300, Inf))
+    ) %>%
+  group_by(dep_time_bin, arr_delay_bin) %>% 
+  summarize(n = n()) %>% 
+  mutate(prop = n/sum(n))
+```
+
+
+
+A) `cut(-Inf, 0, 10, 30, 60, 120, 300, Inf)`
+B) `cut(arr_delay, c(-Inf, 0, 10, 30, 60, 120, 300, Inf))`
+C) `cut(arr_delay, c(0, 10, 30, 60, 120, 300))`
+D) `cut(arr_delay, -Inf, 0, 10, 30, 60, 120, 300, Inf)`

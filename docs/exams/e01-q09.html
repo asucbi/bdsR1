@@ -172,41 +172,60 @@ pre code {
 </div>
 
 
-<p>What code could have produced the output below showing the raw number
-and proportion of flights originating at each NYC-area airport:</p>
-<pre><code>## # A tibble: 3 × 3
-##   origin     n  prop
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 EWR    42421 0.360
-## 2 JFK    38605 0.328
-## 3 LGA    36845 0.313</code></pre>
+<p>The nycflights13 package contains information about all flights that
+departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in
+the <code>flights</code> data frame, but there are additional data sets
+which may help understand what causes delays, specifically:</p>
+<ul>
+<li><code>weather</code>: hourly meteorological data for each
+airport</li>
+<li><code>planes</code>: construction information about each plane</li>
+<li><code>airports</code>: airport names and locations</li>
+<li><code>airlines</code>: translation between two letter carrier codes
+and names</li>
+</ul>
+<p>Based on what you know about the datasets, joining, and your
+ggplot-ing experience, which code would produce the following plot?</p>
+<p><img src="e01-q09_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <ol style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin) %&gt;% 
-  mutate(
-  prop = n/sum(n)
-)</code></pre>
+<pre><code>flights %&gt;%
+  group_by(carrier) %&gt;%
+  filter(n() &gt; 500, arr_delay &lt; 180) %&gt;%
+  ggplot(aes(x=arr_delay)) +
+  geom_histogram() +
+  facet_wrap(~name, scales=&quot;free_y&quot;)</code></pre>
 <ol start="2" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin, n, prop)</code></pre>
+<pre><code>flights %&gt;%
+  left_join(airlines) %&gt;%
+  group_by(carrier) %&gt;%
+  ggplot(aes(x=arr_delay)) +
+  geom_histogram() +
+  geom_vline(xintercept = 0) +
+  facet_wrap(~name)</code></pre>
 <ol start="3" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  distinct(origin, n, prop)</code></pre>
+<pre><code>flights %&gt;%
+  filter(n() &gt; 1000, arr_delay &gt; 180) %&gt;%
+  ggplot(aes(x = arr_delay)) +
+  geom_histogram() +
+  geom_vline(xintercept = 0) +
+  facet_wrap(~airlines, scales=&quot;free_y&quot;)</code></pre>
 <ol start="4" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  group_by(origin) %&gt;% 
-  summarize(
-  n = n(),
-  prop = n/total
-)</code></pre>
+<pre><code>flights %&gt;%
+  left_join(airlines) %&gt;%
+  group_by(carrier) %&gt;%
+  filter(n() &gt; 500, arr_delay &lt; 180) %&gt;%
+  ggplot(aes(x=arr_delay)) +
+  geom_histogram() +
+  geom_vline(xintercept = 0) +
+  facet_wrap(~name, scales=&quot;free_y&quot;)</code></pre>
 
 
 

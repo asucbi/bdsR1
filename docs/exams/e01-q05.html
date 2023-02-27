@@ -13,7 +13,7 @@
 
 <title> </title>
 
-<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -104,8 +104,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -113,9 +113,16 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -165,60 +172,16 @@ pre code {
 </div>
 
 
-<p>The nycflights13 package contains information about all flights that
-departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in
-the <code>flights</code> data frame, but there are additional data sets
-which may help understand what causes delays, specifically:</p>
-<ul>
-<li><code>weather</code>: hourly meteorological data for each
-airport</li>
-<li><code>planes</code>: construction information about each plane</li>
-<li><code>airports</code>: airport names and locations</li>
-<li><code>airlines</code>: translation between two letter carrier codes
-and names</li>
-</ul>
-<p>Based on what you know about the datasets and your ggplotting
-experience, which code would produce the following plot?</p>
-<p><img src="e01-q05_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Sometimes when a flight leaves late you can “make it up in the
+air”—you can arrive on-time despite your late departure. Which of the
+following would add a variable representing this made-up time to the
+flights dataset?</p>
 <ol style="list-style-type: upper-alpha">
-<li></li>
+<li><code>flights &lt;- flights %&gt;% mutate(make_up = dep_delay - arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% summarize(make_up = dep_delay - arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% mutate(make_up == dep_delay / arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% summarize(make_up == dep_delay / arr_delay)</code></li>
 </ol>
-<pre><code>flights %&gt;%
-  group_by(carrier) %&gt;%
-  filter(n() &gt; 500, arr_delay &lt; 180) %&gt;%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  facet_wrap(~name, scales=&quot;free_y&quot;)</code></pre>
-<ol start="2" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;%
-  left_join(airlines) %&gt;%
-  group_by(carrier) %&gt;%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~name)</code></pre>
-<ol start="3" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;%
-  filter(n() &gt; 1000, arr_delay &gt; 180) %&gt;%
-  ggplot(aes(x = arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~airlines, scales=&quot;free_y&quot;)</code></pre>
-<ol start="4" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;%
-  left_join(airlines) %&gt;%
-  group_by(carrier) %&gt;%
-  filter(n() &gt; 500, arr_delay &lt; 180) %&gt;%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~name, scales=&quot;free_y&quot;)</code></pre>
 
 
 

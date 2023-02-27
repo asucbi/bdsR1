@@ -17,63 +17,9 @@ flights <- flights %>%
 ```
 
 
-The nycflights13 package contains information about all flights that departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in the `flights` data frame, but there are additional data sets which may help understand what causes delays, specifically:
+Sometimes when a flight leaves late you can "make it up in the air"---you can arrive on-time despite your late departure. Which of the following would add a variable representing this made-up time to the flights dataset?
 
-- `weather`: hourly meteorological data for each airport
-- `planes`: construction information about each plane
-- `airports`: airport names and locations
-- `airlines`: translation between two letter carrier codes and names
-
-Based on what you know about the datasets and your ggplotting experience, which code would produce the following plot?
-
-```{r, echo=F, message=F}
-flights %>%
-  left_join(airlines) %>%
-  group_by(carrier) %>%
-  filter(n() > 500, arr_delay < 180) %>%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~name, scales="free_y")
-```
-
-
-A)
-```
-flights %>%
-  group_by(carrier) %>%
-  filter(n() > 500, arr_delay < 180) %>%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  facet_wrap(~name, scales="free_y")
-```
-B)
-```
-flights %>%
-  left_join(airlines) %>%
-  group_by(carrier) %>%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~name)
-```
-C)
-```
-flights %>%
-  filter(n() > 1000, arr_delay > 180) %>%
-  ggplot(aes(x = arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~airlines, scales="free_y")
-```
-D)
-```
-flights %>%
-  left_join(airlines) %>%
-  group_by(carrier) %>%
-  filter(n() > 500, arr_delay < 180) %>%
-  ggplot(aes(x=arr_delay)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~name, scales="free_y")
-```
+A) `flights <- flights %>% mutate(make_up = dep_delay - arr_delay)`
+B) `flights <- flights %>% summarize(make_up = dep_delay - arr_delay)` 
+C) `flights <- flights %>% mutate(make_up == dep_delay / arr_delay)` 
+D) `flights <- flights %>% summarize(make_up == dep_delay / arr_delay)` 

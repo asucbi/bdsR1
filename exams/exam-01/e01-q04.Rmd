@@ -17,9 +17,38 @@ flights <- flights %>%
 ```
 
 
-Sometimes when a flight leaves late you can "make it up in the air"---you can arrive on-time despite your late departure. Which of the following would add a variable representing this made-up time to the flights dataset?
+Which of the following could **NOT** have produced the output below?
 
-A) `flights <- flights %>% mutate(make_up = dep_delay - arr_delay)`
-B) `flights <- flights %>% summarize(make_up = dep_delay - arr_delay)` 
-C) `flights <- flights %>% mutate(make_up == dep_delay / arr_delay)` 
-D) `flights <- flights %>% summarize(make_up == dep_delay / arr_delay)` 
+```{r, echo=F}
+flights %>% 
+  filter(origin == "JFK") %>%
+  count(carrier, origin) %>% 
+  arrange(desc(n))
+
+```
+
+
+A)
+```
+flights %>% 
+  filter(origin == "JFK") %>%
+  count(carrier, origin) %>% 
+  arrange(desc(n))
+```
+B)
+```
+flights %>% 
+  filter(origin == "JFK") %>%
+  group_by(carrier, origin) %>% 
+  summarize(n = n()) %>% 
+  ungroup() %>% 
+  arrange(desc(n))
+```
+C) 
+```
+flights %>% 
+  filter(origin == "JFK") %>%
+  count(carrier, origin) %>% 
+  arrange(desc(n))
+```
+D) None of the above

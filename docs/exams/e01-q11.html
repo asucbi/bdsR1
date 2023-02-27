@@ -32,6 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -172,41 +174,29 @@ pre code {
 </div>
 
 
-<p>What code could have produced the output below showing the raw number
-and proportion of flights originating at each NYC-area airport:</p>
-<pre><code>## # A tibble: 3 × 3
-##   origin     n  prop
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 EWR    42421 0.360
-## 2 JFK    38605 0.328
-## 3 LGA    36845 0.313</code></pre>
-<ol style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  count(origin) %&gt;% 
+<p>What code needs to go in the place of the ? to create the dataframe
+previewed below?</p>
+<pre class="r"><code>flights %&gt;% 
   mutate(
-  prop = n/sum(n)
-)</code></pre>
-<ol start="2" style="list-style-type: upper-alpha">
-<li></li>
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400)),
+    arr_delay_bin = ?
+    ) %&gt;%
+  group_by(dep_time_bin, arr_delay_bin) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  mutate(prop = n/sum(n))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;dep_time_bin&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["dep_time_bin"],"name":[1],"type":["fct"],"align":["left"]},{"label":["arr_delay_bin"],"name":[2],"type":["fct"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"(0,600]","2":"(-Inf,0]","3":"2160","4":"0.691864190"},{"1":"(0,600]","2":"(0,10]","3":"466","4":"0.149263293"},{"1":"(0,600]","2":"(10,30]","3":"272","4":"0.087123639"},{"1":"(0,600]","2":"(30,60]","3":"82","4":"0.026265215"},{"1":"(0,600]","2":"(60,120]","3":"44","4":"0.014093530"},{"1":"(0,600]","2":"(120,300]","3":"25","4":"0.008007687"},{"1":"(0,600]","2":"(300, Inf]","3":"4","4":"0.001281230"},{"1":"(0,600]","2":"NA","3":"69","4":"0.022101217"},{"1":"(600,1.2e+03]","2":"(-Inf,0]","3":"29622","4":"0.666097007"},{"1":"(600,1.2e+03]","2":"(0,10]","3":"5720","4":"0.128623148"},{"1":"(600,1.2e+03]","2":"(10,30]","3":"4636","4":"0.104247712"},{"1":"(600,1.2e+03]","2":"(30,60]","3":"2008","4":"0.045153021"},{"1":"(600,1.2e+03]","2":"(60,120]","3":"1118","4":"0.025139979"},{"1":"(600,1.2e+03]","2":"(120,300]","3":"494","4":"0.011108363"},{"1":"(600,1.2e+03]","2":"(300, Inf]","3":"64","4":"0.001439140"},{"1":"(600,1.2e+03]","2":"NA","3":"809","4":"0.018191631"},{"1":"(1.2e+03,1.8e+03]","2":"(-Inf,0]","3":"24173","4":"0.534103714"},{"1":"(1.2e+03,1.8e+03]","2":"(0,10]","3":"5489","4":"0.121279745"},{"1":"(1.2e+03,1.8e+03]","2":"(10,30]","3":"5867","4":"0.129631675"},{"1":"(1.2e+03,1.8e+03]","2":"(30,60]","3":"3709","4":"0.081950551"},{"1":"(1.2e+03,1.8e+03]","2":"(60,120]","3":"2856","4":"0.063103471"},{"1":"(1.2e+03,1.8e+03]","2":"(120,300]","3":"1576","4":"0.034821803"},{"1":"(1.2e+03,1.8e+03]","2":"(300, Inf]","3":"133","4":"0.002938642"},{"1":"(1.2e+03,1.8e+03]","2":"NA","3":"1456","4":"0.032170397"},{"1":"(1.8e+03,2.4e+03]","2":"(-Inf,0]","3":"12146","4":"0.485471042"},{"1":"(1.8e+03,2.4e+03]","2":"(0,10]","3":"2736","4":"0.109356889"},{"1":"(1.8e+03,2.4e+03]","2":"(10,30]","3":"3227","4":"0.128981974"},{"1":"(1.8e+03,2.4e+03]","2":"(30,60]","3":"2483","4":"0.099244574"},{"1":"(1.8e+03,2.4e+03]","2":"(60,120]","3":"2173","4":"0.086853991"},{"1":"(1.8e+03,2.4e+03]","2":"(120,300]","3":"1250","4":"0.049962029"},{"1":"(1.8e+03,2.4e+03]","2":"(300, Inf]","3":"38","4":"0.001518846"},{"1":"(1.8e+03,2.4e+03]","2":"NA","3":"966","4":"0.038610656"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ol style="list-style-type: upper-alpha">
+<li><code>cut(-Inf, 0, 10, 30, 60, 120, 300, Inf)</code></li>
+<li><code>cut(arr_delay, c(-Inf, 0, 10, 30, 60, 120, 300, Inf))</code></li>
+<li><code>cut(arr_delay, c(0, 10, 30, 60, 120, 300))</code></li>
+<li><code>cut(arr_delay, -Inf, 0, 10, 30, 60, 120, 300, Inf)</code></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin, n, prop)</code></pre>
-<ol start="3" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  distinct(origin, n, prop)</code></pre>
-<ol start="4" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  group_by(origin) %&gt;% 
-  summarize(
-  n = n(),
-  prop = n/total
-)</code></pre>
 
 
 

@@ -17,38 +17,41 @@ flights <- flights %>%
 ```
 
 
-Which of the following could **NOT** have produced the output below?
+What code could have produced the output below showing the raw number and proportion of flights originating at each NYC-area airport: 
 
 ```{r, echo=F}
 flights %>% 
-  filter(origin == "JFK") %>%
-  count(carrier, origin) %>% 
-  arrange(desc(n))
-
+  count(origin) %>% 
+  mutate(
+  prop = n/sum(n)
+)
 ```
 
 
 A)
 ```
 flights %>% 
-  filter(origin == "JFK") %>%
-  count(carrier, origin) %>% 
-  arrange(desc(n))
+  count(origin) %>% 
+  mutate(
+  prop = n/sum(n)
+)
 ```
 B)
 ```
 flights %>% 
-  filter(origin == "JFK") %>%
-  group_by(carrier, origin) %>% 
-  summarize(n = n()) %>% 
-  ungroup() %>% 
-  arrange(desc(n))
+  count(origin, n, prop)
 ```
 C) 
 ```
 flights %>% 
-  filter(origin == "JFK") %>%
-  count(carrier, origin) %>% 
-  arrange(desc(n))
+  distinct(origin, n, prop)
 ```
-D) None of the above
+D)
+```
+flights %>% 
+  group_by(origin) %>% 
+  summarize(
+  n = n(),
+  prop = n/total
+)
+```

@@ -1,0 +1,63 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, include=F, dependson="setup.R"}
+## Exam 1 specific
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+```
+
+
+Complete the code below to create the plot below:
+
+```{r, echo=T, eval=F}
+flights %>% 
+  mutate(
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400))
+    ) %>%
+  filter(dep_delay < 300) %>%  ...
+```
+
+```{r, echo=F}
+flights %>% 
+  mutate(
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400))
+    ) %>%
+  filter(dep_delay < 300) %>% 
+    ggplot(aes(x = dep_time_bin, y = arr_delay)) +
+    geom_boxplot()
+```
+
+
+
+A)
+```
+  ggplot(aes(x = dep_time_bin, y = arr_delay)) +
+  geom_violin()
+```
+B)
+```
+  ggplot(x = "dep_time_bin", y = "arr_delay") +
+  geom_boxplot() +
+  facet_wrap(~dep_time_bin)
+```
+C)
+```
+  ggplot(aes(x = "dep_time_bin", y = "arr_delay")) +
+  geom_boxplot()`
+```
+D) 
+```
+  ggplot(aes(x = dep_time_bin, y = arr_delay)) +
+  geom_boxplot()
+```

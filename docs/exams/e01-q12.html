@@ -32,6 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -172,41 +174,42 @@ pre code {
 </div>
 
 
-<p>What code could have produced the output below showing the raw number
-and proportion of flights originating at each NYC-area airport:</p>
-<pre><code>## # A tibble: 3 × 3
-##   origin     n  prop
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 EWR    42421 0.360
-## 2 JFK    38605 0.328
-## 3 LGA    36845 0.313</code></pre>
+<p>Which of the code chunks would complete the code needed to create the
+plot below?</p>
+<pre class="r"><code>flights %&gt;% 
+  mutate(
+    dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400)),
+    arr_delay_bin = cut(arr_delay, c(-Inf, 0, 10, 30, 60, 120, 300, Inf))
+    ) %&gt;%
+  group_by(dep_time_bin, arr_delay_bin) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  mutate(prop = n/sum(n)) %&gt;% ...</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;dep_time_bin&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="e01-q12_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <ol style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin) %&gt;% 
-  mutate(
-  prop = n/sum(n)
-)</code></pre>
+<pre><code>  ggplot(aes(x=dep_time_bin, y = prop, color = arr_delay_bin)) +
+  geom_hist() +
+  scale_fill_viridis_d()</code></pre>
 <ol start="2" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin, n, prop)</code></pre>
+<pre><code>  ggplot(aes(x=dep_time_bin, y = prop, color = arr_delay_bin)) +
+  geom_col()</code></pre>
 <ol start="3" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  distinct(origin, n, prop)</code></pre>
+<pre><code>  ggplot(aes(x=dep_time_bin, y = prop, fill = arr_delay_bin)) +
+  geom_col() +
+  scale_fill_viridis_d()</code></pre>
 <ol start="4" style="list-style-type: upper-alpha">
 <li></li>
 </ol>
-<pre><code>flights %&gt;% 
-  group_by(origin) %&gt;% 
-  summarize(
-  n = n(),
-  prop = n/total
-)</code></pre>
+<pre><code>  ggplot(aes(x=dep_time_bin, y = prop, color = arr_delay_bin)) +
+  geom_bar(stat=&quot;count&quot;) +
+  scale_fill_viridis_d()</code></pre>
 
 
 

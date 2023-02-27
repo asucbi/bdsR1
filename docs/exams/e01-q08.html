@@ -172,41 +172,61 @@ pre code {
 </div>
 
 
-<p>What code could have produced the output below showing the raw number
-and proportion of flights originating at each NYC-area airport:</p>
-<pre><code>## # A tibble: 3 × 3
-##   origin     n  prop
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
-## 1 EWR    42421 0.360
-## 2 JFK    38605 0.328
-## 3 LGA    36845 0.313</code></pre>
+<p>The nycflights13 package contains information about all flights that
+departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in
+the <code>flights</code> data frame, but there are additional data sets
+which may help understand what causes delays, specifically:</p>
+<ul>
+<li><code>weather</code>: hourly meteorological data for each
+airport</li>
+<li><code>planes</code>: construction information about each plane</li>
+<li><code>airports</code>: airport names and locations</li>
+<li><code>airlines</code>: translation between two letter carrier codes
+and names</li>
+</ul>
+<p>Here are some selected rows of the <code>flights</code> dataset:</p>
+<pre class="r"><code>flights %&gt;% 
+  select(flight, month, day, distance, carrier) %&gt;% 
+  head()</code></pre>
+<pre><code>## # A tibble: 6 × 5
+##   flight month   day distance carrier
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;  
+## 1   1716    11     7      762 WN     
+## 2    178    10    30      187 AA     
+## 3   1585    12    18      950 DL     
+## 4   3494    11    20      711 WN     
+## 5   2231    10    21      502 DL     
+## 6     27    11     7      937 B6</code></pre>
+<p>And here is a preview of the <code>airlines</code> dataset:</p>
+<pre class="r"><code>airlines</code></pre>
+<pre><code>## # A tibble: 16 × 2
+##    carrier name                       
+##    &lt;chr&gt;   &lt;chr&gt;                      
+##  1 9E      Endeavor Air Inc.          
+##  2 AA      American Airlines Inc.     
+##  3 AS      Alaska Airlines Inc.       
+##  4 B6      JetBlue Airways            
+##  5 DL      Delta Air Lines Inc.       
+##  6 EV      ExpressJet Airlines Inc.   
+##  7 F9      Frontier Airlines Inc.     
+##  8 FL      AirTran Airways Corporation
+##  9 HA      Hawaiian Airlines Inc.     
+## 10 MQ      Envoy Air                  
+## 11 OO      SkyWest Airlines Inc.      
+## 12 UA      United Air Lines Inc.      
+## 13 US      US Airways Inc.            
+## 14 VX      Virgin America             
+## 15 WN      Southwest Airlines Co.     
+## 16 YV      Mesa Airlines Inc.</code></pre>
+<p>How could we create a new <code>flights</code> dataframe that
+includes the full airline company names rather than just the unfamiliar
+abbreviations?</p>
 <ol style="list-style-type: upper-alpha">
-<li></li>
+<li><code>flights &lt;- flights %&gt;% filter(carrier %in% airlines$names)</code></li>
+<li><code>flights &lt;- left_join(flights, airlines, by = c("carrier"="carrier"))</code></li>
+<li><code>flights &lt;- flights %&gt;% right_join(airlines, by = c("carrier"="name"))</code></li>
+<li><code>flights &lt;- flights %&gt;% select(carrier, airlines::name)</code></li>
 </ol>
-<pre><code>flights %&gt;% 
-  count(origin) %&gt;% 
-  mutate(
-  prop = n/sum(n)
-)</code></pre>
-<ol start="2" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  count(origin, n, prop)</code></pre>
-<ol start="3" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  distinct(origin, n, prop)</code></pre>
-<ol start="4" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights %&gt;% 
-  group_by(origin) %&gt;% 
-  summarize(
-  n = n(),
-  prop = n/total
-)</code></pre>
 
 
 

@@ -1,0 +1,46 @@
+---
+title: '&#32;'
+output:
+  html_document
+---
+
+```{r, include=F, dependson="setup.R"}
+## Exam 1 specific
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+```
+
+
+The nycflights13 package contains information about all flights that departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in the `flights` data frame, but there are additional data sets which may help understand what causes delays, specifically:
+
+- `weather`: hourly meteorological data for each airport
+- `planes`: construction information about each plane
+- `airports`: airport names and locations
+- `airlines`: translation between two letter carrier codes and names
+
+Here are some selected rows of the `flights` dataset:
+
+```{r}
+flights %>% 
+  select(flight, month, day, distance, carrier) %>% 
+  head()
+```
+
+And here is a preview of the `airlines` dataset:
+
+```{r}
+airlines
+```
+
+How could we create a new `flights` dataframe that includes the full airline company names rather than just the unfamiliar abbreviations?
+
+A) `flights <- flights %>% filter(carrier %in% airlines$names)`
+B) `flights <- left_join(flights, airlines, by = c("carrier"="carrier"))` 
+C) `flights <- flights %>% right_join(airlines, by = c("carrier"="name"))` 
+D) `flights <- flights %>% select(carrier, airlines::name)` 
