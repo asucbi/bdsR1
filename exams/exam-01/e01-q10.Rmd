@@ -18,7 +18,7 @@ flights <- flights %>%
 ```
 
 
-Complete the code below to create the plot below:
+> Complete the code below to create the plot below:
 
 ```{r, echo=T, eval=F}
 flights %>% 

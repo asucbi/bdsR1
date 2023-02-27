@@ -17,7 +17,7 @@ flights <- flights %>%
 ```
 
 
-Sometimes when a flight leaves late you can "make it up in the air"---you can arrive on-time despite your late departure. Which of the following would add a variable representing this made-up time to the flights dataset?
+> Sometimes when a flight leaves late you can "make it up in the air"---you can arrive on-time despite your late departure. Which of the following would add a variable representing this made-up time to the flights dataset?
 
 A) `flights <- flights %>% mutate(make_up = dep_delay - arr_delay)`
 B) `flights <- flights %>% summarize(make_up = dep_delay - arr_delay)` 

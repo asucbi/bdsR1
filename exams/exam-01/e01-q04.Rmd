@@ -17,7 +17,7 @@ flights <- flights %>%
 ```
 
 
-Which of the following could have produced the output below? Select all that apply.
+> Which of the following could have produced the output below? Select all that apply.
 
 ```{r, echo=F}
 flights %>% 
