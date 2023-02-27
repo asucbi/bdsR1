@@ -19,10 +19,10 @@ flights <- flights %>%
 
 The nycflights13 package contains information about all flights that departed from NYC (e.g. EWR, JFK and LGA) in 2013. The main data is in the `flights` data frame, but there are additional data sets which may help understand what causes delays, specifically:
 
-`weather`: hourly meteorological data for each airport
-`planes`: construction information about each plane
-`airports`: airport names and locations
-`airlines`: translation between two letter carrier codes and names
+- `weather`: hourly meteorological data for each airport
+- `planes`: construction information about each plane
+- `airports`: airport names and locations
+- `airlines`: translation between two letter carrier codes and names
 
 Based on what you know about the datasets and your ggplotting experience, which code would produce the following plot?
 

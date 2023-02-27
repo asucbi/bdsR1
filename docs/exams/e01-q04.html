@@ -32,8 +32,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -167,14 +165,15 @@ pre code {
 </div>
 
 
-<p>Which of the following code chunks would produce an output that could
-identify the ten most common destinations for flights from NYC
-airports?</p>
+<p>Sometimes when a flight leaves late you can “make it up in the
+air”—you can arrive on-time despite your late departure. Which of the
+following would add a variable representing this made-up time to the
+flights dataset?</p>
 <ol style="list-style-type: upper-alpha">
-<li><code>flights %&gt;% filter(percent_rank(dest) &lt; .10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% filter(n &gt; 10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(desc(n)) %&gt;% head(10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(dest) %&gt;% head()</code></li>
+<li><code>flights &lt;- flights %&gt;% mutate(make_up = dep_delay - arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% summarize(make_up = dep_delay - arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% mutate(make_up == dep_delay / arr_delay)</code></li>
+<li><code>flights &lt;- flights %&gt;% summarize(make_up == dep_delay / arr_delay)</code></li>
 </ol>
 
 

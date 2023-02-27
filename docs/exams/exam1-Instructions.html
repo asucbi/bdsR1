@@ -167,8 +167,8 @@ pre code {
 </div>
 
 
-<div id="logistics" class="section level3">
-<h3>Logistics</h3>
+<div id="logistics" class="section level2">
+<h2>Logistics</h2>
 <ol style="list-style-type: decimal">
 <li><p>This exam is closed book, closed internet, closed other people.
 You <strong>may not</strong> consult with anyone else about this exam
@@ -182,14 +182,14 @@ write any code.</p></li>
 from the <code>tidyverse</code> package.</p></li>
 </ol>
 </div>
-<div id="grading" class="section level3">
-<h3>Grading</h3>
+<div id="grading" class="section level2">
+<h2>Grading</h2>
 <p>The total points for the questions add up to 200 points. Each
 question is worth X points. Your grade will automatically be recorded on
 Canvas.</p>
 </div>
-<div id="the-data" class="section level3">
-<h3>The Data</h3>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
 <p>All questions are based on the <code>nycflights13</code> package.
 This package contains information about all flights that departed from
 New York City (NYC) (e.g. EWR, JFK and LGA) in 2013. The main data is in
@@ -206,6 +206,121 @@ and names</li>
 <p>Although this is not “behavioral” data, we are using it because it
 easily allows us to cover multiple techniques that you have learned in
 the last seven weeks that can be applied to behavioral datasets.</p>
+<blockquote>
+<p>Below is the help documentation for the <code>flights</code> data
+frame that explains the variables. Take a moment to scan through the
+variables to get a sense of the <code>flights</code> data frame.
+However, remembering this information is not essential for completing
+the exam.</p>
+</blockquote>
+<!DOCTYPE html><html><head><title>R: Flights data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>flights</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flights data</h2>
+
+<h3>Description</h3>
+
+<p>On-time data for all flights that departed NYC (i.e. JFK, LGA or EWR) in
+2013.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>flights
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>Data frame with columns
+</p>
+
+<dl>
+<dt>year, month, day</dt><dd><p>Date of departure.</p>
+</dd>
+<dt>dep_time, arr_time</dt><dd><p>Actual departure and arrival times (format HHMM or HMM), local tz.</p>
+</dd>
+<dt>sched_dep_time, sched_arr_time</dt><dd><p>Scheduled departure and arrival times (format HHMM or HMM), local tz.</p>
+</dd>
+<dt>dep_delay, arr_delay</dt><dd><p>Departure and arrival delays, in minutes.
+Negative times represent early departures/arrivals.</p>
+</dd>
+<dt>carrier</dt><dd><p>Two letter carrier abbreviation. See <code>airlines</code>
+to get name.</p>
+</dd>
+<dt>flight</dt><dd><p>Flight number.</p>
+</dd>
+<dt>tailnum</dt><dd><p>Plane tail number. See <code>planes</code> for additional metadata.</p>
+</dd>
+<dt>origin, dest</dt><dd><p>Origin and destination. See <code>airports</code> for
+additional metadata.</p>
+</dd>
+<dt>air_time</dt><dd><p>Amount of time spent in the air, in minutes.</p>
+</dd>
+<dt>distance</dt><dd><p>Distance between airports, in miles.</p>
+</dd>
+<dt>hour, minute</dt><dd><p>Time of scheduled departure broken into hour and minutes.</p>
+</dd>
+<dt>time_hour</dt><dd><p>Scheduled date and hour of the flight as a <code>POSIXct</code> date.
+Along with <code>origin</code>, can be used to join flights data to <code>weather</code> data.</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>RITA, Bureau of transportation statistics,
+<a href="https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236">https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236</a>
+</p>
+
+
+</div>
+</body></html>
+<blockquote>
+<p>Below is a glimpse of the <code>flights</code> data frame. Again,
+take a moment to scan through the variables to get a sense of what is
+included in each variable. However, remembering this information is not
+essential for completing the exam.</p>
+</blockquote>
+<pre class="r"><code>glimpse(flights)</code></pre>
+<pre><code>## Rows: 117,871
+## Columns: 19
+## $ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
+## $ month          &lt;int&gt; 11, 10, 12, 11, 10, 11, 9, 12, 11, 3, 9, 9, 6, 6, 4, 1,…
+## $ day            &lt;int&gt; 7, 30, 18, 20, 21, 7, 29, 21, 7, 31, 14, 9, 30, 21, 22,…
+## $ dep_time       &lt;int&gt; 600, 1252, 1723, 2029, 1620, 852, 1519, 1526, 1650, 165…
+## $ sched_dep_time &lt;int&gt; 600, 1250, 1715, 2030, 1625, 900, 1529, 1530, 1650, 170…
+## $ dep_delay      &lt;dbl&gt; 0, 2, 8, -1, -5, -8, -10, -4, 0, -8, -4, 11, 15, 21, 74…
+## $ arr_time       &lt;int&gt; 826, 1356, 2008, 2141, 1818, 1139, 1639, 1654, 1910, 18…
+## $ sched_arr_time &lt;int&gt; 825, 1400, 2020, 2205, 1831, 1157, 1649, 1710, 1906, 18…
+## $ arr_delay      &lt;dbl&gt; 1, -4, -12, -24, -13, -18, -10, -16, 4, -11, -21, 6, -4…
+## $ carrier        &lt;chr&gt; &quot;WN&quot;, &quot;AA&quot;, &quot;DL&quot;, &quot;WN&quot;, &quot;DL&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;EV&quot;, &quot;9E&quot;, &quot;…
+## $ flight         &lt;int&gt; 1716, 178, 1585, 3494, 2231, 27, 4580, 5207, 2910, 2183…
+## $ tailnum        &lt;chr&gt; &quot;N421LV&quot;, &quot;N3DDAA&quot;, &quot;N348NB&quot;, &quot;N262WN&quot;, &quot;N330NW&quot;, &quot;N637…
+## $ origin         &lt;chr&gt; &quot;LGA&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;,…
+## $ dest           &lt;chr&gt; &quot;ATL&quot;, &quot;BOS&quot;, &quot;MCO&quot;, &quot;MDW&quot;, &quot;DTW&quot;, &quot;MCO&quot;, &quot;MKE&quot;, &quot;MKE&quot;,…
+## $ air_time       &lt;dbl&gt; 123, 44, 133, 107, 90, 136, 110, 118, 101, 47, 44, 76, …
+## $ distance       &lt;dbl&gt; 762, 187, 950, 711, 502, 937, 725, 738, 589, 214, 212, …
+## $ hour           &lt;dbl&gt; 6, 12, 17, 20, 16, 9, 15, 15, 16, 17, 12, 15, 9, 13, 17…
+## $ minute         &lt;dbl&gt; 0, 50, 15, 30, 25, 0, 29, 30, 50, 0, 53, 55, 25, 40, 42…
+## $ time_hour      &lt;dttm&gt; 2013-11-07 06:00:00, 2013-10-30 12:00:00, 2013-12-18 1…</code></pre>
 </div>
 
 

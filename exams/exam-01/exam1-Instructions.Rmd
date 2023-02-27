@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Logistics
+## Logistics
 
 1. This exam is closed book, closed internet, closed other people. You **may not** consult with anyone else about this exam other than the Professors.
 
@@ -25,11 +25,11 @@ knitr::opts_chunk$set(
 
 4. The only libraries being used, other than the data itself, comes from the `tidyverse` package. 
 
-### Grading 
+## Grading 
 
 The total points for the questions add up to 200 points. Each question is worth X points. Your grade will automatically be recorded on Canvas. 
 
-### The Data
+## The Data
 
 All questions are based on the `nycflights13` package. This package contains information about all flights that departed from New York City (NYC) (e.g. EWR, JFK and LGA) in 2013. The main data is in the `flights` data frame, but there are additional data sets that help explain what causes delays, specifically:
 
@@ -39,3 +39,30 @@ All questions are based on the `nycflights13` package. This package contains inf
 - `airlines`: translation between two letter carrier codes and names
 
 Although this is not "behavioral" data, we are using it because it easily allows us to cover multiple techniques that you have learned in the last seven weeks that can be applied to behavioral datasets.  
+
+```{r, echo = F}
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+```
+
+> Below is the help documentation for the `flights` data frame that explains the variables. Take a moment to scan through the variables to get a sense of the `flights` data frame. However, remembering this information is not essential for completing the exam. 
+
+```{r, echo = F}
+helpfile <- utils:::.getHelpFile(help(flights))
+outfile <- tempfile(fileext = ".html")
+tools:::Rd2HTML(helpfile, out =outfile)
+rawHTML <- paste(readLines(outfile), collapse="\n")
+knitr::asis_output(htmltools::htmlPreserve(rawHTML))
+```    
+
+> Below is a glimpse of the `flights` data frame. Again, take a moment to scan through the variables to get a sense of what is included in each variable. However, remembering this information is not essential for completing the exam. 
+
+```{r}
+glimpse(flights)
+```
+

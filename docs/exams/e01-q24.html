@@ -167,14 +167,111 @@ pre code {
 </div>
 
 
-<p>Which of the following code chunks would produce an output that could
-identify the ten most common destinations for flights from NYC
-airports?</p>
+<blockquote>
+<p>The last few questions have involved selecting a subset of the 19
+variables from the <code>flights</code> data frame. As a reminder, below
+is what you get when you run <code>?flights</code> to pull up the
+documentation:</p>
+</blockquote>
+<!DOCTYPE html><html><head><title>R: Flights data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>flights</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flights data</h2>
+
+<h3>Description</h3>
+
+<p>On-time data for all flights that departed NYC (i.e. JFK, LGA or EWR) in
+2013.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>flights
+</code></pre>
+
+
+<h3>Format</h3>
+
+<p>Data frame with columns
+</p>
+
+<dl>
+<dt>year, month, day</dt><dd><p>Date of departure.</p>
+</dd>
+<dt>dep_time, arr_time</dt><dd><p>Actual departure and arrival times (format HHMM or HMM), local tz.</p>
+</dd>
+<dt>sched_dep_time, sched_arr_time</dt><dd><p>Scheduled departure and arrival times (format HHMM or HMM), local tz.</p>
+</dd>
+<dt>dep_delay, arr_delay</dt><dd><p>Departure and arrival delays, in minutes.
+Negative times represent early departures/arrivals.</p>
+</dd>
+<dt>carrier</dt><dd><p>Two letter carrier abbreviation. See <code>airlines</code>
+to get name.</p>
+</dd>
+<dt>flight</dt><dd><p>Flight number.</p>
+</dd>
+<dt>tailnum</dt><dd><p>Plane tail number. See <code>planes</code> for additional metadata.</p>
+</dd>
+<dt>origin, dest</dt><dd><p>Origin and destination. See <code>airports</code> for
+additional metadata.</p>
+</dd>
+<dt>air_time</dt><dd><p>Amount of time spent in the air, in minutes.</p>
+</dd>
+<dt>distance</dt><dd><p>Distance between airports, in miles.</p>
+</dd>
+<dt>hour, minute</dt><dd><p>Time of scheduled departure broken into hour and minutes.</p>
+</dd>
+<dt>time_hour</dt><dd><p>Scheduled date and hour of the flight as a <code>POSIXct</code> date.
+Along with <code>origin</code>, can be used to join flights data to <code>weather</code> data.</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>RITA, Bureau of transportation statistics,
+<a href="https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236">https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236</a>
+</p>
+
+
+</div>
+</body></html>
+<blockquote>
+<p>What if we want to select only the following four variables (and just
+these variables) from <code>flights</code>?</p>
+<ul>
+<li>dep_time</li>
+<li>dep_delay</li>
+<li>arr_time</li>
+<li>arr_delay</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>From below, select all options that are valid ways for doing so
+(NOTE: THERE ARE MULTIPLE CORRECT RESPONSES)</p>
+</blockquote>
 <ol style="list-style-type: upper-alpha">
-<li><code>flights %&gt;% filter(percent_rank(dest) &lt; .10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% filter(n &gt; 10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(desc(n)) %&gt;% head(10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(dest) %&gt;% head()</code></li>
+<li><p><code>select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")</code></p></li>
+<li><p><code>select(flights, starts_with("dep_"), starts_with("arr_"))</code></p></li>
+<li><p><code>select(flights, ends_with("arr_time"), ends_with("dep_time"))</code></p></li>
+<li><p><code>select(flights, contains("_time"), contains("arr_"))</code></p></li>
 </ol>
 
 

@@ -167,15 +167,105 @@ pre code {
 </div>
 
 
-<p>Which of the following code chunks would produce an output that could
-identify the ten most common destinations for flights from NYC
-airports?</p>
+<blockquote>
+<p>Based on the last question, we created a new variable that divides
+the day into four time intervals and we called it
+<code>time_of_day</code>.</p>
+</blockquote>
+<blockquote>
+<p>Now, lets do something with it.</p>
+</blockquote>
+<blockquote>
+<p>One interesting thing is to calculate the proportion of flights that
+are delayed at departure for each of the four time intervals. In other
+words, we want to create the following table:</p>
+</blockquote>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["time_of_day"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dep_delayed"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop_delayed"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12:01am-6am","2":"delayed","3":"634","4":"0.2030750"},{"1":"6:01am-12pm","2":"delayed","3":"11486","4":"0.2582807"},{"1":"12:01pm-6pm","2":"delayed","3":"20366","4":"0.4499878"},{"1":"6:01pm-12am","2":"delayed","3":"12500","4":"0.4996203"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<blockquote>
+<p>Interesting, flights later in the day are delayed way more often.</p>
+</blockquote>
+<blockquote>
+<p>Now, how do we generate this table? You only need the following two
+variable to do so:</p>
+</blockquote>
+<table>
+<colgroup>
+<col width="42%" />
+<col width="57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>time_of_day</code></td>
+<td>Day divided into four blocks of time</td>
+</tr>
+<tr class="even">
+<td><code>dep_delay</code></td>
+<td>Departure delays, in minutes. Negative times represent early
+departures</td>
+</tr>
+</tbody>
+</table>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["time_of_day"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dep_delay"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"12:01am-6am","2":"0"},{"1":"12:01pm-6pm","2":"2"},{"1":"12:01pm-6pm","2":"8"},{"1":"6:01pm-12am","2":"-1"},{"1":"12:01pm-6pm","2":"-5"},{"1":"6:01am-12pm","2":"-8"},{"1":"12:01pm-6pm","2":"-10"},{"1":"12:01pm-6pm","2":"-4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<blockquote>
+<p>Given these two variables, which of the following code chunks helps
+us meet our data analysis goal of generating the above table that shows
+the proportion of flights that are delayed at departure for each of the
+four time intervals?</p>
+</blockquote>
 <ol style="list-style-type: upper-alpha">
-<li><code>flights %&gt;% filter(percent_rank(dest) &lt; .10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% filter(n &gt; 10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(desc(n)) %&gt;% head(10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(dest) %&gt;% head()</code></li>
+<li></li>
 </ol>
+<pre><code>flights %&gt;%
+  mutate(dep_delayed = ifelse(dep_delay &gt; 0, &quot;delayed&quot;, &quot;ontime&quot;)) %&gt;%
+  count(time_of_day, dep_delayed) %&gt;%
+  group_by(time_of_day) %&gt;%
+  mutate(prop_delayed = n / sum(n)) %&gt;%
+  filter(dep_delayed == &quot;delayed&quot;) %&gt;%
+  arrange(prop_delayed)</code></pre>
+<ol start="2" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;%
+  add_column(dep_delayed = ifelse(dep_delay &gt; 0, &quot;delayed&quot;, &quot;ontime&quot;)) %&gt;%
+  freq_table(time_of_day, dep_delayed) %&gt;%
+  group_by(time_of_day) %&gt;%
+  add_column(prop_delayed = n / sum(n)) %&gt;%
+  filter(dep_delayed == &quot;delayed&quot;) %&gt;%
+  arrange(prop_delayed)</code></pre>
+<ol start="3" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;%
+  mutate(dep_delayed = ifelse(dep_delay &gt; 0, &quot;delayed&quot;, &quot;ontime&quot;)) %&gt;%
+  count(time_of_day, dep_delayed) %&gt;%
+  group_by(time_of_day) %&gt;%
+  filter(dep_delayed == &quot;delayed&quot;) %&gt;%
+  mutate(prop_delayed = n / sum(n)) %&gt;%
+  arrange(prop_delayed)</code></pre>
+<ol start="4" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;%
+  add_column(dep_delayed = ifelse(dep_delay &gt; 0, &quot;delayed&quot;, &quot;ontime&quot;)) %&gt;%
+  freq_table(time_of_day, dep_delayed) %&gt;%
+  group_by(time_of_day) %&gt;%
+  filter(dep_delayed == &quot;delayed&quot;) %&gt;%
+  add_column(prop_delayed = n / sum(n)) %&gt;%
+  arrange(prop_delayed)</code></pre>
 
 
 

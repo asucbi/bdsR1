@@ -32,8 +32,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -167,15 +165,41 @@ pre code {
 </div>
 
 
-<p>Which of the following code chunks would produce an output that could
-identify the ten most common destinations for flights from NYC
-airports?</p>
+<p>What code could have produced the output below showing the raw number
+and proportion of flights originating at each NY-area airport:</p>
+<pre><code>## # A tibble: 3 × 3
+##   origin     n  prop
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;
+## 1 EWR    42421 0.360
+## 2 JFK    38605 0.328
+## 3 LGA    36845 0.313</code></pre>
 <ol style="list-style-type: upper-alpha">
-<li><code>flights %&gt;% filter(percent_rank(dest) &lt; .10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% filter(n &gt; 10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(desc(n)) %&gt;% head(10)</code></li>
-<li><code>flights %&gt;% count(dest) %&gt;% arrange(dest) %&gt;% head()</code></li>
+<li></li>
 </ol>
+<pre><code>flights %&gt;% 
+  count(origin) %&gt;% 
+  mutate(
+  prop = n/sum(n)
+)</code></pre>
+<ol start="2" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  count(origin, n, prop)</code></pre>
+<ol start="3" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  distinct(origin, n, prop)</code></pre>
+<ol start="4" style="list-style-type: upper-alpha">
+<li></li>
+</ol>
+<pre><code>flights %&gt;% 
+  group_by(origin) %&gt;% 
+  summarize(
+  n = n(),
+  prop = n/total
+)</code></pre>
 
 
 

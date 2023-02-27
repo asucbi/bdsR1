@@ -1,0 +1,108 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include=F, dependson="setup.R"}
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+
+```
+
+> I combined the flights data set with the weather data set to create and then pulled out five relevant columns. This dataset, called `flights_weather`, is shown below:
+
+```{r, echo=FALSE}
+# flights %>% select("year", "month", "day", "origin",
+#   "hour", "dep_delay") %>% head()
+```
+
+```{r, echo=FALSE}
+# weather <- weather %>% select("year", "month", "day", "origin", "hour", "temp") 
+# weather= weather[sample(1:nrow(weather)), ]
+#   head(weather)
+```
+
+```{r echo=FALSE}
+
+flights_weather <- inner_join(flights, weather, by = c(
+  "year", "month", "day", "origin",
+  "hour"
+)) %>% select(month, day, origin, dep_delay, wind_gust)
+flights_weather
+
+# test1 = flights_weather %>%
+#   select(month, day, origin, dep_delay, temp) %>%
+#   arrange(dep_delay) %>% tail()
+# test2 = flights_weather %>%
+#   select(month, day, origin, dep_delay, temp) %>% head()
+# 
+# rows_append(test1[1:2,], test2) %>% arrange(month, day)
+```
+
+> I eventually want to generate a plot to see if there is a relationship between the average daily departure delay and the average daily wind gust speed (in mph) for all three New York city airports. But to do so, I need to create a new data frame, which I will call `flights_weather_avg`, that returns columns for the average daily departure delay and the average daily wind gust speed. But how do I do the calculation?
+
+> I started the code for you. But there is a crucial bit of it missing. 
+
+```{r, eval=FALSE, echo=TRUE}
+flights_weather_avg <- flights_weather %>%
+  group_by(month, day, origin) %>%
+  "___"
+  )
+```
+
+```{r, eval=FALSE, echo=F}
+# solution
+flights_weather_avg <- flights_weather %>%
+  group_by(month, day, origin) %>%
+  summarize(
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
+    avg_wind_gust = mean(wind_gust, na.rm = TRUE)
+  )
+flights_weather_avg
+```
+
+
+> Please select the correct missing code sequence from the options below:
+
+A) 
+```
+  summarize(
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
+    avg_wind_gust = mean(wind_gust, na.rm = TRUE)
+```
+
+B)
+```
+  mutate(
+    avg_dep_delay = average(dep_delay, !is.na(dep_delay)),
+    avg_wind_gust = average(wind_gust, !is.na(wind_gust))
+```
+
+C) 
+```
+  mutate(
+    avg_dep_delay = mean(dep_delay) %>% filter(!is.na(avg_dep_delay)),
+    avg_wind_gust = mean(wind_gust) %>% filter(!is.na(avg_wind_gust)))
+```
+
+D)
+```
+  filter(is.na(dep_delay) & is.na(wind_gust)) %>%
+  summarize(
+    avg_dep_delay = mean(dep_delay),
+    avg_wind_gust = mean(wind_gust))
+```
+
+
+
+

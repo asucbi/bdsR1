@@ -1,0 +1,54 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include=F, dependson="setup.R"}
+
+library(tidyverse)
+library(nycflights13)
+
+set.seed(42)
+
+flights <- flights %>% 
+  slice_sample(prop=.35)
+
+```
+
+
+> The last few questions have involved selecting a subset of the 19 variables from the `flights` data frame. As a reminder, below is what you get when you run `?flights` to pull up the documentation:
+
+```{r, echo=F}
+helpfile <- utils:::.getHelpFile(help(flights))
+outfile <- tempfile(fileext = ".html")
+tools:::Rd2HTML(helpfile, out =outfile)
+rawHTML <- paste(readLines(outfile), collapse="\n")
+knitr::asis_output(htmltools::htmlPreserve(rawHTML))
+```
+
+> What if we want to select only the following four variables (and just these four variables) from `flights`?
+>
+- dep_time
+- dep_delay
+- arr_time
+- arr_delay
+
+> From below, select all options that are valid ways for doing so 
+(NOTE: THERE ARE MULTIPLE CORRECT RESPONSES)
+
+A) `select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")`
+
+B) `select(flights, starts_with("dep_"), starts_with("arr_"))`
+
+C) `select(flights, ends_with("arr_time"), ends_with("dep_time"))`
+
+D) `select(flights, contains("_time"), contains("arr_"))`
+
+
+
+
+
