@@ -13,7 +13,7 @@
 
 <title> </title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -106,8 +106,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -115,16 +115,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -174,13 +167,15 @@ pre code {
 </div>
 
 
+<blockquote>
 <p>Complete the code below to create the plot below:</p>
+</blockquote>
 <pre class="r"><code>flights %&gt;% 
   mutate(
     dep_time_bin = cut(sched_dep_time, c(0, 600, 1200, 1800, 2400))
     ) %&gt;%
   filter(dep_delay &lt; 300) %&gt;%  ...</code></pre>
-<pre><code>## Warning: Removed 392 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 392 rows containing non-finite values (`stat_boxplot()`).</code></pre>
 <p><img src="e01-q10_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <ol style="list-style-type: upper-alpha">
 <li></li>

@@ -18,7 +18,7 @@ flights <- flights %>%
 ```
 
 
-What code needs to go in the place of the ? to create the dataframe previewed below?
+> What code needs to go in the place of the `?` to create the dataframe previewed below?
 
 ```{r, echo=T, eval=F}
 flights %>% 

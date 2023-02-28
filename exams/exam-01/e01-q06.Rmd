@@ -17,7 +17,7 @@ flights <- flights %>%
 ```
 
 
-Let's say we wanted to calculate the route (airport to airport) with the greatest average delay so we could avoid ever traveling it. We'll just ignore missing values. Which of these would be the right first steps to accomplish this?
+> Let's say we wanted to calculate the route (airport to airport) with the greatest average delay so we could avoid ever traveling it. We'll just ignore missing values. Which of these would be the right first steps to accomplish this?
 
 ```{r, include=F}
 flights %>% 

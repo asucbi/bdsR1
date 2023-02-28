@@ -18,7 +18,7 @@ flights <- flights %>%
 ```
 
 
-Say we just wanted to focus on all the flights leaving from or arriving to JFK. How could we begin a pipeline that would analyze only these flights?
+> Say we just wanted to focus on all the flights leaving from or arriving to JFK. How could we begin a pipeline that would analyze only these flights?
 
 A) `flights %>% filter(origin == "JFK", dest == "JFK")`
 B) `flights %>% select(origin == "JFK", dest == "JFK")`

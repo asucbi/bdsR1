@@ -17,7 +17,7 @@ flights <- flights %>%
 ```
 
 
-What code could have produced the output below showing the raw number and proportion of flights originating at each NYC-area airport: 
+> What code could have produced the output below showing the raw number and proportion of flights originating at each NYC-area airport: 
 
 ```{r, echo=F}
 flights %>% 

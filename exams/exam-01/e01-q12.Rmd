@@ -18,7 +18,7 @@ flights <- flights %>%
 ```
 
 
-Which of the code chunks would complete the code needed to create the plot below?
+> Which of the code chunks would complete the code needed to create the plot below?
 
 ```{r, echo=T, eval=F}
 flights %>% 
