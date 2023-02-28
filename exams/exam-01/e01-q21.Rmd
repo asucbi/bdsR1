@@ -60,8 +60,8 @@ flights <- flights %>%
   mutate(time_of_day = case_when(
     hour >= 0  & hour <= 6  ~ "12:01am-6am",
     hour > 6 & hour <= 12   ~ "6:01am-12pm",
-    hour > 12 & hour <= 18  ~ "12:01pm-6pm",
-    hour > 18 & hour <= 24  ~ "6:01pm-12am"
+    hour > 12 & hour <= 6  ~ "12:01pm-6pm",
+    hour > 18 & hour <= 12  ~ "6:01pm-12am"
   ))
 ```
 
