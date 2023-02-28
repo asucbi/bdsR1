@@ -168,103 +168,28 @@ pre code {
 
 
 <blockquote>
-<p>Let’s say we want to create a new variable that divides the day into
-four time intervals of:</p>
+<p>The last few questions have involved selecting a subset of the 19
+variables from the <code>flights</code> data frame. To answer this
+question, it is highly advisable that you first review the names of all
+the variables. You can find them in the instructions (above) from the
+<code>?flights</code> documentation.</p>
+<p>What if we want to select only the following four variables (and just
+these four variables) from <code>flights</code>?</p>
 <ul>
-<li>12:01am-6am</li>
-<li>6:01am-12pm</li>
-<li>12:01pm-6pm</li>
-<li>6:01pm-12am</li>
+<li>dep_time</li>
+<li>dep_delay</li>
+<li>arr_time</li>
+<li>arr_delay</li>
 </ul>
-</blockquote>
-<blockquote>
-<p>Below is every variable in the data set that is potentially
-relevant:</p>
-</blockquote>
-<table>
-<colgroup>
-<col width="42%" />
-<col width="57%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Variable Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>sched_dep_time</code></td>
-<td>Scheduled departure time (format HHMM or HMM)</td>
-</tr>
-<tr class="even">
-<td><code>sched_arr_time</code></td>
-<td>Scheduled departure time (format HHMM or HMM)</td>
-</tr>
-<tr class="odd">
-<td><code>hour</code></td>
-<td>Time of scheduled departure, just the hour</td>
-</tr>
-<tr class="even">
-<td><code>minute</code></td>
-<td>Time of scheduled departure, just the minutes</td>
-</tr>
-<tr class="odd">
-<td><code>time_hour</code></td>
-<td>Scheduled date and hour of the flight as a POSIXct date</td>
-</tr>
-</tbody>
-</table>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["sched_dep_time"],"name":[1],"type":["int"],"align":["right"]},{"label":["sched_arr_time"],"name":[2],"type":["int"],"align":["right"]},{"label":["hour"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["minute"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["time_hour"],"name":[5],"type":["dttm"],"align":["right"]}],"data":[{"1":"600","2":"825","3":"6","4":"0","5":"2013-11-07 06:00:00"},{"1":"1250","2":"1400","3":"12","4":"50","5":"2013-10-30 12:00:00"},{"1":"1715","2":"2020","3":"17","4":"15","5":"2013-12-18 17:00:00"},{"1":"2030","2":"2205","3":"20","4":"30","5":"2013-11-20 20:00:00"},{"1":"1625","2":"1831","3":"16","4":"25","5":"2013-10-21 16:00:00"},{"1":"900","2":"1157","3":"9","4":"0","5":"2013-11-07 09:00:00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<blockquote>
-<p>Given the possible variables, which of the following code chunks
-helps us meet our data analysis goal of creating a new variable that
-divides the day into four time intervals?</p>
+<p>From below, select all options that are valid ways for doing so
+(NOTE: THERE ARE MULTIPLE CORRECT RESPONSES)</p>
 </blockquote>
 <ol style="list-style-type: upper-alpha">
-<li></li>
+<li><p><code>select(flights, ends_with("arr_time"), ends_with("dep_time"))</code></p></li>
+<li><p><code>select(flights, contains("_time"), contains("arr_"))</code></p></li>
+<li><p><code>select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")</code></p></li>
+<li><p><code>select(flights, starts_with("dep_"), starts_with("arr_"))</code></p></li>
 </ol>
-<pre><code>flights &lt;- flights %&gt;%
-  mutate(time_of_day = case_when(
-    sched_dep_time &gt;= 001  &amp; sched_dep_time &lt;= 600  ~ &quot;12:01am-6am&quot;,
-    sched_dep_time &gt;= 601  &amp; sched_dep_time &lt;= 1200 ~ &quot;6:01am-12pm&quot;,
-    sched_dep_time &gt;= 1201 &amp; sched_dep_time &lt;= 1800 ~ &quot;12:01pm-6pm&quot;,
-    sched_dep_time &gt;= 1801                          ~ &quot;6:01pm-12am&quot;
-  ))</code></pre>
-<ol start="2" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights &lt;- flights %&gt;%
-  mutate(time_of_day = case_when(
-    hour &gt;= 0  &amp; hour &lt;= 6  ~ &quot;12:01am-6am&quot;,
-    hour &gt; 6 &amp; hour &lt;= 12   ~ &quot;6:01am-12pm&quot;,
-    hour &gt; 12 &amp; hour &lt;= 18  ~ &quot;12:01pm-6pm&quot;,
-    hour &gt; 13 &amp; hour &lt;= 24  ~ &quot;6:01pm-12am&quot;
-  ))</code></pre>
-<ol start="3" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights &lt;- flights %&gt;%
-  add_column(time_of_day = if_else(
-  time_hour &lt;= 06:00:00, &quot;12:01am-6am&quot;,
-  time_hour &gt; 06:00:00 &amp; time_hour &lt;= 12:00:00, &quot;6:01am-12pm&quot;,
-  time_hour &gt; 12:00:00 &amp; time_hour &lt;= 18:00:00, &quot;12:01pm-6pm&quot;,
-  time_hour &gt; 18:00:00 &amp; time_hour &lt;= 24:00:00, &quot;6:01pm-12am&quot;
-))</code></pre>
-<ol start="4" style="list-style-type: upper-alpha">
-<li></li>
-</ol>
-<pre><code>flights &lt;- flights %&gt;%
-  mutate(time_of_day = if_else(
-    sched_dep_time &gt;= 001  &amp; sched_arr_time &lt;= 600  ~ &quot;12:01am-6am&quot;,
-    sched_dep_time &gt;= 601  &amp; sched_arr_time &lt;= 1200 ~ &quot;6:01am-12pm&quot;,
-    sched_dep_time &gt;= 1201 &amp; sched_arr_time &lt;= 1800 ~ &quot;12:01pm-6pm&quot;,
-    sched_dep_time &gt;= 1801 &amp; sched_arr_time &lt;= 2400 ~ &quot;6:01pm-12am&quot;
-  ))</code></pre>
 
 
 

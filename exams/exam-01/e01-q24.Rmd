@@ -19,35 +19,64 @@ flights <- flights %>%
 
 ```
 
+> Based on the last question, we created a new data frame, which I called `flights_weather_avg`, that looks like the below:
 
-> The last few questions have involved selecting a subset of the 19 variables from the `flights` data frame. As a reminder, below is what you get when you run `?flights` to pull up the documentation:
-
-```{r, echo=F}
-helpfile <- utils:::.getHelpFile(help(flights))
-outfile <- tempfile(fileext = ".html")
-tools:::Rd2HTML(helpfile, out =outfile)
-rawHTML <- paste(readLines(outfile), collapse="\n")
-knitr::asis_output(htmltools::htmlPreserve(rawHTML))
+```{r, eval=T, echo=F, message=F}
+flights_weather_avg <- inner_join(flights, weather, by = c("year", "month", "day", "origin", "hour")) %>% select(month, day, origin, dep_delay, wind_gust) %>%
+  group_by(month, day, origin) %>%
+  summarize(
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
+    avg_wind_gust = mean(wind_gust, na.rm = TRUE)
+  )
+flights_weather_avg
 ```
 
-> What if we want to select only the following four variables (and just these four variables) from `flights`?
->
-- dep_time
-- dep_delay
-- arr_time
-- arr_delay
+> With this data I can generate the following plot:
 
-> From below, select all options that are valid ways for doing so 
-(NOTE: THERE ARE MULTIPLE CORRECT RESPONSES)
+```{r, echo=F, message=F, warning=F}
+ggplot(flights_weather_avg, aes(x = avg_wind_gust, y = avg_dep_delay)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = lm) +
+  facet_wrap(~origin, scales = "free") +
+  labs(x = "Average Wind Gust Speed (mph)", y = "Average Delay (min)")
+```
 
-A) `select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")`
+> What is the code that I used? Please select from one of the following options:
 
-B) `select(flights, starts_with("dep_"), starts_with("arr_"))`
+A) 
+```
+ggplot(flights_weather_avg, aes(x = avg_wind_gust, y = avg_dep_delay)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = lm) +
+  facet_wrap(~origin, scales = "free") +
+  labs(x = "Average Wind Gust Speed (mph)", y = "Average Delay (min)")
+```
 
-C) `select(flights, ends_with("arr_time"), ends_with("dep_time"))`
+B)
+```
+ggplot(flights_weather_avg, aes(x = avg_wind_gust, y = avg_dep_delay)) +
+  geom_point(alpha = 0.3) +
+  facet_wrap(~origin, method = "lm") +
+  labs(x = "Average Wind Gust Speed (mph)", y = "Average Delay (min)")
+```
 
-D) `select(flights, contains("_time"), contains("arr_"))`
+C) 
+```
+ggplot(flights_weather_avg, aes(x = avg_wind_gust, y = avg_dep_delay)) +
+  geom_scatter(alpha = 0.3) +
+  geom_line(x ~ y) +
+  facet_wrap(~origin, scales = "free") +
+  labs(x = "Average Wind Gust Speed (mph)", y = "Average Delay (min)")
+```
 
+D)
+```
+ggplot(flights_weather_avg, aes(x = avg_wind_gust, y = avg_dep_delay)) +
+  geom_scatter(alpha = 0.3) +
+  geom_line(method = lm) +
+  facet_wrap(~origin) +
+  labs(x = "Average Wind Gust Speed (mph)", y = "Average Delay (min)")
+```
 
 
 

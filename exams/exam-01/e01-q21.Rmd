@@ -19,7 +19,32 @@ flights <- flights %>%
 
 ```
 
+
+> Let's say we want to create a new variable that divides the day into four time intervals of:
+>
+- 12:01am-6am
+- 6:01am-12pm
+- 12:01pm-6pm
+- 6:01pm-12am
+
+> Below is every variable in the data set that is potentially relevant:
+
+| Variable Name | Description            |
+|---------------|--------------------|
+|   `sched_dep_time`| Scheduled departure time (format HHMM or HMM) |
+|   `sched_arr_time`| Scheduled departure time (format HHMM or HMM) |
+|   `hour`| Time of scheduled departure, just the hour |
+|   `minute`| Time of scheduled departure, just the minutes|
+|   `time_hour`| Scheduled date and hour of the flight as a POSIXct date |
+
 ```{r, echo=F}
+flights %>% select(sched_dep_time, sched_arr_time, hour, minute, time_hour) %>% head()
+```
+
+> Given the possible variables, which of the following code chunks helps us meet our data analysis goal of creating a new variable that divides the day into four time intervals?
+
+```{r, eval=F, echo=F}
+# Create time of day variable
 flights <- flights %>%
   mutate(time_of_day = case_when(
     sched_dep_time >= 001  & sched_dep_time <= 600  ~ "12:01am-6am",
@@ -29,77 +54,48 @@ flights <- flights %>%
   ))
 ```
 
-> Based on the last question, we created a new variable that divides the day into four time intervals and we called it `time_of_day`. 
-
-> Now, lets do something with it. 
-
-> One interesting thing is to calculate the proportion of flights that are delayed at departure for each of the four time intervals. In other words, we want to create the following table:
-
-```{r, eval=T, echo=F}
-# Find proportion of delayed flights for each time of day
-flights %>%
-  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
-  count(time_of_day, dep_delayed) %>%
-  group_by(time_of_day) %>%
-  mutate(prop_delayed = n / sum(n)) %>%
-  filter(dep_delayed == "delayed") %>%
-  arrange(prop_delayed)
-```
-
-> Interesting, flights later in the day are delayed way more often. 
-
-> Now, how do we generate this table? You only need the following two variable to do so:
-
-| Variable Name | Description            |
-|---------------|--------------------|
-|   `time_of_day`| Day divided into four blocks of time |
-|   `dep_delay`| Departure delays, in minutes. Negative times represent early departures |
-
-```{r, echo=F}
-flights %>% select(time_of_day, dep_delay) %>% head(n=8)
-```
-
-> Given these two variables, which of the following code chunks helps us meet our data analysis goal of generating the above table that shows the proportion of flights that are delayed at departure for each of the four time intervals?
-
 A)
 ```
-flights %>%
-  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
-  count(time_of_day, dep_delayed) %>%
-  group_by(time_of_day) %>%
-  mutate(prop_delayed = n / sum(n)) %>%
-  filter(dep_delayed == "delayed") %>%
-  arrange(prop_delayed)
+flights <- flights %>%
+  mutate(time_of_day = case_when(
+    hour >= 0  & hour <= 6  ~ "12:01am-6am",
+    hour > 6 & hour <= 12   ~ "6:01am-12pm",
+    hour > 12 & hour <= 18  ~ "12:01pm-6pm",
+    hour > 13 & hour <= 24  ~ "6:01pm-12am"
+  ))
 ```
+
 B)
 ```
-flights %>%
-  add_column(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
-  freq_table(time_of_day, dep_delayed) %>%
-  group_by(time_of_day) %>%
-  add_column(prop_delayed = n / sum(n)) %>%
-  filter(dep_delayed == "delayed") %>%
-  arrange(prop_delayed)
+flights <- flights %>%
+  mutate(time_of_day = case_when(
+    sched_dep_time >= 001  & sched_dep_time <= 600  ~ "12:01am-6am",
+    sched_dep_time >= 601  & sched_dep_time <= 1200 ~ "6:01am-12pm",
+    sched_dep_time >= 1201 & sched_dep_time <= 1800 ~ "12:01pm-6pm",
+    sched_dep_time >= 1801                          ~ "6:01pm-12am"
+  ))
 ```
+
 C)
 ```
-flights %>%
-  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
-  count(time_of_day, dep_delayed) %>%
-  group_by(time_of_day) %>%
-  filter(dep_delayed == "delayed") %>%
-  mutate(prop_delayed = n / sum(n)) %>%
-  arrange(prop_delayed)
+flights <- flights %>%
+  add_column(time_of_day = if_else(
+  time_hour <= 06:00:00, "12:01am-6am",
+  time_hour > 06:00:00 & time_hour <= 12:00:00, "6:01am-12pm",
+  time_hour > 12:00:00 & time_hour <= 18:00:00, "12:01pm-6pm",
+  time_hour > 18:00:00 & time_hour <= 24:00:00, "6:01pm-12am"
+))
 ```
+
 D)   
 ```
-flights %>%
-  add_column(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
-  freq_table(time_of_day, dep_delayed) %>%
-  group_by(time_of_day) %>%
-  filter(dep_delayed == "delayed") %>%
-  add_column(prop_delayed = n / sum(n)) %>%
-  arrange(prop_delayed)
+flights <- flights %>%
+  mutate(time_of_day = if_else(
+    sched_dep_time >= 001  & sched_arr_time <= 600  ~ "12:01am-6am",
+    sched_dep_time >= 601  & sched_arr_time <= 1200 ~ "6:01am-12pm",
+    sched_dep_time >= 1201 & sched_arr_time <= 1800 ~ "12:01pm-6pm",
+    sched_dep_time >= 1801 & sched_arr_time <= 2400 ~ "6:01pm-12am"
+  ))
 ```
 
 

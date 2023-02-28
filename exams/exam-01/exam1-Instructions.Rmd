@@ -16,28 +16,30 @@ knitr::opts_chunk$set(
 ```
 
 ## Logistics
-
-1. This exam is closed book, closed internet, closed other people. You **may not** consult with anyone else about this exam other than the Professors.
-
-2. You have until **end of class** to complete this exam.
-
-3. Each question is multiple choice and requires you to match output with the code that might have generated it. You will not be asked to write any code. 
-
-4. The only libraries being used, other than the data itself, comes from the `tidyverse` package. 
+>
+1. There are 20 questions on this exam, each is worth 10 points. 
+>
+2. This exam is closed book, closed internet, closed other people. You **may not** consult with anyone else about this exam other than the Professors.
+>
+3. You have until **end of class** to complete this exam.
+>
+4. Each question is multiple choice and requires you to match output with the code that might have generated it. You will not be asked to write any code. 
+>
+5. The only libraries being used, other than the data itself, comes from the `tidyverse` package. 
 
 ## Grading 
-
-The total points for the questions add up to 200 points. Each question is worth X points. Your grade will automatically be recorded on Canvas. 
+>
+The total points for the questions add up to 200 points. Your grade will automatically be recorded on Canvas. We may or may not curve the results (depends on the overall class performance).
 
 ## The Data
-
+>
 All questions are based on the `nycflights13` package. This package contains information about all flights that departed from New York City (NYC) (e.g. EWR, JFK and LGA) in 2013. The main data is in the `flights` data frame, but there are additional data sets that help explain what causes delays, specifically:
-
+>
 - `weather`: hourly meteorological data for each airport
 - `planes`: construction information about each plane
 - `airports`: airport names and locations
 - `airlines`: translation between two letter carrier codes and names
-
+>
 Although this is not "behavioral" data, we are using it because it easily allows us to cover multiple techniques that you have learned in the last seven weeks that can be applied to behavioral datasets.  
 
 ```{r, echo = F}

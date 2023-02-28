@@ -19,90 +19,88 @@ flights <- flights %>%
 
 ```
 
-> I combined the flights data set with the weather data set to create and then pulled out five relevant columns. This dataset, called `flights_weather`, is shown below:
-
-```{r, echo=FALSE}
-# flights %>% select("year", "month", "day", "origin",
-#   "hour", "dep_delay") %>% head()
+```{r, echo=F}
+flights <- flights %>%
+  mutate(time_of_day = case_when(
+    sched_dep_time >= 001  & sched_dep_time <= 600  ~ "12:01am-6am",
+    sched_dep_time >= 601  & sched_dep_time <= 1200 ~ "6:01am-12pm",
+    sched_dep_time >= 1201 & sched_dep_time <= 1800 ~ "12:01pm-6pm",
+    sched_dep_time >= 1801                          ~ "6:01pm-12am"
+  ))
 ```
 
-```{r, echo=FALSE}
-# weather <- weather %>% select("year", "month", "day", "origin", "hour", "temp") 
-# weather= weather[sample(1:nrow(weather)), ]
-#   head(weather)
+> Based on the last question, we created a new variable that divides the day into four time intervals and we called it `time_of_day`. 
+
+> Now, lets do something with it. 
+
+> One interesting thing is to calculate the proportion of flights that are delayed at departure for each of the four time intervals. In other words, we want to create the following table:
+
+```{r, eval=T, echo=F}
+# Find proportion of delayed flights for each time of day
+flights %>%
+  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
+  count(time_of_day, dep_delayed) %>%
+  group_by(time_of_day) %>%
+  mutate(prop_delayed = n / sum(n)) %>%
+  filter(dep_delayed == "delayed") %>%
+  arrange(prop_delayed)
 ```
 
-```{r echo=FALSE}
+> Interesting, flights later in the day are delayed way more often. 
 
-flights_weather <- inner_join(flights, weather, by = c(
-  "year", "month", "day", "origin",
-  "hour"
-)) %>% select(month, day, origin, dep_delay, wind_gust)
-flights_weather
+> Now, how do we generate this table? You only need the following two variable to do so:
 
-# test1 = flights_weather %>%
-#   select(month, day, origin, dep_delay, temp) %>%
-#   arrange(dep_delay) %>% tail()
-# test2 = flights_weather %>%
-#   select(month, day, origin, dep_delay, temp) %>% head()
-# 
-# rows_append(test1[1:2,], test2) %>% arrange(month, day)
+| Variable Name | Description            |
+|---------------|--------------------|
+|   `time_of_day`| Day divided into four blocks of time |
+|   `dep_delay`| Departure delays, in minutes. Negative times represent early departures |
+
+```{r, echo=F}
+flights %>% select(time_of_day, dep_delay) %>% head(n=8)
 ```
 
-> I eventually want to generate a plot to see if there is a relationship between the average daily departure delay and the average daily wind gust speed (in mph) for all three New York city airports. But to do so, I need to create a new data frame, which I will call `flights_weather_avg`, that returns columns for the average daily departure delay and the average daily wind gust speed. But how do I do the calculation?
+> Given these two variables, which of the following code chunks helps us meet our data analysis goal of generating the above table that shows the proportion of flights that are delayed at departure for each of the four time intervals?
 
-> I started the code for you. But there is a crucial bit of it missing. 
-
-```{r, eval=FALSE, echo=TRUE}
-flights_weather_avg <- flights_weather %>%
-  group_by(month, day, origin) %>%
-  "___"
-  )
+A)
 ```
-
-```{r, eval=FALSE, echo=F}
-# solution
-flights_weather_avg <- flights_weather %>%
-  group_by(month, day, origin) %>%
-  summarize(
-    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
-    avg_wind_gust = mean(wind_gust, na.rm = TRUE)
-  )
-flights_weather_avg
+flights %>%
+  add_column(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
+  freq_table(time_of_day, dep_delayed) %>%
+  group_by(time_of_day) %>%
+  add_column(prop_delayed = n / sum(n)) %>%
+  filter(dep_delayed == "delayed") %>%
+  arrange(prop_delayed)
 ```
-
-
-> Please select the correct missing code sequence from the options below:
-
-A) 
-```
-  summarize(
-    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
-    avg_wind_gust = mean(wind_gust, na.rm = TRUE)
-```
-
 B)
 ```
-  mutate(
-    avg_dep_delay = average(dep_delay, !is.na(dep_delay)),
-    avg_wind_gust = average(wind_gust, !is.na(wind_gust))
+flights %>%
+  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
+  count(time_of_day, dep_delayed) %>%
+  group_by(time_of_day) %>%
+  mutate(prop_delayed = n / sum(n)) %>%
+  filter(dep_delayed == "delayed") %>%
+  arrange(prop_delayed)
 ```
-
-C) 
+C)
 ```
-  mutate(
-    avg_dep_delay = mean(dep_delay) %>% filter(!is.na(avg_dep_delay)),
-    avg_wind_gust = mean(wind_gust) %>% filter(!is.na(avg_wind_gust)))
+flights %>%
+  mutate(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
+  count(time_of_day, dep_delayed) %>%
+  group_by(time_of_day) %>%
+  filter(dep_delayed == "delayed") %>%
+  mutate(prop_delayed = n / sum(n)) %>%
+  arrange(prop_delayed)
 ```
-
-D)
+D)   
 ```
-  filter(is.na(dep_delay) & is.na(wind_gust)) %>%
-  summarize(
-    avg_dep_delay = mean(dep_delay),
-    avg_wind_gust = mean(wind_gust))
+flights %>%
+  add_column(dep_delayed = ifelse(dep_delay > 0, "delayed", "ontime")) %>%
+  freq_table(time_of_day, dep_delayed) %>%
+  group_by(time_of_day) %>%
+  filter(dep_delayed == "delayed") %>%
+  add_column(prop_delayed = n / sum(n)) %>%
+  arrange(prop_delayed)
 ```
-
 
 
 

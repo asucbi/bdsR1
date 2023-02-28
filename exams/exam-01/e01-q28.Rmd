@@ -1,0 +1,15 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+editor_options: 
+  chunk_output_type: console
+---
+
+> This question is a freebie. 
+>
+> But it's also a reminder to do your best to arrive on time to class, and if you need to miss class or plan on being late, please notify your instructors beforehand. 
+>
+If you agree, please select option "A" from below.
+
