@@ -18,8 +18,8 @@ output:
 
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(xaringanthemer)
-knitr::opts_chunk$set(dev.args = list(bg = 'transparent'))
+# library(xaringanthemer)
+knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
 ```
 
 
@@ -276,17 +276,109 @@ dfsim %>%
 
 ## Residuals
 
-```{r}
-rand10 %>% 
-  mutate(predy = x) %>% 
-  ggplot(aes(x=x, y=y)) + 
-  geom_abline(slope = 1, intercept = 0, color="blue" ) +
+These grey lengths represent the __residuals__, the differences between the predicted value (line) and each observation (point).
+
+```{r echo=F}
+
+dfsim %>% 
+    mutate(predy = x*2/3 + -1) %>% 
+  ggplot(aes(x=x, y=y)) +
+  geom_abline(slope = 2/3, intercept = -1, color="blue" ) +
   geom_segment(aes(xend=x, yend=predy), color="grey") +
   geom_point() +
-  theme(aspect.ratio=1)
+  # theme(aspect.ratio=1)
+  # ggplot(aes(x=x, y=y)) + 
+  # geom_point() +
+  # geom_abline(intercept = -2, slope = 1, color="red") + # slightly off
+  # geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  # geom_abline(intercept = 0, slope = .5, color="purple") + # slightly off
+  # theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(),
+      # aspect.ratio=1
+  ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+
+# rand10 %>% 
+#   mutate(predy = x) %>% 
+#   ggplot(aes(x=x, y=y)) + 
+#   geom_abline(slope = 1, intercept = 0, color="blue" ) +
+#   geom_segment(aes(xend=x, yend=predy), color="grey") +
+#   geom_point() +
+#   theme(aspect.ratio=1)
 ```
 
+--
+
+Our goal is to somehow minimize these residuals. Can you think of a mathematical way we could do that?
+
 ---
+
+## Loss functions
+
+One thing we could try to do is minimize the sum of the absolute values. 
+
+$$ |e_0| + |e_1| + |e_2| + ... + |e_n| $$
+
+--
+
+This is a legitimate approach, but it has some issues. A more common approach is to minimize the __sum of the squared residuals__:
+
+$$ e_0^2 + e_1^2 + e_2^2 + ... + e_n^2 = \sum_i e_i^2$$
+
+When we do this, this is called __least squares regression__
+
+---
+
+## Minimizing loss functions
+
+
+- We want to find the parameters that will minimize this __loss function__ $L$:
+
+$$\underset{\alpha, \beta}{\mathrm{argmin}} \, L(x, y, \alpha, \beta)$$ 
+
+- $x$ and $y$ are our data, so we are looking to minimize this with respect to our __parameters__ $\alpha$ and $\beta$. 
+
+- We write our regression equation as:
+
+$$\hat{y_i} = \alpha + \beta x_i$$
+
+- Our residuals are the difference between $y$ and $\hat{y}$, so our loss function is
+
+$$L(x, y, \alpha, \beta) = \sum_i (y_i-\hat{y_i})^2$$
+
+<!-- We'll skip the calculus and linear algebra involved, but one reason to use least squares regression is that it is easy to minimize this function and find our best parameters. -->
+---
+
+## Maximum likelihood
+
+__Maximum likelihood__ approach asks: What parameter values would _maximize the likelihood_ of observing the data we observed?
+
+- Minimizing least squares is also equivalent to the maximum likelihood solution 
+- If we assume that the residuals come from a normal distribution.
+
+--
+
+.pull-left-narrow[
+
+- The __normal distribution__ is the classic bell-shaped curve.
+- This is a plot of its density, which we can read like the other histograms and density plots we've seen
+
+]
+
+.pull-right-wide[
+
+```{r, fig.height="50%"}
+ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
+  scale_y_continuous(breaks = NULL)
+```
+
+]
+
+---
+
 
 ## The purpose of models
 
