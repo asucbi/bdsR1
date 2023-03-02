@@ -1,0 +1,325 @@
+---
+title: "Linear models"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(xaringanthemer)
+knitr::opts_chunk$set(dev.args = list(bg = 'transparent'))
+```
+
+
+## Models as functions
+
+.hand[
+Remember we said the data is a _function_ of the model and noise
+]
+
+$$\text{data} = f(\text{model, noise})$$
+--
+
+- In principle, that function $f$ can be almost anything. 
+- In practice, we can often do a good job of describing the data by defining $f$ to be some linear function---then we have a __linear model__.
+---
+
+## Lines
+
+.pull-left[
+The simplest kind of linear model is a line!
+$$y = mx + b $$
+
+- m is the slope
+- b is the y-intercept
+]
+
+--
+
+.pull-right[
+In statistics we like to use greek letters
+
+$$ y = \alpha + \beta x$$
+- $\alpha$ is the __intercept__
+- $\beta$ is the __coefficient__ for the predictor $x$
+
+$\alpha$ and $\beta$ are our __parameters__
+]
+
+---
+
+## Predicting $y$ from $x$
+
+Say we have some points on $x$ and $y$ and we want to create a model of $y$ based on $x$.
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+
+standardize <- function(x){
+  (x-mean(x))/sd(x)
+}
+
+
+N <- 10
+
+set.seed(13312)
+
+dfsim <- tibble(
+  x = rnorm(N, 2, 2),
+  y = -1 + 2/3*x + rnorm(N, 0, 2)
+) %>% 
+  # mutate(x = x*2, y = y*2) %>% 
+  bind_rows(
+    tribble(
+      ~x, ~y,
+      3, 1,
+      6, 3
+    )
+  )
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+    panel.grid=element_blank(), 
+    aspect.ratio=1
+    ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+```
+]
+--
+.pull-right-narrow[
+Suppose we wanted to predict the value of $y$ when $x = 2$. 
+
+What would you predict? 
+]
+
+---
+
+## Predicting visually
+
+First, we can do this visually:
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  annotate("rect", xmin=1.5, xmax=2.5, ymin=-Inf, ymax=Inf, alpha=.5, fill="grey") +
+  geom_point() +
+  geom_point(aes(x=2, y = .5), size=3, color="blue") +
+  # geom_segment(aes(x = 2, xend=2, y=.5, yend=-Inf), linetype="dashed", color="red") +
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(), 
+      aspect.ratio=1
+  ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+```
+]
+
+.pull-right-narrow[
+Suppose we wanted to predict the value of $y$ when $x = 2$. 
+
+What would you predict? 
+]
+
+---
+
+## Predicting visually
+
+
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(), 
+      aspect.ratio=1
+  ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+```
+]
+
+.pull-right-narrow[
+Now what if we wanted to be able to this for any value of $x$? If you string all those points together, you get a line.
+]
+
+---
+
+## Fitting a line to two points
+
+How can we actually fit these lines without just drawing them based on sight?
+
+.pull-left-wide[
+
+Say we had only two points: (3, 1) and (6, 3)
+
+```{r, echo=F, out.width="80%", fig.align="center"}
+dfsim %>%
+  tail(2) %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  # geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(), 
+      aspect.ratio=.5
+  ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8)) +
+  xlim(0, 8) +
+  ylim(0, 4)
+```
+]
+
+--
+
+.pull-right-narrow[
+
+
+Well if you remember your high school algebra, we can solve this system of equations:
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\alpha + \beta \cdot 6 & = 3
+\end{align}
+$$
+]
+
+---
+
+## Finding parameters from two points
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\alpha + \beta \cdot 6 & = 3
+\end{align}
+$$
+
+--
+
+Working through the steps:
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\beta \cdot 3 & = 2
+\end{align}
+$$
+
+--
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\beta & = 2/3
+\end{align}
+$$
+
+--
+
+And then by substitution you can find $\alpha = -1$.
+
+So our __parameters__ are $\beta = 2/3$ and $\alpha = -1$ 
+
+---
+
+## Fitting lines to many points
+
+.hand[No line is perfect, how can we tell which line is best?]
+
+```{r echo=F}
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  geom_abline(intercept = -2, slope = 1, color="red") + # slightly off
+  geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  geom_abline(intercept = 0, slope = .5, color="purple") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(), 
+      aspect.ratio=1
+  ) +
+  scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+```
+
+---
+
+## Residuals
+
+```{r}
+rand10 %>% 
+  mutate(predy = x) %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_abline(slope = 1, intercept = 0, color="blue" ) +
+  geom_segment(aes(xend=x, yend=predy), color="grey") +
+  geom_point() +
+  theme(aspect.ratio=1)
+```
+
+---
+
+## The purpose of models
+
+As (data) scientists, we use models for ...
+
+- __Prediction__
+	- Predict a value
+	- Forecast the future
+	- Classify into categories
+- __Inference__
+	- Describe relationships
+		- e.g. between lead exposure and personality
+		- e.g. between sleep deprivation and response times in a cognitive task
+	- Test interventions to determine causal relationships
+
+---
+
+## Modeling workflow
+
+__Initial steps__
+- Process data
+- Visualize potential relationships between variables
+
+__Modeling__
+- Propose a model (or set of models)
+- Evaluate the model and conduct checks
+	- Predictive checks
+	- Examine residuals (prediction errors)
+- Compare the models and select the best
+	- Start simple, examine whether you need to add complexity
+	- Or start complex and compare with "reduced" models
+
+--
+
+.hand[And repeat these modeling steps as needed!]
+---
