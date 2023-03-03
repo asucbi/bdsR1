@@ -372,46 +372,91 @@ __Maximum likelihood__ approach asks: What parameter values would _maximize the 
 ```{r, fig.height="50%"}
 ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
-  scale_y_continuous(breaks = NULL)
+  scale_y_continuous(breaks = NULL) +
+  theme_bw()
 ```
 
 ]
 
 ---
 
+## Maximum likelihood regression
 
-## The purpose of models
+```{r}
+## borrowed from:
+## https://stackoverflow.com/a/62553817/8297546
+set.seed(234524)
+x <- seq(-2.5,2.5,length.out=5)
+y <- x*0.5
 
-As (data) scientists, we use models for ...
+# x <- x - mean(x)
+# y <- y - mean(y)
 
-- __Prediction__
-	- Predict a value
-	- Forecast the future
-	- Classify into categories
-- __Inference__
-	- Describe relationships
-		- e.g. between lead exposure and personality
-		- e.g. between sleep deprivation and response times in a cognitive task
-	- Test interventions to determine causal relationships
+df <- data.frame(x, y)
+
+# For every row in `df`, compute a rotated normal density centered at `y` and shifted by `x`
+curves <- lapply(seq_len(NROW(df)), function(i) {
+  mu <- df$y[i]
+  range <- mu + c(-3, 3)
+  seq <- seq(range[1], range[2], length.out = 100)
+  data.frame(
+    x = 1 * dnorm(seq, mean = mu) + df$x[i],
+    y = seq,
+    grp = i
+  )
+})
+
+# Combine above densities in one data.frame
+curves <- do.call(rbind, curves)
+
+sim_obs_data <- tibble(
+  x = sample(seq(-3,3,.1), size=200, replace=T),
+  y = x*.5 + rnorm(200, 0, 1)
+)
+
+ggplot(mapping=aes(x, y)) +
+  # geom_line() +
+  geom_abline(slope=.5, intercept=0) +
+  # The path draws the curve
+  # geom_path(data = curves, aes(x=x, group = grp)) +
+  # The polygon does the shading. We can use `oob_squish()` to set a range.
+  geom_polygon(data = curves, aes(x=x, group = grp), alpha=.33, fill="blue") +
+  geom_point(data = sim_obs_data) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
 
 ---
 
-## Modeling workflow
+## Central Limit Theorem
 
-__Initial steps__
-- Process data
-- Visualize potential relationships between variables
-
-__Modeling__
-- Propose a model (or set of models)
-- Evaluate the model and conduct checks
-	- Predictive checks
-	- Examine residuals (prediction errors)
-- Compare the models and select the best
-	- Start simple, examine whether you need to add complexity
-	- Or start complex and compare with "reduced" models
+.hand[Why make a model that assumes the errors are normally distributed?]
 
 --
+- Many quantities end up approximately normally distributed
+- This is due to the __Central Limit Theorem__
 
-.hand[And repeat these modeling steps as needed!]
+__Central Limit Theorem __
+
+If $x_1, x_2, ..., x_n$ are random samples from a population with overall mean $\mu$ and finite variance $\sigma^2$, then the limiting form of the distribution of these samples $X$ is a normal distribution
+
+<!-- See chapter 13 of Intro to modern statistics for more  -->
+---
+
+class: middle
+
+# Example: Fitting a model of height and weight
+
+---
+
+## Height and weight data
+
+```{r, echo=T}
+data("Howell1")
+head(Howell1)
+```
+
+
+
 ---
