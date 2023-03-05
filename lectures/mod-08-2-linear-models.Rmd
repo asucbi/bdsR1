@@ -12,15 +12,6 @@ output:
       highlightStyle: solarized-light
       countIncrementalSlides: false
 ---
-<style>
-
-.xsmall-scrunched {
-  line-height: .65;
-  font-size: 65%;
-}
-
-</style>
-
 
 ```{r child = "setup.Rmd"}
 ```
@@ -29,6 +20,8 @@ output:
 library(tidyverse)
 # library(xaringanthemer)
 knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
+
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
 ```
 
 
@@ -500,8 +493,8 @@ head(howell)
 knitr::include_graphics("img/San_Schmuck.jpeg")
 ```
 
-.xsmall-scrunched[By Staehler - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=45076017]
-
+.xsmall[
+By Staehler - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=45076017]
 ]
 
 
@@ -535,6 +528,7 @@ fit <- lm(weight ~ height, data = howell)
 ```{r, echo=T}
 fit
 ```
+
 The model has two parameters (coefficients):
 - A parameter for the __intercept__ ( $\alpha$ )
    - Represents the predicted value of weight if height = 0 cm
@@ -619,6 +613,7 @@ $$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$
 ---
 
 ## $R^2$ and variance
+
 Remember:
 
 $$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$
@@ -632,6 +627,11 @@ $$\sigma_y^2 = \frac{1}{n}\sum_n (y-\bar{y})^2$$
 	- Error variance = $\sum (y-\hat{y})^2$
 	
 $$R^2 = \frac{\text{Total SS} - \text{Error SS}}{\text{Total SS}}$$
+---
+
+## Visualizing variance
+
+
 
 ---
 
@@ -643,7 +643,7 @@ summary(fit)
 ```
 ]
 
-For our model, $R^2 = .57$, so our model using height explains 57/% of the variance in weights.
+For our model, $R^2 = .57$, so our model using height explains 57% of the variance in weights.
 ---
 
 ## Making predictions
@@ -657,6 +657,8 @@ $$
 \end{align}
 $$
 
+--
+
 We can also do this directly (and exactly) with our model in `R`:
 
 ```{r, echo=T}
@@ -665,3 +667,21 @@ predict(fit, tibble(height = 176))
 
 ---
 
+## Visualizing predictions
+
+.small[
+
+```{r, echo = T}
+preds <- howell %>% 
+  filter(height == min(height) | height == max(height)) %>% 
+  mutate(predicted = predict(fit, .))
+
+howell %>% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point() +
+  geom_line(data = preds, aes(x=height, y = predicted), color = "blue")
+  
+```
+]
+
+---
