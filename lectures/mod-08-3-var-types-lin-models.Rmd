@@ -1,0 +1,198 @@
+---
+title: "Variable types in linear models"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+<style>
+
+.xsmall-scrunched {
+  line-height: .65;
+  font-size: 65%;
+}
+
+</style>
+
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+# library(xaringanthemer)
+knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
+```
+
+
+# Variable types
+
+---
+
+## Variable types
+- __Continuous__: Numerical variables that can take on any value within some range
+  - Can also treat integer values as continuous when they span a sufficient range
+    - e.g. "number of items correct" could be treated as continuous if a test had 50 items, probably not if it was just 5 items
+
+- __Discrete__
+  - __Binary__: Taking on just 1 or 0
+  - __Categorical__: Taking on more than 2 levels
+---
+
+## Transformations of continuous variables
+
+- In our regression of heights and weights of the !Kung San people, the intercept was -52.3 cm. That's a bit odd!
+- Regression coefficients must be interpreted when the other predictors are zero. For the intercept, -52.3 cm is the predicted height if weight is zero.
+
+$$\hat{y} = -52.3 + .63 & * \text{height}$$
+
+.question[How could we make our regression parameters more meaningful and relevant?]
+---
+
+## Centering variables
+
+- One technique that can help produce more meaningful regression coefficients is __centering__
+
+```{r, echo=T}
+center <- function(x){
+  x - mean(x)
+}
+```
+
+---
+
+## Regression with centered predictors
+
+.tip[
+Centering the `height` predictor makes the intercept coefficient represent the mean of the response variable.
+]
+
+```{r}
+d <- howell %>% 
+  mutate(height_c = center(height))
+
+(fit_centered <- lm(weight ~ height_c, data = d))
+mean(howell$weight)
+```
+
+---
+
+## Standardization
+
+- The $\beta$ coefficient has meaningful units: kg/cm
+- But sometimes we have coefficients with less meaningful/more confusing units
+- And other times we want to compare relative impacts across different units.
+
+In these cases it can be helpful to __standardize__ both the response and predictor variables.
+
+---
+
+## Standardization
+
+To standardize variables we convert them into Z-scores:
+
+$$Z = \frac{x-\bar{x}}{\sigma_x}$$
+
+```{r}
+standardize <- function(x){
+  (x - mean(x))/sd(x)
+}
+```
+
+---
+
+## Standardized regression
+
+```{r}
+d <- howell %>% mutate_all(standardize)
+
+(fit_z <- lm(weight ~ height, data = d))
+```
+
+
+- Now the `weight` coefficient represents the change in weight for a change in height in units of standard deviation
+- A one standard deviation change in height is associated with a .75 standard deviation change in weight
+- __Note__: Another nice thing about standardized regression is that the $\beta$ coefficients represent the __partial correlations__ between the predictor and response variables. In a simple regression, $\beta$ is equal to the Pearson correlation $r$.
+
+```{r}
+cor(howell$height, howell$weight)
+```
+
+---
+
+## Binary variables
+
+- __Binary variables__ are discrete variables taking on only two unique values.
+- These variables can be entered into the regression as `1`s and `0`s
+- The `male` variable is already in this format
+
+```{r}
+head(howell)
+```
+
+---
+
+## Binary variables in regression
+
+```{r}
+(lm(weight ~ male, data = howell))
+```
+
+- The $\beta$ coefficient of a binary variable represents the difference between the average of the group coded as `0` and the group coded as `1`
+- Males are on average 6.78 kg heavier than females (here males were coded as `1` and females as `0`)
+
+.question[
+Notice that we obtained a different intercept in this regression model. What does this value represent?
+]
+
+---
+
+## Categorical variables
+
+__Dummy coding__ is the most common approach to entering categorical variables into regression
+
+- One level of the categorical variable is chosen to be the "reference level"
+- Then, for a factor with $k$ levels, dummy coding creates $k-1$ new binary variables that represent the other levels
+- Then in the regression equation, the $k-1$ coefficients associated with these variables each represent the average difference in the response variable for that level of the categorical variable as compared with the reference level
+
+---
+
+## Dummy coding
+
+To illustrate, suppose we created a categorical variable with 3 levels to represent three different age groups
+
+```{r echo=T}
+d <- howell %>% mutate(age_bin = cut(age, c(17, 30, 55, Inf))) 
+```
+
+If we choose the 17-30 y/o group to be the reference, then dummy coding would create the two `dummy` variables like so:
+
+```{r}
+d %>% 
+  distinct(age_bin) %>% 
+  mutate(
+    dummy1 = if_else(age_bin == "(30,55]", 1, 0),
+    dummy2 = if_else(age_bin == "(55,Inf]", 1, 0)
+    ) %>% arrange(age_bin)
+```
+
+---
+
+## Categorical variables in `lm()`
+
+- Categorical variables can be passed directly into `lm()`
+- `lm()` will automatically "dummy code" these variables, appending the level of the variable to the coefficient name.
+
+```{r}
+(lm(weight ~ age_bin, data = d))
+```
+
+---
+

@@ -1,0 +1,687 @@
+---
+title: "Linear models"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+# library(xaringanthemer)
+knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
+
+ggplot2::theme_set(ggplot2::theme_bw(base_size = 20))
+```
+
+
+## Models as functions
+
+.hand[
+Remember we said the data is a _function_ of the model and noise
+]
+
+$$\text{data} = f(\text{model, noise})$$
+--
+
+- In principle, that function $f$ can be almost anything. 
+- In practice, we can often do a good job of describing the data by defining $f$ to be some linear function---then we have a __linear model__.
+---
+
+## Lines
+
+.pull-left[
+The simplest kind of linear model is a line!
+$$y = mx + b $$
+
+- m is the slope
+- b is the y-intercept
+]
+
+--
+
+.pull-right[
+In statistics we like to use greek letters
+
+$$ y = \alpha + \beta x$$
+- $\alpha$ is the __intercept__
+- $\beta$ is the __coefficient__ for the predictor $x$
+
+$\alpha$ and $\beta$ are our __parameters__
+]
+
+---
+
+## Predicting $y$ from $x$
+
+Say we have some points on $x$ and $y$ and we want to create a model of $y$ based on $x$.
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+
+standardize <- function(x){
+  (x-mean(x))/sd(x)
+}
+
+
+N <- 10
+
+set.seed(234234)
+
+dfsim <- tibble(
+  x = rnorm(N, 3, 2),
+  y = 3 + 2/3*x + rnorm(N, 0, 1)
+) #%>% 
+  # mutate(x = x*2, y = y*2) %>% 
+  # bind_rows(
+  #   tribble(
+  #     ~x, ~y,
+  #     3, 1,
+  #     6, 3
+  #   )
+  # )
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+    panel.grid=element_blank()
+    ) +
+  coord_cartesian()
+```
+]
+--
+.pull-right-narrow[
+Suppose we wanted to predict the value of $y$ when $x = 4.5$. 
+
+What would you predict? 
+]
+
+---
+
+## Predicting visually
+
+First, we can do this visually:
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  annotate("rect", xmin=4, xmax=5, ymin=-Inf, ymax=Inf, alpha=.5, fill="grey") +
+  geom_point() +
+  geom_point(aes(x = 4.5, y = 5.8), size=3, color="blue") +
+  # geom_segment(aes(x = 2, xend=2, y=.5, yend=-Inf), linetype="dashed", color="red") +
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank()
+  ) +
+  coord_cartesian()
+  # scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
+```
+]
+
+.pull-right-narrow[
+Suppose we wanted to predict the value of $y$ when $x = 5$. 
+
+.question[What would you predict?]
+]
+
+---
+
+## Predicting visually
+
+.pull-left-wide[
+
+```{r, echo=F, out.width="150%"}
+
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  geom_abline(intercept = 2.5, slope = 2/3, color="blue") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank()
+  ) +
+  coord_cartesian()
+```
+]
+
+.pull-right-narrow[
+Now what if we wanted to be able to this for any value of $x$? If you string all those points together, you get a line.
+]
+
+---
+
+## Fitting a line to two points
+
+.hand[How can we actually fit these lines without just drawing them based on sight?]
+
+.pull-left-wide[
+
+Say we had only two points: (3, 1) and (6, 3)
+
+```{r, echo=F, out.width="80%", fig.align="center"}
+dfsim %>%
+  tail(2) %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  # geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(), 
+      # aspect.ratio=.5
+  ) +
+  coord_cartesian()
+```
+]
+
+--
+
+.pull-right-narrow[
+
+
+Well if you remember your high school algebra, we can solve this system of equations:
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\alpha + \beta \cdot 6 & = 3
+\end{align}
+$$
+]
+
+---
+
+## Finding parameters from two points
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\alpha + \beta \cdot 6 & = 3
+\end{align}
+$$
+
+--
+
+Working through the steps:
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\beta \cdot 3 & = 2
+\end{align}
+$$
+
+--
+
+$$
+\begin{align}
+\alpha + \beta \cdot 3 & = 1 \\
+\beta & = 2/3
+\end{align}
+$$
+
+--
+
+And then by substitution you can find $\alpha = -1$.
+
+So our __parameters__ are $\beta = 2/3$ and $\alpha = -1$ 
+
+---
+
+## Fitting lines to many points
+
+.question[No line is perfect, how can we tell which line is best?]
+
+```{r echo=F}
+dfsim %>% 
+  ggplot(aes(x=x, y=y)) + 
+  geom_point() +
+  geom_abline(intercept = 1, slope = 1, color="red") + # slightly off
+  geom_abline(intercept = 2.5, slope = 2/3, color="blue") + # slightly off
+  geom_abline(intercept = 4, slope = .33, color="purple") + # slightly off
+  theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank()
+  ) +
+  coord_cartesian()
+```
+
+---
+
+## Residuals
+
+These grey lengths represent the __residuals__, the differences between the predicted value (line) and each observation (point).
+
+```{r echo=F, out.height="40%"}
+
+dfsim %>% 
+    mutate(predy = x*2/3 + 2.5) %>% 
+  ggplot(aes(x=x, y=y)) +
+  geom_abline(slope = 2/3, intercept = 2.5, color="blue" ) +
+  geom_segment(aes(xend=x, yend=predy), color="grey") +
+  geom_point() +
+  # theme(aspect.ratio=1)
+  # ggplot(aes(x=x, y=y)) + 
+  # geom_point() +
+  # geom_abline(intercept = -2, slope = 1, color="red") + # slightly off
+  # geom_abline(intercept = -1.1, slope = 2/3.1, color="blue") + # slightly off
+  # geom_abline(intercept = 0, slope = .5, color="purple") + # slightly off
+  # theme(aspect.ratio=1) +
+  theme_bw(base_size = 20) +
+  theme(
+      panel.grid=element_blank(),
+      # aspect.ratio=1
+  ) +
+  coord_cartesian()
+
+# rand10 %>% 
+#   mutate(predy = x) %>% 
+#   ggplot(aes(x=x, y=y)) + 
+#   geom_abline(slope = 1, intercept = 0, color="blue" ) +
+#   geom_segment(aes(xend=x, yend=predy), color="grey") +
+#   geom_point() +
+#   theme(aspect.ratio=1)
+```
+
+--
+
+.question[Can you think of a mathematical way to minimize these errors?]
+
+---
+
+## Loss functions
+
+One thing we could try to do is minimize the sum of the absolute values. 
+
+$$ |e_0| + |e_1| + |e_2| + ... + |e_n| $$
+
+--
+
+This is a legitimate approach, but it has some issues. A more common approach is to minimize the __sum of the squared residuals__:
+
+$$ e_0^2 + e_1^2 + e_2^2 + ... + e_n^2 = \sum_i e_i^2$$
+
+When we do this, this is called __least squares regression__
+
+---
+
+## Minimizing loss functions
+
+
+- We want to find the parameters that will minimize this __loss function__ $L$:
+
+$$\underset{\alpha, \beta}{\mathrm{argmin}} \, L(x, y, \alpha, \beta)$$ 
+
+- $x$ and $y$ are our data, so we are looking to minimize this with respect to our __parameters__ $\alpha$ and $\beta$. 
+
+- We write our regression equation as:
+
+$$\hat{y_i} = \alpha + \beta x_i$$
+
+- Our residuals are the difference between $y$ and $\hat{y}$, so our loss function is
+
+$$L(x, y, \alpha, \beta) = \sum_i (y_i-\hat{y_i})^2$$
+
+<!-- We'll skip the calculus and linear algebra involved, but one reason to use least squares regression is that it is easy to minimize this function and find our best parameters. -->
+---
+
+## Another approach: Maximum likelihood
+
+The __Maximum Likelihood__ approach asks: What parameter values would _maximize the likelihood_ of observing the data we observed?
+
+- Minimizing least squares is also equivalent to the maximum likelihood solution 
+- If we assume that the residuals come from a normal distribution.
+
+--
+
+.pull-left-narrow[
+
+- The __Normal distribution__ is the classic bell-shaped curve.
+- This is a plot of its density, which we can read like the other histograms and density plots we've seen
+
+]
+
+.pull-right-wide[
+
+```{r, fig.height="50%"}
+ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
+  scale_y_continuous(breaks = NULL) +
+  theme_bw()
+```
+
+]
+
+---
+
+## Maximum Likelihood regression
+
+.midi[
+- Under both least-squares and maximum likelihood regression, we build our model imagining that the true $y$ values will be a function of our model plus Normal random noise.
+- I.e., we assume that the true values will be randomly Normally distributed around the predicted values from our model.
+]
+
+```{r}
+## borrowed from:
+## https://stackoverflow.com/a/62553817/8297546
+set.seed(234524)
+x <- seq(-2.5,2.5,length.out=5)
+y <- x*0.5
+
+# x <- x - mean(x)
+# y <- y - mean(y)
+
+df <- data.frame(x, y)
+
+# For every row in `df`, compute a rotated normal density centered at `y` and shifted by `x`
+curves <- lapply(seq_len(NROW(df)), function(i) {
+  mu <- df$y[i]
+  range <- mu + c(-3, 3)
+  seq <- seq(range[1], range[2], length.out = 100)
+  data.frame(
+    x = 1 * dnorm(seq, mean = mu) + df$x[i],
+    y = seq,
+    grp = i
+  )
+})
+
+# Combine above densities in one data.frame
+curves <- do.call(rbind, curves)
+
+sim_obs_data <- tibble(
+  x = sample(seq(-3,3,.1), size=200, replace=T),
+  y = x*.5 + rnorm(200, 0, 1)
+)
+
+ggplot(mapping=aes(x, y)) +
+  # geom_line() +
+  geom_abline(slope=.5, intercept=0) +
+  # The path draws the curve
+  # geom_path(data = curves, aes(x=x, group = grp)) +
+  # The polygon does the shading. We can use `oob_squish()` to set a range.
+  geom_polygon(data = curves, aes(x=x, group = grp), alpha=.33, fill="blue") +
+  geom_point(data = sim_obs_data) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+
+---
+
+## Central Limit Theorem
+
+.hand[Why make a model that assumes the errors are normally distributed?]
+
+--
+- Many quantities end up approximately normally distributed
+- This is due to the __Central Limit Theorem__
+
+__Central Limit Theorem __
+
+If $x_1, x_2, ..., x_n$ are random samples from a population with overall mean $\mu$ and finite variance $\sigma^2$, then the limiting form of the distribution of these samples $X$ is a normal distribution
+
+<!-- See chapter 13 of Intro to modern statistics for more  -->
+---
+
+class: middle
+
+# Example: Fitting a model of height and weight
+
+---
+
+## Linear model vocabulary
+
+- __Response variable__: Variable whose behavior or variation you are trying to understand (denoted $y$)
+- __Predictor variables__: Other variables that you want to use to predict and/or explain the variation in the response
+  - Commonly denoted as $x$ for an individual predictor or $X$ to refer to a set of multiple predictors
+- __Parameters__
+  - Commonly denoted with greek letters $\alpha$ and $\beta$ (with $\beta_i$ for multiple predictors)
+<!-- - __Predicted values__ (denoted $\hat{y}$) -->
+<!-- - __Residuals__ = Observed values - Predicted values -->
+
+--
+
+.tip[
+It can be very tempting to interpret the relationships between predictors and D.V. as _causal relationships_ (esp. when using terms like "outcome" for the D.V.). 
+
+__Be careful:__ Nothing about the regression makes anything causal, the D.V. and predictors could just as easily be swapped!
+]
+---
+
+## Height and weight data
+
+- We'll examine the relationship between height and weight measurements of the Kalahari !Kung San people collected by anthropologist Nancy Howell in the 1960s.  
+- The ǃKung are one of the San peoples who live mostly on the western edge of the Kalahari desert, Ovamboland (northern Namibia and southern Angola), and Botswana. 
+- In anthropological circles, they are probably the most famous modern foraging society.
+
+.pull-left[
+
+```{r, echo=F}
+howell <- read_csv("../data/howell1.csv") %>% 
+  filter(age >= 18)
+```
+
+```{r, echo=T}
+head(howell)
+```
+]
+
+.pull-right[
+
+```{r, echo=F}
+knitr::include_graphics("img/San_Schmuck.jpeg")
+```
+
+.xsmall[
+By Staehler - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=45076017]
+]
+
+
+---
+
+## Visualizing height and weight
+
+```{r, echo=T}
+howell %>% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point()
+```
+
+---
+
+## Fitting a model with `lm()`
+
+```{r, echo=T}
+fit <- lm(weight ~ height, data = howell)
+```
+
+- The function `lm()` fits a __L__inear __M__odel. 
+- The first argument is given as `R` __formula syntax__
+  - `DV ~ predictors`
+  - the `~` can be read as "predicted by" or "regressed on"
+
+---
+
+## Examining the model parameters
+  
+```{r, echo=T}
+fit
+```
+
+The model has two parameters (coefficients):
+- A parameter for the __intercept__ ( $\alpha$ )
+   - Represents the predicted value of weight if height = 0 cm
+- A parameter for __height__ ( $\beta$ )
+  - Represents the increase in the dependent variable for a one unit increase in the height predictor variable
+  - Units are kg/cm
+
+---
+
+## Evaluating the model
+
+We will evaluate the model in two ways:
+
+- Model checks
+- Evaluate the model fit
+
+---
+
+## Model checks
+
+To evaluate whether our model is appropriate, we will examine the __residuals__. We'll create:
+
+- Histogram: Basic check for normality
+- Quantile-quantile plot: A more sensitive check for normality
+- Residual x predicted plot: Residuals should be __noise__, so we check there are no relationship between the predicted values and the residuals.
+
+---
+
+## Model checks: Residual Histogram
+
+.question[Check: Do the residuals appear normally distributed?]
+
+```{r}
+tibble(residual = fit$residuals) %>% 
+  ggplot(aes(x=residual)) +
+  geom_histogram()
+```
+
+---
+
+## Model checks: Quantile-quantile plot
+
+.question[Check: Are all the points following the line?]
+
+```{r}
+tibble(residual = fit$residuals) %>% 
+  ggplot(aes(sample = residual)) + # NOTE: stat_qq* expect a sample aesthetic
+  stat_qq() +
+  stat_qq_line()
+```
+
+---
+
+## Model checks: predicted x residual plot
+
+.question[
+Check: Are there any relationships between predicted values and the residuals? Ideally, the scatterplot should look like a "cloud of points"
+]
+
+```{r}
+tibble(
+  predicted = fit$fitted.values,
+  residual = fit$residuals
+) %>% 
+  ggplot(aes(x = predicted, y = residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+```
+
+---
+
+## Quantifying model fit with $R^2$
+
+.hand[Finally, we want to ask: How well does our model account for our data?]
+
+- __ $R^2$ __ is an "absolute" measure of model fit
+- Represents the proportion of variance in $y$ explained by the model
+  - Ranges from 0 to 1, or 0% to 100%
+  - It is "absolute" because 0% represents no fit at all, and 100% represents the best possible
+
+$$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$
+---
+
+## $R^2$ and variance
+
+Remember:
+
+$$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$
+
+__Variance__ is defined as:
+
+$$\sigma_y^2 = \frac{1}{n}\sum_n (y-\bar{y})^2$$
+
+- $R^2$ in terms of the partitioning sum of squares:
+	- Total sum of squares = $\sum (y-\bar{y})^2$ 
+	- Error variance = $\sum (y-\hat{y})^2$
+	
+$$R^2 = \frac{\text{Total SS} - \text{Error SS}}{\text{Total SS}}$$
+---
+
+## Visualizing variance
+
+
+
+---
+
+## Examining model fit
+
+.small[
+```{r, echo=T}
+summary(fit)
+```
+]
+
+For our model, $R^2 = .57$, so our model using height explains 57% of the variance in weights.
+---
+
+## Making predictions
+
+Suppose we meet a new !Kung San villager and they graciously allow us to measure their height, which we find to be 176 cm. We can use our model to predict their weight.
+
+$$
+\begin{align}
+\hat{y} = -52.3 + .63 & * \text{height} \\
+-52.3 + .63 & * 176 \approx 58.5
+\end{align}
+$$
+
+--
+
+We can also do this directly (and exactly) with our model in `R`:
+
+```{r, echo=T}
+predict(fit, tibble(height = 176))
+```
+
+---
+
+## Visualizing predictions
+
+.small[
+
+```{r, echo = T}
+preds <- howell %>% 
+  filter(height == min(height) | height == max(height)) %>% 
+  mutate(predicted = predict(fit, .))
+
+howell %>% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point() +
+  geom_line(data = preds, aes(x=height, y = predicted), color = "blue")
+  
+```
+]
+
+---
