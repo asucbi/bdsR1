@@ -68,14 +68,11 @@ Provide an abstract, mathematical description of the topic or process of scienti
 ]
 
 --
-In the context of data science ...
+In the context of data science we create models of the __data generating process__.
 
 - __Data__ are the objects of interest
-- Work construct model of the process or processes that generated that data
+- Work to construct model of the process or processes that generated that data
 
---
-
-We create models of the __data generating process__.
 
 ---
 
@@ -100,7 +97,7 @@ The data are a _function_ of the model and noise.
 As (data) scientists, we use models for ...
 
 - __Prediction__
-	- Predict a value
+	- Predict a value for a new hypothetical observation
 	- Forecast the future
 	- Classify into categories
 - __Inference__
@@ -120,8 +117,8 @@ __Initial steps__
 __Modeling__
 - Propose a model (or set of models)
 - Evaluate the model and conduct checks
-	- Predictive checks
 	- Examine residuals (prediction errors)
+	- Examine the quality of the model's predictions (the "fit" of the model)
 - Compare the models and select the best
 	- Start simple, examine whether you need to add complexity
 	- Or start complex and compare with "reduced" models

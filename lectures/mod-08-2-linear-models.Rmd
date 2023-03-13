@@ -57,7 +57,7 @@ $$ y = \alpha + \beta x$$
 - $\alpha$ is the __intercept__
 - $\beta$ is the __coefficient__ for the predictor $x$
 
-$\alpha$ and $\beta$ are our __parameters__
+$\alpha$ and $\beta$ are the __parameters__ of the model
 ]
 
 ---
@@ -101,7 +101,8 @@ dfsim %>%
   theme(
     panel.grid=element_blank()
     ) +
-  coord_cartesian()
+  coord_cartesian() +
+  xlim(1, 5)
 ```
 ]
 --
@@ -123,24 +124,27 @@ First, we can do this visually:
 
 dfsim %>% 
   ggplot(aes(x=x, y=y)) + 
-  annotate("rect", xmin=4, xmax=5, ymin=-Inf, ymax=Inf, alpha=.5, fill="grey") +
+  annotate("rect", xmin=2, xmax=3, ymin=-Inf, ymax=Inf, alpha=.5, fill="grey") +
   geom_point() +
-  geom_point(aes(x = 4.5, y = 5.8), size=3, color="blue") +
+  geom_point(aes(x = 2.5, y = 4.5), size=3, color="blue") +
   # geom_segment(aes(x = 2, xend=2, y=.5, yend=-Inf), linetype="dashed", color="red") +
   theme(aspect.ratio=1) +
   theme_bw(base_size = 20) +
   theme(
       panel.grid=element_blank()
   ) +
-  coord_cartesian()
+  coord_cartesian()+
+  xlim(1, 5)
   # scale_x_continuous(breaks = c(-2, 0, 2, 4, 6, 8))
 ```
 ]
 
 .pull-right-narrow[
-Suppose we wanted to predict the value of $y$ when $x = 5$. 
+Suppose we wanted to predict the value of $y$ when $x = 2.5$. 
 
-.question[What would you predict?]
+.question[
+What would you predict?
+]
 ]
 
 ---
@@ -160,12 +164,13 @@ dfsim %>%
   theme(
       panel.grid=element_blank()
   ) +
-  coord_cartesian()
+  coord_cartesian() +
+  xlim(1, 5)
 ```
 ]
 
 .pull-right-narrow[
-Now what if we wanted to be able to this for any value of $x$? If you string all those points together, you get a line.
+Now what if we wanted to be able to this for any value of $x$? If you string all the points we could predict together, you get a line.
 ]
 
 ---
@@ -174,11 +179,12 @@ Now what if we wanted to be able to this for any value of $x$? If you string all
 
 .hand[How can we actually fit these lines without just drawing them based on sight?]
 
+--
 .pull-left-wide[
 
 Say we had only two points: (3, 1) and (6, 3)
 
-```{r, echo=F, out.width="80%", fig.align="center"}
+```{r, echo=F, out.width="60%", fig.align="center"}
 dfsim %>%
   tail(2) %>% 
   ggplot(aes(x=x, y=y)) + 
@@ -190,7 +196,8 @@ dfsim %>%
       panel.grid=element_blank(), 
       # aspect.ratio=.5
   ) +
-  coord_cartesian()
+  coord_cartesian() +
+  xlim(1, 5)
 ```
 ]
 
@@ -312,6 +319,8 @@ dfsim %>%
 
 ## Loss functions
 
+--
+
 One thing we could try to do is minimize the sum of the absolute values. 
 
 $$ |e_0| + |e_1| + |e_2| + ... + |e_n| $$
@@ -350,8 +359,7 @@ $$L(x, y, \alpha, \beta) = \sum_i (y_i-\hat{y_i})^2$$
 
 The __Maximum Likelihood__ approach asks: What parameter values would _maximize the likelihood_ of observing the data we observed?
 
-- Minimizing least squares is also equivalent to the maximum likelihood solution 
-- If we assume that the residuals come from a normal distribution.
+- If we assume that the residuals come from a normal distribution, then minimizing least squares is equivalent to the maximizing the likelihood of the data.
 
 --
 
@@ -368,7 +376,8 @@ The __Maximum Likelihood__ approach asks: What parameter values would _maximize 
 ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
   scale_y_continuous(breaks = NULL) +
-  theme_bw()
+  theme_bw(base_size=20) +
+  theme(panel.grid=element_blank())
 ```
 
 ]
@@ -439,7 +448,7 @@ ggplot(mapping=aes(x, y)) +
 
 __Central Limit Theorem __
 
-If $x_1, x_2, ..., x_n$ are random samples from a population with overall mean $\mu$ and finite variance $\sigma^2$, then the limiting form of the distribution of these samples $X$ is a normal distribution
+If $x_1, x_2, ..., x_n$ are random samples from a population with overall mean $\mu$ and finite variance $\sigma^2$, then the limiting form of the distribution of these samples $X$ is a normal distribution.
 
 <!-- See chapter 13 of Intro to modern statistics for more  -->
 ---
@@ -463,9 +472,9 @@ class: middle
 --
 
 .tip[
-It can be very tempting to interpret the relationships between predictors and D.V. as _causal relationships_ (esp. when using terms like "outcome" for the D.V.). 
+It can be very tempting to interpret the relationships between predictors and D.V. as _causal relationships_ (esp. when using terms like "outcome" for the response variable). 
 
-__Be careful:__ Nothing about the regression makes anything causal, the D.V. and predictors could just as easily be swapped!
+__Be careful:__ Nothing about the regression makes anything causal, the response variable and predictors could just as easily be swapped!
 ]
 ---
 
@@ -518,7 +527,7 @@ fit <- lm(weight ~ height, data = howell)
 
 - The function `lm()` fits a __L__inear __M__odel. 
 - The first argument is given as `R` __formula syntax__
-  - `DV ~ predictors`
+  - `response ~ predictors`
   - the `~` can be read as "predicted by" or "regressed on"
 
 ---
@@ -630,6 +639,11 @@ $$R^2 = \frac{\text{Total SS} - \text{Error SS}}{\text{Total SS}}$$
 ---
 
 ## Visualizing variance
+
+```{r}
+ggplot(howell, aes(x=weight)) +
+  geom_histogram()
+```
 
 
 

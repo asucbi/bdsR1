@@ -32,10 +32,6 @@ knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
 ```
 
 
-# Variable types
-
----
-
 ## Variable types
 - __Continuous__: Numerical variables that can take on any value within some range
   - Can also treat integer values as continuous when they span a sufficient range
@@ -51,7 +47,7 @@ knitr::opts_chunk$set(dev.args = list(bg = 'transparent'), echo=F)
 - In our regression of heights and weights of the !Kung San people, the intercept was -52.3 cm. That's a bit odd!
 - Regression coefficients must be interpreted when the other predictors are zero. For the intercept, -52.3 cm is the predicted height if weight is zero.
 
-$$\hat{y} = -52.3 + .63 & * \text{height}$$
+$$ \hat{y} = -52.3 + .63 * \text{height} $$
 
 .question[How could we make our regression parameters more meaningful and relevant?]
 ---
@@ -59,6 +55,8 @@ $$\hat{y} = -52.3 + .63 & * \text{height}$$
 ## Centering variables
 
 - One technique that can help produce more meaningful regression coefficients is __centering__
+
+$$x_{\text{centered}} = x - \bar{x} $$
 
 ```{r, echo=T}
 center <- function(x){
@@ -74,7 +72,7 @@ center <- function(x){
 Centering the `height` predictor makes the intercept coefficient represent the mean of the response variable.
 ]
 
-```{r}
+```{r, echo=T}
 d <- howell %>% 
   mutate(height_c = center(height))
 
@@ -96,7 +94,7 @@ In these cases it can be helpful to __standardize__ both the response and predic
 
 ## Standardization
 
-To standardize variables we convert them into Z-scores:
+To standardize variables we convert them into $Z$-scores:
 
 $$Z = \frac{x-\bar{x}}{\sigma_x}$$
 
@@ -110,20 +108,27 @@ standardize <- function(x){
 
 ## Standardized regression
 
-```{r}
+.pull-left[
+```{r, echo=T}
 d <- howell %>% mutate_all(standardize)
 
 (fit_z <- lm(weight ~ height, data = d))
 ```
 
-
 - Now the `weight` coefficient represents the change in weight for a change in height, with both in units of standard deviation
-  - A one standard deviation change in height is associated with a .75 standard deviation change in weight
+- A one standard deviation change in height is associated with a .75 standard deviation change in weight
+
+]
+
+.pull-right[
+
 - __Note__: Another nice thing about standardized regression is that the $\beta$ coefficients represent the __partial correlations__ between the predictor and response variables. In a simple regression, $\beta$ is equal to the Pearson correlation $r$.
 
-```{r}
+```{r, echo=T}
 cor(howell$height, howell$weight)
 ```
+
+]
 
 ---
 
@@ -148,6 +153,8 @@ head(howell)
 - The $\beta$ coefficient of a binary variable represents the difference between the average of the group coded as `0` and the group coded as `1`
 - Males are on average 6.78 kg heavier than females (here males were coded as `1` and females as `0`)
 
+--
+
 .question[
 Notice that we obtained a different intercept in this regression model. What does this value represent?
 ]
@@ -156,11 +163,12 @@ Notice that we obtained a different intercept in this regression model. What doe
 
 ## Categorical variables
 
-__Dummy coding__ is the most common approach to entering categorical variables into regression
+- __Categorical variables__ are discrete variables with more than two levels
+- __Dummy coding__ is the most common approach to entering categorical variables into regression
 
-- One level of the categorical variable is chosen to be the "reference level"
-- Then, for a factor with $k$ levels, dummy coding creates $k-1$ new binary variables that represent the other levels
-- Then in the regression equation, the $k-1$ coefficients associated with these variables each represent the average difference in the response variable for that level of the categorical variable as compared with the reference level
+  - One level of the categorical variable is chosen to be the "reference level"
+  - Then, for a factor with $k$ levels, dummy coding creates $k-1$ new binary variables that represent the other levels
+  - Then in the regression equation, the $k-1$ coefficients associated with these variables each represent the average difference in the response variable for that level of the categorical variable as compared with the reference level
 
 ---
 
@@ -194,5 +202,8 @@ d %>%
 (lm(weight ~ age_bin, data = d))
 ```
 
+.question[
+Sanity check: Why did we only get two coefficients when we have three levels? Which level is the reference level?
+]
 ---
 
