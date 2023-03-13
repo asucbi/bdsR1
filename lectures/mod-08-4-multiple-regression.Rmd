@@ -118,6 +118,8 @@ vs %>%
   scale_x_continuous(breaks = c(3, 6, 12, 18))
 ```
 
+.question[ How would you summarize the relationships shown in this plot?]
+--
 It looks like the relationship between set size and response time depends on the condition: response times are consistent across set size for feature search but increase with set size for conjunction search.
 ---
 
@@ -180,7 +182,7 @@ The interaction coefficient is going to in some way represent the effect or slop
 - Or specify the interaction term explicitly with a `:` between variables (e.g. `var1:var2`)
 
 ```{r}
-lm(rt ~ setsize * cond_conj, data = d)
+(fit_int <- lm(rt ~ setsize * cond_conj, data = d))
 ```
 
 ---
@@ -275,7 +277,7 @@ fit_r3 <- lm(rt ~ setsize, data = d)
 
 - $R^2$ is nice because it gives us an absolute measure of model fit
 - But it's not so nice for comparing models against one another
-- This is because $R^2$ will always increase as we add predictors to the model, even if those predictors are no good!
+  - This is because $R^2$ will always increase as we add predictors to the model, even if those predictors are no good!
 - $R^2$ does not account for __model complexity__
 
 ---
@@ -285,7 +287,7 @@ fit_r3 <- lm(rt ~ setsize, data = d)
 - As scientists, we don't just want to describe what is happening in our sample of observations, but also to generalize to new unseen data.
 - A good model means we should not be surprised by new observations.
 --
-- __Information theory__ gives us a measure of _surprising-ness_
+- __Information theory__ gives us a measure of _surprising-ness_ or __Entropy__
 
 $$H(p) = -E[log(p_i)]$$
 What we'd like to know is: How surprised should we expect to be by a new random data point?
@@ -300,16 +302,17 @@ What we'd like to know is: How surprised should we expect to be by a new random 
 
 ## Model comparison with AIC
 
-- Lower values of AIC are better
-- AIC can be basically any number, and can be either positive or negative
-- Remember, AIC measures how surprised we expect to be given new data, and we don't like surprises, so lower is always better
+AIC is a __relative__ measure of model fit
+- Individual AIC values are not really meaningful, only the differences between AIC for different models should be interpreted
+  - AIC can be basically any number, and can be either positive or negative
+  - Lower values of AIC are better: AIC measures how surprised we expect to be given new data, and we don't like surprises, so lower is always better
 
 __AIC rules of thumb__
 
 - Differences of
-  - 3 or less: small and not very meaningful
-  - 3-10: 
-  - 10 or more: substantial
+  - 3 or less: small and/or not very meaningful
+  - 3-10: Indicate good evidence for the better-fitting model
+  - 10 or more: Indicate very strong evidence for the better-fitting model
 
 ---
 
@@ -344,3 +347,36 @@ tibble(
 
 ---
 
+## Extrapolation
+
+- Let's use our model to predict response times for new, unseen conditions. 
+- We'll predict response times for feature and conjunction searches with setsizes of 10 and 20. 
+- __Extrapolation__: Predicting values beyond the range of data. Must be careful!
+
+---
+
+## Predicting manually
+
+- __A__: feature search with setize = 10
+- __B__: conjunction search with setsize = 20
+
+$$ \hat{y} = 423.85 + -.57*s + 71.89 * c + 26.43 * \text{c:s} $$
+$$ \hat{y}_A = 423.85 + -.57*10 + 71.89 * 0 + 26.43 * 0 = 418.2$$
+$$ \hat{y}_B = 423.85 + -.57*20 + 71.89 * 1 + 26.43 * 20 = 1013.13 $$
+
+---
+
+## `predict()`ing
+
+```{r}
+tribble(
+  ~cond_conj, ~setsize,
+  0, 10,
+  1, 20
+) %>% 
+  mutate(
+    predicted = predict(fit_int, .)
+  )
+```
+
+---

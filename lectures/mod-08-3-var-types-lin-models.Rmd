@@ -86,7 +86,7 @@ mean(howell$weight)
 
 ## Standardization
 
-- The $\beta$ coefficient has meaningful units: kg/cm
+- The $\beta$ coefficient for our model of weights has meaningful units: kg/cm
 - But sometimes we have coefficients with less meaningful/more confusing units
 - And other times we want to compare relative impacts across different units.
 
@@ -100,7 +100,7 @@ To standardize variables we convert them into Z-scores:
 
 $$Z = \frac{x-\bar{x}}{\sigma_x}$$
 
-```{r}
+```{r, echo=T}
 standardize <- function(x){
   (x - mean(x))/sd(x)
 }
@@ -117,8 +117,8 @@ d <- howell %>% mutate_all(standardize)
 ```
 
 
-- Now the `weight` coefficient represents the change in weight for a change in height in units of standard deviation
-- A one standard deviation change in height is associated with a .75 standard deviation change in weight
+- Now the `weight` coefficient represents the change in weight for a change in height, with both in units of standard deviation
+  - A one standard deviation change in height is associated with a .75 standard deviation change in weight
 - __Note__: Another nice thing about standardized regression is that the $\beta$ coefficients represent the __partial correlations__ between the predictor and response variables. In a simple regression, $\beta$ is equal to the Pearson correlation $r$.
 
 ```{r}
