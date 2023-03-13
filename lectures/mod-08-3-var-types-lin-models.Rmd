@@ -72,6 +72,12 @@ center <- function(x){
 Centering the `height` predictor makes the intercept coefficient represent the mean of the response variable.
 ]
 
+```{r, echo=F}
+howell <- read_csv("../data/howell1.csv") %>% 
+  filter(age >= 18)
+```
+
+
 ```{r, echo=T}
 d <- howell %>% 
   mutate(height_c = center(height))
