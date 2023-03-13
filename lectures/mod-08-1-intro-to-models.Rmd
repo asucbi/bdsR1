@@ -88,7 +88,7 @@ Or more generally:
 
 $$\text{data} = f(\text{model, noise})$$
 
-The data are a _function_ of the model and noise.
+The data are a __function__ of the model and noise.
 
 ---
 

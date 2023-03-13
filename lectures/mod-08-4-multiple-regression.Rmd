@@ -80,7 +80,7 @@ knitr::include_graphics("img/visual-search.jpg")
 ```{r feat-int-theory, fig.align='center', out.height="80%"}
 knitr::include_graphics("img/feature-integration-diag.png")
 ```
-.footnote[Triesman, 1983]
+.small[Triesman & Gelade, 1980]
 ---
 
 ## Visual search data
@@ -110,7 +110,7 @@ vs <- vizsearch %>%
 ## Visual search data
 
 ```{r, echo=T}
-head(vs)
+vs
 ```
 
 ---
@@ -194,8 +194,8 @@ The interaction coefficient is going to in some way represent the effect or slop
 - Replace the `+` operator with the `*` operator to include both predictors and their interaction in the model
 - Or specify the interaction term explicitly with a `:` between variables (e.g. `var1:var2`)
 
-```{r}
-(fit_int <- lm(rt ~ setsize * cond_conj, data = d))
+```{r, echo=T}
+(fit_int <- lm(rt ~ setsize * cond_conj, data = vs))
 ```
 
 ---
@@ -220,7 +220,8 @@ tibble(residual = fit_int$residuals) %>%
 tibble(residual = fit_int$residuals) %>% 
   ggplot(aes(sample = residual)) + # NOTE: stat_qq* expect a sample aesthetic
   stat_qq() +
-  stat_qq_line()
+  stat_qq_line() +
+  labs(x="Theoretical quantile", y = "Observed quantile")
 ```
 
 ---
@@ -265,13 +266,13 @@ tibble(
 
 
 ```{r, echo=T}
-preds <- d %>% 
-  distinct(setsize, cond_conj, setsize_cond) %>% 
+preds <- vs %>% 
+  distinct(setsize, cond_conj) %>% 
   mutate(predicted = predict(fit_int, .))
 ```
 
 ```{r}
-d %>% 
+vs %>% 
   ggplot(aes(x = setsize, y = rt, color = factor(cond_conj))) + 
   geom_point() +
   geom_line(data = preds, aes(x=setsize, y = predicted, group=cond_conj))
@@ -296,10 +297,10 @@ __Our model accounts for `r round(summary(fit_int)$r.squared*100)`% of the varia
 We might be pretty happy with our model, but before we decide how we really feel about it, we need to compare it to alternative models.
 - One approach is to compare our primary model to __reduced model(s)__ that remove various components
 
-```{r, ehco=T}
-fit_r1 <- lm(rt ~ cond_conj + setsize, data = d)
-fit_r2 <- lm(rt ~ cond_conj, data = d)
-fit_r3 <- lm(rt ~ setsize, data = d)
+```{r, echo=T}
+fit_r1 <- lm(rt ~ cond_conj + setsize, data = vs)
+fit_r2 <- lm(rt ~ cond_conj, data = vs)
+fit_r3 <- lm(rt ~ setsize, data = vs)
 
 ```
 
@@ -310,6 +311,7 @@ fit_r3 <- lm(rt ~ setsize, data = d)
 .question[
 Should we use $R^2$ to compare models?
 ]
+
 --
 
 - $R^2$ is nice because it gives us an absolute measure of model fit
@@ -328,13 +330,13 @@ Should we use $R^2$ to compare models?
 
 - __Information theory__ gives us a measure of _surprising-ness_ or __Entropy__
 
-$$H(p) = -E[log(p_i)]$$
+<!-- $$H(p) = -E[log(p_i)]$$ -->
 What we'd like to know is: How surprised should we expect to be by a new random data point?
 ---
 
 ## Akaike Information Criteria
 
-- The __Akaike Information Criteria__ (__AIC__) is an estimate of the expected "surprisingness" of new data, given a model
+- The __Akaike Information Criteria__ (__AIC__) is an estimate of the expected "surprising-ness" of new data, given a model
 - This offers a good way to compare and select models
 
 ---
