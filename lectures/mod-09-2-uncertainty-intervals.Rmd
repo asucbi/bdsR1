@@ -139,6 +139,8 @@ $$CI_{95} = \text{Estimate} + - 1.96(\text{Std. Err.}) $$
 The formula for a confidence interval comes from the __Central Limit Theorem__
 ]
 
+---
+
 ## Plotting confidence intervals
 
 - `geom_pointrange()` plots a statistic and an error bar that can be used to represent an interval 
@@ -160,7 +162,7 @@ The formula for a confidence interval comes from the __Central Limit Theorem__
 
 ## CI for regression coefficients
 
-```{r}
+```{r, echo=F}
 howell <- read_csv("../data/howell1.csv") %>% 
   filter(age >= 18)
 ```
@@ -174,6 +176,7 @@ summary(fit)
 
 ## Computing confidence intervals for regression coefficients
 
+.small[
 Extract model coefficients with `broom::tidy()` and calculate manually:
 
 ```{r}
@@ -189,7 +192,7 @@ Or for a single coefficient, use `confint()`:
 ```{r}
 confint(fit, "height", .95)
 ```
-
+]
 ---
 
 ## Plotting prediction intervals
@@ -197,6 +200,9 @@ confint(fit, "height", .95)
 - The `modelr` package can be useful for creating predictions from models.
 - `data_grid()` and `seq_range()` functions can help create sequences of values for plotting across the range of a given dataset
 
+.pull-left[
+
+.small[
 ```{r}
 library(modelr)
 
@@ -211,9 +217,18 @@ pred_df <- pred_df %>%
     ll = predicted - 1.96*preds$se.fit
   )
 
-pred_df
-
 ```
+]
+]
+
+.pull-right[
+```{r}
+pred_df
+```
+
+]
+
+---
 
 ## Plotting prediction intervals (2)
 
