@@ -1,0 +1,306 @@
+---
+title: "Lab 08 - Heights, weights, and lines o my"
+# bibliography: references.bib
+# biblio-style: apalike
+# link-citations: yes
+knit: (function(inputFile, encoding) {
+    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/labs/")
+  })
+params: 
+    SHOW_SOLS: FALSE # if i wanted to give solutions, could toggle back on. 
+    TOGGLE: TRUE
+---
+
+```{r setup, include=FALSE}
+source('assets/setup.R')
+library(tidyverse)
+library(modelr)
+# :::red : use for pre-lab activity instructions
+# :::lo : use for outlining the learning objectives
+# :::green : use for tips on how to complete the task --- I've been using more for "extra info" DP
+# :::yellow : use for additional information on how to use R that does not directly have anything to do with the assignment tasks
+# :::frame : use when want to set some additional instructions/code/examples apart from the assignment task when explaining something about how to use R
+
+# :::blue : same color as question box background. Not sure how much this needs to be used. 
+# :::statbox : looks a lot like yellow
+
+```
+
+
+Young children are prodigious learners, especially when it comes to learning language. Children generally start producing simple one-word utterances around 12 months of age and their phonological processing (the processing of what words sound like) is quite mature by 18 months of age. Then, through the next few years of life to age five children learn an average of 6-7 words per day!
+
+Of course, children don't learn their vocabulary at random, by reading through the dictionary, or even primarily through formal education. Children learn words based on their day-to-day experiences and interactions. So what determines which words children learn and when?
+
+
+:::lo
+**LEARNING OBJECTIVES**
+
+-   Gain a visual and mathematical understanding of linear equations
+-   Understand the interpretation of simple regression coefficients
+-   Practice fitting and evaluating a model with `lm()`
+-   Generate predictions from a linear model
+:::
+
+# Getting started
+
+Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-08-linear-models`.
+
+First, open the R Markdown document `lab-08.Rmd` and Knit it.
+
+Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
+
+The output should also be automatically saved as an `.html` file with the same name.
+
+# Warm up
+
+## Drawing and interpreting lines
+
+Unlike our previous labs, this lab will not be entirely contained in an Rmarkdown notebook. Instead we will begin with paper and pencil. Graph paper has been provided for you to complete the following exercises.
+
+`r qbegin(1)`
+
+First, we'll begin by drawing some lines based on a set of parameters for slope and y-intercept.
+
+1. Draw a line with a slope of 1 and a y-intercept of 0
+2. Draw a line with a slope of 1/2 and a y-intercept of 1
+3. Draw a line with a slope of .25 and a y-intercept of 3
+4. Draw a line with a slope of 1.5 and a y-intercept of -3
+`r qend()`
+
+Next, we will do some paper-and-pencil prediction (ok you can use a calculator, even the big fancy calculator that is `R` to do this.)
+
+`r qbegin(2)`
+
+1. Predict the value of $y$ for $x=3$ based on a regression model with $\alpha = -1$ and $\beta = .75$
+2. Predict the value of $y$ for $x=0$ based on a regression model with $\alpha = 1.5$ and $\beta = .64$
+3. Predict the value of $y$ for $x=2$ based on a regression model with $\alpha = 1.4$ and $\beta = .6$
+4. Predict the value of $y$ for $x=55$ based on a regression model with $\alpha = 103$ and $\beta = .43$
+`r qend()`
+
+## Fitting lines
+
+```{r}
+# simd1 <- tibble(
+#   x = rnorm(50),
+#   y = .4*x + rnorm(50)
+# )
+
+
+calc_rss <- function(x, y, a, b){
+  ypred <- a + x*b
+  sum((y-ypred)^2)
+}
+
+
+plot_reg_rss <- function(x, y, a, b){
+  
+  rss <- calc_rss(x, y, a, b)
+  
+  tibble(x=x, y=y) %>%
+    ggplot(aes(x=x, y =y)) +
+    geom_point() +
+    geom_abline(intercept = a, slope = b, color="red") +
+    annotate("text", x = 2, y = -2, label = paste("RSS = ", round(rss, 2))) +
+    xlim(-3, 3)
+}
+
+```
+
+
+
+`r qbegin(3)`
+
+Copy and paste the code below into your starter file. Play around with different values for `intercept1` and `slope1` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value near 40.
+
+```{r, echo=T}
+simd1 <- read_csv("../data/simd1.csv")
+
+intercept1 <- 0
+slope1 <- 0
+plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
+```
+
+`r qend()`
+
+`r qbegin(4)`
+
+Copy and paste the code below into your starter file. Play around with different values for `intercept2` and `slope2` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value below 85 or better.
+
+```{r, echo=T}
+simd2 <- read_csv("../data/simd2.csv")
+
+intercept2 <- 0
+slope2 <- 0
+plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
+```
+
+`r qend()`
+
+
+# Creating linear models
+
+## Data
+
+We will again use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell.
+
+```{r, echo=T}
+howell <- read_csv("../data/howell1.csv")
+```
+
+In class we actually examined a subset of this dataset, focusing only on measurements from villagers who were 18 years old or older. Now we'll examine the measurements of children
+
+```{r}
+children <- howell %>% filter(age < 18)
+adults <- howell %>% filter(age >= 18)
+```
+
+`r qbegin(5)`
+Since you are probably itching to fit an `lm()` model by now, let's break the rules a bit and go ahead and fit one like we did in the lectures.
+
+Fit a model of weights predicted by heights using the data from the children in the Howell sample. Call your model `fit_children`.
+
+```{r}
+fit_children <- lm(weight ~ height, data = children)
+
+fit_children
+```
+
+`r qend()`
+
+Now let's see if our model is any good. We'll begin with some model checks.
+
+I've defined the following three functions to help you, copy and paste this code over to your notebook to use these functions.
+
+:::green
+Take a moment to examine these functions to see if you can understand how they work. They mostly involve pulling the residuals out of the `fit` object and then using the familiar ggplot tools we have used (with the exception of the q-q plot function, that uses some ggplotting techniques that won't be as familiar).
+:::
+
+```{r, echo=T}
+plot_residual_hist <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+  ggplot(aes(x=residual)) +
+  geom_histogram()
+}
+
+plot_qq <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+  ggplot(aes(sample = residual)) + # NOTE: stat_qq* expect a sample aesthetic
+  stat_qq() +
+  stat_qq_line() +
+  labs(x="Theoretical quantile", y = "Observed quantile")
+}
+
+plot_residual_predicted <- function(fit){
+  tibble(
+  predicted = fit$fitted.values,
+  residual = fit$residuals
+) %>% 
+  ggplot(aes(x = predicted, y = residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+}
+
+```
+
+
+`r qbegin(6)`
+
+Create the following plots to evaluate `fit_children`:
+
+- Histogram of residuals
+- Quantile-quantile plot of residuals
+- Scatterplot of residuals x predicted
+
+Describe what you notice about each of the plots. Does the model pass our checks?
+`r qend()`
+
+Ok let's plot the data to see what has been going wrong.
+
+`r qbegin(7)`
+
+Make a scatterplot of heights and weights for the `children` data. What does the relationship look like?
+
+`r qend()`
+
+
+`r qbegin(8)`
+
+The function below will create a plot of your model predictions and observed data. Use the function to create a plot, and compare what you are seeing in this plot with what you see in the residuals plots.
+
+:::green
+The code here uses a couple functions from the `modelr` package that we will learn more about later. It is worth spending a bit of time inspecting how this function works, but ultimately for now it is OK to just use it even if you don't quite follow every line.
+:::
+
+```{r, echo=T}
+plot_height_weight_preds <- function(fit, data){
+  preds <- data_grid(data, height = seq_range(height, 100)) %>% 
+  mutate(predicted = predict(fit, .))
+
+data %>% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_line(data = preds, aes(x=height, y = predicted), color = "blue", size=1) +
+  geom_point(alpha=.5)
+}
+```
+
+`r qend()`
+
+# Bonus: Curves from lines
+
+::: lo
+The following two questions are "bonus" questions that go beyond what was covered in the lecture. We would like you to make an earnest attempt at them, but we just be grading for effort.
+:::
+
+The term "linear models" can sometimes feel like a bit of a misnomer---linear models can actually capture some non-linear relationships.
+
+One way to do this is by adding polynomial terms to our regression model. If we take a variable and transform it by raising it to a power, this produces a curvilinear pattern. If we include such a transformed variable in our regression, we can capture non-linear patterns in data.
+
+Here are some examples:
+
+```{r, echo=F}
+tibble(
+  x = seq(-6, 6, length.out=100),
+  `x^1` = x,
+  `x^2` = x^2,
+  `x^3` = x^3,
+  `x^4` = x^4
+) %>% 
+  gather(trans, val, -x) %>% 
+  ggplot(aes(x=x, y=val)) +
+  geom_line(color="blue") +
+  labs(x="x", y = expression(x^n)) +
+    facet_wrap(~trans, scales="free_y") +
+  theme_bw(base_size=20)
+```
+
+Add polynomial terms to your model to capture this curvilinear relationship. You can do this directly in `lm()` by wrapping your predictor in the `poly()` function and specifying the degree of the polynomial.
+
+`r qbegin(9)`
+Create a new model `fit_poly` that includes second and third degree polynomial terms (i.e. that adds predictors for $x^2$ and $x^3$). Examine the help for `poly()` if you need help.
+
+```{r, include=F}
+fit_poly <- lm(weight ~ poly(height, 3), data = children)
+fit_poly
+```
+
+`r qend()`
+
+`r qbegin(10)`
+Finally, create a residual plot and a plot of the predicted values against observed children's values using `plot_height_weight_model_preds()` for the new `fit_poly3` model. What do you see?
+
+```{r, include=F}
+plot_residual_predicted(fit_poly)
+plot_height_weight_preds(fit_poly, children)
+```
+
+`r qend()`
+
+---
+
+Now go back through your write up to make sure you've answered all questions and all of your R chunks are properly labelled.
+
+:::red
+**SUBMITTING YOUR WORK**
+
+Once you decide as a team that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.   
+:::
