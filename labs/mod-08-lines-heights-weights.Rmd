@@ -15,6 +15,9 @@ params:
 source('assets/setup.R')
 library(tidyverse)
 library(modelr)
+
+source("starter/m8-helpers.R")
+
 # :::red : use for pre-lab activity instructions
 # :::lo : use for outlining the learning objectives
 # :::green : use for tips on how to complete the task --- I've been using more for "extra info" DP
@@ -79,42 +82,11 @@ Next, we will do some paper-and-pencil prediction (ok you can use a calculator, 
 
 ## Fitting lines
 
-```{r}
-# simd1 <- tibble(
-#   x = rnorm(50),
-#   y = .4*x + rnorm(50)
-# )
-
-
-calc_rss <- function(x, y, a, b){
-  ypred <- a + x*b
-  sum((y-ypred)^2)
-}
-
-
-plot_reg_rss <- function(x, y, a, b){
-  
-  rss <- calc_rss(x, y, a, b)
-  
-  tibble(x=x, y=y) %>%
-    ggplot(aes(x=x, y =y)) +
-    geom_point() +
-    geom_abline(intercept = a, slope = b, color="red") +
-    annotate("text", x = 2, y = -2, label = paste("RSS = ", round(rss, 2))) +
-    xlim(-3, 3)
-}
-
-```
-
-
-
 `r qbegin(3)`
 
-Copy and paste the code below into your starter file. Play around with different values for `intercept1` and `slope1` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value near 40.
+Copy and paste the code below into your starter file. Then play around with different values for `intercept1` and `slope1` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value near 40.
 
 ```{r, echo=T}
-simd1 <- read_csv("../data/simd1.csv")
-
 intercept1 <- 0
 slope1 <- 0
 plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
@@ -124,11 +96,10 @@ plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
 
 `r qbegin(4)`
 
-Copy and paste the code below into your starter file. Play around with different values for `intercept2` and `slope2` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value below 85 or better.
+Read in the `sim2d.csv` data as `simd2` and copy and paste the code below into your starter file. Copy and paste the code below into your starter file. Play around with different values for `intercept2` and `slope2` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value below 85 or better.
+
 
 ```{r, echo=T}
-simd2 <- read_csv("../data/simd2.csv")
-
 intercept2 <- 0
 slope2 <- 0
 plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
@@ -141,9 +112,14 @@ plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
 
 ## Data
 
-We will again use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell.
+We will again use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell. Read the data in from the `howell1.csv` file.
 
-```{r, echo=T}
+```{r, eval=FALSE, echo=T}
+howell <- read_csv("data/howell1.csv")
+```
+
+
+```{r, echo=F}
 howell <- read_csv("../data/howell1.csv")
 ```
 

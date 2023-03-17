@@ -1,7 +1,5 @@
-simd1 <- tibble(
-  x = rnorm(50),
-  y = .4*x + rnorm(50)
-)
+simd1 <- read_csv("../data/simd1.csv")
+simd2 <- read_csv("../data/simd2.csv")
 
 
 calc_rss <- function(x, y, a, b){
@@ -12,13 +10,13 @@ calc_rss <- function(x, y, a, b){
 
 plot_reg_rss <- function(x, y, a, b){
   
-  rss <- calc_rss(simd2$x, simd2$y, intercept2, slope2)
+  rss <- calc_rss(x, y, a, b)
   
-  tibble(x=x, y=y) %>% 
-    ggplot(aes(x=x, y =y )) +
+  tibble(x=x, y=y) %>%
+    ggplot(aes(x=x, y =y)) +
     geom_point() +
-    geom_abline(intercept = intercept1, slope=slope1, color="red") +
-    annotate("text", x = 2, y = -2, label = paste("RSS = ", round(rss, 2)))
+    geom_abline(intercept = a, slope = b, color="red") +
+    annotate("text", x = 2, y = -2, label = paste("RSS = ", round(rss, 2))) +
+    xlim(-3, 3)
 }
-
 
