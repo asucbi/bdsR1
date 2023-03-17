@@ -30,9 +30,7 @@ source("starter/m8-helpers.R")
 ```
 
 
-Young children are prodigious learners, especially when it comes to learning language. Children generally start producing simple one-word utterances around 12 months of age and their phonological processing (the processing of what words sound like) is quite mature by 18 months of age. Then, through the next few years of life to age five children learn an average of 6-7 words per day!
-
-Of course, children don't learn their vocabulary at random, by reading through the dictionary, or even primarily through formal education. Children learn words based on their day-to-day experiences and interactions. So what determines which words children learn and when?
+In this lab we will learn more about how to think about linear functions and how to build and evaluate linear models.
 
 
 :::lo
@@ -46,7 +44,7 @@ Of course, children don't learn their vocabulary at random, by reading through t
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-08-linear-models`.
+Go to the course Posit Cloud Workspace and locate the assignment project for this module.
 
 First, open the R Markdown document `lab-08.Rmd` and Knit it.
 
