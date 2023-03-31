@@ -96,13 +96,10 @@ $$p = P(\text{obs as or more extreme as } d|H_0) $$
 
 ---
 
-## Null Hypothesis
+## NYPD "precinct 4"
 
-.tip[
-$H_0$: Hispanic New Yorkers in Precinct 4 are stopped at a representative rate.
-]
 
-```{r}
+```{r, echo=F}
 nypd <- read_csv("../data/frisk_with_noise.csv") %>% 
   mutate(precinct = factor(precinct))
 
@@ -125,8 +122,22 @@ precinct <- nypd %>%
 precinct
 ```
 
+---
 
-```{r}
+## Null Hypothesis
+
+.tip[
+$H_0$: Hispanic New Yorkers in Precinct 4 are stopped at a representative rate. 
+]
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "boot-p4", echo = FALSE, warning = FALSE, out.width="50%"}
+```
+]
+.panel[.panel-name[Code]
+
+```{r boot-p4, fig.show = "hide", warning = FALSE}
 total_stops <- sum(precinct$stops)
 hisp_prop <- precinct %>% filter(ethnicity=="hispanic") %>% pull(prop_pop)
 hisp_stops <- precinct %>% filter(ethnicity=="hispanic") %>% pull(stops)
@@ -139,26 +150,30 @@ ggplot(sim_data, aes(x=stops)) +
   geom_histogram() +
   geom_point(aes(y = 0, x = hisp_stops), color="red")
 ```
-
-```{r}
-sim_data %>% summarize(p = mean(stops >= hisp_stops))
-```
-Only 2.49% of the simulated observations are as extreme or more than our observation for Precinct 4!
+]
+]
 
 ---
 
-## Failing to reject the Null hypothesis
+## Null hypothesis in numbers
+
+.tip[
+$H_0$: Hispanic New Yorkers in Precinct 4 are stopped at a representative rate. 
+]
+
+```{r}
+sim_data %>% 
+  summarize(p = mean(stops >= hisp_stops))
+```
 
 
-- add another one where we fail to reject the hypothesis
-- In Frequentist thinking, we don't ever "accept" the Null, we just fail to reject it.
-
+Only 2.49% of the simulated observations are as extreme or more than our observation for Precinct 4!
 
 ---
 
 ## Types of alternative hypotheses
 
-- One sided (one tailed) alternatives: The parameter is hypothesized to be specifically less than or greater than the null value, < or >
+- One sided (one tailed) alternatives: The parameter is hypothesized to be specifically less than or greater than the null value, $>$ or $>$
 
 --
 
@@ -175,19 +190,12 @@ class: middle
 
 ---
 
-
 ## Is yawning contagious?
 
 .question[
 Do you think yawning is contagious?
 ]
 
-.pull-left[
-![](img/yawn1.png)
-]
-.pull-right[
-![](img/yawn2.png)
-]
 
 ---
 
@@ -249,95 +257,7 @@ yawn %>%
 
 - The observed differences might suggest that yawning is contagious, i.e. seeing someone yawn and yawning are dependent.
 
-- But the differences are small enough that we might wonder if they might simple be **due to chance**.
-
-- Perhaps if we were to repeat the experiment, we would see slightly different results.
-
-- So we will do just that - well, somewhat - and see what happens.
-
-- Instead of actually conducting the experiment many times, we will **simulate** our results.
-
----
-
-## Null Hypothesis
-
-$H_0$: The groups are the same
-
-
-## Is yawning contagious?
-
-.question[
-Do you think yawning is contagious?
-]
-
-.pull-left[
-![](img/yawn1.png)
-]
-.pull-right[
-![](img/yawn2.png)
-]
-
----
-
-## Is yawning contagious?
-
-An experiment conducted by the MythBusters tested if a person can be subconsciously influenced into yawning if another person near them yawns.
-
-https://www.discovery.com/tv-shows/mythbusters/videos/is-yawning-contagious-2
-
----
-
-## Study description
-
-In this study 50 people were randomly assigned to two groups: 34 to a group where a person near them yawned (treatment) and 16 to a control group where they didn't see someone yawn (control).
-
-The data are in the **openintro** package: `yawn`
-
-```{r}
-yawn %>%
-  count(group, result)
-```
-
----
-
-## Proportion of yawners
-
-.small[
-```{r}
-yawn %>%
-  count(group, result) %>%
-  group_by(group) %>%
-  mutate(p_hat = n / sum(n))
-```
-]
-
-- Proportion of yawners in the treatment group: $\frac{10}{34} = 0.2941$
-- Proportion of yawners in the control group: $\frac{4}{16} = 0.25$
-- Difference: $0.2941 - 0.25 = 0.0441$
-- Our results match the ones calculated on the MythBusters episode.
-
----
-
-## Independence?
-
-.question[
-Based on the proportions we calculated, do you think yawning is really contagious, i.e. are seeing someone yawn and yawning dependent?
-]
-
-```{r echo=FALSE}
-yawn %>%
-  count(group, result) %>%
-  group_by(group) %>%
-  mutate(p_hat = n / sum(n))
-```
-
----
-
-## Dependence, or another possible explanation?
-
-- The observed differences might suggest that yawning is contagious, i.e. seeing someone yawn and yawning are dependent.
-
-- But the differences are small enough that we might wonder if they might simple be **due to chance**.
+- But the differences are small enough that we might wonder if they might simply be **due to chance**.
 
 - Perhaps if we were to repeat the experiment, we would see slightly different results.
 
@@ -378,15 +298,20 @@ In __bootstrapping__, the observed data are __resampled with replacement__ to si
 
 ## Conducting a bootstrapped permutation test
 
-```{r}
+.midil[
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "perm-yawn", echo = FALSE, warning = FALSE}
+```
+]
+.panel[.panel-name[Plot Code]
+```{r perm-yawn, fig.show = "hide", warning = FALSE}
 bootstrap_permutation <- function(df){
-  ## shuffle the group labels
+  # shuffle the group labels
   group_labels <- df %>% sample_frac(1, replace=F) %>% pull(group)
   
-  ## resample observations (with replacement)
   x <- df %>% 
-    sample_frac(size=1, replace=TRUE) %>% 
-    mutate(group = group_labels)  %>% ## and assign new shuffled group labels
+    mutate(group = group_labels)  %>% # and assign new shuffled group labels
     group_by(group) %>% 
     summarize(prop = mean(result=="yawn")) %>% # calculate prop of yawners in each group
     pivot_wider(names_from = "group", values_from = "prop") %>% 
@@ -396,67 +321,37 @@ bootstrap_permutation <- function(df){
 
 }
 
-null_dist <- replicate(1000, bootstrap_permutation(yawn))
+null_dist <- tibble(diff = replicate(1000, bootstrap_permutation(yawn)))
 
-tibble(
-  diff = null_dist
-) %>% 
+null_dist %>% 
   ggplot(aes(x = diff)) +
   geom_histogram() +
   geom_point(aes(y = 0, x = 0.0441), color="red")
 ```
+]
+
+]
+]
+---
+
+## Calculating p-value
 
 ```{r}
-dyads <- read_csv("../data/dyads.csv")
-
-dyads_diff <- dyads %>% 
-  group_by(context) %>% 
-    summarize(M = mean(gestures/dur)) %>% # calculate avg gestures in each group
-    pivot_wider(names_from = "context", values_from = "M") %>% 
-    mutate(diff =  prof - friend) %>%  # compute difference btw groups
-    pull(diff)
-
-bootstrap_permutation <- function(df){
-  ## shuffle the group labels
-  group_labels <- df %>% sample_frac(1, replace=F) %>% pull(context)
-  
-  ## resample observations (with replacement)
-  x <- df %>% 
-    sample_frac(size=1, replace=TRUE) %>% 
-    mutate(context = group_labels) %>% ## and assign new shuffled group labels
-    group_by(context) %>% 
-    summarize(M = mean(gestures/dur)) %>% # calculate avg gestures in each group
-    pivot_wider(names_from = "context", values_from = "M") %>% 
-    mutate(diff =  prof - friend) # compute difference btw groups
-  
-  return(x %>% pull(diff)) # return the difference
-  
-}
-
-null_dist <- replicate(1000, bootstrap_permutation(dyads))
-
-dyads_boot <- tibble(
-  diff = null_dist
-)
-
-dyads_boot %>% 
-  summarize(p = mean(diff <= dyads_diff))
-
-
-dyads_boot %>% 
-  ggplot(aes(x = diff)) +
-  geom_histogram() +
-  geom_point(aes(x=dyads_diff, y = 0), color="red")
+null_dist %>% 
+  filter(diff >= 0.0441) %>%
+  summarise(p_value = n()/nrow(null_dist))
 ```
 
 ---
 
-## Bootstrapping other quantities
+## Failing to reject the Null
 
-```{r}
+.question[
+So, are yawns contagious?
+]
 
-```
+--
 
-
+- In Frequentist statistics, we never __accept__ the null hypothesis
+- We can only fail to reject it
 ---
-

@@ -21,19 +21,15 @@ library(tidyverse)
 ```
 
 
-## Statistical Infernence
-
-> some quote from Jaynes
-
----
-
 ## Generalization
 
 As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
 
 - Want to __generalize__ from a __sample__ to a __population__
 
-( some kind of diagram for this)
+```{r, echo=F, out.width="50%"}
+knitr::include_graphics("img/bean-plot.png")
+```
 ---
 
 ## Uncertainty
@@ -114,16 +110,19 @@ Bayesian __Credible Intervals__
 - "We estimate the mean is 4.3 with a 95% Credible Interval of 3.9 to 4.5" = we are 95% sure the mean is between 3.9 and 4.5
 ]
 
+--
+
 Intuitively, the Bayesian Credible interval is what we want, but the Frequentist interval is easier to calculate.
 
 ---
 
 ## Being loosely Bayesian
 
-Sometimes, Frequentist confidence intervals and Bayesian credible intervals will be essentially identical
+- Sometimes, Frequentist confidence intervals and Bayesian credible intervals will be essentially identical
 - In these cases, you can safely interpret confidence intervals like Bayesian credible intervals
 
 --
+
 .hand[When is this ok?]
 
 - When you have a simple model (e.g. linear regression)
@@ -141,21 +140,40 @@ The formula for a confidence interval comes from the __Central Limit Theorem__
 
 ---
 
-## Plotting confidence intervals
+## Plotting confidence intervals of means
 
+.midi[
 - `geom_pointrange()` plots a statistic and an error bar that can be used to represent an interval 
-- This can be useful for plotting the confidence intervals around the means of different groups
-
-```{r}
-# some _data %>% 
-# group_by() %>% 
-# summarize(
-# M = mean(),
-# SE = sd()/sqrt(n()),
-# ul = M + 1.96*SE,
-# ll = M + 1.96*SE
-# ) 
+]
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "interv-mean", echo = FALSE, warning = FALSE}
 ```
+]
+.panel[.panel-name[Code]
+
+```{r, echo = F}
+bikes <- read_csv("../data/bikes.csv") %>% 
+  mutate(day_of_week = ordered(day_of_week, levels = c("Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat")))
+```
+
+
+```{r interv-mean, fig.show = "hide", warning = FALSE}
+bikes %>% 
+  group_by(day_of_week) %>%
+  summarize(
+    M = mean(rides),
+    SE = sd(rides)/sqrt(n()),
+    ul = M + 1.96*SE,
+    ll = M - 1.96*SE
+  ) %>% 
+  ggplot(aes(x=day_of_week, y = M, ymin = ll, ymax = ul)) +
+  geom_pointrange() +
+  labs(y = "Rides/day", x = "Day")
+```
+]
+]
+
 
 
 ---

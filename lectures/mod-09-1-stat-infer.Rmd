@@ -21,19 +21,18 @@ library(tidyverse)
 ```
 
 
-## Statistical Infernence
-
-> some quote from Jaynes
-
----
-
 ## Generalization
 
 As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
 
 - Want to __generalize__ from a __sample__ to a __population__
 
-( some kind of diagram for this)
+
+```{r}
+knitr::include_graphics("img/bean-plot.png")
+```
+
+
 ---
 
 ## Uncertainty
@@ -47,7 +46,8 @@ As (data) scientists, we want to draw inferences about the world from the limite
 ## Probability
 
 > The theory of probabilities is basically just common sense reduced to calculus; it makes one appreciate with exactness that which accurate minds feel with a sort of instinct, often without being able to account for it 
----Laplace, 1829
+>
+> ---Laplace, 1829
 
 ---
 
@@ -56,7 +56,7 @@ As (data) scientists, we want to draw inferences about the world from the limite
 - __Frequentism__: Probabilities are __long-run frequencies__
   - A 33% probability means that if we repeat the experiment 100 times, then the event will occur 33 times on average
 - __Bayesianism__: Probabilities are __degrees of belief__
-  - A 33% probability means you would need to stand to gain at least \$10 in order to risk \$5
+  - A 33% probability means you would need to stand to gain at least $10 in order to risk $5
   
 ---
 
@@ -94,7 +94,8 @@ $$ P(\text{vampire}|\text{positive}) = \frac{P(\text{positive}|\text{vampire})P(
 Suppose the test successfully detects vampirism 95% of the time, and only issues a false-positive 1% of the time. Of course, vampires are rare, only 0.1% of the population.
 
 --
-$$ P(\text{vampire}|\text{positive}) = \frac{.95 * .001}{.95*.001 + .01 * .999 } $$
+
+$$P(\text{vampire}|\text{positive}) = \frac{.95 * .001}{.95*.001 + .01 * .999 }$$
 --
 
 ```{r vampire-test, echo=T}
@@ -106,8 +107,9 @@ p_pos <- p_pos_g_vamp*p_vamp + p_pos_g_human*(1-p_vamp)
 (p_pos_g_vamp * p_vamp) / p_pos
 ```
 
+---
 
-## Which school?
+## Which school is cool?
 
 __Hot take__: Most people are intuitively Bayesian and want answers to Bayesian questions
 
@@ -124,7 +126,7 @@ But statisticians and scientists have often settled for easier-to-compute Freque
 ---
 
 
-## Problems
+## Problems with Bayesianism
 
 Historically, there have been two main stumbling blocks to adopting Bayesian inference
 
@@ -139,7 +141,7 @@ Modern computers and computational techniques have made the first less of a prob
 
 ---
 
-## Prior prior pants on fire
+## "Prior prior pants on fire"
 
 $$P(h|d) = \frac{P(d|h)P(h)}{P(d)}$$
 
@@ -154,7 +156,7 @@ Priors can be our friends:
 - When we know something about the domain (have prior information) then we can incorporate that to make better inferences
 
 And there is often no reason to worry:
-- If we are worried about biasing estimates, we can use "uninformaative or "uniform" priors that are like playing dumb
+- If we are worried about biasing estimates, we can use "uninformative or "uniform" priors that are equivalent to playing dumb
 - In simple models with enough data, __priors will have no meaningful effect on inference__
   - Data will "swamp out" the prior
 
@@ -166,7 +168,7 @@ And there is often no reason to worry:
 Even with strong priors of .90 and .99, estimates become quite similar to the uniform prior estimates with 30-50 observations.
 ]
 
-```{r}
+```{r, echo=F}
   # coin is either fair or biased 90% heads
 n_heads <- 4
 n_total <- 5
