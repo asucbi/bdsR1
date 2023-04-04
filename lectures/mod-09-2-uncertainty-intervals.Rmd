@@ -142,6 +142,11 @@ The formula for a confidence interval comes from the __Central Limit Theorem__
 
 ## Plotting confidence intervals of means
 
+```{r, echo = F}
+bikes <- read_csv("../data/bikes.csv") %>% 
+  mutate(day_of_week = ordered(day_of_week, levels = c("Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat")))
+```
+
 .midi[
 - `geom_pointrange()` plots a statistic and an error bar that can be used to represent an interval 
 ]
@@ -152,10 +157,7 @@ The formula for a confidence interval comes from the __Central Limit Theorem__
 ]
 .panel[.panel-name[Code]
 
-```{r, echo = F}
-bikes <- read_csv("../data/bikes.csv") %>% 
-  mutate(day_of_week = ordered(day_of_week, levels = c("Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat")))
-```
+
 
 
 ```{r interv-mean, fig.show = "hide", warning = FALSE}
