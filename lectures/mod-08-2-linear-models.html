@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Linear models</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Linear models
+]
+.subtitle[
+## <br><br> Behavioral Data Science in R
+]
+.author[
+### Derek Powell &amp; Nicholas Duran
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+
+## Models as functions
+
+.hand[
+Remember we said the data is a _function_ of the model and noise
+]
+
+`$$\text{data} = f(\text{model, noise})$$`
+--
+
+- In principle, that function `\(f\)` can be almost anything. 
+- In practice, we can often do a good job of describing the data by defining `\(f\)` to be some linear function---then we have a __linear model__.
+---
+
+## Lines
+
+.pull-left[
+The simplest kind of linear model is a line!
+$$y = mx + b $$
+
+- m is the slope
+- b is the y-intercept
+]
+
+--
+
+.pull-right[
+In statistics we like to use greek letters
+
+$$ y = \alpha + \beta x$$
+- `\(\alpha\)` is the __intercept__
+- `\(\beta\)` is the __coefficient__ for the predictor `\(x\)`
+
+`\(\alpha\)` and `\(\beta\)` are our __parameters__
+]
+
+---
+
+## Predicting `\(y\)` from `\(x\)`
+
+Say we have some points on `\(x\)` and `\(y\)` and we want to create a model of `\(y\)` based on `\(x\)`.
+
+.pull-left-wide[
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-2-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+]
+--
+.pull-right-narrow[
+Suppose we wanted to predict the value of `\(y\)` when `\(x = 4.5\)`. 
+
+What would you predict? 
+]
+
+---
+
+## Predicting visually
+
+First, we can do this visually:
+
+.pull-left-wide[
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-3-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-narrow[
+Suppose we wanted to predict the value of `\(y\)` when `\(x = 5\)`. 
+
+.question[What would you predict?]
+]
+
+---
+
+## Predicting visually
+
+.pull-left-wide[
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-4-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-narrow[
+Now what if we wanted to be able to this for any value of `\(x\)`? If you string all those points together, you get a line.
+]
+
+---
+
+## Fitting a line to two points
+
+.hand[How can we actually fit these lines without just drawing them based on sight?]
+
+.pull-left-wide[
+
+Say we had only two points: (3, 1) and (6, 3)
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right-narrow[
+
+
+Well if you remember your high school algebra, we can solve this system of equations:
+
+$$
+`\begin{align}
+\alpha + \beta \cdot 3 &amp; = 1 \\
+\alpha + \beta \cdot 6 &amp; = 3
+\end{align}`
+$$
+]
+
+---
+
+## Finding parameters from two points
+
+$$
+`\begin{align}
+\alpha + \beta \cdot 3 &amp; = 1 \\
+\alpha + \beta \cdot 6 &amp; = 3
+\end{align}`
+$$
+
+--
+
+Working through the steps:
+
+$$
+`\begin{align}
+\alpha + \beta \cdot 3 &amp; = 1 \\
+\beta \cdot 3 &amp; = 2
+\end{align}`
+$$
+
+--
+
+$$
+`\begin{align}
+\alpha + \beta \cdot 3 &amp; = 1 \\
+\beta &amp; = 2/3
+\end{align}`
+$$
+
+--
+
+And then by substitution you can find `\(\alpha = -1\)`.
+
+So our __parameters__ are `\(\beta = 2/3\)` and `\(\alpha = -1\)` 
+
+---
+
+## Fitting lines to many points
+
+.question[No line is perfect, how can we tell which line is best?]
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-6-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Residuals
+
+These grey lengths represent the __residuals__, the differences between the predicted value (line) and each observation (point).
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-7-1.png" width="60%" height="40%" style="display: block; margin: auto;" /&gt;
+
+--
+
+.question[Can you think of a mathematical way to minimize these errors?]
+
+---
+
+## Loss functions
+
+One thing we could try to do is minimize the sum of the absolute values. 
+
+$$ |e_0| + |e_1| + |e_2| + ... + |e_n| $$
+
+--
+
+This is a legitimate approach, but it has some issues. A more common approach is to minimize the __sum of the squared residuals__:
+
+$$ e_0^2 + e_1^2 + e_2^2 + ... + e_n^2 = \sum_i e_i^2$$
+
+When we do this, this is called __least squares regression__
+
+---
+
+## Minimizing loss functions
+
+
+- We want to find the parameters that will minimize this __loss function__ `\(L\)`:
+
+`$$\underset{\alpha, \beta}{\mathrm{argmin}} \, L(x, y, \alpha, \beta)$$` 
+
+- `\(x\)` and `\(y\)` are our data, so we are looking to minimize this with respect to our __parameters__ `\(\alpha\)` and `\(\beta\)`. 
+
+- We write our regression equation as:
+
+`$$\hat{y_i} = \alpha + \beta x_i$$`
+
+- Our residuals are the difference between `\(y\)` and `\(\hat{y}\)`, so our loss function is
+
+`$$L(x, y, \alpha, \beta) = \sum_i (y_i-\hat{y_i})^2$$`
+
+&lt;!-- We'll skip the calculus and linear algebra involved, but one reason to use least squares regression is that it is easy to minimize this function and find our best parameters. --&gt;
+---
+
+## Another approach: Maximum likelihood
+
+The __Maximum Likelihood__ approach asks: What parameter values would _maximize the likelihood_ of observing the data we observed?
+
+- Minimizing least squares is also equivalent to the maximum likelihood solution 
+- If we assume that the residuals come from a normal distribution.
+
+--
+
+.pull-left-narrow[
+
+- The __Normal distribution__ is the classic bell-shaped curve.
+- This is a plot of its density, which we can read like the other histograms and density plots we've seen
+
+]
+
+.pull-right-wide[
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-8-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+## Maximum Likelihood regression
+
+.midi[
+- Under both least-squares and maximum likelihood regression, we build our model imagining that the true `\(y\)` values will be a function of our model plus Normal random noise.
+- I.e., we assume that the true values will be randomly Normally distributed around the predicted values from our model.
+]
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-9-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Central Limit Theorem
+
+.hand[Why make a model that assumes the errors are normally distributed?]
+
+--
+- Many quantities end up approximately normally distributed
+- This is due to the __Central Limit Theorem__
+
+__Central Limit Theorem __
+
+If `\(x_1, x_2, ..., x_n\)` are random samples from a population with overall mean `\(\mu\)` and finite variance `\(\sigma^2\)`, then the limiting form of the distribution of these samples `\(X\)` is a normal distribution
+
+&lt;!-- See chapter 13 of Intro to modern statistics for more  --&gt;
+---
+
+class: middle
+
+# Example: Fitting a model of height and weight
+
+---
+
+## Linear model vocabulary
+
+- __Response variable__: Variable whose behavior or variation you are trying to understand (denoted `\(y\)`)
+- __Predictor variables__: Other variables that you want to use to predict and/or explain the variation in the response
+  - Commonly denoted as `\(x\)` for an individual predictor or `\(X\)` to refer to a set of multiple predictors
+- __Parameters__
+  - Commonly denoted with greek letters `\(\alpha\)` and `\(\beta\)` (with `\(\beta_i\)` for multiple predictors)
+&lt;!-- - __Predicted values__ (denoted `\(\hat{y}\)`) --&gt;
+&lt;!-- - __Residuals__ = Observed values - Predicted values --&gt;
+
+--
+
+.tip[
+It can be very tempting to interpret the relationships between predictors and D.V. as _causal relationships_ (esp. when using terms like "outcome" for the D.V.). 
+
+__Be careful:__ Nothing about the regression makes anything causal, the D.V. and predictors could just as easily be swapped!
+]
+---
+
+## Height and weight data
+
+- We'll examine the relationship between height and weight measurements of the Kalahari !Kung San people collected by anthropologist Nancy Howell in the 1960s.  
+- The ǃKung are one of the San peoples who live mostly on the western edge of the Kalahari desert, Ovamboland (northern Namibia and southern Angola), and Botswana. 
+- In anthropological circles, they are probably the most famous modern foraging society.
+
+.pull-left[
+
+
+
+
+```r
+head(howell)
+```
+
+```
+## # A tibble: 6 × 4
+##   height weight   age  male
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   152.   47.8    63     1
+## 2   140.   36.5    63     0
+## 3   137.   31.9    65     0
+## 4   157.   53.0    41     1
+## 5   145.   41.3    51     0
+## 6   164.   63.0    35     1
+```
+]
+
+.pull-right[
+
+&lt;img src="img/San_Schmuck.jpeg" width="60%" style="display: block; margin: auto;" /&gt;
+
+.xsmall[
+By Staehler - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=45076017]
+]
+
+
+---
+
+## Visualizing height and weight
+
+
+```r
+howell %&gt;% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point()
+```
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Fitting a model with `lm()`
+
+
+```r
+fit &lt;- lm(weight ~ height, data = howell)
+```
+
+- The function `lm()` fits a __L__inear __M__odel. 
+- The first argument is given as `R` __formula syntax__
+  - `DV ~ predictors`
+  - the `~` can be read as "predicted by" or "regressed on"
+
+---
+
+## Examining the model parameters
+  
+
+```r
+fit
+```
+
+```
+## 
+## Call:
+## lm(formula = weight ~ height, data = howell)
+## 
+## Coefficients:
+## (Intercept)       height  
+##    -52.3162       0.6294
+```
+
+The model has two parameters (coefficients):
+- A parameter for the __intercept__ ( `\(\alpha\)` )
+   - Represents the predicted value of weight if height = 0 cm
+- A parameter for __height__ ( `\(\beta\)` )
+  - Represents the increase in the dependent variable for a one unit increase in the height predictor variable
+  - Units are kg/cm
+
+---
+
+## Evaluating the model
+
+We will evaluate the model in two ways:
+
+- Model checks
+- Evaluate the model fit
+
+---
+
+## Model checks
+
+To evaluate whether our model is appropriate, we will examine the __residuals__. We'll create:
+
+- Histogram: Basic check for normality
+- Quantile-quantile plot: A more sensitive check for normality
+- Residual x predicted plot: Residuals should be __noise__, so we check there are no relationship between the predicted values and the residuals.
+
+---
+
+## Model checks: Residual Histogram
+
+.question[Check: Do the residuals appear normally distributed?]
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Model checks: Quantile-quantile plot
+
+.question[Check: Are all the points following the line?]
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Model checks: predicted x residual plot
+
+.question[
+Check: Are there any relationships between predicted values and the residuals? Ideally, the scatterplot should look like a "cloud of points"
+]
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Quantifying model fit with `\(R^2\)`
+
+.hand[Finally, we want to ask: How well does our model account for our data?]
+
+- __ `\(R^2\)` __ is an "absolute" measure of model fit
+- Represents the proportion of variance in `\(y\)` explained by the model
+  - Ranges from 0 to 1, or 0% to 100%
+  - It is "absolute" because 0% represents no fit at all, and 100% represents the best possible
+
+`$$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$`
+---
+
+## `\(R^2\)` and variance
+
+Remember:
+
+`$$R^2 = \frac{\text{explained variance}}{\text{total variance}}$$`
+
+__Variance__ is defined as:
+
+`$$\sigma_y^2 = \frac{1}{n}\sum_n (y-\bar{y})^2$$`
+
+- `\(R^2\)` in terms of the partitioning sum of squares:
+	- Total sum of squares = `\(\sum (y-\bar{y})^2\)` 
+	- Error variance = `\(\sum (y-\hat{y})^2\)`
+	
+`$$R^2 = \frac{\text{Total SS} - \text{Error SS}}{\text{Total SS}}$$`
+---
+
+## Visualizing variance
+
+
+
+---
+
+## Examining model fit
+
+.small[
+
+```r
+summary(fit)
+```
+
+```
+## 
+## Call:
+## lm(formula = weight ~ height, data = howell)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -11.8022  -3.0183  -0.2293   2.8117  14.7348 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -52.31618    4.52650  -11.56   &lt;2e-16 ***
+## height        0.62942    0.02924   21.52   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.242 on 350 degrees of freedom
+## Multiple R-squared:  0.5696,	Adjusted R-squared:  0.5684 
+## F-statistic: 463.3 on 1 and 350 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+For our model, `\(R^2 = .57\)`, so our model using height explains 57% of the variance in weights.
+---
+
+## Making predictions
+
+Suppose we meet a new !Kung San villager and they graciously allow us to measure their height, which we find to be 176 cm. We can use our model to predict their weight.
+
+$$
+`\begin{align}
+\hat{y} = -52.3 + .63 &amp; * \text{height} \\
+-52.3 + .63 &amp; * 176 \approx 58.5
+\end{align}`
+$$
+
+--
+
+We can also do this directly (and exactly) with our model in `R`:
+
+
+```r
+predict(fit, tibble(height = 176))
+```
+
+```
+##        1 
+## 58.46193
+```
+
+---
+
+## Visualizing predictions
+
+.small[
+
+
+```r
+preds &lt;- howell %&gt;% 
+  filter(height == min(height) | height == max(height)) %&gt;% 
+  mutate(predicted = predict(fit, .))
+
+howell %&gt;% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point() +
+  geom_line(data = preds, aes(x=height, y = predicted), color = "blue")
+```
+
+&lt;img src="mod-08-2-linear-models_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to Statistical Inference</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Introduction to Statistical Inference
+]
+.subtitle[
+## <br><br> Behavioral Data Science in R
+]
+.author[
+### Derek Powell &amp; Nicholas Duran
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+
+## Statistical Infernence
+
+&gt; some quote from Jaynes
+
+---
+
+## Generalization
+
+As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
+
+- Want to __generalize__ from a __sample__ to a __population__
+
+( some kind of diagram for this)
+---
+
+## Uncertainty
+
+- The inferences we make about the unobserved population are __uncertain__
+- Statistics is all about describing and quantifying this uncertainty
+- We measure uncertainty with __probabilities__
+
+---
+
+## Probability
+
+&gt; The theory of probabilities is basically just common sense reduced to calculus; it makes one appreciate with exactness that which accurate minds feel with a sort of instinct, often without being able to account for it 
+---Laplace, 1829
+
+---
+
+## What are probabilities?
+
+- __Frequentism__: Probabilities are __long-run frequencies__
+  - A 33% probability means that if we repeat the experiment 100 times, then the event will occur 33 times on average
+- __Bayesianism__: Probabilities are __degrees of belief__
+  - A 33% probability means you would need to stand to gain at least \$10 in order to risk \$5
+  
+---
+
+## Bayes' Rule
+
+`$$P(h|d) = \frac{P(d|h)P(h)}{P(d)}$$`
+
+### Components
+
+- Posterior: `\(P(h|d)\)`
+- Likelihood: `\(P(d|h)\)`
+- Prior: `\(P(h)\)`
+- Normalizing constant: `\(P(d)\)`
+
+---
+
+## Bayes rule example
+
+Suppose we are vampire hunters and our lab has just processed a positive blood test for vampirism. We can calculate the probability that the suspect is a vampire as:
+
+$$ P(\text{vampire}|\text{positive}) = \frac{P(\text{positive}|\text{vampire})P(\text{vampire})}{P(\text{positive})} $$
+where 
+
+`\begin{multline*}
+P(positive) = \\
+P(positive|vampire)P(vampire) + P(positive|\neg vampire)P(\neg vampire)
+\end{multline*}`
+
+---
+
+## Diagnosing vampirism
+
+$$ P(\text{vampire}|\text{positive}) = \frac{P(\text{positive}|\text{vampire})P(\text{vampire})}{P(\text{positive})} $$
+
+Suppose the test successfully detects vampirism 95% of the time, and only issues a false-positive 1% of the time. Of course, vampires are rare, only 0.1% of the population.
+
+--
+$$ P(\text{vampire}|\text{positive}) = \frac{.95 * .001}{.95*.001 + .01 * .999 } $$
+--
+
+
+```r
+p_pos_g_vamp &lt;- .95
+p_pos_g_human &lt;- .01
+p_vamp &lt;- .001
+p_pos &lt;- p_pos_g_vamp*p_vamp + p_pos_g_human*(1-p_vamp)
+
+(p_pos_g_vamp * p_vamp) / p_pos
+```
+
+```
+## [1] 0.08683729
+```
+
+
+## Which school?
+
+__Hot take__: Most people are intuitively Bayesian and want answers to Bayesian questions
+
+E.g. 
+- "What is the probability my theory is right?" 
+- "In what interval can I be 95% confident that the true population value lies?"
+- Etc.
+
+&lt;!-- If those questions sound reasonble to you, then you are thinking like a Bayesian --&gt;
+--
+
+But statisticians and scientists have often settled for easier-to-compute Frequentist values
+
+---
+
+
+## Problems
+
+Historically, there have been two main stumbling blocks to adopting Bayesian inference
+
+1. Computational intractability
+2. Problem of the priors
+
+--
+
+.tip[
+Modern computers and computational techniques have made the first less of a problem in most cases. But the second point still confounds many.
+]
+
+---
+
+## Prior prior pants on fire
+
+`$$P(h|d) = \frac{P(d|h)P(h)}{P(d)}$$`
+
+- Computing the posterior (what we want) from Bayes' rule requires we provide some value or distribution to represent the prior, `\(P(h)\)`. 
+- How the prior is chosen __can__ affect the inferences we draw
+- Many scientists are uncomfortable with this possibility of __bias__
+---
+
+## How I learned to stop worrying and love the prior
+
+Priors can be our friends:
+- When we know something about the domain (have prior information) then we can incorporate that to make better inferences
+
+And there is often no reason to worry:
+- If we are worried about biasing estimates, we can use "uninformaative or "uniform" priors that are like playing dumb
+- In simple models with enough data, __priors will have no meaningful effect on inference__
+  - Data will "swamp out" the prior
+
+---
+
+## Data vs priors
+
+.tip[
+Even with strong priors of .90 and .99, estimates become quite similar to the uniform prior estimates with 30-50 observations.
+]
+
+
+```r
+  # coin is either fair or biased 90% heads
+n_heads &lt;- 4
+n_total &lt;- 5
+
+calc_p_fair &lt;- function(n_heads, n_total, prior = .50){
+
+fair_likeli &lt;-  dbinom(n_heads, n_total, prob = .5)
+unfair_likeli &lt;-  dbinom(n_heads, n_total, prob = .8)
+
+p_data &lt;- prior * fair_likeli + (1-prior) * unfair_likeli
+
+return((fair_likeli * prior) / p_data)
+}
+
+
+# calc_p_fair(4, 5, .5)
+
+expand.grid(
+  n_total = seq(0, 50, 5),
+  prior = c(.50, .90, .99)
+) %&gt;% 
+  mutate(
+    n_heads = .8*n_total,
+    posterior = pmap_dbl(list(n_heads, n_total, prior), calc_p_fair)
+  ) %&gt;% 
+  ggplot(aes(x= n_total, y = posterior, color=factor(prior))) +
+  geom_line() +
+  labs(x = "total flips", color = "p(fair)") +
+  theme_bw(base_size = 20)
+```
+
+&lt;img src="mod-09-1-stat-infer_files/figure-html/unnamed-chunk-2-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

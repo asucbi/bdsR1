@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Quantifying uncertainty with intervals</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Quantifying uncertainty with intervals
+]
+.subtitle[
+## <br><br> Behavioral Data Science in R
+]
+.author[
+### Derek Powell &amp; Nicholas Duran
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+
+## Statistical Infernence
+
+&gt; some quote from Jaynes
+
+---
+
+## Generalization
+
+As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
+
+- Want to __generalize__ from a __sample__ to a __population__
+
+( some kind of diagram for this)
+---
+
+## Uncertainty
+
+- The inferences we make about the unobserved population are __uncertain__
+- Statistics is all about describing and quantifying this uncertainty
+- We measure uncertainty with __probabilities__
+
+---
+
+class: middle
+
+# Intervals
+
+---
+
+## Estimation and intervals
+
+So far we have done lots of estimation (mean, median, slope, etc.), i.e.
+- used data from samples to calculate sample statistics
+- which can then be used as estimates for population parameters
+
+---
+
+.question[
+If you want to catch a fish, do you prefer a spear or a net?
+]
+
+&lt;br&gt;
+
+.pull-left[
+&lt;img src="img/spear.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="img/net.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+.question[
+If you want to estimate a population parameter, do you prefer to report a range of values the parameter might be in, or a single value?
+]
+
+&lt;br&gt;
+
+--
+
+- If we report a point estimate, we probably won’t hit the exact population parameter
+- If we report a range of plausible values we have a good shot at capturing the parameter
+
+---
+
+## The idea
+
+- Statistics like means and regression coefficients are __point-values__: single values representing the best estimate.
+- Can capture our degree of certainty or uncertainty in those estimates using an interval or range rather than a single value
+- We'd like to say things like, our best estimate is X, and we're 95% sure the true value is between Y and Z.
+- If the interval is small, then we've got a lot of certainty, if it's big, acknowledging more uncertainty
+
+---
+
+## Types of interval
+
+.pull-left[
+Frequentist __Confidence Intervals__
+
+- XX% of the time we calculate such an interval, it will contain the population parameter 
+]
+
+.pull-right[
+Bayesian __Credible Intervals__
+
+- The range of plausible values in which we believe the population parameter falls based on our model and observations, with XX% probability.
+- "We estimate the mean is 4.3 with a 95% Credible Interval of 3.9 to 4.5" = we are 95% sure the mean is between 3.9 and 4.5
+]
+
+Intuitively, the Bayesian Credible interval is what we want, but the Frequentist interval is easier to calculate.
+
+---
+
+## Being loosely Bayesian
+
+Sometimes, Frequentist confidence intervals and Bayesian credible intervals will be essentially identical
+- In these cases, you can safely interpret confidence intervals like Bayesian credible intervals
+
+--
+.hand[When is this ok?]
+
+- When you have a simple model (e.g. linear regression)
+- And a good amount of data
+
+---
+
+## Calculating a confidence interval
+
+$$CI_{95} = \text{Estimate} + - 1.96(\text{Std. Err.}) $$
+
+.tip[
+The formula for a confidence interval comes from the __Central Limit Theorem__
+]
+
+## Plotting confidence intervals
+
+- `geom_pointrange()` plots a statistic and an error bar that can be used to represent an interval 
+- This can be useful for plotting the confidence intervals around the means of different groups
+
+
+```r
+# some _data %&gt;% 
+# group_by() %&gt;% 
+# summarize(
+# M = mean(),
+# SE = sd()/sqrt(n()),
+# ul = M + 1.96*SE,
+# ll = M + 1.96*SE
+# ) 
+```
+
+
+---
+
+## CI for regression coefficients
+
+
+```r
+howell &lt;- read_csv("../data/howell1.csv") %&gt;% 
+  filter(age &gt;= 18)
+```
+
+
+```r
+fit &lt;- lm(weight ~ height, data = howell)
+summary(fit)
+```
+
+```
+## 
+## Call:
+## lm(formula = weight ~ height, data = howell)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -11.8022  -3.0183  -0.2293   2.8117  14.7348 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -52.31618    4.52650  -11.56   &lt;2e-16 ***
+## height        0.62942    0.02924   21.52   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.242 on 350 degrees of freedom
+## Multiple R-squared:  0.5696,	Adjusted R-squared:  0.5684 
+## F-statistic: 463.3 on 1 and 350 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+## Computing confidence intervals for regression coefficients
+
+Extract model coefficients with `broom::tidy()` and calculate manually:
+
+
+```r
+broom::tidy(fit) %&gt;% 
+  mutate(
+    ll = estimate - 1.96 * std.error,
+    ul = estimate + 1.96 * std.error
+    )
+```
+
+```
+## # A tibble: 2 × 7
+##   term        estimate std.error stati…¹  p.value      ll      ul
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)  -52.3      4.53     -11.6 2.17e-26 -61.2   -43.4  
+## 2 height         0.629    0.0292    21.5 4.68e-66   0.572   0.687
+## # … with abbreviated variable name ¹​statistic
+```
+
+Or for a single coefficient, use `confint()`:
+
+
+```r
+confint(fit, "height", .95)
+```
+
+```
+##            2.5 %    97.5 %
+## height 0.5719073 0.6869348
+```
+
+---
+
+## Plotting prediction intervals
+
+- The `modelr` package can be useful for creating predictions from models.
+- `data_grid()` and `seq_range()` functions can help create sequences of values for plotting across the range of a given dataset
+
+
+```r
+library(modelr)
+
+pred_df &lt;- data_grid(howell, height = seq_range(height, 100))
+
+preds &lt;- predict(fit, pred_df, se.fit=T)
+
+pred_df &lt;- pred_df %&gt;% 
+  mutate(
+    predicted = preds$fit,
+    ul = predicted + 1.96*preds$se.fit,
+    ll = predicted - 1.96*preds$se.fit
+  )
+
+pred_df
+```
+
+```
+## # A tibble: 100 × 4
+##   height predicted    ul    ll
+##    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   137.      33.6  34.7  32.5
+## 2   137.      33.9  35.0  32.8
+## 3   137.      34.2  35.2  33.1
+## 4   138.      34.4  35.5  33.4
+## 5   138.      34.7  35.7  33.7
+## 6   139.      35.0  36.0  34.0
+## # … with 94 more rows
+```
+
+## Plotting prediction intervals (2)
+
+
+
+```r
+ggplot() + 
+  geom_point(data = howell, aes(x=height, y=weight)) +
+  geom_line(data = pred_df, aes(x=height, y = predicted), color = "blue") +
+  geom_ribbon(data = pred_df, aes(x=height, ymin = ll, ymax=ul), fill="blue", alpha=.25)
+```
+
+&lt;img src="mod-09-2-uncertainty-intervals_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
