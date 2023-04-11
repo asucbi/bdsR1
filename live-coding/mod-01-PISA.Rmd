@@ -32,7 +32,7 @@ library(learningtower)
 
 ### Data
 
-The data we're using comes from the **learningtower** package. The package allows easy access to a subset of variables from a massive dataset put together by the Programme for International Student Assessment (PISA). Every three years, PISA administers standardized tests in areas of reading, mathematics, and scientific literacy with 600,000+ 15-year-old students across 80 countries. The over-arching goal is to assess the    extent to which students worldwide have acquired some of the knowledge and skills that are essential for full participation in society. 
+The data we're using comes from the **learningtower** package. The package allows easy access to a subset of variables from a massive dataset put together by the Programme for International Student Assessment (PISA). Every three years, PISA administers standardized tests in areas of reading, mathematics, and scientific literacy with 600,000+ 15-year-old students across 80 countries. The over-arching goal is to assess the extent to which students worldwide have acquired some of the knowledge and skills that are essential for full participation in society. 
 
 In the chunks below we load in two of three datasets in **learningtower** and modify the data by joining the data frames to help you get started with the analysis.
 
