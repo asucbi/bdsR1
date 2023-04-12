@@ -113,7 +113,7 @@ student_scores %>%
   glimpse()
 ```
 
-.small[
+.large[
 .pull-left[
 ```{r output.lines=10, echo=FALSE}
 student_scores %>%
