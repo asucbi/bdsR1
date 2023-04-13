@@ -1,0 +1,297 @@
+---
+title: "Lab 10 - Exploring the GSS"
+params: 
+    SHOW_SOLS: TRUE # if i wanted to give solutions, could toggle back on. 
+    TOGGLE: TRUE
+---
+
+```{r setup, include=FALSE}
+source('assets/setup.R')
+# knitr::opts_chunk$set(
+#   eval = FALSE,
+#   out.width = "80%",
+#   fig.asp = 0.618,
+#   fig.width = 10,
+#   dpi = 300
+# )
+
+# :::red : use for pre-lab activity instructions
+# :::lo : use for outlining the learning objectives
+
+# :::green : use for tips/hints on how to complete the task
+# :::yellow : use for additional information on how to use R that does not directly have anything to do with the assignment tasks
+
+# :::frame : use when want to set some additional instructions/code/examples apart from the assignment task when explaining something about how to use R
+# :::blue : same color as question box background. Not sure how much this needs to be used. 
+# :::statbox : looks a lot like yellow
+
+```
+
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, fig.cap = "Photo by Mauro Mora on Unsplash", eval = TRUE}
+knitr::include_graphics("img/mauro-mora-31-pOduwZGE-unsplash.jpg")
+```
+
+# Background
+
+The GSS gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes.
+
+Hundreds of trends have been tracked since 1972.
+
+In addition, since the GSS adopted questions from earlier surveys, trends can be followed for up to 70 years.
+
+The GSS contains a standard core of demographic, behavioral, and attitudinal questions, plus topics of special interest.
+
+Among the topics covered are civil liberties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, and stress and traumatic events.
+
+In this assignment we analyze data from the 2016 GSS, using it to estimate values of population parameters of interest about US adults.[^mod-10-exploring-gss-1]
+
+:::lo
+**LEARNING OBJECTIVES**
+
+-   Review
+  -   Basic data wrangling
+  -   Basic data exploration
+  -   Basic data visualization
+  -   Basic linear regression model building
+:::
+
+# Getting started
+
+Go to the Posit Cloud and locate the project folder for "Module 10 - Lab" and open the starter R Markdown document.
+
+Knit the document to make sure it compiles without errors.
+
+## Warm up
+
+Before we introduce the data, let's warm up with some simple exercises.
+
+Update the YAML of your R Markdown file with your information and knit.
+
+## Packages
+
+We'll use the **tidyverse** package for much of the data wrangling and visualization, the **tidymodels** package to run a simple linear regression, and the data lives in the **dsbox** package. These packages are already installed for you. 
+
+You can load them by running the following in your Console:
+
+```{r load-packages, message = FALSE, eval = TRUE}
+library(tidyverse)
+library(tidymodels)
+library(dsbox)
+```
+
+## Data
+
+The data can be found in the **dsbox** package, and it's called `gss16`.
+
+Since the dataset is distributed with the package, we don't need to load it separately; it becomes available to us when we load the package.
+
+You can find out more about the dataset by inspecting its documentation, which you can access by running `?gss16` in the Console or using the Help menu in RStudio to search for `gss16`.
+
+You can also find this information [here](https://rstudio-education.github.io/dsbox/reference/gss16.html).
+
+# Exercises
+
+## Part 1: Harassment at work
+
+In 2016, the GSS added a new question on harassment at work.
+The question is phrased as the following.
+
+> *Over the past five years, have you been harassed by your superiors or co-workers at your job, for example, have you experienced any bullying, physical or psychological abuse?*
+
+Answers to this question are stored in the `harass5` variable in our dataset.
+
+---
+
+`r qbegin(1)`
+
+What are the possible responses to this question and how many respondents chose each of these answers?
+
+`r qend()`
+
+---
+
+`r qbegin(2)`
+
+Referring back to Question 1, what percent of the respondents have been harassed by their superiors or co-workers at their job (be sure to exclude `NA`s and `Does not apply`s). 
+
+`r qend()`
+
+---
+
+## Part 2: Time spent on email
+
+The 2016 GSS also asked respondents how many hours and minutes they spend on email weekly.
+
+The responses to these questions are recorded in the `emailhr` and `emailmin` variables.
+
+For example, if the response is 2.5 hrs, this would be recorded as `emailhr = 2` and `emailmin = 30`.
+
+`r qbegin(3)`
+
+Create a new variable called `email` that combines these two variables to reports the number of minutes the respondents spend on email weekly.
+
+`r qend()`
+
+---
+
+`r qbegin(4)`
+
+Visualize the distribution of this new variable.
+
+Find the mean and the median number of minutes respondents spend on email weekly.
+
+Is the mean or the median a better measure of the typical among of time Americans spend on email weekly?
+
+Why?
+
+`r qend()`
+
+:::green
+A [refresher](https://www.statology.org/when-to-use-mean-vs-median/) on the differences between mean and median for describing the central tendency of a distribution.
+:::
+
+---
+
+`r qbegin(5)`
+
+Create another new variable, `snap_insta` that is coded as "Yes" if the respondent reported using any of Snapchat (`snapchat`) or Instagram (`instagrm`), and "No" if not.
+
+If the recorded value was `NA` for both of these questions, the value in your new variable should also be `NA`.
+
+In your response, please also show that what you did was correct, something like what is in the "Solution" below (go ahead and click "Solution").
+
+`r qend()`
+
+`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
+```{r echo=FALSE}
+gss16 <- gss16 %>% mutate(snap_insta = if_else (snapchat == "Yes" | instagrm == "Yes", "Yes", "No"))
+gss16 %>% select(snapchat, instagrm, snap_insta) %>% head()
+```
+`r solend()`
+
+---
+
+`r qbegin(6)`
+
+Calculate the percentage of Yes's for `snap_insta` among those who answered the question, i.e. excluding `NA`s.
+
+`r qend()`
+
+---
+
+`r qbegin(7)`
+
+What are the possible responses to the question _Last week were you working full time, part time, going to school, keeping house, or what?_ 
+
+How many respondents chose each of these answers?
+
+`r qend()`
+
+:::green
+Note that the responses are stored in the `wrkstat` variable.
+:::
+
+---
+
+`r qbegin(8)`
+
+Fit a model predicting `email` (number of minutes per week spent on email) from `educ` (number of years of education), `wrkstat`, and `snap_insta`. __Attempt to do this with the `tidymodels` syntax. Use the default `lm` engine.__ 
+
+Interpret the slopes for each of these variables.
+
+`r qend()`
+
+:::yellow
+For how to do this the `tidymodels` way, revisit the lecture slides or you could always go [here](https://www.tidymodels.org/start/models/).
+:::
+
+---
+
+`r qbegin(9)`
+
+Create a predicted values vs. residuals plot for this model.
+
+Are there any issues with the model? If yes, describe them.
+
+`r qend()`
+
+:::yellow
+__Need help?__ You can not simply plot the model object you generate from running a `tidymodels`, like you might have done with the  (e.g., `plot(model_object)`). You need to extract the predicted values from the model object (called `fitted.values`) and then extract the residuals from the model object. You can then use `plot()` with predicted values as the first variable (`x-axis`) and residuals as the second variable (`y-axis`). 
+
+Time for some trial and error. I would start with using `glimpse` on the model object to see what it contains and go from there. 
+:::
+
+:::yellow
+__One last tidbit__ You should have gone over how to diagnose residual plots in the lecture and readings. But there are a lot of good resources online as well (e.g., such as this [one](https://www.qualtrics.com/support/stats-iq/analyses/regression-guides/interpreting-residual-plots-improve-regression/) from the good people at Qualtrics).
+:::
+
+---
+
+## Part 3: Political views and science research
+
+The 2016 GSS also asked respondents whether they think of themselves as liberal or conservative (`polviews`) and whether they think science research is necessary and should be supported by the federal government (`advfront`).
+
+-   The question on science research is worded as follows:
+
+> Even if it brings no immediate benefits, scientific research that advances the frontiers of knowledge is necessary and should be supported by the federal government.
+
+And possible responses to this question are Strongly agree, Agree, Disagree, Strongly disagree, Don't know, No answer, Not applicable.
+
+-   The question on political views is worded as follows:
+
+> We hear a lot of talk these days about liberals and conservatives.
+
+> I'm going to show you a seven-point scale on which the political views that people might hold are arranged from extremely liberal--point 1--to extremely conservative--point 7.
+
+> Where would you place yourself on this scale?
+
+And possible responses to this question are Extremely liberal, Liberal, Slightly liberal, Moderate, Slghtly conservative, Conservative, Extrmly conservative.
+
+Responses that were originally Don't know, No answer and Not applicable are already mapped to `NA`s upon data import.
+
+:::green
+__Note__ The levels of this variables are spelled inconsistently: "Extremely liberal" vs. "Extrmly conservative". Since this is the spelling that shows up in the data, you need to make sure this is how you spell the levels in your code. This is the sort of thing that happens in real-world data. 
+:::
+
+`r qbegin(10)`
+
+In a new variable, recode `advfront` such that "Strongly Agree" and "Agree" are mapped to `"Yes"`, and "Disagree" and "Strongly disagree" are mapped to `"No"`. The remaining levels can be left as is.
+
+Don't overwrite the existing `advfront`, instead pick a different, informative name for your new variable.
+
+`r qend()`
+
+---
+
+`r qbegin(11)`
+
+In a new variable, recode `polviews` such that "Extremely liberal," "Liberal," and "Slightly liberal," are mapped to `"Liberal"`, and "Slghtly conservative," "Conservative," and "Extrmly conservative" are mapped to `"Conservative"`. The remaining levels can be left as is.
+
+Make sure that the levels are in a reasonable order. You should make use of the `forcats` package to ensure this. 
+
+Don't overwrite the existing `polviews`, instead pick a different, informative name for your new variable.
+
+`r qend()`
+
+---
+
+`r qbegin(12)`
+
+Create a visualization that displays the relationship between these two new variables and interpret it.
+
+`r qend()`
+
+---
+
+# Wrapping up
+
+Now knit the final document as a PDF and make sure that everything is looks ok. 
+
+Also, make sure you are following coding style guidelines we discussed in class. Make any edits as needed.
+
+Also, __make sure all of your R chunks are properly labelled, and your figures are reasonably sized.__
+
+[^mod-10-exploring-gss-1]: Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim.
+    General Social Surveys, 1972-2016 [machine-readable data file] /Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation.
+    -NORC ed.- Chicago: NORC at the University of Chicago [producer and distributor].
+    Data accessed from the GSS Data Explorer website at gssdataexplorer.norc.org.

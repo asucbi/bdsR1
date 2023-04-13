@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 10 - Exploring the GSS</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-chevron-circle-right')) {
+    f.classList.add('fa-chevron-circle-down')
+    f.classList.remove('fa-chevron-circle-right')
+} else {
+    f.classList.add('fa-chevron-circle-right')
+    f.classList.remove('fa-chevron-circle-down')
+}
+}
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/style-labs.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 10 - Exploring the GSS</h1>
+
+</div>
+
+
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:photo"></span>
+<img src="img/mauro-mora-31-pOduwZGE-unsplash.jpg" alt="Photo by Mauro Mora on Unsplash" width="80%" />
+<p class="caption">
+Figure 1: Photo by Mauro Mora on Unsplash
+</p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>The GSS gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes.</p>
+<p>Hundreds of trends have been tracked since 1972.</p>
+<p>In addition, since the GSS adopted questions from earlier surveys, trends can be followed for up to 70 years.</p>
+<p>The GSS contains a standard core of demographic, behavioral, and attitudinal questions, plus topics of special interest.</p>
+<p>Among the topics covered are civil liberties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, and stress and traumatic events.</p>
+<p>In this assignment we analyze data from the 2016 GSS, using it to estimate values of population parameters of interest about US adults.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<div class="lo">
+<p><strong>LEARNING OBJECTIVES</strong></p>
+<ul>
+<li>Review</li>
+<li>Basic data wrangling</li>
+<li>Basic data exploration</li>
+<li>Basic data visualization</li>
+<li>Basic linear regression model building</li>
+</ul>
+</div>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>Go to the Posit Cloud and locate the project folder for “Module 10 - Lab” and open the starter R Markdown document.</p>
+<p>Knit the document to make sure it compiles without errors.</p>
+<div id="warm-up" class="section level2">
+<h2>Warm up</h2>
+<p>Before we introduce the data, let’s warm up with some simple exercises.</p>
+<p>Update the YAML of your R Markdown file with your information and knit.</p>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling and visualization, the <strong>tidymodels</strong> package to run a simple linear regression, and the data lives in the <strong>dsbox</strong> package. These packages are already installed for you.</p>
+<p>You can load them by running the following in your Console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dsbox)</span></code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The data can be found in the <strong>dsbox</strong> package, and it’s called <code>gss16</code>.</p>
+<p>Since the dataset is distributed with the package, we don’t need to load it separately; it becomes available to us when we load the package.</p>
+<p>You can find out more about the dataset by inspecting its documentation, which you can access by running <code>?gss16</code> in the Console or using the Help menu in RStudio to search for <code>gss16</code>.</p>
+<p>You can also find this information <a href="https://rstudio-education.github.io/dsbox/reference/gss16.html">here</a>.</p>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<div id="part-1-harassment-at-work" class="section level2">
+<h2>Part 1: Harassment at work</h2>
+<p>In 2016, the GSS added a new question on harassment at work.
+The question is phrased as the following.</p>
+<blockquote>
+<p><em>Over the past five years, have you been harassed by your superiors or co-workers at your job, for example, have you experienced any bullying, physical or psychological abuse?</em></p>
+</blockquote>
+<p>Answers to this question are stored in the <code>harass5</code> variable in our dataset.</p>
+<hr />
+<div class="question-begin">
+Question 1
+</div>
+<div class="question-body">
+<p>What are the possible responses to this question and how many respondents chose each of these answers?</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 2
+</div>
+<div class="question-body">
+<p>Referring back to Question 1, what percent of the respondents have been harassed by their superiors or co-workers at their job (be sure to exclude <code>NA</code>s and <code>Does not apply</code>s).</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+</div>
+<div id="part-2-time-spent-on-email" class="section level2">
+<h2>Part 2: Time spent on email</h2>
+<p>The 2016 GSS also asked respondents how many hours and minutes they spend on email weekly.</p>
+<p>The responses to these questions are recorded in the <code>emailhr</code> and <code>emailmin</code> variables.</p>
+<p>For example, if the response is 2.5 hrs, this would be recorded as <code>emailhr = 2</code> and <code>emailmin = 30</code>.</p>
+<div class="question-begin">
+Question 3
+</div>
+<div class="question-body">
+<p>Create a new variable called <code>email</code> that combines these two variables to reports the number of minutes the respondents spend on email weekly.</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 4
+</div>
+<div class="question-body">
+<p>Visualize the distribution of this new variable.</p>
+<p>Find the mean and the median number of minutes respondents spend on email weekly.</p>
+<p>Is the mean or the median a better measure of the typical among of time Americans spend on email weekly?</p>
+<p>Why?</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p>A <a href="https://www.statology.org/when-to-use-mean-vs-median/">refresher</a> on the differences between mean and median for describing the central tendency of a distribution.</p>
+</div>
+<hr />
+<div class="question-begin">
+Question 5
+</div>
+<div class="question-body">
+<p>Create another new variable, <code>snap_insta</code> that is coded as “Yes” if the respondent reported using any of Snapchat (<code>snapchat</code>) or Instagram (<code>instagrm</code>), and “No” if not.</p>
+<p>If the recorded value was <code>NA</code> for both of these questions, the value in your new variable should also be <code>NA</code>.</p>
+<p>In your response, please also show that what you did was correct, something like what is in the “Solution” below (go ahead and click “Solution”).</p>
+</div>
+<p class="question-end">
+</p>
+<div class="solution-begin">
+<span id="sol-start-1" class="fa fa-chevron-circle-right solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-1&#39;, &#39;sol-start-1&#39;)"> Solution </span>
+</div>
+<div id="sol-body-1" class="solution-body" style="display: none;">
+<pre><code>## # A tibble: 6 × 3
+##   snapchat instagrm snap_insta
+##   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     
+## 1 &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;      
+## 2 No       No       No        
+## 3 No       No       No        
+## 4 &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;      
+## 5 Yes      Yes      Yes       
+## 6 No       Yes      Yes</code></pre>
+</div>
+<p class="solution-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 6
+</div>
+<div class="question-body">
+<p>Calculate the percentage of Yes’s for <code>snap_insta</code> among those who answered the question, i.e. excluding <code>NA</code>s.</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 7
+</div>
+<div class="question-body">
+<p>What are the possible responses to the question <em>Last week were you working full time, part time, going to school, keeping house, or what?</em></p>
+<p>How many respondents chose each of these answers?</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p>Note that the responses are stored in the <code>wrkstat</code> variable.</p>
+</div>
+<hr />
+<div class="question-begin">
+Question 8
+</div>
+<div class="question-body">
+<p>Fit a model predicting <code>email</code> (number of minutes per week spent on email) from <code>educ</code> (number of years of education), <code>wrkstat</code>, and <code>snap_insta</code>. <strong>Attempt to do this with the <code>tidymodels</code> syntax. Use the default <code>lm</code> engine.</strong></p>
+<p>Interpret the slopes for each of these variables.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="yellow">
+<p>For how to do this the <code>tidymodels</code> way, revisit the lecture slides or you could always go <a href="https://www.tidymodels.org/start/models/">here</a>.</p>
+</div>
+<hr />
+<div class="question-begin">
+Question 9
+</div>
+<div class="question-body">
+<p>Create a predicted values vs. residuals plot for this model.</p>
+<p>Are there any issues with the model? If yes, describe them.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="yellow">
+<p><strong>Need help?</strong> You can not simply plot the model object you generate from running a <code>tidymodels</code>, like you might have done with the (e.g., <code>plot(model_object)</code>). You need to extract the predicted values from the model object (called <code>fitted.values</code>) and then extract the residuals from the model object. You can then use <code>plot()</code> with predicted values as the first variable (<code>x-axis</code>) and residuals as the second variable (<code>y-axis</code>).</p>
+<p>Time for some trial and error. I would start with using <code>glimpse</code> on the model object to see what it contains and go from there.</p>
+</div>
+<div class="yellow">
+<p><strong>One last tidbit</strong> You should have gone over how to diagnose residual plots in the lecture and readings. But there are a lot of good resources online as well (e.g., such as this <a href="https://www.qualtrics.com/support/stats-iq/analyses/regression-guides/interpreting-residual-plots-improve-regression/">one</a> from the good people at Qualtrics).</p>
+</div>
+<hr />
+</div>
+<div id="part-3-political-views-and-science-research" class="section level2">
+<h2>Part 3: Political views and science research</h2>
+<p>The 2016 GSS also asked respondents whether they think of themselves as liberal or conservative (<code>polviews</code>) and whether they think science research is necessary and should be supported by the federal government (<code>advfront</code>).</p>
+<ul>
+<li>The question on science research is worded as follows:</li>
+</ul>
+<blockquote>
+<p>Even if it brings no immediate benefits, scientific research that advances the frontiers of knowledge is necessary and should be supported by the federal government.</p>
+</blockquote>
+<p>And possible responses to this question are Strongly agree, Agree, Disagree, Strongly disagree, Don’t know, No answer, Not applicable.</p>
+<ul>
+<li>The question on political views is worded as follows:</li>
+</ul>
+<blockquote>
+<p>We hear a lot of talk these days about liberals and conservatives.</p>
+</blockquote>
+<blockquote>
+<p>I’m going to show you a seven-point scale on which the political views that people might hold are arranged from extremely liberal–point 1–to extremely conservative–point 7.</p>
+</blockquote>
+<blockquote>
+<p>Where would you place yourself on this scale?</p>
+</blockquote>
+<p>And possible responses to this question are Extremely liberal, Liberal, Slightly liberal, Moderate, Slghtly conservative, Conservative, Extrmly conservative.</p>
+<p>Responses that were originally Don’t know, No answer and Not applicable are already mapped to <code>NA</code>s upon data import.</p>
+<div class="green">
+<p><strong>Note</strong> The levels of this variables are spelled inconsistently: “Extremely liberal” vs. “Extrmly conservative”. Since this is the spelling that shows up in the data, you need to make sure this is how you spell the levels in your code. This is the sort of thing that happens in real-world data.</p>
+</div>
+<div class="question-begin">
+Question 10
+</div>
+<div class="question-body">
+<p>In a new variable, recode <code>advfront</code> such that “Strongly Agree” and “Agree” are mapped to <code>"Yes"</code>, and “Disagree” and “Strongly disagree” are mapped to <code>"No"</code>. The remaining levels can be left as is.</p>
+<p>Don’t overwrite the existing <code>advfront</code>, instead pick a different, informative name for your new variable.</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 11
+</div>
+<div class="question-body">
+<p>In a new variable, recode <code>polviews</code> such that “Extremely liberal,” “Liberal,” and “Slightly liberal,” are mapped to <code>"Liberal"</code>, and “Slghtly conservative,” “Conservative,” and “Extrmly conservative” are mapped to <code>"Conservative"</code>. The remaining levels can be left as is.</p>
+<p>Make sure that the levels are in a reasonable order. You should make use of the <code>forcats</code> package to ensure this.</p>
+<p>Don’t overwrite the existing <code>polviews</code>, instead pick a different, informative name for your new variable.</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+<div class="question-begin">
+Question 12
+</div>
+<div class="question-body">
+<p>Create a visualization that displays the relationship between these two new variables and interpret it.</p>
+</div>
+<p class="question-end">
+</p>
+<hr />
+</div>
+</div>
+<div id="wrapping-up" class="section level1">
+<h1>Wrapping up</h1>
+<p>Now knit the final document as a PDF and make sure that everything is looks ok.</p>
+<p>Also, make sure you are following coding style guidelines we discussed in class. Make any edits as needed.</p>
+<p>Also, <strong>make sure all of your R chunks are properly labelled, and your figures are reasonably sized.</strong></p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim.
+General Social Surveys, 1972-2016 [machine-readable data file] /Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation.
+-NORC ed.- Chicago: NORC at the University of Chicago [producer and distributor].
+Data accessed from the GSS Data Explorer website at gssdataexplorer.norc.org.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
