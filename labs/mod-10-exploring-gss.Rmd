@@ -128,7 +128,7 @@ For example, if the response is 2.5 hrs, this would be recorded as `emailhr = 2`
 
 `r qbegin(3)`
 
-Create a new variable called `email` that combines these two variables to reports the number of minutes the respondents spend on email weekly.
+Create a new variable called `email` that combines these two variables to report the number of minutes the respondents spend on email weekly.
 
 `r qend()`
 

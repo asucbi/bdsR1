@@ -458,11 +458,13 @@ There are several ways of doing this, but one thing I immediately notice is that
 
 Luckily, there's a function to do this called: `separate()`!
 
-And once we have completed separating the single `description` column and extracted the date information into a new column called `date`, we need to convert it into a format R recognizes using a function from the `lubridate` package.   
-
 `r qbegin(12)`
 
-Fill in the blanks in to implement the data wrangling we described above. Note that this will result in some warnings when you run the code, and that's OK for what we are wanting to do. 
+Fill in the blanks in to implement the data wrangling we described above.
+
+Save the extracted date information as a new column called `date`.
+
+__Note__ that this will result in some warnings when you run the code, and that's OK for what we are wanting to do. 
 
 `r qend()`
 
@@ -474,7 +476,7 @@ Load in the `lubridate` package (you have to do this yourself) and convert the n
 
 `r qbegin(14)`
 
-Finally, print out a summary of the data frame using the `skim()` function. Make sure that `date` is recognized as the correct variable type. What is the earliest date for which we have a statement?
+Finally, print out a summary of the data frame using the `skim()` function. Make sure that `date` is recognized as the correct variable type. Explicitly write out in your own words: What is the earliest date for which we have a statement?
 
 `r qend()`
 
