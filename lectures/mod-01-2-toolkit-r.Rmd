@@ -1,5 +1,5 @@
 ---
-title: "Meet the toolkit:<br>programming"
+title: "Meet the toolkit"
 subtitle: "<br><br> Behavioral Data Science I in R"
 author: "School of Social and Behavioral Sciences"
 output:
@@ -34,8 +34,8 @@ library(lubridate)
 .gray[
 <!-- - introds.org -->
 - Canvas
-- Perusall
-- Peerceptiv
+- Posit
+- InScribe
 - Zoom
 ]
 ]
@@ -46,9 +46,6 @@ library(lubridate)
   - .pink[RStudio]
   - .pink[tidyverse]
   - .pink[R Markdown]
-- .gray[Version control and collaboration:]
-  - .gray[Git]
-  - .gray[GitHub]
 ]
 
 ---
@@ -106,7 +103,6 @@ Long-term goals:
 
 - Scriptability $\rightarrow$ R
 - Literate programming (code, narrative, output in one place) $\rightarrow$ R Markdown
-- Version control $\rightarrow$ Git / GitHub
 
 ---
 
@@ -350,11 +346,3 @@ knitr::include_graphics("mod-01-2-toolkit-r/hex-australia.png")
 Mitchell O'Hara-Wild, [useR! 2018 feature wall](https://www.mitchelloharawild.com/blog/user-2018-feature-wall/)
 ]
 
----
-
-.your-turn[
-.light-blue[.hand[Your turn:]] `AE 02 - Bechdel + R Markdown`
-- [The Bechdel test](https://en.wikipedia.org/wiki/Bechdel_test) asks whether a work of fiction features at least two women who talk to each other about something other than a man, and there must be two women named characters.
-- Go to [RStudio Cloud](https://rstudio.cloud/) and start the assignment `AE 02 - Bechdel + R Markdown`. 
-- Open and knit the R Markdown document `bechdel.Rmd`, review the document, and fill in the blanks.
-]

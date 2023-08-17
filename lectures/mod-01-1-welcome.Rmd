@@ -1,5 +1,5 @@
 ---
-title: "Welcome! and hey! "
+title: "Welcome!"
 subtitle: "<br><br> Behavioral Data Science I in R"
 author: "School of Social and Behavioral Sciences"
 output:
@@ -11,11 +11,10 @@ output:
       highlightLines: true
       highlightStyle: solarized-light
       countIncrementalSlides: false
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r child = "setup.Rmd"}
+
 ```
 
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
@@ -24,20 +23,6 @@ library(emo)
 packageVersion("xaringan")
 ```
 
-<!-- --- -->
-
-<!-- class: middle -->
-
-<!-- # Dr. Nicholas Duran -->
-<!-- # Dr. Derek Powell -->
-
-<!-- --- -->
-
-<!-- class: middle -->
-
-<!-- # Hello world! -->
-
-<!-- --- -->
 
 ## Data science
 
@@ -46,7 +31,7 @@ packageVersion("xaringan")
 
 - We're going to learn to do this in a `tidy` way -- more on that later!
 
-- This is a course on introduction to data science, with an emphasis on statistical thinking.
+- This is a course on introduction to data science, with an emphasis on critical thinking.
 ]
 
 ---
@@ -86,6 +71,8 @@ A: We can discuss that over `r emo::ji("coffee")`.
 ...where you can find most everything except for HW and LAB starter files
 
 # Canvas
+
+# Posit
 
 ---
 
@@ -264,130 +251,6 @@ class: middle
 - Now that we have a PDF file, go ahead and export it to your harddrive to upload to Canvas (hit the checkmark next to the file and go to the `More` dropdown menu and click `Export`)
 
 - Lets do a little setup to change the feel of things (change the look, view in panel)
-
----
-
-<!-- --- -->
-
-<!-- background-image: url("img/unvotes/unvotes-01.jpeg") -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-02.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-03.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-04.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-05.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-06.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-07.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="90%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-08.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="90%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-09.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="90%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-10.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="90%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-11.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="90%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-12.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-13.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: inverse -->
-
-<!-- ```{r echo=FALSE, out.width="100%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-14.jpeg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- .center[ -->
-<!-- .large[ -->
-<!-- [minecr.shinyapps.io/unvotes](https://minecr.shinyapps.io/unvotes/) -->
-<!-- ] -->
-<!-- ] -->
-
-<!-- ```{r echo=FALSE, out.width="65%"} -->
-<!-- knitr::include_graphics("mod-01-1-welcome/unvotes/unvotes-15.png") -->
-<!-- ``` -->
-
-<!-- --- -->
 
 
 
