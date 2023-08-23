@@ -39,6 +39,3 @@ Remove this text, and add your answer here.
 
 Remove this text, and add your answer here. Add code chunks as needed. 
 
-### Exercise 6
-
-Remove this text, and add your answer here. Add code chunks as needed. 
