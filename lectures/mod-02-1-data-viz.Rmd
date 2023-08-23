@@ -85,7 +85,7 @@ happy
 
 ## United States of America
 
-```{r echo = FALSE, warning = FALSE, cache = TRUE, out.width = "80%"}
+```{r echo = FALSE, warning = FALSE, cache = FALSE, out.width = "80%"}
 knitr::include_graphics("img/usa-stats.png")
 ```
 
@@ -154,7 +154,7 @@ plt_example
 
 ## Costa Rica!
 
-```{r echo = FALSE, warning = FALSE, cache = TRUE, out.width = "80%"}
+```{r echo = FALSE, warning = FALSE, cache = FALSE, out.width = "80%"}
 # costa_rica <- image_read("img/costa-rica.png")
 # 
 # fig <- image_graph(width = 1600, height = 900, res = 200)
