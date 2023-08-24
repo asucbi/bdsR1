@@ -102,7 +102,9 @@ Let's de-construct this code:
 
 🧶 ✅ ⬆️  *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
-5.  Create three visualizations that will help you compare the distribution of employees' regular-time, overtime, and total weekly hours worked (`regular_hours`, `overtime_hours`, and `total_hours`) across departments. You get to decide what type of visualizations to create and there is more than one correct answer! In your answer, include a brief interpretation of how departments appear to operate and how they compare to each other in terms of work schedules.
+5.  Use a single pipeline to identity the city departments with the top five median salaries. Then, in another pipeline filter the data for these five departments and make ridge plots of the distributions of salaries in these five departments. In a third pipeline, calculate the minimum, mean, median, standard deviation, IQR, and maximum salary in each of these departments. Use the visualization and the summary statistics to describe the distribution of salaries in the departments (Your answer will include three pipelines with visible outputs, one of which ends in a visualization, as well as a narrative.)
+
+6.  Create three visualizations that will help you compare the distribution of employees' regular-time, overtime, and total weekly hours worked (`regular_hours`, `overtime_hours`, and `total_hours`) across departments. You get to decide what type of visualizations to create and there is more than one correct answer! In your answer, include a brief interpretation of how departments appear to operate and how they compare to each other in terms of work schedules.
 
 # Submitting your work
 
