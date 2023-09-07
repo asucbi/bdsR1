@@ -197,7 +197,7 @@ college_recent_grads %>%
 ```
 
 
-6. Which major category is the least popular in this sample? To answer this question we use a new function called `count`, which first groups the data and then counts the number of observations in each category (see below). Add to the pipeline appropriately to arrange the results so that the major with the fewest observations is on top.
+6. Which major category is the least popular in this sample? To answer this question we can use a function called `count`, which first groups the data and then counts the number of observations in each category (see below). Add to the pipeline appropriately to arrange the results so that the major with the fewest observations is on top.
 
 ```{r}
 college_recent_grads %>%
