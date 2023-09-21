@@ -17,7 +17,7 @@ None of these exercises are super hard, but you will likely find yourself engagi
 
 # Getting started
 
-Go to Posit Cloud and locate the project folder for "Module 5 - Lab and HW" and open the starter R Markdown document.
+Go to Posit Cloud and locate the project folder for "Module 5" and open the starter R Markdown document.
 
 Knit the document to make sure it compiles without errors.
 

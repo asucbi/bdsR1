@@ -14,7 +14,7 @@
 
 <title>HW 05 - Legos</title>
 
-<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <link href="site_libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
 <link href="site_libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
 
@@ -152,98 +152,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>
-<span class="marginnote shownote"> <!--
+<span class="marginnote shownote">
+<!--
 <div class="figure">-->
 <img src="img/daniel-cheung-ZqqlOZyGG7g-unsplash.jpg" alt="Photo by Daniel Cheung on Unsplash" width="80%"  />
 <!--
-<p class="caption marginnote">-->Photo by Daniel Cheung on
-Unsplash<!--</p>--> <!--</div>--></span>
+<p class="caption marginnote">-->Photo by Daniel Cheung on Unsplash<!--</p>-->
+<!--</div>--></span>
 </p>
-<p>This week we’ll do some data gymnastics to refresh and review what we
-learned over the past few weeks using (simulated) data from Lego sales
-in 2018. You will be using functions and operations you’ve seen many
-times (e.g., <code>mutate</code>, <code>count</code>,
-<code>filter</code>, <code>group_by</code>, <code>arrange</code>, etc.),
-plus a new string manipulation function you’ve never seen (at least I
-think).</p>
-<p>None of these exercises are super hard, but you will likely find
-yourself engaging in trial and error and iteratively adjusting your
-code. This is data wrangling.</p>
+<p>This week we’ll do some data gymnastics to refresh and review what we learned over the past few weeks using (simulated) data from Lego sales in 2018. You will be using functions and operations you’ve seen many times (e.g., <code>mutate</code>, <code>count</code>, <code>filter</code>, <code>group_by</code>, <code>arrange</code>, etc.), plus a new string manipulation function you’ve never seen (at least I think).</p>
+<p>None of these exercises are super hard, but you will likely find yourself engaging in trial and error and iteratively adjusting your code. This is data wrangling.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>Go to Posit Cloud and locate the project folder for “Module 5 - Lab
-and HW” and open the starter R Markdown document.</p>
+<p>Go to Posit Cloud and locate the project folder for “Module 5” and open the starter R Markdown document.</p>
 <p>Knit the document to make sure it compiles without errors.</p>
 <p>Update the YAML of your R Markdown file with your information.</p>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p>We’ll use the <strong>tidyverse</strong> package for much of the data
-wrangling and visualization.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling and visualization.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The data can be found in the <code>data</code> folder, and the file
-you are looking for is called: <code>lego_sales.csv</code>. You are
-going to need to import it in order to work with it.</p>
-<p>Please read more about the dataset by inspecting its documentation,
-which you can find <a
-href="https://rstudio-education.github.io/dsbox/reference/lego_sales.html">here</a>.</p>
+<p>The data can be found in the <code>data</code> folder, and the file you are looking for is called: <code>lego_sales.csv</code>. You are going to need to import it in order to work with it.</p>
+<p>Please read more about the dataset by inspecting its documentation, which you can find <a href="https://rstudio-education.github.io/dsbox/reference/lego_sales.html">here</a>.</p>
 </div>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <p>Answer the following exercises using pipelines.</p>
-<p>For each exercise, state your answer in a sentence, e.g. “In this
-sample, the first three common names of purchasers are …”.</p>
-<p>Note that the answers to all exercises are within the context of this
-particular sample of sales, i.e. you shouldn’t make inferences about the
-population of all Lego sales based on this sample.</p>
+<p>For each exercise, state your answer in a sentence, e.g. “In this sample, the first three common names of purchasers are …”.</p>
+<p>Note that the answers to all exercises are within the context of this particular sample of sales, i.e. you shouldn’t make inferences about the population of all Lego sales based on this sample.</p>
 <ol style="list-style-type: decimal">
-<li><p>What are the three most common first names of
-purchasers?</p></li>
-<li><p>What are the three most common themes of Lego sets
-purchased?</p></li>
-<li><p>Among the most common theme of Lego sets purchased, what is the
-most common subtheme?</p></li>
+<li><p>What are the three most common first names of purchasers?</p></li>
+<li><p>What are the three most common themes of Lego sets purchased?</p></li>
+<li><p>Among the most common theme of Lego sets purchased, what is the most common subtheme?</p></li>
 </ol>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span
-class="marginnote"><span style="display: block;"><strong>Hint:</strong>
-For Ex. 4, use the <code>case_when()</code> function.</span></span></p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> For Ex. 4, use the <code>case_when()</code>
+function.</span></span></p>
 <ol start="4" style="list-style-type: decimal">
-<li>Create a new variable called <code>age_group</code> and group the
-ages into the following categories: “18 and under”, “19 - 25”, “26 -
-35”, “36 - 50”, “51 and over”.</li>
+<li>Create a new variable called <code>age_group</code> and group the ages into the following categories: “18 and under”, “19 - 25”, “26 - 35”, “36 - 50”, “51 and over”.</li>
 </ol>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span
-class="marginnote"><span style="display: block;"><strong>Hint:</strong>
-For Ex. 5, you will need to consider quantity of
-purchases.</span></span></p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> For Ex. 5, you will need to consider quantity
+of purchases.</span></span></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Which age group has purchased the highest number of Lego sets.</li>
 </ol>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span
-class="marginnote"><span style="display: block;"><strong>Hint:</strong>
-For Ex. 6, you will need to consider quantity of purchases as well as
-price of lego sets.</span></span></p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> For Ex. 6, you will need to consider quantity
+of purchases as well as price of lego sets.</span></span></p>
 <ol start="6" style="list-style-type: decimal">
 <li><p>Which age group has spent the most money on Legos?</p></li>
 <li><p>Which Lego theme has made the most money for Lego?</p></li>
 </ol>
-<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span
-class="marginnote"><span style="display: block;"><strong>Hint:</strong>
-For Ex. 8, you’re going to have to manipulate a string to create a new
-variable. The <a
+<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> For Ex. 8, you’re going to have to manipulate
+a string to create a new variable. The <a
 href="https://stringr.tidyverse.org/reference/str_sub.html"><code>str_sub()</code></a>
 function will be helpful here! Read the help documentation, google
 search it, hack away. The best way to learn.</span></span></p>
 <ol start="8" style="list-style-type: decimal">
-<li><p>Which area code has spent the most money on Legos? Remember an
-area code is the first 3 digits of a phone number.</p></li>
-<li><p>Come up with a question you want to answer using these data, and
-write it down. Then, create a data visualization that answers the
-question, and explain how your visualization answers the
-question.</p></li>
+<li><p>Which area code has spent the most money on Legos?
+Remember an area code is the first 3 digits of a phone number.</p></li>
+<li><p>Come up with a question you want to answer using these data, and write it down.
+Then, create a data visualization that answers the question, and explain how your visualization answers the question.</p></li>
 </ol>
 </div>
 

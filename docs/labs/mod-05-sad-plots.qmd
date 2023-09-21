@@ -38,7 +38,7 @@ Your visualization should be accompanied by a brief paragraph describing the cho
 
 # Getting started
 
-Go to the Posit Cloud and locate the project folder for "Module 5" and open the starter R Markdown document.
+Go to the Posit Cloud and locate the project folder for "Module 5 - Lab and HW" and open the starter R Markdown document.
 
 Knit the document to make sure it compiles without errors.
 

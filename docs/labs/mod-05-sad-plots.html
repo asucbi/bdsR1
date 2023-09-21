@@ -28,7 +28,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -103,11 +103,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
+code span.at { color: #204a87; } /* Attribute */
 code span.bn { color: #0000cf; } /* BaseN */
 code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
+code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #8f5902; font-style: italic; } /* Comment */
 code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
 code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
@@ -116,14 +116,14 @@ code span.dv { color: #0000cf; } /* DecVal */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
 code span.ot { color: #8f5902; } /* Other */
 code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
 code span.ss { color: #4e9a06; } /* SpecialString */
 code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
@@ -358,7 +358,7 @@ div.tocify {
 </div>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>Go to the Posit Cloud and locate the project folder for “Module 5 - Lab and HW” and open the starter R Markdown document.</p>
+<p>Go to the Posit Cloud and locate the project folder for “Module 5” and open the starter R Markdown document.</p>
 <p>Knit the document to make sure it compiles without errors.</p>
 <div id="warm-up" class="section level2">
 <h2>Warm up</h2>
@@ -369,8 +369,8 @@ div.tocify {
 <h2>Packages</h2>
 <p>Per usual, we’ll use the <strong>tidyverse</strong> package for much of the data wrangling, and also the <strong>readxl</strong> package which will be obvious when you go to work with the second dataset.</p>
 <p>You can load it by running the following in your Console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
@@ -386,21 +386,20 @@ div.tocify {
 <p><a href="https://www.aaup.org/sites/default/files/files/AAUP_Report_InstrStaff-75-11_apr2013.pdf">This report</a> compiled by the AAUP shows trends in instructional staff employees between 1975 and 2011, and contains an image very similar to the one given below. It’s pretty rough.</p>
 <p><img src="img/staff-employment.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>To start your journey in improving visualization story-telling, let’s start by loading the data used to create this plot. Instead of doing it for you, go ahead and do it for yourself. Make sure to call the imported data <code>staff</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the function you should be using to load in this data type? </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Where should you be looking for the data file?</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>staff <span class="ot">&lt;-</span> ___ </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># What is the function you should be using to load in this data type? </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># Where should you be looking for the data file?</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>staff <span class="ot">&lt;-</span> ___ </span></code></pre></div>
 <p>Once imported, you will see that each row in this dataset represents a faculty type, and the columns are the years for which we have data.</p>
 <p>The values are percentage of hires of that type of faculty for each year.</p>
 <pre><code>## # A tibble: 5 × 12
-##   facult…¹ `1975` `1989` `1993` `1995` `1999` `2001` `2003` `2005` `2007` `2009`
-##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Full-Ti…   29     27.6   25     24.8   21.8   20.3   19.3   17.8   17.2   16.8
-## 2 Full-Ti…   16.1   11.4   10.2    9.6    8.9    9.2    8.8    8.2    8      7.6
-## 3 Full-Ti…   10.3   14.1   13.6   13.6   15.2   15.5   15     14.8   14.9   15.1
-## 4 Part-Ti…   24     30.4   33.1   33.2   35.5   36     37     39.3   40.5   41.1
-## 5 Graduat…   20.5   16.5   18.1   18.8   18.7   19     20     19.9   19.5   19.4
-## # … with 1 more variable: `2011` &lt;dbl&gt;, and abbreviated variable name
-## #   ¹​faculty_type</code></pre>
+##   faculty_type    `1975` `1989` `1993` `1995` `1999` `2001` `2003` `2005` `2007`
+##   &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Full-Time Tenu…   29     27.6   25     24.8   21.8   20.3   19.3   17.8   17.2
+## 2 Full-Time Tenu…   16.1   11.4   10.2    9.6    8.9    9.2    8.8    8.2    8  
+## 3 Full-Time Non-…   10.3   14.1   13.6   13.6   15.2   15.5   15     14.8   14.9
+## 4 Part-Time Facu…   24     30.4   33.1   33.2   35.5   36     37     39.3   40.5
+## 5 Graduate Stude…   20.5   16.5   18.1   18.8   18.7   19     20     19.9   19.5
+## # ℹ 2 more variables: `2009` &lt;dbl&gt;, `2011` &lt;dbl&gt;</code></pre>
 <p>In order to create a better visualization, we really need to reshape the dataset to so we have one variable for faculty type and one variable for year.</p>
 <p>In other words, we will convert the data from wide format to long format.</p>
 <p>But before we do so, a thought exercise: <em>How many rows will the long-format data have?</em> It will have a row for each combination of year and faculty type.</p>
@@ -427,7 +426,7 @@ Question 1
 <span id="sol-start-1" class="fa fa-chevron-circle-right solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-1&#39;, &#39;sol-start-1&#39;)"> Solution </span>
 </div>
 <div id="sol-body-1" class="solution-body" style="display: none;">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>staff_long</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>staff_long</span></code></pre></div>
 <pre><code>## # A tibble: 55 × 3
 ##    faculty_type               year value
 ##    &lt;chr&gt;                     &lt;dbl&gt; &lt;dbl&gt;
@@ -441,7 +440,7 @@ Question 1
 ##  8 Full-Time Tenured Faculty  2005  17.8
 ##  9 Full-Time Tenured Faculty  2007  17.2
 ## 10 Full-Time Tenured Faculty  2009  16.8
-## # … with 45 more rows</code></pre>
+## # ℹ 45 more rows</code></pre>
 </div>
 <p class="solution-end">
 </p>

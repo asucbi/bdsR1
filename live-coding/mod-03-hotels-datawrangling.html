@@ -462,28 +462,16 @@ display: none;
 <h1 class="title toc-ignore">Hotel bookings + Data Wrangling</h1>
 <h4 class="author">Nicholas Duran, Derek Powell<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
 <h4 class="author">Mine Çetinkaya-Rundel<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></h4>
-<h4 class="date">25 January, 2023</h4>
+<h4 class="date">04 September, 2023</h4>
 
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hotels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../data/hotels.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>hotels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../data/hotels.csv&quot;</span>)</span></code></pre></div>
 <div id="starters" class="section level2">
 <h2>Starters</h2>
-<div id="announcements" class="section level3">
-<h3>Announcements</h3>
-<ul>
-<li><p>HW 3 due date moved to January 31st (same date as when the lab is
-due). Part of the reason I’m doing this is that I need to create a
-lecture on something known as data reshaping using the
-<code>pivot_wider</code> and <code>pivot_longer</code> functions. You
-will need one of these functions for doing the HW.</p></li>
-<li><p>Updates to Module 3 project folder - Will send new HW starter
-file</p></li>
-</ul>
-</div>
 <div id="understanding-where-our-data-comes-from" class="section level3">
 <h3>Understanding where our data comes from</h3>
 <p>Today’s dataset comes from the “R For Data Science” community. They
@@ -525,7 +513,7 @@ exercise. You just need to knit the document and view the output. A
 definition of all variables is given in the <a href="#data-dictionary">Data dictionary</a> section at the end, though
 you don’t need to familiarize yourself with all variables in order to
 work through these exercises.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(hotels)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">skim</span>(hotels)</span></code></pre></div>
 <table>
 <caption>Data summary</caption>
 <tbody>
@@ -1039,11 +1027,11 @@ is <strong>not</strong> from the US (<code>country</code> code
 day.</p>
 <p><strong>Note:</strong> You will need to set <code>eval=TRUE</code>
 when you have an answer you want to try out.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>hotels <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    country ____ <span class="st">&quot;USA&quot;</span>, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    lead_time ____ ____</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>hotels <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    country ____ <span class="st">&quot;USA&quot;</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    lead_time ____ ____</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    )</span></code></pre></div>
 </div>
 <div id="exercise-3." class="section level3">
 <h3>Exercise 3.</h3>
@@ -1057,10 +1045,10 @@ two places)</li>
 </ul>
 <p><strong>Note:</strong> You will need to set <code>eval=TRUE</code>
 when you have an answer you want to try out.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hotels <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    children [AT LEAST] <span class="dv">1</span> [OR] babies [AT LEAST] <span class="dv">1</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hotels <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    children [AT LEAST] <span class="dv">1</span> [OR] babies [AT LEAST] <span class="dv">1</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    )</span></code></pre></div>
 </div>
 <div id="exercise-4." class="section level3">
 <h3>Exercise 4.</h3>
@@ -1070,10 +1058,10 @@ babies in city hotels or resort hotels? Test your intuition. Using
 that have more than 1 child <strong>or</strong> baby in the room? Then,
 do the same for city hotels, and compare the numbers of rows in the
 resulting filtered data frames.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
 </div>
 <div id="exercise-5." class="section level3">
 <h3>Exercise 5.</h3>
@@ -1086,8 +1074,8 @@ bookings in this dataset? Are there any surprising results?</p>
 informative, and shouldn’t include spaces. It also shouldn’t repeat a
 previous label, otherwise R Markdown will give you an error about
 repeated R chunk labels.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
 </div>
 <div id="exercise-6." class="section level3">
 <h3>Exercise 6.</h3>
@@ -1097,8 +1085,8 @@ repeated R chunk labels.</p>
 surprising results you spotted in the previous exercise?</p>
 <p><strong>Note:</strong> Don’t forget to label your R chunk as well
 (where it says <code>label-me-2</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
 </div>
 <div id="exercise-7." class="section level3">
 <h3>Exercise 7.</h3>
@@ -1106,8 +1094,8 @@ surprising results you spotted in the previous exercise?</p>
 (<code>adr</code>) grouped by <code>hotel</code> type so that you can
 get these statistics separately for resort and city hotels. Which type
 of hotel is higher, on average?</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
 </div>
 <div id="exercise-8." class="section level3">
 <h3>Exercise 8.</h3>
@@ -1121,8 +1109,8 @@ reproducible way with some code.</p>
 <p><strong>Hint:</strong> For example, you can <code>filter</code> for
 the given <code>adr</code> amounts and <code>select</code> the relevant
 columns.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># add code here</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># pay attention to correctness and code style</span></span></code></pre></div>
 </div>
 </div>
 <div id="data-dictionary" class="section level2">
