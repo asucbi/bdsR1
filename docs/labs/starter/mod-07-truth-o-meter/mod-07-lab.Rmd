@@ -15,8 +15,9 @@ library(skimr)
 ```{r load-data, message = FALSE, eval = FALSE}
 
 # Remove eval = FALSE or set it to TRUE once data is ready to be loaded
-fact_checks_lie <- read_csv("data/fact_checks_lie.csv")
-fact_checks_truth <- read_csv("data/fact_checks_truth.csv")
+
+fact_checks_lie <- read_csv("data/fact_checks_lie.csv") # <<< you just created this .csv in the R scripts
+fact_checks_truth <- read_csv("data/fact_checks_truth.csv") # <<< you just created this .csv in the R scripts
 
 ```
 
@@ -25,12 +26,12 @@ fact_checks_truth <- read_csv("data/fact_checks_truth.csv")
 ```{r add-new-variables-and-append}
 
 fact_checks_lie <- fact_checks_lie %>%
-  add_column("___" = "___")
+  replace_with_function("___" = "___") # <<< create a new column that indicates these are lies
 
 fact_checks_truth <- fact_checks_truth %>%
-  add_column("___" = "___")
+  replace_with_function("___" = "___") # <<< create a new column that indicates these are truths
 
-fact_checks <- rows_append()
+fact_checks <- replace_with_function() # <<< combine the two data frames 
 
 ```
 
@@ -39,7 +40,7 @@ fact_checks <- rows_append()
 ```{r separate-description-date-1, error = TRUE}
 
 fact_checks <- fact_checks %>%
-  separate(description, into = c("part1", "part2"), sep = "on ") 
+  replace_with_function(description, into = c("part1", "part2"), sep = "on ") 
 
 ## STOP HERE and inspect the "fact_checks" data frame to see what is going on with "part1" and "part2" 
 ```

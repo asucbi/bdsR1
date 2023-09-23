@@ -68,22 +68,22 @@ Today we will be using both R scripts and R Markdown documents:
     -   We'll use R scripts in the web scraping stage and ultimately save the scraped data as a csv.
     -   YOU CANNOT KNIT AN R SCRIPT FILE! But, of course, you can run the code in your console as normal.
 
--   `.Rmd`: R Markdown documents is formatted for making dynamic documents in R, and is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code. 
+-   `.Rmd`: This is what you have been working with. R Markdown documents are formatted for making dynamic documents in R, and are written in, well, "markdown" (an easy-to-write plain text format) and allows you to insert chunks of embedded R code. 
 
-    -   We'll use an R Markdown document in the web analysis stage, where we start off by reading in the csv file we wrote out in the scraping stage.
+    -   We'll use an R Markdown document in the web analysis stage (2nd part of this lab), where we read in the .CSV file you are now going to create in the web scraping stage.
 
-Here is the organization of your repo, and the corresponding section in the lab that each file will be used for:
+Below is the organization of your directory in Posit. I've provided a comment "#" for each file on which section of the lab (web scraping or analysis) each file will be used for:
 
 ```{results=asis}
 |-data
 |  |- # to be created by you!
 |-lab-07.Rmd                        # analysis
 |-lab-07.Rproj
-|-scripts                           # webscraping
-|  |- 01-scrape-page-one.R          # scraping a single page
-|  |- 02-scrape-page-function.R     # functions
-|  |- 03-scrape-page-many-lies.R    # iteration
-|  |- 04-scrape-page-many-truths.R  # iteration
+|-scripts                           
+|  |- 01-scrape-page-one.R          # web scraping a single page
+|  |- 02-scrape-page-function.R     # web scraping: functions
+|  |- 03-scrape-page-many-lies.R    # web scraping: iteration
+|  |- 04-scrape-page-many-truths.R  # web scraping: iteration
 ```
 
 # Getting started
@@ -127,7 +127,7 @@ paths_allowed("https://www.politifact.com/")
 ## Scraping a single page
 
 :::lo 
-Work in `scripts/01-scrape-page-one.R`.
+Open up `scripts/01-scrape-page-one.R` and start working in it.
 :::
 
 :::yellow
@@ -158,7 +158,12 @@ knitr::include_graphics("img/info-to-extract.png")
 
 ### Statement
 
-Let's start with the statement.
+Let's start with the `statement`.
+
+:::green
+**IMPORTANT** This example with Tucker Carlson was based on whatever was the lead post when I created this assignment. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way. 
+:::
+
 
 We make use of the SelectorGadget to identify the tags for the relevant nodes:
 
@@ -212,13 +217,13 @@ We can extract this information using a new function from the rvest package, `ht
 
 A mini HTML lesson!
 
-The following is how we define hyperlinked text in HTML:
+The following is how we define hyperlinked text in HTML (and yes, there is an intentional typo in the hyperlinked text):
 
-    <a href="https://www.google.com">Seach on Google</a>
+    <a href="https://www.google.com">Sarch on Google</a>
 
-And this is how the text would look like on a webpage: [Seach on Google](https://www.google.com).
+And this is how the text would look like on a webpage: [Sarch on Google](https://www.google.com).
 
-Here the text is `Seach on Google` and the `href` attribute contains the url of the website you'd go to if you click on the hyperlinked text: `https://www.google.com`.
+Here the text is `Sarch on Google` and the `href` attribute contains the url of the website you'd go to if you click on the hyperlinked text: `https://www.google.com`.
 
 The moral of the story is: the link is stored in the `href` attribute.
 
@@ -450,17 +455,37 @@ Go ahead and add a new column to each data frame and name it as `type` for both.
 
 `r qend()`
 
-Next, I'm most interested in cleaning up that `description` variable in our data frame. 
+Next, I'm most interested in cleaning up that `description` variable in our data frame. Specificially, I just want the date as "Month Day, Year". But notice that it is embedded among some text I don't really care about. 
 
-The information I most care about in `description` is the date. But notice that it is embedded among some text I don't really care about. So what I really want to do is separate out the date from the rest of the text.
+```{r, echo=FALSE, eval=TRUE}
+library(knitr)
+library(kableExtra)
+fact_checks_lie <- read_csv("../nicksandbox/hw-lab-keys/data/fact_checks_lie.csv") # <<< you just created this .csv in the R scripts
+fact_checks_truth <- read_csv("../nicksandbox/hw-lab-keys/data/fact_checks_truth.csv") # <<< you just created this .csv in the R scripts
+fact_checks <- rows_append(fact_checks_lie, fact_checks_truth)
+kable(fact_checks %>% slice(1:5) %>% select(3)) %>% kable_styling()
+```
 
-There are several ways of doing this, but one thing I immediately notice is that the dates are always preceded by the word "on" + white space, and is followed by the white space + the word "in". So, it looks like I can separate the string in the `description` column into multiple parts based on these regular occurrences. 
+We need to separate out the date from the rest of the text.
 
-Luckily, there's a function to do this called: `separate()`!
+One way of doing this is to use the `separate()` function from `tidyverse` that allows us to extract strings embedded between other strings. It's especially useful when the surrounding strings are consistent. And in our case, that appears to be the case!
+
+Let's say I had text in some column `rhyme` that goes like, "The cow jumped over the moon and the fiddle ran away with the spoon." 
+
+What happens when I run the code below?
+
+```{r, echo=TRUE, eval=FALSE}
+df <- df %>%
+  separate(rhyme, into = c("before", "between", "after"), 
+           sep = "jumped|and", remove = FALSE) %>%
+  select(-before, -after)
+```
+
+In this example, the separate() function is used to split the "rhyme" column into three columns based on the words "jumped" and "and". Why three? Because I get everything before the word "jumped" in it's own column (I'm calling "before,") everything after the word "and" in it's own column (I'm calling "after"), and everything between in it's own column (you guessed it, that I'm calling "between"). And to wrap it all up, I'm just keeping the "between" column in my final data frame.
 
 `r qbegin(12)`
 
-Fill in the blanks in to implement the data wrangling we described above.
+Now, following this logic above, take our data frame and pipe it into a `separate()` function that will allow you to extract just the date from the `description` column. 
 
 Save the extracted date information as a new column called `date`.
 

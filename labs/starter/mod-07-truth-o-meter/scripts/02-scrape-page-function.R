@@ -3,7 +3,7 @@
 library(tidyverse)
 library(rvest)
 
-# function: scrape_page --------------------------------------------------------
+# question 7: function: scrape_page --------------------------------------------------------
 
 ___ <- function(url){
   

@@ -28,10 +28,12 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script>
 function toggle_visibility(id1, id2) {
 var e = document.getElementById(id1);
@@ -103,11 +105,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
+code span.at { color: #204a87; } /* Attribute */
 code span.bn { color: #0000cf; } /* BaseN */
 code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
+code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #8f5902; font-style: italic; } /* Comment */
 code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
 code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
@@ -116,14 +118,14 @@ code span.dv { color: #0000cf; } /* DecVal */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
 code span.ot { color: #8f5902; } /* Other */
 code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
 code span.ss { color: #4e9a06; } /* SpecialString */
 code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
@@ -381,21 +383,21 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <li>We’ll use R scripts in the web scraping stage and ultimately save the scraped data as a csv.</li>
 <li>YOU CANNOT KNIT AN R SCRIPT FILE! But, of course, you can run the code in your console as normal.</li>
 </ul></li>
-<li><p><code>.Rmd</code>: R Markdown documents is formatted for making dynamic documents in R, and is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code.</p>
+<li><p><code>.Rmd</code>: This is what you have been working with. R Markdown documents are formatted for making dynamic documents in R, and are written in, well, “markdown” (an easy-to-write plain text format) and allows you to insert chunks of embedded R code.</p>
 <ul>
-<li>We’ll use an R Markdown document in the web analysis stage, where we start off by reading in the csv file we wrote out in the scraping stage.</li>
+<li>We’ll use an R Markdown document in the web analysis stage (2nd part of this lab), where we read in the .CSV file you are now going to create in the web scraping stage.</li>
 </ul></li>
 </ul>
-<p>Here is the organization of your repo, and the corresponding section in the lab that each file will be used for:</p>
+<p>Below is the organization of your directory in Posit. I’ve provided a comment “#” for each file on which section of the lab (web scraping or analysis) each file will be used for:</p>
 <pre results="asis"><code>|-data
 |  |- # to be created by you!
 |-lab-07.Rmd                        # analysis
 |-lab-07.Rproj
-|-scripts                           # webscraping
-|  |- 01-scrape-page-one.R          # scraping a single page
-|  |- 02-scrape-page-function.R     # functions
-|  |- 03-scrape-page-many-lies.R    # iteration
-|  |- 04-scrape-page-many-truths.R  # iteration</code></pre>
+|-scripts                           
+|  |- 01-scrape-page-one.R          # web scraping a single page
+|  |- 02-scrape-page-function.R     # web scraping: functions
+|  |- 03-scrape-page-many-lies.R    # web scraping: iteration
+|  |- 04-scrape-page-many-truths.R  # web scraping: iteration</code></pre>
 </div>
 </div>
 <div id="getting-started" class="section level1">
@@ -411,16 +413,16 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling and visualization, the <strong>robotstxt</strong> package to check if we’re allowed to scrape the data, the <strong>rvest</strong> package for data scraping.</p>
 <p>These packages are already installed for you.</p>
 <p>You can load them by running the following in your Console:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>This assignment does not come with any prepared datasets.</p>
 <p>Instead you’ll be scraping the data!</p>
 <p>But before doing so, let’s check that a bot has permissions to access pages on this domain.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">&quot;https://www.politifact.com/&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">&quot;https://www.politifact.com/&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
@@ -429,7 +431,7 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <div id="scraping-a-single-page" class="section level2">
 <h2>Scraping a single page</h2>
 <div class="lo">
-<p>Work in <code>scripts/01-scrape-page-one.R</code>.</p>
+<p>Open up <code>scripts/01-scrape-page-one.R</code> and start working in it.</p>
 </div>
 <div class="yellow">
 <p><strong>Tip:</strong> To run the code within the <code>*.R</code> file, you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter for Mac or CTRL+Enter for PC.</p>
@@ -438,61 +440,64 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <p>First, we define a new object called <code>first_url</code>, which is the link above.</p>
 <p>Then, we read the page at this url with the <code>read_html()</code> function from the <strong>rvest</strong> package.</p>
 <p>The code for this is already provided in <code>01-scrape-page-one.R</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set url</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>first_url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.politifact.com/factchecks/list/?ruling=pants-fire&quot;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read html page</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(first_url)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># set url</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>first_url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.politifact.com/factchecks/list/?ruling=pants-fire&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># read html page</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(first_url)</span></code></pre></div>
 <p>For the 30 pieces on this page we will extract <code>statement</code>, <code>link</code>, <code>source</code>, and <code>description</code> information, and put these four variables in a data frame.</p>
 <p><img src="img/info-to-extract.png" width="80%" style="display: block; margin: auto;" /></p>
 <div id="statement" class="section level3">
 <h3>Statement</h3>
-<p>Let’s start with the statement.</p>
+<p>Let’s start with the <code>statement</code>.</p>
+<div class="green">
+<p><strong>IMPORTANT</strong> This example with Tucker Carlson was based on whatever was the lead post when I created this assignment. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way.</p>
+</div>
 <p>We make use of the SelectorGadget to identify the tags for the relevant nodes:</p>
 <p><img src="img/iteminfo-m7a.gif" width="80%" style="display: block; margin: auto;" /></p>
 <p>We then run <code>html_nodes()</code> on the appropriate CSS selector</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;xml_nodeset&quot;</code></pre>
 <p>But this just returns an object called <code>xml_nodeset</code> that is not in a particularly helpful format. But it should contain the info we need. Let’s use <code>rvest</code> functions to extract.</p>
 <p>To extract the text we use <code>html_text2()</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
-<pre><code>##  [1] &quot;El presidente Joe Biden dijo, “estamos quebrados, completamente quebrados. Agarren su dinero del banco, sáquenlo, sáquenlo ya”.&quot;                                                     
-##  [2] &quot;Video shows U.S. Rep. Jim Jordan slapping special counsel Robert Mueller.&quot;                                                                                                           
-##  [3] &quot;“FEMA camps are open for the upcoming arrests for crimes against humanity.”&quot;                                                                                                         
-##  [4] &quot;Elon Musk said a new Tesla feature can scan testicles and use that information “to biometrically unlock and start the car.”&quot;                                                         
-##  [5] &quot;“Hillary Clinton indicted.”&quot;                                                                                                                                                         
-##  [6] &quot;Pouring soda on raw pork will cause parasites to emerge.&quot;                                                                                                                            
-##  [7] &quot;A video shows Florida Gov. Ron DeSantis saying, “Now Trump’s been indicted, now the people will have no choice but to accept me as their assigned candidate.”&quot;                       
-##  [8] &quot;A doctor tweeted that she doesn’t regret giving the COVID-19 vaccine, “even if it turns out I injected you with actual poison and you only have days to live.”&quot;                      
-##  [9] &quot;Regarding Trump’s January 2021 telephone call with Georgia election officials, “nobody found anything wrong with that perfect call until a book promotion tour many months later.”&quot;  
-## [10] &quot;Video shows a crowd erupting and Hillary Clinton crying during a committee hearing.&quot;                                                                                                 
-## [11] &quot;Video shows Homeland Security Secretary Alejandro Mayorkas crying after a question from an aide to former President Donald Trump.&quot;                                                   
-## [12] &quot;White House Press Secretary Karine Jean-Pierre was involved in a covered-up DUI accident&quot;                                                                                            
-## [13] &quot;Joe Biden received a military funeral service Jan. 20, 2021&quot;                                                                                                                         
-## [14] &quot;Videos show former Secretary of State Hillary Clinton discussing a glass dome over Earth.&quot;                                                                                           
-## [15] &quot;U.S. Rep. Jim Jordan, R-Ohio, “sends Biden straight to jail.”&quot;                                                                                                                       
-## [16] &quot;Former President Donald Trump is actually another man wearing a Trump mask.&quot;                                                                                                         
-## [17] &quot;Morgan Freeman called out Joe Biden for talking about “ice cream” before commenting on the Nashville, Tennessee, school shooting.&quot;                                                   
-## [18] &quot;Rep. Alexandria Ocasio-Cortez, D-N.Y., “is now worth $29 million dollars.”&quot;                                                                                                          
-## [19] &quot;The Nashville shooter was wearing different pairs of shoes before and after being killed.&quot;                                                                                           
-## [20] &quot;Video shows Florida Gov. Ron DeSantis saying he made certain political choices because “that’s where the money is.”&quot;                                                                 
-## [21] &quot;A photo shows former President Barack Obama’s “old boyfriend,” to whom he paid “hush money.”&quot;                                                                                        
-## [22] &quot;At a Wisconsin school, a 12-year-old girl \&quot;was transitioned into a boy by school officials without parental consent,\&quot; and Protasiewicz supports it.&quot;                               
-## [23] &quot;The Nashville, Tennessee, school shooter was Samantha Hyde.&quot;                                                                                                                         
-## [24] &quot;Manhattan District Attorney Alvin Bragg announced that his office “has decided to drop all charges against Donald Trump.”&quot;                                                           
-## [25] &quot;Photo shows Pennsylvania Sen. John Fetterman has a body double.&quot;                                                                                                                     
-## [26] &quot;Video shows Elon Musk saying he bought Twitter and unblocked Andrew Tate’s Twitter account because “we need to escape the suppression from the matrix and expose the global elites.”&quot;
-## [27] &quot;Former President Donald Trump is the “current sitting” commander in chief.&quot;                                                                                                          
-## [28] &quot;Joe Biden was the first president in 100 years to unsuccessfully sing the alphabet song.&quot;                                                                                            
-## [29] &quot;Angelina Jolie is dead.&quot;                                                                                                                                                             
-## [30] &quot;Says President Joe Biden was recorded talking about bank collapse.&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;Video shows a Federal Emergency Management Agency “concentration camp” in Hawaii.&quot;                                                           
+##  [2] &quot;An emergency broadcast system test will “send a specific high-frequency signal … with the intention of activating graphene oxide” in people.&quot;
+##  [3] &quot;Photo shows Hillary Clinton on a “lethal injection medical table.”&quot;                                                                          
+##  [4] &quot;“Janet Yellen arrested for treason.”&quot;                                                                                                        
+##  [5] &quot;“People who took the jab are technically ‘non human species.’”&quot;                                                                              
+##  [6] &quot;“World leaders &amp; elite businessmen are ingesting the blood of young children in order to achieve ‘eternal youth,’ a CBS report warns.”&quot;      
+##  [7] &quot;Video proves Sen. John Fetterman has a body double.&quot;                                                                                         
+##  [8] &quot;Hawaii wildfire was intentionally set because there’s “120 million tons of lithium in Maui.”&quot;                                                
+##  [9] &quot;“Florida sort of had a mandate because they were giving the vaccine, they were demanding everybody take the vaccine.”&quot;                       
+## [10] &quot;Video shows Vice President Kamala Harris discussing how women should “get ahead.”&quot;                                                           
+## [11] &quot;“Shocking video shows Biden wearing a skin mask.”&quot;                                                                                           
+## [12] &quot;Este video muestra una “fábrica de carne” humana “en America”.&quot;                                                                              
+## [13] &quot;Video shows a missile hitting the Pentagon on 9/11.&quot;                                                                                         
+## [14] &quot;CNN reported that “Barack Obama’s ex-boyfriend admits he was ‘prime suspect’ in gay serial killer case.”&quot;                                    
+## [15] &quot;Elon Musk said President Joe Biden “has one month left to live.”&quot;                                                                            
+## [16] &quot;CNN reported Sept. 7, 2023, that President Joe Biden’s family admitted “he died and was replaced by an actor in 2019.”&quot;                      
+## [17] &quot;Americans “currently are making less than at the height of the Great Depression.”&quot;                                                           
+## [18] &quot;“Marines caught FEMA operatives piling corpses into a mass gravesite at the Maui Forest Reserve.”&quot;                                           
+## [19] &quot;Speaker at World Economic Forum conference proposed adding COVID-19 vaccines to water supply.&quot;                                               
+## [20] &quot;President Joe Biden is going to trial for “treason,” “sedition” and “crimes against humanity.”&quot;                                              
+## [21] &quot;El COVID-19 “nunca existio”.&quot;                                                                                                                
+## [22] &quot;Hillary Clinton was “EXECUTED December 31, 2018.”&quot;                                                                                           
+## [23] &quot;“Military arrests FEMA Deputy Administrator Erik Hooks.”&quot;                                                                                    
+## [24] &quot;“The reality is more people are dying of bad climate change policies than they are of actual climate change.”&quot;                               
+## [25] &quot;“New global virus called ID-10T is spreading quickly.”&quot;                                                                                      
+## [26] &quot;“Marines neutralize fleeing FEMA convoy in Maui.”&quot;                                                                                           
+## [27] &quot;“Official statement — Putin assassinated in the Kremlin!”&quot;                                                                                   
+## [28] &quot;“Michelle Obama finally responds to Obama’s hidden gay secret.”&quot;                                                                             
+## [29] &quot;“Military arrests Pfizer CEO Albert Bourla.”&quot;                                                                                                
+## [30] &quot;COVID-19 vaccines have killed 676,000 Americans.&quot;</code></pre>
 <p>And simply save the resulting data as a vector of length 30:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
 <div class="question-begin">
 Question 1
 </div>
@@ -507,45 +512,45 @@ Question 1
 <p>The same nodes that contain the text for the statements also contains information on the links to more in-depth reporting on the fact-checks associated with each statement. This might be useful later on to have if we wanted to dig in further to extract additional information for each fact-check.</p>
 <p>We can extract this information using a new function from the rvest package, <code>html_attr()</code>, which extracts attributes.</p>
 <p>A mini HTML lesson!</p>
-<p>The following is how we define hyperlinked text in HTML:</p>
-<pre><code>&lt;a href=&quot;https://www.google.com&quot;&gt;Seach on Google&lt;/a&gt;</code></pre>
-<p>And this is how the text would look like on a webpage: <a href="https://www.google.com">Seach on Google</a>.</p>
-<p>Here the text is <code>Seach on Google</code> and the <code>href</code> attribute contains the url of the website you’d go to if you click on the hyperlinked text: <code>https://www.google.com</code>.</p>
+<p>The following is how we define hyperlinked text in HTML (and yes, there is an intentional typo in the hyperlinked text):</p>
+<pre><code>&lt;a href=&quot;https://www.google.com&quot;&gt;Sarch on Google&lt;/a&gt;</code></pre>
+<p>And this is how the text would look like on a webpage: <a href="https://www.google.com">Sarch on Google</a>.</p>
+<p>Here the text is <code>Sarch on Google</code> and the <code>href</code> attribute contains the url of the website you’d go to if you click on the hyperlinked text: <code>https://www.google.com</code>.</p>
 <p>The moral of the story is: the link is stored in the <code>href</code> attribute.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
-<pre><code>##  [1] &quot;/factchecks/2023/apr/13/facebook-posts/joe-biden-no-dijo-que-nuestra-economia-esta-quebra/&quot;             
-##  [2] &quot;/factchecks/2023/apr/12/facebook-posts/facebook-post-pushes-claim-about-a-slap-that-just/&quot;              
-##  [3] &quot;/factchecks/2023/apr/12/facebook-posts/no-evidence-support-claims-fema-camps-crimes-again/&quot;             
-##  [4] &quot;/factchecks/2023/apr/10/instagram-posts/video-elon-musk-talking-about-new-way-unlock-tesla/&quot;            
-##  [5] &quot;/factchecks/2023/apr/10/facebook-posts/hillary-clinton-wasnt-indicted-despite-nonsense-on/&quot;             
-##  [6] &quot;/factchecks/2023/apr/07/facebook-posts/does-pouring-soda-on-raw-pork-reveal-parasites-don/&quot;             
-##  [7] &quot;/factchecks/2023/apr/07/tiktok-posts/ron-desantis-did-not-announce-his-presidential-can/&quot;               
-##  [8] &quot;/factchecks/2023/apr/06/instagram-posts/those-tweets-are-fake-florida-doctor-didnt-say-cov/&quot;            
-##  [9] &quot;/factchecks/2023/apr/05/donald-trump/trumps-pants-on-fire-comment-about-the-georgia-ele/&quot;               
-## [10] &quot;/factchecks/2023/apr/05/facebook-posts/politicians-dont-cry-in-this-video-despite-the-cap/&quot;             
-## [11] &quot;/factchecks/2023/apr/05/facebook-posts/video-doesnt-show-the-homeland-security-secretary/&quot;              
-## [12] &quot;/factchecks/2023/apr/05/tweets/no-evidence-white-house-press-secretary-karine-jea/&quot;                     
-## [13] &quot;/factchecks/2023/apr/04/facebook-posts/bury-falsehood-not-president-biden-never-had-funer/&quot;             
-## [14] &quot;/factchecks/2023/apr/04/instagram-posts/past-speeches-hillary-clinton-talked-figurative-gl/&quot;            
-## [15] &quot;/factchecks/2023/apr/04/facebook-posts/ohio-republican-jim-jordan-didnt-send-president-jo/&quot;             
-## [16] &quot;/factchecks/2023/apr/04/facebook-posts/is-that-a-masked-man-no-thats-really-donald-trump/&quot;              
-## [17] &quot;/factchecks/2023/apr/03/tiktok-posts/video-morgan-freeman-criticizing-joe-biden-not-rea/&quot;               
-## [18] &quot;/factchecks/2023/apr/03/facebook-posts/alexandria-ocasio-cortez-isnt-worth-29-million-her/&quot;             
-## [19] &quot;/factchecks/2023/mar/31/social-media/footage-does-not-show-nashville-tennessee-shooter/&quot;                
-## [20] &quot;/factchecks/2023/mar/31/facebook-posts/deepfake-video-alters-ron-desantis-speech-and-skew/&quot;             
-## [21] &quot;/factchecks/2023/mar/29/instagram-posts/evidence-does-not-show-barack-obama-had-a-boyfrien/&quot;            
-## [22] &quot;/factchecks/2023/mar/29/american-principles-project/claim-linking-protasiewicz-school-policy-trans-stu/&quot;
-## [23] &quot;/factchecks/2023/mar/28/facebook-posts/another-false-sam-hyde-meme-circulates-after-nashv/&quot;             
-## [24] &quot;/factchecks/2023/mar/27/tiktok-posts/alvin-bragg-didnt-say-he-would-drop-charges-agains/&quot;               
-## [25] &quot;/factchecks/2023/mar/27/facebook-posts/no-this-photo-doesnt-show-a-john-fetterman-body-do/&quot;             
-## [26] &quot;/factchecks/2023/mar/22/facebook-posts/video-elon-musk-talking-about-andrew-tate-deepfake/&quot;             
-## [27] &quot;/factchecks/2023/mar/21/facebook-posts/donald-trump-former-us-president-not-current-comma/&quot;             
-## [28] &quot;/factchecks/2023/mar/21/instagram-posts/now-you-know-abcs-test-for-presidents-isnt-real/&quot;               
-## [29] &quot;/factchecks/2023/mar/20/blog-posting/angelina-jolie-alive-despite-social-media-posts-cl/&quot;               
-## [30] &quot;/factchecks/2023/mar/20/tiktok-posts/audio-clip-president-joe-biden-talking-about-bank/&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
+<pre><code>##  [1] &quot;/factchecks/2023/sep/21/facebook-posts/video-shows-tiny-homes-for-homeless-residents-not/&quot;  
+##  [2] &quot;/factchecks/2023/sep/21/instagram-posts/femas-emergency-alert-test-wont-activate-graphene/&quot; 
+##  [3] &quot;/factchecks/2023/sep/21/facebook-posts/former-secretary-of-state-hillary-clinton-wasnt-ex/&quot; 
+##  [4] &quot;/factchecks/2023/sep/21/facebook-posts/no-treasury-secretary-janet-yellen-wasnt-arrested/&quot;  
+##  [5] &quot;/factchecks/2023/sep/20/instagram-posts/did-you-get-a-covid-19-vaccine-good-news-youre-sti/&quot;
+##  [6] &quot;/factchecks/2023/sep/20/instagram-posts/social-media-posts-exaggerate-real-stories-about-p/&quot;
+##  [7] &quot;/factchecks/2023/sep/20/social-media/video-shows-sen-john-fetterman-not-a-body-double-w/&quot;   
+##  [8] &quot;/factchecks/2023/sep/14/tiktok-posts/hawaii-isnt-home-to-tons-of-lithium-despite-basele/&quot;   
+##  [9] &quot;/factchecks/2023/sep/14/donald-trump/trump-said-under-desantis-florida-demanded-everybo/&quot;   
+## [10] &quot;/factchecks/2023/sep/13/viral-image/this-isnt-an-authentic-video-of-vice-president-kam/&quot;    
+## [11] &quot;/factchecks/2023/sep/13/viral-image/dont-confuse-president-joe-biden-with-leatherface/&quot;     
+## [12] &quot;/factchecks/2023/sep/13/facebook-posts/video-no-muestra-una-fabrica-de-carne-humana-en-am/&quot; 
+## [13] &quot;/factchecks/2023/sep/12/instagram-posts/no-this-video-doesnt-show-a-missile-hitting-the-pe/&quot;
+## [14] &quot;/factchecks/2023/sep/11/facebook-posts/cnn-didnt-suggest-former-president-barack-obama-is/&quot; 
+## [15] &quot;/factchecks/2023/sep/11/facebook-posts/no-evidence-elon-musk-predicted-president-joe-bide/&quot; 
+## [16] &quot;/factchecks/2023/sep/08/facebook-posts/theres-no-cnn-report-saying-joe-bidens-family-conf/&quot; 
+## [17] &quot;/factchecks/2023/sep/07/isabel-brown/are-americans-today-making-less-than-at-the-height/&quot;   
+## [18] &quot;/factchecks/2023/aug/30/tiktok-posts/claim-that-fema-is-burying-maui-wildfire-victims-i/&quot;   
+## [19] &quot;/factchecks/2023/aug/30/facebook-posts/video-shows-professor-talking-about-water-equity-n/&quot; 
+## [20] &quot;/factchecks/2023/aug/30/facebook-posts/no-president-joe-biden-isnt-facing-trial-for-treas/&quot; 
+## [21] &quot;/factchecks/2023/aug/28/facebook-posts/el-covid-19-si-existe-mas-de-1-millon-de-personas/&quot;  
+## [22] &quot;/factchecks/2023/aug/25/facebook-posts/nope-hillary-clinton-was-not-executed-in-2018/&quot;      
+## [23] &quot;/factchecks/2023/aug/24/facebook-posts/the-military-didnt-arrest-fema-deputy-administrato/&quot; 
+## [24] &quot;/factchecks/2023/aug/24/vivek-ramaswamy/vivek-ramsaswamys-misleading-gop-debate-claim-abou/&quot;
+## [25] &quot;/factchecks/2023/aug/24/viral-image/dont-be-an-idiot-id-10t-is-not-the-name-of-a-new-g/&quot;    
+## [26] &quot;/factchecks/2023/aug/24/instagram-posts/fabricated-story-fantasizes-about-maui-gunfight-be/&quot;
+## [27] &quot;/factchecks/2023/aug/22/facebook-posts/claim-that-russian-president-vladimir-putin-was-as/&quot; 
+## [28] &quot;/factchecks/2023/aug/21/facebook-posts/debunked-rumors-about-former-president-barack-obam/&quot; 
+## [29] &quot;/factchecks/2023/aug/16/instagram-posts/no-proof-that-the-marines-captured-pfizer-ceo-albe/&quot;
+## [30] &quot;/factchecks/2023/aug/14/steve-kirsch/activist-misuses-federal-data-to-make-pants-on-fir/&quot;</code></pre>
 <p>These don’t really look like URLs as we know them though.</p>
 <p>These are URL fragments. Some minor work needs to be done to get them looking like actual URLs.</p>
 <p>Click on one of fact-check statements in your browser and take note of the url of the webpage it takes you to. Think about how that URL compares to what we scraped above? How is it different?</p>
@@ -616,25 +621,25 @@ Question 6
 <p>You’ve been using R functions, now it’s time to write your own!</p>
 <p>Let’s start simple.</p>
 <p>Here is a function that takes in an argument <code>x</code>, and adds 2 to it.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>add_two <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>add_two <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s test it:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 12</code></pre>
 <p>The skeleton for defining functions in R is as follows:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do something with the input(s)</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return something</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="co"># do something with the input(s)</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="co"># return something</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>Then, a function for scraping a page should look something like:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read page at url</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract statement, link, source, and description info for n pieces on page</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return a n x 4 tibble</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="co"># read page at url</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="co"># extract statement, link, source, and description info for n pieces on page</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="co"># return a n x 4 tibble</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>}</span></code></pre></div>
 <div class="yellow">
 <p><strong>Reminder:</strong> Function names should be short but evocative verbs.</p>
 </div>
@@ -647,8 +652,8 @@ Question 7
 <p class="question-end">
 </p>
 <p>Test out your new function by running the following in the console.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(first_url)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(second_url)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">scrape_page</span>(first_url)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">scrape_page</span>(second_url)</span></code></pre></div>
 <p>Does the output look right? Discuss with teammates whether you’re getting the same results as before.</p>
 </div>
 <div id="iteration" class="section level2">
@@ -690,7 +695,7 @@ Question 8
 <pre><code>map([x], [function to apply to each element of x])</code></pre>
 <p>In our case <code>x</code> is the list of URLs we just constructed and the function to apply to each element of <code>x</code> is the function we developed earlier, <code>scrape_page</code>.</p>
 <p>And as a result we want a data frame, so we use <code>map_dfr</code> function:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dfr</span>(urls, scrape_page)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">map_dfr</span>(urls, scrape_page)</span></code></pre></div>
 <div class="question-begin">
 Question 9
 </div>
@@ -741,15 +746,57 @@ Question 11
 </div>
 <p class="question-end">
 </p>
-<p>Next, I’m most interested in cleaning up that <code>description</code> variable in our data frame.</p>
-<p>The information I most care about in <code>description</code> is the date. But notice that it is embedded among some text I don’t really care about. So what I really want to do is separate out the date from the rest of the text.</p>
-<p>There are several ways of doing this, but one thing I immediately notice is that the dates are always preceded by the word “on” + white space, and is followed by the white space + the word “in”. So, it looks like I can separate the string in the <code>description</code> column into multiple parts based on these regular occurrences.</p>
-<p>Luckily, there’s a function to do this called: <code>separate()</code>!</p>
+<p>Next, I’m most interested in cleaning up that <code>description</code> variable in our data frame. Specificially, I just want the date as “Month Day, Year”. But notice that it is embedded among some text I don’t really care about.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+stated on February 20, 2023 in an interview with Piers Morgan:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stated on February 6, 2023 in in a TV segment:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stated on February 13, 2023 in an Instagram post:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stated on February 8, 2023 in a blog post:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stated on February 12, 2023 in a tweet:
+</td>
+</tr>
+</tbody>
+</table>
+<p>We need to separate out the date from the rest of the text.</p>
+<p>One way of doing this is to use the <code>separate()</code> function from <code>tidyverse</code> that allows us to extract strings embedded between other strings. It’s especially useful when the surrounding strings are consistent. And in our case, that appears to be the case!</p>
+<p>Let’s say I had text in my column <code>rhyme</code> that goes like, “The cow jumped over the moon and the fiddle ran away with the spoon.”</p>
+<p>What happens when I run the code below?</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">separate</span>(rhyme, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;before&quot;</span>, <span class="st">&quot;between&quot;</span>, <span class="st">&quot;after&quot;</span>), </span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">&quot;jumped|and&quot;</span>, <span class="at">remove =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>before, <span class="sc">-</span>after)</span></code></pre></div>
+<p>In this example, the separate() function is used to split the “rhyme” column into three columns based on the words “jumped” and “and”. Why three? Because I get everything before the word “jumped” in it’s own column (I’m calling “before,”) everything after the word “and” in it’s own column (I’m calling “after”), and everything between in it’s own column (you guessed it, that I’m calling “between”). And to wrap it all up, I’m just keeping the “before” column in my final data frame.</p>
 <div class="question-begin">
 Question 12
 </div>
 <div class="question-body">
-<p>Fill in the blanks in to implement the data wrangling we described above.</p>
+<p>Now, following this logic above, take our data frame and pipe it into a <code>separate()</code> function that will allow you to extract just the date from the <code>description</code> column.</p>
 <p>Save the extracted date information as a new column called <code>date</code>.</p>
 <p><strong>Note</strong> that this will result in some warnings when you run the code, and that’s OK for what we are wanting to do.</p>
 </div>

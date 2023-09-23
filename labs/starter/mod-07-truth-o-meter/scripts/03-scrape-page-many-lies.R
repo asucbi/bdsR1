@@ -4,7 +4,7 @@ library(tidyverse)
 library(rvest)
 library(glue)
 
-# list of urls to be scraped ---------------------------------------------------
+# question 8: list of urls to be scraped ---------------------------------------------------
 
 prefix <- "https://www.politifact.com/factchecks/list/?page="
 suffix <- "&ruling=pants-fire"
@@ -12,7 +12,7 @@ suffix <- "&ruling=pants-fire"
 numbers <- seq(from = ___, to = ___, by = ___)
 urls <- glue("{___}{___}{___}")
 
-# map over all urls and output a data frame ------------------------------------
+# question 9: map over all urls and output a data frame ------------------------------------
 
 ___ <- map_dfr(___, ___)
 

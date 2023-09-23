@@ -63,8 +63,6 @@ library(readxl)
 
 The datasets we'll use are called `instructional-staff.csv` and `fisheries.xlsx` in the `data` folder.
 
-You can find out more about the datasets by inspecting their documentation [here](https://rstudio-education.github.io/dsbox/reference/instructors.html) and [here](https://rstudio-education.github.io/dsbox/reference/fisheries.html). It might be a good idea to quickly do so now to get a better feel of what you're dealing with. 
-
 # Exercises
 
 ## Instructional staff employment trends

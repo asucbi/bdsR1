@@ -2,6 +2,11 @@
 
 library(tidyverse)
 library(rvest)
+library(robotstxt)
+
+# check permission --------------------------------------------------------
+
+paths_allowed("https://www.politifact.com/", warn=FALSE)
 
 # set url ----------------------------------------------------------------------
 
@@ -11,13 +16,13 @@ first_url <- "https://www.politifact.com/factchecks/list/?ruling=pants-fire"
 
 page <- read_html(first_url)
 
-# scrape statements ----------------------------------------------------------------
+# question 1: scrape statements ----------------------------------------------------------------
 
 statements <- page %>%
   html_nodes(".m-statement__quote") %>%
   ___()
 
-# scrape links -----------------------------------------------------------------
+# question 2: scrape links -----------------------------------------------------------------
 
 links <- page %>%
   html_nodes(".m-statement__quote") %>%
@@ -25,19 +30,19 @@ links <- page %>%
   html_attr("href") %>%
   str_c("___", .)
 
-# scrape sources ---------------------------------------------------------------
+# question 3: scrape sources ---------------------------------------------------------------
 
 sources <- page %>%
   html_nodes(".m-statement__name") %>%
   ___
 
-# scrape descriptions ----------------------------------------------------------
+# question 4: scrape descriptions ----------------------------------------------------------
 
 descriptions <- page %>%
   html_nodes("___") %>%
   ___
 
-# put together in a data frame -------------------------------------------------
+# question 5: put together in a data frame -------------------------------------------------
 
 first_thirty <- tibble(
   source = ___,
@@ -46,7 +51,7 @@ first_thirty <- tibble(
   link = ___
 )
 
-# scrape next thirty fact-checks ------------------------------------------------
+# question 6: scrape next thirty fact-checks ------------------------------------------------
 
 second_url <- "___"
 
