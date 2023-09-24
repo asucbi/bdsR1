@@ -1,5 +1,5 @@
 ---
-title: "HW 06 - Smokers in Whickham"
+title: "HW 07 - Smokers in Whickham"
 author: "Insert your name here"
 date: "Insert date here"
 output: html_document

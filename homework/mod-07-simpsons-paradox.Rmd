@@ -1,5 +1,5 @@
 ---
-title: "HW 06 - Smokers in Whichkham"
+title: "HW 07 - Smokers in Whichkham"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
   })

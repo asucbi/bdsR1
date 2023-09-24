@@ -16,6 +16,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+# NOTE: THIS WILL NOT RUN AS THE CSS TAGS ARE NOW DIFFERENT AND REQUIRES REWRITING THIS ENTIRELY
+
 ```{r child = "setup.Rmd"}
 ```
 
@@ -139,8 +141,14 @@ knitr::include_graphics("img/titles.png")
 
 .pull-left[
 ```{r output.lines=17}
+## original code as of March 2023, but has since changed
 page %>%
   html_nodes(".titleColumn a")
+
+## looks like new way of extracting titles
+# page %>%
+#   html_nodes(".ipc-title__text")
+
 ```
 ]
 .pull-right[
@@ -207,6 +215,10 @@ knitr::include_graphics("img/years.png")
 ```{r output.lines=17}
 page %>%
   html_nodes(".secondaryInfo")
+
+# new way of scraping years
+# page %>%
+#   html_nodes(".cvucyi")
 ```
 ]
 .pull-right[
@@ -344,6 +356,10 @@ knitr::include_graphics("img/ratings.png")
 ```{r output.lines=17}
 page %>%
   html_nodes("strong")
+
+# new way of scraping ratings
+# page %>%
+#   html_nodes(".iKUUVe") 
 ```
 ]
 .pull-right[
