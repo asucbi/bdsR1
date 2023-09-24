@@ -39,44 +39,43 @@ fact_checks <- replace_with_function() # <<< combine the two data frames
 
 ```{r separate-description-date-1, error = TRUE}
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
-
-```
-
-
-
-
-```{r separate-description-date-1, error = TRUE}
-
-fact_checks <- fact_checks %>%
-  replace_with_function(description, into = c("part1", "part2"), sep = "on ") 
-
-## STOP HERE and inspect the "fact_checks" data frame to see what is going on with "part1" and "part2" 
-```
-
-```{r separate-description-date-2, error = TRUE}
-
-fact_checks <- fact_checks %>%
-  separate(part2, into = c("part1", "part2"), sep = " in")
-
-## STOP HERE and inspect the "fact_checks" data frame to see what is going on with "part1" and "part2" 
-```
-
-```{r separate-description-date-3}
-
-fact_checks <- fact_checks %>%
-  rename(date = "___") %>%
-  select(-part2)
-
+# Remove this text, and add your answer for Exercise 12 here.
 ```
 
 ### Exercise 13
 
-Remove this text, and add your answer for Exercise 1 here.
+Remove this text, and add your answer for Exercise 13 here.
 Add code chunks as needed.
 Don't forget to label your code chunk.
 Do not use spaces in code chunk labels.
+
+### Exercise 14
+
+Remove this text, and add your answer for Exercise 13 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+### Exercise 15
+
+Remove this text, and add your answer for Exercise 13 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+### Exercise 16
+
+Remove this text, and add your answer for Exercise 13 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+### Exercise 17
+
+Remove this text, and add your answer for Exercise 13 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+
 

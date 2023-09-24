@@ -455,7 +455,7 @@ Go ahead and add a new column to each data frame and name it as `type` for both.
 
 `r qend()`
 
-Next, I'm most interested in cleaning up that `description` variable in our data frame. Specificially, I just want the date as "Month Day, Year". But notice that it is embedded among some text I don't really care about. 
+Next, I'm most interested in cleaning up that `description` variable in our data frame. What are two pieces of relevant info you might want separated out into unique columns?
 
 ```{r, echo=FALSE, eval=TRUE}
 library(knitr)
@@ -466,11 +466,11 @@ fact_checks <- rows_append(fact_checks_lie, fact_checks_truth)
 kable(fact_checks %>% slice(1:5) %>% select(3)) %>% kable_styling()
 ```
 
-We need to separate out the date from the rest of the text.
+For me, there are two pieces of relevant info we could separate out. The first is the date ("Month Day, Year") and the other is the media source where the statement appeared (e.g., "in a TV segment").
 
-One way of doing this is to use the `separate()` function from `tidyverse` that allows us to extract strings embedded between other strings. It's especially useful when the surrounding strings are consistent. And in our case, that appears to be the case!
+One way of doing this is to use the `separate()` function from `tidyverse` that allows us to extract strings embedded between other strings. It's especially useful when the surrounding strings are consistent. And in our case, that appears to be the case! 
 
-Let's say I had text in some column `rhyme` that goes like, "The cow jumped over the moon and the fiddle ran away with the spoon." 
+Let's do a hypothetical: Say I had text in some column `rhyme` that goes like, "The cow jumped over the moon and the fiddle ran away with the spoon." 
 
 What happens when I run the code below?
 
@@ -485,9 +485,11 @@ In this example, the separate() function is used to split the "rhyme" column int
 
 `r qbegin(12)`
 
-Now, following this logic above, take our data frame and pipe it into a `separate()` function that will allow you to extract just the date from the `description` column. 
+Now, following this logic above, take our data frame and pipe it into a `separate()` function that will allow you to extract just the date and the media source from the `description` column. 
 
 Save the extracted date information as a new column called `date`.
+
+Save the extracted media source information as a new column called `media`.
 
 __Note__ that this will result in some warnings when you run the code, and that's OK for what we are wanting to do. 
 
@@ -499,20 +501,44 @@ Load in the `lubridate` package (you have to do this yourself) and convert the n
 
 `r qend()`
 
+## Analysis
+
 `r qbegin(14)`
 
-Finally, print out a summary of the data frame using the `skim()` function. Make sure that `date` is recognized as the correct variable type. Explicitly write out in your own words: What is the earliest date for which we have a statement?
+Print out a summary of the data frame using the `skim()` function. How many unique sources are there? Do we have any variables with missing data? 
 
 `r qend()`
 
-## Analysis
+`r qbegin(15)`
 
-For another time. Good work on the lab! 
+For the statements labeled as lies, display a rank-ordered table of the most common featured sources (ignore any sources that occur 2 or fewer times). 
 
+Who (or what) is the most commonly featured source for the statements labeled as lies? Why do you think this source shows up so often?
+
+`r qend()`
+ 
+`r qbegin(16)`
+ 
+Of the statements labeled lies, how many statements contain the word "Biden"? How many statements contain the word "Trump"? Try to figure it out, and ask for help if you're stuck.
+ 
+`r qend()`
+
+:::green
+**Hint:** For Q16, `str_detect()` can be helpful here. 
+:::
+ 
+`r qbegin(17)`
+ 
+Inspect the "media" variable on your own in the data set. Do any of the entries look incomplete? For incomplete entries, you might want to go to its page on the Politifact website to find what should have been captured. 
+
+Can you speculate on why our code failed to capture complete entries for some of the statements?    
+`r qend()` 
+ 
 ## WHAT YOU ARE GOING TO SUBMIT
 
 Please complete `lab-07.Rmd`, knit it, make sure it looks great, and upload to Canvas. Please leave all your completed `.R` script files in Posit Cloud. 
 
+[^lab-07-truth-o-meter-1]: Source: <https://journals.sagepub.com/doi/10.1177/2053951719843310>
 
 ```{r, echo=FALSE}
 # `r qbegin(13)`
@@ -557,6 +583,3 @@ Please complete `lab-07.Rmd`, knit it, make sure it looks great, and upload to C
 
 
 
-
-
-[^lab-07-truth-o-meter-1]: Source: <https://journals.sagepub.com/doi/10.1177/2053951719843310>

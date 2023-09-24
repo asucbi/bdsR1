@@ -746,7 +746,7 @@ Question 11
 </div>
 <p class="question-end">
 </p>
-<p>Next, I’m most interested in cleaning up that <code>description</code> variable in our data frame. Specificially, I just want the date as “Month Day, Year”. But notice that it is embedded among some text I don’t really care about.</p>
+<p>Next, I’m most interested in cleaning up that <code>description</code> variable in our data frame. What are two pieces of relevant info you might want separated out into unique columns?</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -783,21 +783,22 @@ stated on February 12, 2023 in a tweet:
 </tr>
 </tbody>
 </table>
-<p>We need to separate out the date from the rest of the text.</p>
+<p>For me, there are two pieces of relevant info we could separate out. The first is the date (“Month Day, Year”) and the other is the media source where the statement appeared (e.g., “in a TV segment”).</p>
 <p>One way of doing this is to use the <code>separate()</code> function from <code>tidyverse</code> that allows us to extract strings embedded between other strings. It’s especially useful when the surrounding strings are consistent. And in our case, that appears to be the case!</p>
-<p>Let’s say I had text in my column <code>rhyme</code> that goes like, “The cow jumped over the moon and the fiddle ran away with the spoon.”</p>
+<p>Let’s do a hypothetical: Say I had text in some column <code>rhyme</code> that goes like, “The cow jumped over the moon and the fiddle ran away with the spoon.”</p>
 <p>What happens when I run the code below?</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">separate</span>(rhyme, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;before&quot;</span>, <span class="st">&quot;between&quot;</span>, <span class="st">&quot;after&quot;</span>), </span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">&quot;jumped|and&quot;</span>, <span class="at">remove =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>before, <span class="sc">-</span>after)</span></code></pre></div>
-<p>In this example, the separate() function is used to split the “rhyme” column into three columns based on the words “jumped” and “and”. Why three? Because I get everything before the word “jumped” in it’s own column (I’m calling “before,”) everything after the word “and” in it’s own column (I’m calling “after”), and everything between in it’s own column (you guessed it, that I’m calling “between”). And to wrap it all up, I’m just keeping the “before” column in my final data frame.</p>
+<p>In this example, the separate() function is used to split the “rhyme” column into three columns based on the words “jumped” and “and”. Why three? Because I get everything before the word “jumped” in it’s own column (I’m calling “before,”) everything after the word “and” in it’s own column (I’m calling “after”), and everything between in it’s own column (you guessed it, that I’m calling “between”). And to wrap it all up, I’m just keeping the “between” column in my final data frame.</p>
 <div class="question-begin">
 Question 12
 </div>
 <div class="question-body">
-<p>Now, following this logic above, take our data frame and pipe it into a <code>separate()</code> function that will allow you to extract just the date from the <code>description</code> column.</p>
+<p>Now, following this logic above, take our data frame and pipe it into a <code>separate()</code> function that will allow you to extract just the date and the media source from the <code>description</code> column.</p>
 <p>Save the extracted date information as a new column called <code>date</code>.</p>
+<p>Save the extracted media source information as a new column called <code>media</code>.</p>
 <p><strong>Note</strong> that this will result in some warnings when you run the code, and that’s OK for what we are wanting to do.</p>
 </div>
 <p class="question-end">
@@ -810,18 +811,46 @@ Question 13
 </div>
 <p class="question-end">
 </p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
 <div class="question-begin">
 Question 14
 </div>
 <div class="question-body">
-<p>Finally, print out a summary of the data frame using the <code>skim()</code> function. Make sure that <code>date</code> is recognized as the correct variable type. Explicitly write out in your own words: What is the earliest date for which we have a statement?</p>
+<p>Print out a summary of the data frame using the <code>skim()</code> function. How many unique sources are there? Do we have any variables with missing data?</p>
 </div>
 <p class="question-end">
 </p>
+<div class="question-begin">
+Question 15
 </div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
-<p>For another time. Good work on the lab!</p>
+<div class="question-body">
+<p>For the statements labeled as lies, display a rank-ordered table of the most common featured sources (ignore any sources that occur 2 or fewer times).</p>
+<p>Who (or what) is the most commonly featured source for the statements labeled as lies? Why do you think this source shows up so often?</p>
+</div>
+<p class="question-end">
+</p>
+<div class="question-begin">
+Question 16
+</div>
+<div class="question-body">
+<p>Of the statements labeled lies, how many statements contain the word “Biden”? How many statements contain the word “Trump”? Try to figure it out, and ask for help if you’re stuck.</p>
+</div>
+<p class="question-end">
+</p>
+<div class="green">
+<p><strong>Hint:</strong> For Q16, <code>str_detect()</code> can be helpful here.</p>
+</div>
+<div class="question-begin">
+Question 17
+</div>
+<div class="question-body">
+<p>Inspect the “media” variable on your own in the data set. Do any of the entries look incomplete? For incomplete entries, you might want to go to its page on the Politifact website to find what should have been captured.</p>
+<p>Can you speculate on why our code failed to capture complete entries for some of the statements?</p>
+</div>
+<p class="question-end">
+</p>
 </div>
 <div id="what-you-are-going-to-submit" class="section level2">
 <h2>WHAT YOU ARE GOING TO SUBMIT</h2>
