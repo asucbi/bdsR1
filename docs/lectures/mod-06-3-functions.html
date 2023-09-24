@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Functions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Nicholas Duran &amp; Derek Powell" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Functions
+]
+.subtitle[
+## <br><br> Behavioral Data Science in R
+]
+.author[
+### Nicholas Duran &amp; Derek Powell
+]
+
+---
+
+
+
+
+
+&lt;!-- layout: true --&gt;
+  
+&lt;!-- &lt;div class="my-footer"&gt; --&gt;
+&lt;!-- &lt;span&gt; --&gt;
+&lt;!-- &lt;a href="https://asucbi.github.io/" target="_blank"&gt;asucbi.github.io&lt;/a&gt; --&gt;
+&lt;!-- &lt;/span&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+---
+
+
+
+class: middle
+
+# White House Speeches
+
+---
+
+## 🏁 Start with
+
+&lt;img src="img/wh-speeches.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## End with 🛑
+
+
+```
+## # A tibble: 30 × 5
+##    title                          date       location text  url  
+##    &lt;chr&gt;                          &lt;date&gt;     &lt;chr&gt;    &lt;lis&gt; &lt;chr&gt;
+##  1 Remarks by Vice President Har… 2023-02-18 "Commer… &lt;chr&gt; http…
+##  2 Remarks by Vice President Har… 2023-02-18 "\nComm… &lt;chr&gt; http…
+##  3 Remarks by Vice President Har… 2023-02-18 "Hotel … &lt;chr&gt; http…
+##  4 Remarks by Vice President Har… 2023-02-17 "Bayeri… &lt;chr&gt; http…
+##  5 Remarks by President Biden at… 2023-02-16 "East R… &lt;chr&gt; http…
+##  6 Remarks by President Biden on… 2023-02-16 "South … &lt;chr&gt; http…
+##  7 Remarks by President Biden on… 2023-02-15 "IBEW L… &lt;chr&gt; http…
+##  8 Excerpt from Remarks as Prepa… 2023-02-15 "\n###"  &lt;chr&gt; http…
+##  9 Remarks by President Biden at… 2023-02-14 "Washin… &lt;chr&gt; http…
+## 10 Remarks as Prepared for Deliv… 2023-02-13 "Mesa, … &lt;chr&gt; http…
+## 11 Remarks by President Biden at… 2023-02-11 "State … &lt;chr&gt; http…
+## 12 Remarks as Prepared for Deliv… 2023-02-11 "Decatu… &lt;chr&gt; http…
+## 13 Remarks by President Biden an… 2023-02-10 " \nOva… &lt;chr&gt; http…
+## 14 Remarks by President Biden an… 2023-02-10 "East R… &lt;chr&gt; http…
+## 15 Remarks by President Biden on… 2023-02-09 "Univer… &lt;chr&gt; http…
+## # ℹ 15 more rows
+```
+
+
+---
+
+#### .center[
+[https://www.whitehouse.gov/briefing-room/speeches-remarks](https://www.whitehouse.gov/briefing-room/speeches-remarks/)
+]
+
+&lt;img src="img/wh-speeches-annotated.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/wh-speech-feb-16-annotated.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Plan
+
+1. Scrape `title`, `date`, `location`, and `text` from a few of the individual pages of White House speeches to develop the code
+
+2. Write a function that scrapes `title`, `date`, `location`, and `text` from each speech page
+
+3. Scrape the `url`s of all White House speeches from the main page
+
+4. Use this function to scrape from each individual speech from these `url`s and create a data frame with the columns `title`, `date`, `location`, `text`, and `url`
+
+---
+
+class: middle
+
+# Scrape data from a few of the individual pages of White House speeches
+
+---
+
+## Read page for Biden's Feb 16 speech on UFOs
+
+
+```r
+url &lt;- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/"
+speech_page &lt;- read_html(url)
+```
+
+
+
+.pull-left[
+
+```r
+speech_page
+```
+
+```
+## {html_document}
+## &lt;html class="no-js alert__has-cookie" lang="en-US"&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html ...
+## [2] &lt;body class="post-template-default single single-post post ...
+```
+]
+.pull-right[
+&lt;img src="img/wh-speech-feb-16.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Extract title
+
+.pull-left-wide[
+&lt;br&gt;&lt;br&gt;
+
+```r
+title &lt;- speech_page %&gt;%
+    html_node(".news") %&gt;%
+    html_text2() 
+
+title
+```
+
+```
+## [1] "Remarks by President Biden on the United States’ Response to Recent Aerial Objects"
+```
+]
+.pull-right-narrow[
+&lt;img src="img/title.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Extract date
+
+.pull-left-wide[
+
+```r
+library(lubridate)
+
+speech_page %&gt;%
+    html_node(".updated") %&gt;%
+    html_text()
+```
+
+```
+## [1] "February 16, 2023"
+```
+
+```r
+date &lt;- speech_page %&gt;%
+    html_node(".updated") %&gt;%
+    html_text() %&gt;%
+    mdy()
+date
+```
+
+```
+## [1] "2023-02-16"
+```
+]
+.pull-right-narrow[
+&lt;img src="img/date.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Extract location
+
+.pull-left-wide[
+
+```r
+location &lt;- speech_page %&gt;%
+    html_node(".has-text-align-center") %&gt;%
+    html_text2() 
+
+location
+```
+
+```
+## [1] "South Court Auditorium\nEisenhower Executive Office Building"
+```
+]
+
+.pull-right-narrow[
+&lt;img src="img/location.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Extract text
+
+.pull-left-wide[
+
+```r
+text &lt;- speech_page %&gt;% 
+    html_nodes("p") %&gt;%
+    html_text2() %&gt;%
+    list()
+
+text
+```
+
+```
+## [[1]]
+##  [1] "The White House\n1600 Pennsylvania Ave NW\nWashington, DC 20500"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+##  [2] "South Court Auditorium\nEisenhower Executive Office Building"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+##  [3] "2:11 P.M. EST"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+##  [4] "THE PRESIDENT: Good afternoon. Last week, in the immediate aftermath of the incursion by China’s high-altitude balloon, our military, through the North American Aerospace Defense Command — so-called NOR- — NORAD — closely scrutinized the — our airspace, including enhancing our radar to pick up more slow-moving objects above our country and around the world.\n\nIn doing so, they tracked three unidentified objects: one in Alaska, Canada, and over Lake Huron in the Midwest.\n\nThey acted in accordance with established parameters for determining how to deal with unidentified aerial objects in U.S. airspace.\n\nAt their recommendation, I gave the order to take down these three objects due to hazards to civilian commercial air traffic and because we could not rule out the surveillance risk of sensitive facilities.\n\nWe acted in consultation with the Canadian government. I spoke personally with Prime Minister Trudeau and Ca- — from Canada on Saturday.\n\nAnd just as critically, we acted out of an abundance of caution and at an opportunity that allowed us to take down these — these objects safely.\n\nOur military and the Canadian military are seeking to recover the debris so we can learn more about these three objects. Our intelligence community is still assessing all three incidences. They’re reporting to me daily and will continue their urgent efforts to do so, and I will communicate that to the Congress.\n\nWe don’t yet know exactly what these three objects were. But nothing — nothing right now suggests they were related to China’s spy balloon program or that they were surveillance vehicles from other — any other country.\n\nThe intelligence community’s current assessment is that these three objects were most likely balloons tied to private companies, recreation, or research institutions studying weather or conducting other scientific research.\n\nWhen I came into office, I instructed our intelligence community to take a broad look at the phenomenon of unidentified aerial objects.\n\nWe know that a range of entities, including countries, companies, and research organizations operate objects at altitudes for purposes that are not nefarious, including legitimate scientific research.\n\nI want to be clear: We don’t have any evidence that there has been a sudden increase in the number of objects in the sky. We’re now just seeing more of them, partially because the steps we’ve taken to increase our radars — to narrow our radars. And we have to keep adapting our approach to delaying — to dealing with these challenges.\n\nThat’s why I’ve directed my team to come back to me with sharper rules for how we will deal with these unidentified objects moving forward, distinguishing — distinguishing between those that are likely to pose safety and security risks that necessitate action and those that do not.\n\nBut make no mistake, if any object presents a threat to the safety and security of the American people, I will take it down. I’ll be sharing with Congress these classified policy parameters when they’re completed, and they’ll remain classified so we don’t give our roadmap to our enemies to try to evade our defenses.\n\nGoing forward, these parameters will guide what actions we will take while responding to unmanned and unidentified aerial objects. We’re going to keep adapting them as the challenges evolve, if it evolves.\n\nIn addition, we’ve derived — I’ve directly my National Security Advisor to lead a government-wide effort to make sure we are positioned to deal safely and effectively with the objects in our airspace.\n\nFirst, we will establish a better inventory of unmanned airborne objects in space — above the United States’ airspace and make sure that inventory is accessible and up to date.\n\nSecond, we’ll implement further measures to improve our capacity to detect unmanned objecti- — objects in our airspace.\n\nThird, we’ll update the rules and regulations for launching and maintaining unmanned objects in the skies above the United States of America.\n\nAnd fourth, my Secretary of State will lead an effort to help establish a global — a globa- — a common global norms in this largely unregulated space.\n\nThese steps will lead to safer and more secure skies for our air travelers, our military, our scientists, and for people on the ground as well. That’s my job as your President and Commander-in-Chief.\n\nAs the events of the previous days have shown, we’ll always act to protect the interest of the American people and the security of the American people.\n\nSince I came into office, we’ve developed the ability to identify, track, and study high-altitude surveillance balloons connected with the Chinese military."
+##  [5] "When one of these high-altitude surveillance balloons entered our airspace over the continental United States earlier in the month, I gave the order to shoot it down as soon as it would be safe to do so. The military advised against shooting it down over land because of the sheer size of it. It was the size of multiple school busses, and it posed a risk to people on the ground if it was shot down where people lived."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+##  [6] "Instead, we tracked it closely, we analyzed its capabilities, and we learned more about how it operates."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+##  [7] "And because we knew its path, we were able to protect sensitive sites against collection."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+##  [8] "We waited until it was safely over water, which would not only protect civilians but also enable us to recover substantial components for further analys- — for further analytics."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+##  [9] "And then we shot it down, sending a clear message — clear message: The violation of our sovereignty is unacceptable."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+## [10] "We will act to protect our country, and we did."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+...
+```
+]
+.pull-right-narrow[
+&lt;img src="img/text.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Put it all in a data frame
+
+.pull-left[
+
+```r
+biden_speech &lt;- tibble(
+  title    = title,
+  date     = date,
+  location = location,
+  text     = text,
+  url      = url
+)
+
+glimpse(biden_speech)
+```
+
+```
+## Rows: 1
+## Columns: 5
+## $ title    &lt;chr&gt; "Remarks by President Biden on the United Stat…
+## $ date     &lt;date&gt; 2023-02-16
+## $ location &lt;chr&gt; "South Court Auditorium\nEisenhower Executive…
+## $ text     &lt;list&gt; &lt;"The White House\n1600 Pennsylvania Ave NW\nW…
+## $ url      &lt;chr&gt; "https://www.whitehouse.gov/briefing-room/spe…
+```
+]
+.pull-right[
+&lt;img src="img/wh-speech-feb-16.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Read page for Jill Biden's Feb 13th remarks at Mesa Community College
+
+
+```r
+url &lt;- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/"
+speech_page &lt;- read_html(url)
+```
+
+
+
+
+```r
+speech_page
+```
+
+```
+## {html_document}
+## &lt;html class="no-js alert__has-cookie" lang="en-US"&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html ...
+## [2] &lt;body class="post-template-default single single-post post ...
+```
+
+---
+
+## Extract components of Jill Biden's remarks
+
+
+```r
+title &lt;- speech_page %&gt;%
+  html_node(".news") %&gt;%
+  html_text2()
+
+date &lt;- speech_page %&gt;%
+  html_node(".updated") %&gt;%
+  html_text() %&gt;%
+  mdy()
+
+location &lt;- speech_page %&gt;%
+  html_node(".has-text-align-center") %&gt;%
+  html_text2()
+
+text &lt;- speech_page %&gt;%
+  html_nodes("p") %&gt;%
+  html_text2() %&gt;%
+  list()
+```
+
+---
+
+## Put it all in a data frame
+
+.pull-left[
+
+```r
+jill_biden_remarks &lt;- tibble(
+  title    = title,
+  date     = date,
+  location = location,
+  text     = text,
+  url      = url
+)
+
+glimpse(jill_biden_remarks)
+```
+
+```
+## Rows: 1
+## Columns: 5
+## $ title    &lt;chr&gt; "Remarks as Prepared for Delivery by First Lad…
+## $ date     &lt;date&gt; 2023-02-13
+## $ location &lt;chr&gt; "Mesa, Arizona"
+## $ text     &lt;list&gt; &lt;"The White House\n1600 Pennsylvania Ave NW\n…
+## $ url      &lt;chr&gt; "https://www.whitehouse.gov/briefing-room/spee…
+```
+]
+.pull-right[
+&lt;img src="img/jill-biden-remarks.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: middle
+
+.larger[
+.light-blue[
+.hand[
+this is getting tiring...
+]
+]
+]
+
+---
+
+class: middle
+
+# Functions
+
+---
+
+## When should you write a function?
+
+--
+.pull-left[
+&lt;img src="img/funct-all-things.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+--
+.pull-right[
+When you’ve copied and pasted a block of code more than twice.
+]
+
+---
+
+.question[
+How many times will we need to copy and paste the code we developed to scrape data on all of the White House speeches?
+]
+
+&lt;img src="img/wh-speeches-annotated2.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Why functions?
+
+- Automate common tasks in a more powerful and general way than copy-and-pasting:
+  - Give your function an evocative name that makes your code easier to understand
+  - As requirements change, only need to update code in one place, instead of many
+  - Eliminate chance of making incidental mistakes when you copy and paste (i.e. updating a variable name in one place, but not in another)
+
+--
+
+- Down the line: Improve your reach as a data scientist by writing functions (and packages!) that others use
+
+---
+
+.question[
+Assuming that the page structure is the same for each speech page, how many "things" do you need to know for each speech page to scrape the data we want from it? 
+]
+
+.pull-left-wide[
+.xsmall[
+
+```r
+url_to_scrape &lt;- "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-at-the-munich-security-conference-2/"
+
+speech_page &lt;- read_html(url_to_scrape)
+
+title &lt;- speech_page %&gt;%
+  html_node(".news") %&gt;%
+  html_text2()
+
+date &lt;- speech_page %&gt;%
+  html_node(".updated") %&gt;%
+  html_text() %&gt;%
+  mdy()
+
+location &lt;- speech_page %&gt;%
+  html_node(".has-text-align-center") %&gt;%
+  html_text2()
+
+text &lt;- speech_page %&gt;%
+  html_nodes("p") %&gt;%
+  html_text2() %&gt;%
+  list()
+
+tibble(
+  title = title, date = date, location = location,
+  text = text, url= url
+)
+```
+]
+]
+
+---
+
+## Turn your code into a function
+
+- Pick a short but informative **name**, preferably a verb.
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+
+```r
+scrape_speech &lt;- 
+```
+
+---
+
+## Turn your code into a function
+
+- Pick a short but evocative **name**, preferably a verb.
+- List inputs, or **arguments**, to the function inside `function`. If we had more the call would look like `function(x, y, z)`.
+
+&lt;br&gt;
+
+
+```r
+scrape_speech &lt;- function(x){
+  
+  
+  
+  
+  
+}  
+```
+
+---
+
+## Turn your code into a function
+
+- Pick a short but informative **name**, preferably a verb.
+- List inputs, or **arguments**, to the function inside `function`. If we had more the call would look like `function(x, y, z)`.
+- Place the **code** you have developed in body of the function, a `{` block that immediately follows `function(...)`.
+
+
+```r
+scrape_speech &lt;- function(url_to_scrape){
+
+  # code we developed earlier to scrape info 
+  # on single speech goes here
+  
+}
+```
+
+---
+
+## `scrape_speech()`
+
+.pull-left-wide[
+.small[
+
+```r
+scrape_speech &lt;- function(url_to_scrape) {
+  
+  speech_page &lt;- read_html(url_to_scrape)
+
+  title &lt;- speech_page %&gt;%
+    html_node(".news") %&gt;%
+    html_text2()
+  
+  date &lt;- speech_page %&gt;%
+    html_node(".updated") %&gt;%
+    html_text() %&gt;%
+    mdy()
+  
+  location &lt;- speech_page %&gt;%
+    html_node(".has-text-align-center") %&gt;%
+    html_text2()
+  
+  text &lt;- speech_page %&gt;%
+    html_nodes("p") %&gt;%
+    html_text2() %&gt;%
+    list()
+  
+  tibble(
+    title = title, date = date, location = location,
+    text = text, url= url_to_scrape
+  )
+}
+```
+]
+]
+
+---
+
+## Function in action
+
+
+```r
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/16/remarks-by-president-biden-on-the-united-states-response-to-recent-aerial-objects/") %&gt;%
+  glimpse()
+```
+
+```
+## Rows: 1
+## Columns: 5
+## $ title    &lt;chr&gt; "Remarks by President Biden on the United Stat…
+## $ date     &lt;date&gt; 2023-02-16
+## $ location &lt;chr&gt; "South Court Auditorium\nEisenhower Executive…
+## $ text     &lt;list&gt; &lt;"The White House\n1600 Pennsylvania Ave NW\nW…
+## $ url      &lt;chr&gt; "https://www.whitehouse.gov/briefing-room/spe…
+```
+
+---
+
+## Function in action
+
+
+```r
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/13/remarks-as-prepared-for-delivery-by-first-lady-jill-biden-at-mesa-community-college/") %&gt;%
+  glimpse()
+```
+
+```
+## Rows: 1
+## Columns: 5
+## $ title    &lt;chr&gt; "Remarks as Prepared for Delivery by First Lad…
+## $ date     &lt;date&gt; 2023-02-13
+## $ location &lt;chr&gt; "Mesa, Arizona"
+## $ text     &lt;list&gt; &lt;"The White House\n1600 Pennsylvania Ave NW\n…
+## $ url      &lt;chr&gt; "https://www.whitehouse.gov/briefing-room/spee…
+```
+
+---
+
+## Function in action
+
+
+```r
+scrape_speech(url = "https://www.whitehouse.gov/briefing-room/speeches-remarks/2023/02/18/remarks-by-vice-president-harris-at-the-munich-security-conference-2/") %&gt;%
+  glimpse()
+```
+
+```
+## Rows: 1
+## Columns: 5
+## $ title    &lt;chr&gt; "Remarks by Vice President Harris at the Munic…
+## $ date     &lt;date&gt; 2023-02-18
+## $ location &lt;chr&gt; "Hotel Bayerischer HofMunich, Germany"
+## $ text     &lt;list&gt; &lt;"The White House\n1600 Pennsylvania Ave NW\n…
+## $ url      &lt;chr&gt; "https://www.whitehouse.gov/briefing-room/spee…
+```
+
+---
+
+class: middle
+
+# Writing functions
+
+---
+
+## What goes in / what comes out?
+
+.pull-left-wide[
+- They take input(s) defined in the function definition
+
+
+```r
+function([inputs separated by commas]){
+  # what to do with those inputs
+}
+```
+
+- By default they return the last value computed in the function
+
+
+```r
+scrape_page &lt;- function(x){
+  # do bunch of stuff with the input...
+  
+  # return a tibble
+  tibble(...)
+}
+```
+
+- You can define more outputs to be returned in a list as well as nice print methods (but we won't go there for now...)
+]
+
+---
+
+.question[
+What is going on here?
+]
+
+
+```r
+add_2 &lt;- function(x){
+  x + 2
+  1000
+}
+```
+
+
+```r
+add_2(3)
+```
+
+```
+## [1] 1000
+```
+
+```r
+add_2(10)
+```
+
+```
+## [1] 1000
+```
+
+---
+
+## Naming functions
+
+&gt; "There are only two hard things in Computer Science: cache invalidation and naming things." - Phil Karlton
+
+---
+
+## Naming functions
+
+- Names should be short but clearly evoke what the function does
+
+--
+- Names should be verbs, not nouns
+
+--
+- Multi-word names should be separated by underscores (`snake_case` as opposed to `camelCase`)
+
+--
+- A family of functions should be named similarly (`scrape_page()`, `scrape_speech()` OR `str_remove()`, `str_replace()` etc.)
+
+--
+- Avoid overwriting existing (especially widely used) functions
+
+
+```r
+# JUST DON'T
+mean &lt;- function(x){ 
+  x * 3 
+  }
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
