@@ -1,0 +1,141 @@
+---
+title: "mod-06-song-lyrics"
+format: html
+editor: visual
+---
+
+# **Tuning in to psychological change: Linguistic markers of psychological traits and emotions over time in popular U.S. song lyrics \[[LINK](https://psycnet.apa.org/record/2011-05681-001)\]**
+
+American culture is filled with cultural products. Yet few studies have investigated how changes in cultural products correspond to changes in psychological traits and emotions. The current research fills this gap by testing the hypothesis that one cultural product---word use in popular song lyrics---changes over time in harmony with cultural changes in individualistic traits. Linguistic analyses of the most popular songs from 1980--2007 demonstrated changes in word use that mirror psychological change. Over time, use of words related to self-focus and antisocial behavior increased, whereas words related to other-focus, social interactions, and positive emotion decreased. These findings offer novel evidence regarding the need to investigate how changes in the tangible artifacts of the sociocultural environment can provide a window into understanding cultural changes in psychological processes.
+
+## Part 1: Extracting the Top 10 Artists of all Time
+
+### *Source: www.billboard.com*
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(rvest)
+library(glue)
+```
+
+-   Determine the URL you'd like to pull information from. Utilize the read_html() function to transform the URL into an HTML document.
+
+-   Pinpoint the CSS selector that targets the specific data you wish to obtain. A basic understanding of HTML and CSS can be beneficial. If not, you can leverage the Chrome extension, [SelectorGadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), to assist in identifying the CSS selector. A quick tip: simply right-click on a page element in Chrome and choose "**Inspect**".
+
+-   Employ the html_nodes() function combined with the identified CSS selector to retrieve your desired data.
+
+-   Finally, store your extracted information in a data frame. I've opted for tibbles in this case (they're somewhat more user-friendly compared to traditional data frames).
+
+```{r}
+# Identify the url from where you want to extract data
+base_url <- "https://www.billboard.com/charts/greatest-of-all-time-pop-songs-artists"
+webpage <- "___"
+
+# Get the artist name
+artists <- "___"
+  
+# create tibble
+top_artists <- "___"
+
+```
+
+## **PART 2 : Extracting Popular Songs and Lyrics of the Top 10 Artists**
+
+### *Source: https://genius.com*
+
+Having secured the list of the Top 10 Pop Artists, navigate to genius.com to pinpoint their trending songs and obtain the corresponding lyrics.
+
+-   Begin by determining the artist's specific webpage URL. Through some exploration on the site, it's apparent that artist pages consistently adhere to this format:
+
+`https://genius.com/artists/<artistname>`
+
+-   Let's just start simple and get a single song lyric for a single artist. To zero in on the precise CSS selector, the SelectorGadget will be immensely helpful.
+
+-   Let's turn what we just did into functions that we will map over all song lyrics, and then map over all artists.
+
+```{r}
+
+url_base <- "https://genius.com/artists/"
+urls <- glue('{}', '{}')
+
+```
+
+### Get a single song lyric for a single artist
+
+```{r}
+
+# get a single artist
+
+# read page for a single artist
+page <- "___"
+
+# get list of song links for a single artist
+urls_of_songs_one_artist <- "___"
+
+# scrape lyrics for the first song
+
+## read page
+lyrics <- "___"
+
+## get the lyrics
+song_lyrics <- "___"
+
+## get song name
+song_name <- "___"
+
+# create tibble
+artist_lyrics <- "___"
+
+```
+
+### Create a function to do above, and then map over a list of all song lyrics
+
+```{r}
+
+get_lyrics <- function(url_song){
+  
+  # read page
+
+  # get the lyrics
+
+  # get song name
+  
+  # create tibble
+  
+}
+
+# run function, return tibble
+lyrics_all_songs_for_one_artist <- map_dfr(urls_of_songs_one_artist, get_lyrics)
+
+
+```
+
+### But we really need to map over a list of all artists to get all their lyrics (will need another function)
+
+```{r}
+
+get_all_artists_and_lyrics <- function(url) {
+
+  # read page for a single artist
+  page = "___"
+  
+  # get artist name
+  artist = "___"
+  
+  # get list of song links a single artist
+  urls_of_songs_one_artist <- "___"
+
+  # run our previously built function that returns all the songs and lyrics
+  lyrics_all_songs_for_one_artist = "___"
+  
+  # now add the artist name to the tibble
+  lyrics_all_songs_for_one_artist = "___"
+  
+}
+
+# run function, return tibble
+final_df <- map_dfr(urls[1:2], get_all_artists_and_lyrics)
+
+
+```
