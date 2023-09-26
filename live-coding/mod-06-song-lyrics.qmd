@@ -57,7 +57,6 @@ Having secured the list of the Top 10 Pop Artists, navigate to genius.com to pin
 ```{r}
 
 url_base <- "https://genius.com/artists/"
-urls <- glue('{}', '{}')
 
 ```
 
