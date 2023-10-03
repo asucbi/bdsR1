@@ -17,6 +17,8 @@
 <script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <link href="site_libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
 <link href="site_libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -221,19 +223,18 @@ This function should</p>
 <ul>
 <li>have one input: the URL of the webpage and should return a data frame.</li>
 <li>rename variables scraped, using <code>snake_case</code> naming.</li>
-<li>clean up the <code>Country of Origin/Parent Company</code> variable with <code>str_squish()</code>.</li>
 <li>add a new column to the data frame for <code>year</code>. We will want this information when we ultimately have data from all years, so this is a good time to keep track of it. Our function doesn’t take a year argument, but the year is embedded in the URL, so we can extract it out of there, and add it as a new column. Use the <code>str_sub()</code> function to extract the last 4 characters from the URL. You will probably want to look at the help for this function to figure out how to specify “last 4 characters”.</li>
 </ul></li>
 <li><p>Define the URLs for 2022, 2020, and 2000 contributions.
 Then, test your function using these URLs as inputs.
 Does the function seem to do what you expected it to do?</p></li>
-<li><p>Construct a vector called <code>urls</code> that contains the URLs for each webpage that contains information on foreign-connected PAC contributions for a given year.</p></li>
+<li><p>Construct a vector called <code>urls</code> that contains the URLs for each webpage that contains information on foreign-connected PAC contributions for <em>every other year</em> starting at 2000 and going up to 2022 (e.g., 2000, 2002, 2004, etc.)</p></li>
 <li><p>Map the <code>scrape_pac()</code> function over <code>urls</code> in a way that will result in a data frame called <code>pac_all</code>.</p></li>
 <li><p>Write the data frame to a csv file called <code>pac-all.csv</code> in the <code>data</code> folder.</p></li>
 </ul>
 </div>
-<div id="complete-the-following-set-of-steps-in-the-hw-06-hw.rmd-file-in-your-repository." class="section level2">
-<h2>Complete the following set of steps in the <code>hw-06-hw.Rmd</code> file in your repository.</h2>
+<div id="complete-the-following-set-of-steps-in-the-hw-06.rmd-file-in-your-repository." class="section level2">
+<h2>Complete the following set of steps in the <code>hw-06.Rmd</code> file in your repository.</h2>
 </div>
 <ol style="list-style-type: decimal">
 <li>In your R Markdown file, load <code>pac-all.csv</code> and report its number of observations and variables using inline code.</li>
@@ -250,17 +251,276 @@ We have two goals in data cleaning:</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Use the <code>separate()</code> function to separate <code>country_parent</code> into <code>country</code> and <code>parent</code> columns.
 Note that country and parent company names are separated by <code>\</code> (which will need to be specified in your function) and also note that there are some entries where the <code>\</code> sign appears twice and in these cases we want to only split the value at the first occurrence of <code>\</code>.
-This can be accomplished by setting the <code>extra</code> argument in to <code>"merge"</code> so that the cell is split into only 2 segments, e.g. we want <code>"Denmark/Novo Nordisk A/S"</code> to be split into <code>"Denmark"</code> and <code>"Novo Nordisk A/S"</code>.
+This can be accomplished by setting the <code>extra</code> argument to <code>"merge"</code> so that the cell is split into only 2 segments, e.g. we want <code>"Denmark/Novo Nordisk A/S"</code> to be split into <code>"Denmark"</code> and <code>"Novo Nordisk A/S"</code>.
 (See help for <code>separate()</code> for more on this.) End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).</p></li>
 <li><p>Remove the character strings including <code>$</code> and <code>,</code> signs in the <code>total</code>, <code>dems</code>,and <code>repubs</code> columns and convert these columns to numeric.
 End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).
 A couple hints to help you out:</p>
 <ul>
 <li><p>The <code>$</code> character is a special character so it will need to be escaped.</p></li>
-<li><p>Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of $1,510,897 in 2008).
-In this case we need to remove all occurrences of <code>,</code>, which we can do by using <code>str_remove_all()</code> instead of <code>str_remove()</code>.</p></li>
+<li><p>Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of $1,510,897 in 2008). In this case we need to remove all occurrences of <code>,</code>, which we can do by using <code>str_remove_all()</code> instead of <code>str_remove()</code>.</p></li>
 </ul></li>
 </ol>
+<p>When you’re done, the first 10 rows of your data should look something like this:</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+country
+</th>
+<th style="text-align:left;">
+parent
+</th>
+<th style="text-align:right;">
+total
+</th>
+<th style="text-align:right;">
+dems
+</th>
+<th style="text-align:right;">
+repubs
+</th>
+<th style="text-align:right;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+7-Eleven
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Ito-Yokado
+</td>
+<td style="text-align:right;">
+8500
+</td>
+<td style="text-align:right;">
+1500
+</td>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ABB Group
+</td>
+<td style="text-align:left;">
+Switzerland
+</td>
+<td style="text-align:left;">
+Asea Brown Boveri
+</td>
+<td style="text-align:right;">
+46000
+</td>
+<td style="text-align:right;">
+17000
+</td>
+<td style="text-align:right;">
+28500
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Accenture
+</td>
+<td style="text-align:left;">
+UK
+</td>
+<td style="text-align:left;">
+Accenture plc
+</td>
+<td style="text-align:right;">
+75984
+</td>
+<td style="text-align:right;">
+23000
+</td>
+<td style="text-align:right;">
+52984
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ACE INA
+</td>
+<td style="text-align:left;">
+UK
+</td>
+<td style="text-align:left;">
+ACE Group
+</td>
+<td style="text-align:right;">
+38500
+</td>
+<td style="text-align:right;">
+12500
+</td>
+<td style="text-align:right;">
+26000
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Acuson Corp (Siemens AG)
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Siemens AG
+</td>
+<td style="text-align:right;">
+2000
+</td>
+<td style="text-align:right;">
+2000
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Adtranz (DaimlerChrysler)
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+DaimlerChrysler AG
+</td>
+<td style="text-align:right;">
+10500
+</td>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AE Staley Manufacturing (Tate &amp; Lyle)
+</td>
+<td style="text-align:left;">
+UK
+</td>
+<td style="text-align:left;">
+Tate &amp; Lyle
+</td>
+<td style="text-align:right;">
+24000
+</td>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:right;">
+14000
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AEGON USA (AEGON NV)
+</td>
+<td style="text-align:left;">
+Netherlands
+</td>
+<td style="text-align:left;">
+Aegon NV
+</td>
+<td style="text-align:right;">
+58250
+</td>
+<td style="text-align:right;">
+10500
+</td>
+<td style="text-align:right;">
+47750
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AIM Management Group
+</td>
+<td style="text-align:left;">
+UK
+</td>
+<td style="text-align:left;">
+AMVESCAP
+</td>
+<td style="text-align:right;">
+25000
+</td>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:right;">
+15000
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Air Liquide America
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+L’Air Liquide SA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2000
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="data-visualization-and-interpretation" class="section level2">
 <h2>Data visualization and interpretation</h2>
@@ -270,18 +530,18 @@ Once you have made the plot, write a brief interpretation of what the graph reve
 Few hints to help you out:</p>
 <ul>
 <li>Filter for only <code>Canada</code> and <code>Mexico</code>.</li>
-<li>Calculate sum of total contributions from PACs for each year for each country by using a sequence of <code>group_by()</code> then <code>summarise()</code>.</li>
-<li>Make a plot of total contributions (y-axis) by year (x-axis) where two lines identified by different colours represent each of Canada and Mexico.</li>
+<li>Calculate sum of total contributions from PACs for each year for each country by using a sequence of <code>group_by()</code> then <code>summarize()</code>.</li>
+<li>Make a plot of total contributions (y-axis) by year (x-axis) where two lines identified by different colors represent each of Canada and Mexico.</li>
 </ul></li>
 </ol>
 <p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Note:</strong> The figure you create might look slightly
 different than this one if the data on the website has been updated
 recently.</span></span></p>
 <ol start="4" style="list-style-type: decimal">
-<li>Recreate the following visualisation. Once you have made the plot, write a brief interpretation of what the graph reveals. Note that these are only UK contributions. You will need to make use of functions from the <strong>scales</strong> package for axis labels as well as from <strong>ggplot2</strong>.</li>
+<li>Recreate the following visualization. Once you have made the plot, write a brief interpretation of what the graph reveals. Note that these are only UK contributions. You will need to make use of functions from the <strong>scales</strong> package for axis labels as well as from <strong>ggplot2</strong>.</li>
 </ol>
 <div class="figure fullwidth">
-<img src="mod-06-money-in-politics_files/figure-html/unnamed-chunk-3-1.png" alt=" " width="80%"  />
+<img src="mod-06-money-in-politics_files/figure-html/unnamed-chunk-5-1.png" alt=" " width="80%"  />
 <p class="caption marginnote shownote">
 </p>
 </div>

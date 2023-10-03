@@ -2,7 +2,7 @@
 title: "HW 06 - Money in politics"
 author: "Insert your name here"
 date: "Insert date here"
-output: html_document
+output: github_document
 ---
 
 ## Load packages and data
