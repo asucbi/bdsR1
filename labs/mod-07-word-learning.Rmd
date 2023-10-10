@@ -41,9 +41,9 @@ Of course, children don't learn their vocabulary at random, by reading through t
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-06-word-learning`.
+Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-07-word-learning`.
 
-First, open the R Markdown document `lab-06.Rmd` and Knit it.
+First, open the R Markdown document `lab-07.Rmd` and Knit it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 
