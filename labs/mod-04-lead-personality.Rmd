@@ -85,7 +85,6 @@ We're going to work with two datasets in this lab, both of which can be found as
 You can read the first of these in using the following, we'll call it `survey`.
 
 ```{r load-data, message = FALSE, eval = TRUE}
-# nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
 survey <- read_csv("../data/eu-pers-survey.csv")
 ```
 
@@ -116,10 +115,10 @@ eudata <- read_csv("../data/eu-country-data.csv")
 
 # Exercises
 
-Take turns answering the exercises.
+
 <!-- If workign remotely through Zoom, make sure that the person taking the lead for an exercise is sharing their screen. -->
 
-You don't have to switch at each exercise, you can find your a cadence that works for your team and stick to it.
+Work together to complete these exercises. Each person in your group should get a chance to take the lead for an exercise. You don't have to switch at     each exercise, you can find your a cadence that works for your team and stick to it. 
 
 ## Get to know your data
 
@@ -143,9 +142,21 @@ I didn't give you an explanation of the `eudata` variables. Look at the names of
 
 `r qbegin(2)`
 
-Let's inspect our `survey` data to see if it contains responses from all EU countries. Are there any Countries missing in the `survey` dataset as compared to the `eudata` dataset?
+Let's inspect our `survey` data to see if it contains responses from all EU countries. Are there any Countries missing in the `survey` dataset as compared to the `eudata` dataset? 
 
 `r qend()`
+
+To help with this exercise, we can first print out the country variable in each by indexing the data frames with the `$` operator. First, squint at these and see if you can find any differences.
+
+```{r}
+survey$Country
+```
+
+```{r}
+eudata$Country
+```
+
+If you're going cross-eyed, you can also try using the `%in%` operator to see which of the countries from one dataset are in the list of countries from the other dataset.
 
 `r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
 ```{r echo=FALSE}
@@ -154,31 +165,14 @@ survey %>%
 ```
 `r solend()`
 
----
-`r qbegin(3)`
-
-What's going on here? Are we missing any observations in `survey` compared to `eudata`?
-
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
-# missing one, one is just mismatched
-# Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. 
-nrow(survey)
-nrow(eudata)
-```
-`r solend()`
-
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
-
----
 
 ## Joining data frames
 
 To investigate whether lead exposure is related to personality, we need to join these data frames into one. But, first we need to recode the `Country` variables so that they match.
 
 We know there's some problems related to Czech Republic and Bosnia & Herzegovina, so let's inspect the `Country` variable in each dataset to see what exactly is wrong.
+
+`r solbegin(show=TRUE, toggle=TRUE)`
 
 ```{r}
 eudata %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
@@ -189,8 +183,10 @@ survey %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
 __NOTE:__ The code above uses something called a ["regular expression"](https://en.wikipedia.org/wiki/Regular_expression) in the `str_detect` function to check where the values of `Country` match either "Czech" or "Bosnia". Regular expressions are powerful tools for working with text, though we will keep things simple in this course.
 :::
 
+`r solend()`
 
-`r qbegin(4)`
+
+`r qbegin(3)`
 Now that we know what the problem is, use the `case_when` function to recode the `Country` variable in the `eudata` data frame to match how they are written in the `survey` data.
 `r qend()`
 
@@ -211,7 +207,7 @@ eudata <- eudata %>%
 __NOTE:__ If we had a lot of countries to rename, we could also use the titular function from the `countrycode` package to rename countries according to standard naming conventions.
 :::
 
-`r qbegin(5)`
+`r qbegin(4)`
 Now we are ready to join the data frames. Join them on the `Country` variable. Will it make a difference which kind of join you perform?
 `r qend()`
 
@@ -226,7 +222,7 @@ combined <- left_join(eudata, survey, by = "Country")
 
 In this paper it is argued that lead exposure is associated with lower agreeableness, so that people exposed to more lead are less agreeable. 
 
-`r qbegin(6)`
+`r qbegin(5)`
 Make a plot to examine whether there is any association between the average agreeableness score in each country and the average lead exposure.
 
 What do you conclude?
@@ -256,7 +252,7 @@ map_data("world") %>%
 
 If we join this with our `combined` data, we will be ready to plot a map of the variable we're interested in.
 
-`r qbegin(7)`
+`r qbegin(6)`
 Join the `combined` data with the `map_data("world")` data. Make sure to do so in a way that only keeps the countries we have data for in the `combined` dataset. You can assign this to a variable just called `d`.
 
 ```{r, eval=F}
@@ -287,7 +283,7 @@ ggplot(d, aes(x=long, y = lat, group=group)) +
   coord_fixed() 
 ```
 
-`r qbegin(8)`
+`r qbegin(7)`
 Modify the code above to plot agreeableness by country. Use the `fill` of the maps colors to plot agreeableness and use the viridis color scheme to make it look nicer with `scale_fill_viridis_c()`.
 
 

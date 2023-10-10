@@ -31,9 +31,9 @@ In this lab we analyse the relationships between these variables, first two at a
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `hw-06-simpsons-paradox`.
+Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `hw-07-simpsons-paradox`.
 
-First, open the R Markdown document `hw-06.Rmd` and Knit it.
+First, open the R Markdown document `hw-07.Rmd` and Knit it.
 
 ## Warm up
 
