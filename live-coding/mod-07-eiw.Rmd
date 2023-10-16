@@ -3,7 +3,7 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-This is code-along for module 6: Explanatiosnin the wild data
+This is code-along for module 7: Explanatiosn in the wild data
 
 ```{r}
 ## Are longer explanations better?
