@@ -412,6 +412,10 @@ Fill in the blanks to scrape all pages, and to create a new data frame called `f
 Iterating over 20 pages to build a dataframe might take a few minutes. Be patient. And if you get an error, I discussed in the lecture one line of code you should add to the beginning of your function to be more "polite."
 :::
 
+
+
+
+
 ## One more time, now with feeling!
 
 :::lo 
