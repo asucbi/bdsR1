@@ -453,6 +453,8 @@ Then, use the `rows_append` function to append the two data frames together.
 
 Go ahead and add a new column to each data frame and name it as `type` for both. Make sure that the column is taking on the appropriate character string `lie` or `truth`. And then append the data frames to create a single data frame called `fact_checks`.
 
+Be sure to show your code and use `head()` to show the first part of your new data frame.  
+
 `r qend()`
 
 Next, I'm most interested in cleaning up that `description` variable in our data frame. What are two pieces of relevant info you might want separated out into unique columns?
@@ -491,13 +493,17 @@ Save the extracted date information as a new column called `date`.
 
 Save the extracted media source information as a new column called `media`.
 
-__Note__ that this will result in some warnings when you run the code, and that's OK for what we are wanting to do. 
+Be sure to show your code and use `head()` to show the first part of your new data frame.  
+
+__Note__ that this will result in some warnings when you run the code, and that's OK for what we are wanting to do. If you feel savvy, you can always just silence the warnings in the code chunk by setting `warning = FALSE`. 
 
 `r qend()`
 
 `r qbegin(13)`
 
 Load in the `lubridate` package (you have to do this yourself) and convert the newly created `date` variable to a format that R recognizes as a data format. 
+
+Be sure to show your code and use `head()` to show the first part of your new data frame.  
 
 `r qend()`
 
@@ -521,6 +527,8 @@ Who (or what) is the most commonly featured source for the statements labeled as
  
 Of the statements labeled lies, how many statements contain the word "Biden"? How many statements contain the word "Trump"? Try to figure it out, and ask for help if you're stuck.
  
+Be sure to show your code!
+
 `r qend()`
 
 :::green

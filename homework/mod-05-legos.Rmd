@@ -49,7 +49,7 @@ Note that the answers to all exercises are within the context of this particular
 
 2.  What are the three most common themes of Lego sets purchased?
 
-3.  Among the most common theme of Lego sets purchased, what is the most common subtheme?
+3.  Among the two most common themes of Lego sets purchased (see Question 2), what is the most common subtheme?
 
 ```{marginfigure}
 **Hint:** For Ex. 4, use the `case_when()` function.
