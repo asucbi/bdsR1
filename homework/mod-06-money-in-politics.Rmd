@@ -116,19 +116,21 @@ We have two goals in data cleaning:
 The following exercises walk you through how to make these fixes to the data.
 
 2.  Use the `separate()` function to separate `country_parent` into `country` and `parent` columns.
-    Note that country and parent company names are separated by `\` (which will need to be specified in your function) and also note that there are some entries where the `\` sign appears twice and in these cases we want to only split the value at the first occurrence of `\`.
+    Note that country and parent company names are separated by `/` (which will need to be specified in your function) and also note that there are some entries where the `/` sign appears twice and in these cases we want to only split the value at the first occurrence of `/`.
     This can be accomplished by setting the `extra` argument to `"merge"` so that the cell is split into only 2 segments, e.g. we want `"Denmark/Novo Nordisk A/S"` to be split into `"Denmark"` and `"Novo Nordisk A/S"`.
-    (See help for `separate()` for more on this.) End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).
+    (See help for `separate()` for more on this.) 
+    
+    End your code chunk by printing out the top 10 rows of your data frame (you can use `head()` to do this).
 
-3.  Remove the character strings including `$` and `,` signs in the `total`, `dems`,and `repubs` columns and convert these columns to numeric.
-    End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).
+3.  Remove the character strings including "$" and "," in the `total`, `dems`,and `repubs` columns and convert these columns to numeric.
+    End your code chunk by printing out the top 10 rows of your data frame (you can use `head()` to do this).
     A couple hints to help you out:
 
     -   The `$` character is a special character so it will need to be escaped.
 
-    -   Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of \$1,510,897 in 2008). In this case we need to remove all occurrences of `,`, which we can do by using `str_remove_all()` instead of `str_remove()`.
+    -   Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of \$1,510,897 in 2008). In this case we need to remove all occurrences of ",", which we can do by using `str_remove_all()` instead of `str_remove()`.
 
-When you're done, the first 10 rows of your data should look something like this:
+When you're done, the first 10 rows of your data should look something like this. **Remember:** The contents of the table might not be identical because the content of the web site changes over time, but it should close in terms of formatting:
 
 ```{r, eval=TRUE, echo=FALSE, message = FALSE}
 pac_all <- read.csv("/Users/nduran4/Dropbox (ASU)/Mac/Desktop/GitProjects/CBI-BDS1/bdsR1/nicksandbox/hw-lab-keys/mod-06-hw-key/data/pac-all.csv")
@@ -159,7 +161,7 @@ pac_all3[1:10,1:7] %>%
 **Note:** The figure you create might look slightly different than this one if the data on the website has been updated recently.
 ```
 
-4.  Recreate the following visualization. Once you have made the plot, write a brief interpretation of what the graph reveals. Note that these are only UK contributions. You will need to make use of functions from the **scales** package for axis labels as well as from **ggplot2**.
+5.  Recreate the following visualization. Once you have made the plot, write a brief interpretation of what the graph reveals. Note that these are only UK contributions. You will need to make use of functions from the **scales** package for axis labels as well as from **ggplot2**.
 
 ```{r eval = TRUE, echo = FALSE, message = FALSE, fig.fullwidth = TRUE, fig.asp = 0.5}
 pac_all3_fig2 <- pac_all3 %>% 

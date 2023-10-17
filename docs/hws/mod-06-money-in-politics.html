@@ -250,18 +250,19 @@ We have two goals in data cleaning:</p>
 <p>The following exercises walk you through how to make these fixes to the data.</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Use the <code>separate()</code> function to separate <code>country_parent</code> into <code>country</code> and <code>parent</code> columns.
-Note that country and parent company names are separated by <code>\</code> (which will need to be specified in your function) and also note that there are some entries where the <code>\</code> sign appears twice and in these cases we want to only split the value at the first occurrence of <code>\</code>.
+Note that country and parent company names are separated by <code>/</code> (which will need to be specified in your function) and also note that there are some entries where the <code>/</code> sign appears twice and in these cases we want to only split the value at the first occurrence of <code>/</code>.
 This can be accomplished by setting the <code>extra</code> argument to <code>"merge"</code> so that the cell is split into only 2 segments, e.g. we want <code>"Denmark/Novo Nordisk A/S"</code> to be split into <code>"Denmark"</code> and <code>"Novo Nordisk A/S"</code>.
-(See help for <code>separate()</code> for more on this.) End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).</p></li>
-<li><p>Remove the character strings including <code>$</code> and <code>,</code> signs in the <code>total</code>, <code>dems</code>,and <code>repubs</code> columns and convert these columns to numeric.
-End your code chunk by printing out the top 10 rows of your data frame (if you just type the data frame name it should automatically do this for you).
+(See help for <code>separate()</code> for more on this.)</p>
+<p>End your code chunk by printing out the top 10 rows of your data frame (you can use <code>head()</code> to do this).</p></li>
+<li><p>Remove the character strings including “$” and “,” in the <code>total</code>, <code>dems</code>,and <code>repubs</code> columns and convert these columns to numeric.
+End your code chunk by printing out the top 10 rows of your data frame (you can use <code>head()</code> to do this).
 A couple hints to help you out:</p>
 <ul>
 <li><p>The <code>$</code> character is a special character so it will need to be escaped.</p></li>
-<li><p>Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of $1,510,897 in 2008). In this case we need to remove all occurrences of <code>,</code>, which we can do by using <code>str_remove_all()</code> instead of <code>str_remove()</code>.</p></li>
+<li><p>Some contribution amounts are in the millions (e.g. Anheuser-Busch contributed a total of $1,510,897 in 2008). In this case we need to remove all occurrences of “,”, which we can do by using <code>str_remove_all()</code> instead of <code>str_remove()</code>.</p></li>
 </ul></li>
 </ol>
-<p>When you’re done, the first 10 rows of your data should look something like this:</p>
+<p>When you’re done, the first 10 rows of your data should look something like this. <strong>Remember:</strong> The contents of the table might not be identical because the content of the web site changes over time, but it should close in terms of formatting:</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -537,7 +538,7 @@ Few hints to help you out:</p>
 <p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Note:</strong> The figure you create might look slightly
 different than this one if the data on the website has been updated
 recently.</span></span></p>
-<ol start="4" style="list-style-type: decimal">
+<ol start="5" style="list-style-type: decimal">
 <li>Recreate the following visualization. Once you have made the plot, write a brief interpretation of what the graph reveals. Note that these are only UK contributions. You will need to make use of functions from the <strong>scales</strong> package for axis labels as well as from <strong>ggplot2</strong>.</li>
 </ol>
 <div class="figure fullwidth">
