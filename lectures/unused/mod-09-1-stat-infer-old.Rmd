@@ -1,0 +1,204 @@
+---
+title: "Introduction to Statistical Inference"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+## Generalization
+
+As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
+
+- Want to __generalize__ from a __sample__ to a __population__
+
+
+```{r}
+knitr::include_graphics("img/bean-plot.png")
+```
+
+
+---
+
+## Uncertainty
+
+- The inferences we make about the unobserved population are __uncertain__
+- Statistics is all about describing and quantifying this uncertainty
+- We measure uncertainty with __probabilities__
+
+---
+
+## Probability
+
+> The theory of probabilities is basically just common sense reduced to calculus; it makes one appreciate with exactness that which accurate minds feel with a sort of instinct, often without being able to account for it 
+>
+> ---Laplace, 1829
+
+---
+
+## What are probabilities?
+
+- __Frequentism__: Probabilities are __long-run frequencies__
+  - A 33% probability means that if we repeat the experiment 100 times, then the event will occur 33 times on average
+- __Bayesianism__: Probabilities are __degrees of belief__
+  - A 33% probability means you would need to stand to gain at least $10 in order to risk $5
+  
+---
+
+## Bayes' Rule
+
+$$P(h|d) = \frac{P(d|h)P(h)}{P(d)}$$
+
+### Components
+
+- Posterior: $P(h|d)$
+- Likelihood: $P(d|h)$
+- Prior: $P(h)$
+- Normalizing constant: $P(d)$
+
+---
+
+## Bayes rule example
+
+Suppose we are vampire hunters and our lab has just processed a positive blood test for vampirism. We can calculate the probability that the suspect is a vampire as:
+
+$$ P(\text{vampire}|\text{positive}) = \frac{P(\text{positive}|\text{vampire})P(\text{vampire})}{P(\text{positive})} $$
+where 
+
+\begin{multline*}
+P(positive) = \\
+P(positive|vampire)P(vampire) + P(positive|\neg vampire)P(\neg vampire)
+\end{multline*}
+
+---
+
+## Diagnosing vampirism
+
+$$ P(\text{vampire}|\text{positive}) = \frac{P(\text{positive}|\text{vampire})P(\text{vampire})}{P(\text{positive})} $$
+
+Suppose the test successfully detects vampirism 95% of the time, and only issues a false-positive 1% of the time. Of course, vampires are rare, only 0.1% of the population.
+
+--
+
+$$P(\text{vampire}|\text{positive}) = \frac{.95 * .001}{.95*.001 + .01 * .999 }$$
+--
+
+```{r vampire-test, echo=T}
+p_pos_g_vamp <- .95
+p_pos_g_human <- .01
+p_vamp <- .001
+p_pos <- p_pos_g_vamp*p_vamp + p_pos_g_human*(1-p_vamp)
+
+(p_pos_g_vamp * p_vamp) / p_pos
+```
+
+---
+
+## Which school is cool?
+
+__Hot take__: Most people are intuitively Bayesian and want answers to Bayesian questions
+
+E.g. 
+- "What is the probability my theory is right?" 
+- "In what interval can I be 95% confident that the true population value lies?"
+- Etc.
+
+<!-- If those questions sound reasonble to you, then you are thinking like a Bayesian -->
+--
+
+But statisticians and scientists have often settled for easier-to-compute Frequentist values
+
+---
+
+
+## Problems with Bayesianism
+
+Historically, there have been two main stumbling blocks to adopting Bayesian inference
+
+1. Computational intractability
+2. Problem of the priors
+
+--
+
+.tip[
+Modern computers and computational techniques have made the first less of a problem in most cases. But the second point still confounds many.
+]
+
+---
+
+## "Prior prior pants on fire"
+
+$$P(h|d) = \frac{P(d|h)P(h)}{P(d)}$$
+
+- Computing the posterior (what we want) from Bayes' rule requires we provide some value or distribution to represent the prior, $P(h)$. 
+- How the prior is chosen __can__ affect the inferences we draw
+- Many scientists are uncomfortable with this possibility of __bias__
+---
+
+## How I learned to stop worrying and love the prior
+
+Priors can be our friends:
+- When we know something about the domain (have prior information) then we can incorporate that to make better inferences
+
+And there is often no reason to worry:
+- If we are worried about biasing estimates, we can use "uninformative or "uniform" priors that are equivalent to playing dumb
+- In simple models with enough data, __priors will have no meaningful effect on inference__
+  - Data will "swamp out" the prior
+
+---
+
+## Data vs priors
+
+.tip[
+Even with strong priors of .90 and .99, estimates become quite similar to the uniform prior estimates with 30-50 observations.
+]
+
+```{r, echo=F}
+  # coin is either fair or biased 90% heads
+n_heads <- 4
+n_total <- 5
+
+calc_p_fair <- function(n_heads, n_total, prior = .50){
+
+fair_likeli <-  dbinom(n_heads, n_total, prob = .5)
+unfair_likeli <-  dbinom(n_heads, n_total, prob = .8)
+
+p_data <- prior * fair_likeli + (1-prior) * unfair_likeli
+
+return((fair_likeli * prior) / p_data)
+}
+
+
+# calc_p_fair(4, 5, .5)
+
+expand.grid(
+  n_total = seq(0, 50, 5),
+  prior = c(.50, .90, .99)
+) %>% 
+  mutate(
+    n_heads = .8*n_total,
+    posterior = pmap_dbl(list(n_heads, n_total, prior), calc_p_fair)
+  ) %>% 
+  ggplot(aes(x= n_total, y = posterior, color=factor(prior))) +
+  geom_line() +
+  labs(x = "total flips", color = "p(fair)") +
+  theme_bw(base_size = 20)
+
+```
+
+---
