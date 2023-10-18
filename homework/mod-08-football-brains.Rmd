@@ -1,5 +1,5 @@
 ---
-title: "HW 08 - Football, brains, and cognition"
+title: "HW 08 - Football, brains, and cognitive performance"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
   })
@@ -47,20 +47,16 @@ library(modelr)
 
 ## Data
 
-In this lab we will explore a subset of the data reported in this paper published in the *Journal of American Medical Association* (JAMA). [add the paper link]
+In this lab we will explore a subset of the data reported in the paper "Relationship of Collegiate Football Experience and Concussion With Hippocampal Volume and Cognitive Outcomes" (Singh et al., 2014) published in the *Journal of American Medical Association* (JAMA; [Paper Link](https://jamanetwork.com/journals/jama/fullarticle/1869211)). 
 
-The data can be found in the `data` folder as `filename.csv`.
+The data can be found in the `data` folder as `FootballBrain.csv`.
 
 The full dataset includes data for 75 individuals with variables indicating their group (non-athlete, athlete with concussion history, and athletes without concussion history), measurements of their Hippocampal volume (whole and left-lobe) from MRI scans, years playing football, and their performance on a simple reaction time test meant to measure general cognitive ability.
 
-```{r, eval=TRUE}
+```{r load-data, eval=TRUE, message = FALSE}
 fb <- read_csv("data/FootballBrain.csv")
-```
-
-```{r, eval=TRUE}
 head(fb)
 ```
-
 
 # Exercises
 
@@ -101,14 +97,15 @@ This is known as "suppression" and it is due to *multi-collinearity* between the
 9. Compare the models using $R^2$ and using AIC. What do you conclude based on the rules of thumb discussed in lectures?
 
 
-10. Create regression diagnostics plots for `fit2`. You may use the functions given to you in lab 2.  
-Plot:  
+10. Create regression diagnostics plots for `fit2`. You may use the functions given to you in lab. Make three plots:  
 1.\ Histogram of residuals  
 2.\ Residual q-q plot  
 3.\ Residuals x predicted  
 What do you conclude about the appropriateness of this model?
 
 11. Now make another model, `fit4` that predicts simple RT from Hippocampal volume. Display the summary. How much variance in simple RT does the model account for?
+
+🧶 👀 💾   *Now is a good time to save and knit your document and confirm the outputs look as you expect them to.*
 
 ## Making causal inferences
 
