@@ -133,7 +133,7 @@ Since you are probably itching to fit an `lm()` model by now, let's break the ru
 
 Fit a model of weights predicted by heights using the data from the children in the Howell sample. Call your model `fit_children`.
 
-```{r}
+```{r, include=F}
 fit_children <- lm(weight ~ height, data = children)
 
 fit_children
