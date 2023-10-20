@@ -41,7 +41,7 @@ plot_residual_predicted <- function(fit){
 }
 ```
 
-# Meet the penguins!
+## Meet the penguins!
 
 Learn about the dataset at: https://allisonhorst.github.io/palmerpenguins/
 
@@ -49,7 +49,7 @@ Learn about the dataset at: https://allisonhorst.github.io/palmerpenguins/
 glimpse(penguins)
 ```
 
-# Let's predict something!
+## Let's predict something!
 
 Let's break the rules and jump right into making a model. We'll make a model of bill lengths from penguin size---do bigger penguins have bigger bills?. 
 
@@ -60,7 +60,7 @@ The model formula will be `bill_length_mm ~ body_mass_g`.
 ```
 
 
-## Transform a variable
+### Transform a variable
 
 Let's transform the variable to make our coefficient better for interpretation. Then fit the model again.
 
@@ -75,7 +75,7 @@ And inspect our model's fit via the residuals
 ```
 
 
-## EDA
+### EDA
 
 Let's do what we should have done first and plot the data.
 
@@ -89,32 +89,32 @@ Let's do what we should have done first and plot the data.
 
 ```
 
-## Inspect its residuals
+### Inspect its residuals
 
 ```{r}
 
 ```
 
-## Inspect residuals of original model
+### Inspect residuals of original model
 
 ```{r}
 
 ```
 
-# Kitchen sink prediction: Let's try throwing everything in
+## Kitchen sink prediction: Let's try throwing everything in
 
 ```{r}
 
 ```
 
-## Compare with `AIC`
+### Compare with `AIC`
 
 ```{r}
 
 ```
 
 
-## Visualize coefficients with help from `broom::tidy()`
+### Visualize coefficients with help from `broom::tidy()`
 
 When a model has many coefficients, sometimes we prefer to visualize them rather than look at a bunch of numbers. `broom::tidy()` can help organize model coefficients into a tibble.
 
