@@ -137,7 +137,7 @@ dcbikeshare %>%
 `r qend()`
 
 `r qbegin(6)`
- Create an additional visualization displaying the relationship between bike rentals and season. Interpret the plot in context of the previous plot.
+ Create an additional visualization displaying the relationship between bike rentals and season. There is more than one right answer, but think about what kind of plot would be most appropriate. Interpret the plot in context of the previous plot.
 `r qend()`
 
 
@@ -165,7 +165,7 @@ Now that we are acquainted with our data, we can begin creating and interpreting
 
 
 `r qbegin(10)`
- Fit a model predicting total daily bike rentals from season, year, whether the day is holiday or not, whether the day is a workingday or not, the weather category, temperature, feeling temperature, humidity, and windspeed, as well as the interaction between feeling temperature and holiday. Compare this model with the better of the two prior models using AIC. Which model seems best?
+ Fit a model predicting total daily bike rentals from season, year, whether the day is holiday or not, whether the day is a weekday (`workingday`) or not, the weather category, temperature, feeling temperature, humidity, and windspeed, as well as the interaction between feeling temperature and holiday. Compare this model with the better of the two prior models using AIC. Which model seems best?
 `r qend()`
 
 As our models get larger, our `summary` display can get unweildy. In these cases, the `tidy` function from the `broom` package can help us out. We can use this function to transform our model into a tibble summarizing its coefficients. Then we can use all our standard data wrangling and plotting skills on that!
@@ -176,10 +176,6 @@ Use the `broom::tidy()` function to extract the model's coefficients. Create a p
 
 `r qbegin(12)`
 Using the coefficients of the previous model, calculate the slope of feeling temperature for holidays and non-holidays and interpret both values.
-`r qend()`
-
-`r qbegin(13)`
- According to this model, assuming everything else is the same, in which season does the model predict total daily bike rentals to be highest and which to be the lowest? Does this prediction match the plot you made earlier?
 `r qend()`
 
 
