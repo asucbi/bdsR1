@@ -1,0 +1,44 @@
+---
+title: "HW 02 - Phoenix city employee salaries"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+## Data
+
+The data can be found in `data` folder and read in with the following command.
+
+```{r}
+phxsal <- read_csv("data/phx-salaries.csv")
+```
+
+## Exercises
+
+### Exercise 1
+
+Remove this text, and add your answer here, including the inline code.
+
+### Exercise 2
+
+Remove this text, and add your answer here.
+
+### Exercise 3
+
+Remove this text, and add your answer here.
+
+### Exercise 4
+
+```{r}
+## Copy, paste, and complete the code for the exercise here
+## Remember to label this code chunk (do not use spaces in the label name)
+## Where appropriate, be sure to write your answers to questions as text below
+```
+
+### Exercise 5
+
+Remove this text, and add your answer here. Add code chunks as needed. 
+
+### Exercise 6
+
+Remove this text, and add your answer here. Add code chunks as needed. 

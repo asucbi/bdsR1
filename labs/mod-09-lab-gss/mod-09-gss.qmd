@@ -1,0 +1,330 @@
+---
+title: "LAB 09 I - Evaluating the General Social Survey (GSS)"
+# author: "Nick Duran"
+# date: "`r Sys.Date()`"
+---
+
+![](img/mauro-mora-31-pOduwZGE-unsplash.jpg){fig-align="center"}
+
+The GSS gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes.
+Hundreds of trends have been tracked since 1972.
+
+In addition, since the GSS adopted questions from earlier surveys, trends can be followed for up to 70 years.
+
+The GSS contains a standard core of demographic, behavioral, and attitudinal questions, plus topics of special interest.
+
+Among the topics covered are civil liberties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, and stress and traumatic events.
+
+In this assignment we analyze data from the 2016 GSS, using it to do some prediction using 
+
+::: callout-important
+**LEARNING OBJECTIVES**
+
+- More practice with data manipulation (e.g., releveling and reordering factor levels, and handling NA values)
+  
+- Develop skills in data splitting for machine learning
+
+- Implement feature engineering in predictive modeling: Use the `recipes` package
+
+- Build and evaluate logistic regression models using `tidymodels`: Construct a logistic regression model, specify it with `tidymodels` syntax, and use workflows to combine pre-processing and model fitting steps.
+
+- Apply and interpret cross-validation and model comparison techniques: Perform k-fold cross-validation, collect performance metrics like ROC and accuracy, and compare different model structures to make informed decisions about model performance.
+:::
+
+# Getting started
+
+Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named `Module 9`.
+
+First, open the R Markdown document `mod-09-lab-1.Rmd` and **Knit** it.
+
+Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
+
+## Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+-   Update the YAML, changing the author name to your name, and **Knit** the document.
+
+## Packages
+
+We'll use the **tidyverse** package for much of the data wrangling and visualization, the **tidymodels** package for modeling and prediction, and the data lives in the **dsbox** package.
+
+These packages are already installed for you.
+
+You can load them by running the following in your Console:
+
+```{r}
+#| label: load-packages
+#| message: false
+#| eval: true
+
+library(tidyverse)
+library(tidymodels)
+library(dsbox)
+```
+
+## Data
+
+The data can be found in the **dsbox** package, and it's called `gss16`.
+Since the dataset is distributed with the package, we don't need to load it separately; it becomes available to us when we load the package.
+You can find out more about the dataset by inspecting its documentation, which you can access by running `?gss16` in the Console or using the Help menu in RStudio to search for `gss16`.
+
+You can also find this information [here](https://rdrr.io/github/rstudio-education/dsbox/man/gss16.html).
+
+# Exercises
+
+Take turns answering the exercises on one of your computers. 
+
+You don't have to switch at each exercise, you can find your a cadence that works for your team and stick to it.
+
+About 10 minutes before the end of class I will ask you to copy over answers to your teammates. 
+
+## Scientific research
+
+In this section we're going to build a model to predict whether someone agrees or doesn't agree with the following statement:
+
+> Even if it brings no immediate benefits, scientific research that advances the frontiers of knowledge is necessary and should be supported by the federal government.
+
+The responses to the question on the GSS about this statement are in the `advfront` variable.
+
+## Part 1: Data wrangling
+
+### Exercise 1
+
+- Re-level the `advfront` variable such that it has two levels: `Strongly agree` and "`Agree"` combined into a new level called `agree` and the remaining levels (except `NA`s) combined into `"Not agree"`. 
+
+::: callout-warning
+It's important that you don't recode the NAs, just the remaining levels.
+:::
+
+- Then, re-order the levels in the following order: `"Agree"` and `"Not agree"`. 
+
+- Finally, `count()` how many times each new level appears in the `advfront` variable.
+
+### Exercise 2
+
+- Combine the levels of the `polviews` variable such that levels that have the word "liberal" in them are lumped into a level called `"Liberal"` and those that have the word conservative in them are lumped into a level called `"Conservative"`. 
+
+::: callout-tip
+You can do this in various ways. One option is to use the `str_detect()` function to detect the existence of words like liberal or conservative. Note that these sometimes show up with lowercase first letters and sometimes with upper case first letters. To detect either in the `str_detect()` function, you can use "[Ll]iberal" and "[Cc]onservative". But feel free to solve the problem however you like, this is just one option!
+:::
+
+- Then, re-order the levels in the following order: `"Conservative"` , `"Moderate"`, and `"Liberal"`. 
+
+- Finally, `count()` how many times each new level appears in the `polviews` variable.
+
+### Exercise 3  
+
+- Create a new data frame called `gss16_advfront` that includes the variables `advfront`, `educ`, `polviews`, and `wrkstat`. 
+
+- Then, use the `drop_na()` function to remove rows that contain `NA`s from this new data frame. Sample code is provided below.
+
+```{r}
+#| eval: false
+
+gss16_advfront <- gss16 %>%
+  select(___, ___, ___, ___) %>%
+  drop_na()
+```
+
+## Part 2: Data spending
+
+### Exercise 4  
+
+- Split the data into training (75%) and testing (25%) data sets. Make sure to set a seed before you do the `initial_split()`. Call the training data `gss16_train` and the testing data `gss16_test`. 
+
+- Use these specific names below to make it easier to follow the rest of the instructions.
+
+```{r}
+#| eval: false
+
+___ # do something here to set the seed
+
+gss16_split <- ___
+gss16_train <- ___
+gss16_test  <- ___
+```
+
+## Part 3: Feature engineering
+
+### Exercise 5
+
+Create a recipe with the following steps for predicting `advfront` from `polviews`, `wrkstat`, and `educ`.
+    Name this recipe `gss16_rec_1`.
+    (We'll create one more recipe later, that's why we're naming this recipe `_1`.) Sample code is provided below.
+
+  - `step_other()` to pool values that occur less than 10% of the time (`threshold = 0.10`) in the `wrkstat` variable into `"Other"`.
+
+  - `step_dummy()` to create dummy variables for `all_nominal()` variables that are predictors, i.e. `all_predictors()`
+
+```{r}
+#| eval: false
+
+gss16_rec_1 <- recipe(___ ~ ___, data = ___) %>%
+  step_other(wrkstat, threshold = ___, other = "Other") %>%
+  step_dummy(all_nominal(), -all_outcomes())
+```
+
+:::callout-note
+Remember: "Recipes" use dplyr-like pipeable sequences of feature engineering steps to get your data ready for modeling. To learn more about what each step does, feel free to explore with `?step_other` and `?step_dummy`. To learn more about recipes in general, visit <https://recipes.tidymodels.org//articles/recipes.html> 
+:::
+
+## Part 4: Buld a workflow 
+
+### Exercise 6  
+
+Specify a logistic regression model using `"glm"` as the engine. Name this specification `gss16_spec`. Do this the tidymodels way. 
+
+```{r}
+#| eval: false
+
+gss16_spec <- ___ %>%
+  ___
+```
+
+### Exercise 7  
+
+Build a workflow that uses the recipe you defined (`gss16_rec`) and the model you specified (`gss16_spec`). Name this workflow `gss16_wflow_1`. 
+
+```{r}
+#| eval: false
+
+gss16_wflow_1 <- ___ %>%
+  ___ %>%
+  ___
+```
+
+## Part 5: Model fit with cross-validation
+
+### Exercise 8
+
+Perform 5-fold cross validation.
+    specifically,
+
+- #1: split the training data into 5 folds (don't forget to set a seed first!),
+
+- #2: apply the workflow you defined earlier to the folds with `fit_resamples()`, and
+
+- #3: `collect_metrics()` and comment on the consistency of metrics across folds (you can get the area under the ROC curve and the accuracy for each fold by setting `summarize = FALSE` in `collect_metrics()`)
+
+- #4: report the average area under the ROC curve and the accuracy for all cross validation folds `collect_metrics()`
+
+```{r}
+#| eval: false
+
+#1:
+___ # do something here to set the seed
+gss16_folds < ___
+
+#2:
+gss16_fit_rs_1 <- ___ %>%
+  fit_resamples(___)
+
+#3:
+collect_metrics(___, summarize = FALSE)
+
+#4
+collect_metrics(___)
+```
+
+## Part 6: Model comparison
+
+### Exercise 9.
+
+Now, try a different, simpler model: predict `advfront` from only `polviews` and `educ`.
+    Specifically,
+
+- update the recipe to reflect this simpler model specification (and name it `gss16_rec_2`),
+
+- redefine the workflow with the new recipe (and name this new workflow `gss16_wflow_2`),
+
+- perform cross validation, and
+
+- report the average area under the ROC curve and the accuracy for all cross validation folds `collect_metrics()`.
+
+### Exercise 10
+
+Comment on which model performs better (one including `wrkstat`, model 1, or the one excluding `wrkstat`, model 2) on the training data based on area under the ROC curve.
+
+:::callout-note
+If not obvious from the lectures, this sort of model comparison is what cross-validation allows! 
+:::
+
+## Part 7: Get test set performance metrics
+
+### Exercise 11
+
+Fit both models to the testing data, plot the ROC curves for the predictions for both models, and calculate the areas under the ROC curve.
+
+- Does your answer to the previous exercise hold for the testing data as well?
+
+- Explain your reasoning.
+    
+:::callout-tip
+If you haven't yet done so, you'll need to first train your workflows on the training data with the following, and then use these fit objects to calculate predictions for the test data.
+
+```{r}
+#| eval: false
+
+gss16_fit_1 <- gss16_wflow_1 %>%
+  fit(gss16_train)
+
+gss16_fit_2 <- gss16_wflow_2 %>%
+  fit(gss16_train)
+```
+:::
+
+## Part 8: Starting over w/ a decision tree
+
+:::callout-note
+"Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time." ~ Thomas A. Edison
+:::
+
+### Exercise 12
+
+In this final challenge, lets build a completely new classification model using this data. Using my lecture materials, I want you to:
+
+- set up the specs for a decision tree, add it to a workflow
+
+- then, set up to do a ten fold cross-validation, fitting on the resamples (you'll use your workflow for this)
+
+- take the resulting object, and collect performance metrics on it 
+
+- and finally, you should have gotten a single `roc_auc` value for the decision tree. Comparing with your logistic regression `roc_auc`, what model would you recommend as the best classifier?
+
+### You're done
+
+<!-- ## Harassment at work -->
+
+<!-- In 2016, the GSS added a new question on harassment at work. -->
+<!-- The question is phrased as the following. -->
+
+<!-- > Over the past five years, have you been harassed by your superiors or co-workers at your job, for example, have you experienced any bullying, physical or psychological abuse? -->
+
+<!-- Answers to this question are stored in the `harass5` variable in our dataset. -->
+
+<!-- ### Exercise 12 -->
+
+<!-- Create a subset of the data that only contains `Yes` and `No` answers for the harassment question.  -->
+
+<!-- - How many responses chose each of these answers? -->
+
+<!-- ### Exercise 13 -->
+
+<!-- Describe how bootstrapping can be used to estimate the proportion of Americans who have been harassed by their superiors or co-workers at their job. -->
+
+<!-- ### Exercise 14 -->
+
+<!-- Calculate a 95% bootstrap confidence interval for the proportion of Americans who have been harassed by their superiors or co-workers at their job. Interpret this interval in context of the data. -->
+
+<!-- ### Exercise 15 -->
+
+<!-- Would you expect a 90% confidence interval to be wider or narrower than the interval you calculated above? Explain your reasoning. -->
+
+Now go back through your write up to make sure you've answered all questions and all of your R chunks are properly labelled.
+
+::: callout-note
+**SUBMITTING YOUR WORK**
+
+Once you decide as a team that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.
+:::
