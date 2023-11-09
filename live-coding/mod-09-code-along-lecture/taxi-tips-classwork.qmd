@@ -38,7 +38,9 @@ Hint: Which argument in `initial_split()` handles the proportion split into trai
 
 ```{r}
 # Your code here!
-
+logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
 
 ```
 

@@ -1,6 +1,6 @@
 project:
   title: "Code-alongs"
-  # output-dir: ../../docs/code-along
+  output-dir: ../../docs/code-along
   # output-dir: ../../docs/code-along/classwork
 
 format:

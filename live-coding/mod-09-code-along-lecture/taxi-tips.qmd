@@ -10,7 +10,7 @@ format:
     self-contained: true
     # grid:
     #   margin-width: 0px   
-  #pdf: default
+  # pdf: default
 execute:
   echo: fenced
 # reference-location: margin
@@ -666,7 +666,7 @@ a preprocessor and a model, and these should be built into a single "workflow" o
   - **Models** allow different ways to fit the data  
 
 - **By packaging preprocessing steps and modeling in one workflow, lots of advantages!**
-  - Ensures that new data goes through the same preprocessing steps as trianing data
+  - Ensures that new data goes through the same preprocessing steps as training data
   - Ensures consistency and reproducibility
   - They can help organize your work when working with multiple models
   - Handles new data better than base R tools in terms of new factor levels
@@ -733,8 +733,7 @@ tree_wflow <- workflow() %>%            # build the workflow
   add_model(tree_spec)                  # add model
 ```
 
-  -   Best to watch the lectures for more detail. 
-  -   You can also visit <https://www.tidymodels.org/find/recipes/> for details on all possible recipes  
+  -   Visit <https://www.tidymodels.org/find/recipes/> for details on all possible recipes  
 
 ## How do you **understand** your new `tree_fit` model?
 
