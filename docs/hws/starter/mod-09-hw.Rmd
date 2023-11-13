@@ -1,0 +1,30 @@
+---
+title: "HW 09 - Wrap up!"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+## Exercises
+
+### Exercise 1
+
+Load packages and data
+
+```{r load-packages, message = FALSE}
+
+# note: you might have to run `install.packages("learningtower")` if not already installed in your Posit Cloud project
+
+```
+
+Remove this text, and add your answer for Exercise 1 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+### Exercise 2
+
+Remove this text, and add your answer for Exercise 2 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
