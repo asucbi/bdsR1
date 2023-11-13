@@ -1,0 +1,27 @@
+project:
+  title: "Homework"
+  # output-dir: ../../docs/hws
+  
+format:
+  html:
+    theme: darkly
+    # css: styles.css
+    self-contained: true
+  #   grid:
+  #     margin-width: 10px   
+  # pdf: default
+execute:
+  echo: fenced
+tbl-colwidths: [25,75]
+# reference-location: margin        
+# citation-location: margin         
+# bibliography: skeleton.bib
+knitr:
+  opts_chunk: 
+    eval: TRUE
+    message: FALSE
+    warning: FALSE
+#     out.width: "80%"
+#     fig.asp: 0.618
+#     fig.width: 8
+#     dpi: 300
