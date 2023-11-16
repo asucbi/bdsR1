@@ -1,0 +1,27 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, include=F, dependson="setup.R"}
+# answer: D
+library(tidyverse)
+howell <- read_csv("../../data/howell1.csv") %>% 
+  filter(age >= 18)
+```
+
+> The regression below predicts the weight (in Kg) of Kalahari !Kung San people from their heights (in cm). 
+
+> How would you interpret the intercept coefficient of this model?
+
+```{r}
+fit <- lm(weight ~ height, data = howell)
+summary(fit)
+```
+
+A) It indicates the average height in the sample
+B) It indicates the lowest observed height in the sample
+C) It indicates the predicted height for a weight of zero
+D) It indicates the predicted weight for a height of zero
