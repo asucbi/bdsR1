@@ -7,7 +7,7 @@
 
 # Knitr settings
 knitr::opts_chunk$set(
-    echo = TRUE,
+    echo = FALSE,
     message = FALSE, 
     warning = FALSE,
     fig.align = 'center',

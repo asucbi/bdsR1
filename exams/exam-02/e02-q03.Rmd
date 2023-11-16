@@ -5,12 +5,13 @@ output:
     df_print: paged
 ---
 
-```{r, message=F, dependson="setup.R"}
+```{r, message=F, echo=F, dependson="setup.R"}
 library(tidyverse)
-
-
 set.seed(42)
 
+```
+
+```{r, echo=F}
 tibble(
   x = c(rnorm(100, -.8, .25), rnorm(100, .8, .25)), 
   y = rnorm(200, 0, .5)

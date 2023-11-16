@@ -5,24 +5,22 @@ output:
     df_print: paged
 ---
 
-```{r, message=F, dependson="setup.R"}
-library(tidyverse)
+```{r, include=F, dependson="setup.R"}
+fit1 <- c("(Intercept)" = -3.54, "X" = .653)
+fit2 <- c("(Intercept)" = -3.53, "Z" = -.365)
+fit3 <- c("(Intercept)" = -3.54, "X" = .621, "Z" = -.06)
+```
 
+> Consider the relationships between three variables, $X$, $Y$, and $Z$. $Y$ is being considered an outcome (perhaps it occurs temporally after $X$ and $Z$). Below are the coefficients from three regression analyses, each predicting $Y$. Based on these, which interpretation seems most likely to be true?
 
-set.seed(42)
-
-tibble(
-  x = c(rnorm(100, -.8, .25), rnorm(100, .8, .25)), 
-  y = rnorm(200, 0, .5)
-) %>% 
-  ggplot(aes(x=x, y=y)) +
-  geom_point()
+```{r}
+fit1
+fit2
+fit3
 ```
 
 
-> The two variables in this plot are:
-
-A) uncorrelated and independent
-B) correlated and independent
-C) uncorrelated and dependent
-D) correlated and dependent
+A) $X$ is a common cause of $Y$ and $Z$
+B) $X$ causes $Z$, which causes $Y$
+C) $X$ and $Z$ are both independent causes of $Y$
+D) Neither $X$ nor $Z$ are related to $Y$
