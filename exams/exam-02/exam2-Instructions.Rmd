@@ -1,0 +1,32 @@
+---
+title: '&#32;'
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE,
+    message = FALSE, 
+    warning = FALSE,
+    fig.align = 'center',
+    out.width = '80%'
+)
+```
+
+## Logistics
+>
+1. There are 20 questions on this exam, each is worth 10 points. 
+>
+2. This exam is closed book, closed internet, closed other people. You **may not** consult with anyone else about this exam other than the Professors.
+>
+3. You have until **end of class** to complete this exam.
+>
+4. Each question is multiple choice and requires you to match output with the code that might have generated it. You will not be asked to write any code. 
+>
+5. The only libraries being used, other than the data itself, comes from the `tidyverse` package. 
+
+## Grading 
+>
+The total points for the questions add up to 200 points. Your grade will automatically be recorded on Canvas. We may or may not curve the results (depends on the overall class performance).

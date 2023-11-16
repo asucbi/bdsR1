@@ -1,0 +1,4 @@
+# FOR EXAMS QUESTIONS: use this _site.yml for consitent questions
+name: "BDSR1"
+output_dir: "../../docs/exams/"
+output: html_document
