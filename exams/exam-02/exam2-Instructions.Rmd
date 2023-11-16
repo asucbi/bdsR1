@@ -23,9 +23,8 @@ knitr::opts_chunk$set(
 >
 3. You have until **end of class** to complete this exam.
 >
-4. Each question is multiple choice and requires you to match output with the code that might have generated it. You will not be asked to write any code. 
->
-5. The only libraries being used, other than the data itself, comes from the `tidyverse` package. 
+4. Each question is multiple choice.
+
 
 ## Grading 
 >
