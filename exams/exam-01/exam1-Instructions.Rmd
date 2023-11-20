@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Logistics
 >
-1. There are 20 questions on this exam, each is worth 10 points. 
+1. There are 20 questions on this exam, each is worth 5 points. 
 >
 2. This exam is closed book, closed internet, closed other people. You **may not** consult with anyone else about this exam other than the Professors.
 >
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 ## Grading 
 >
-The total points for the questions add up to 200 points. Your grade will automatically be recorded on Canvas. We may or may not curve the results (depends on the overall class performance).
+The total points for the questions add up to 100 points. Your grade will automatically be recorded on Canvas. We may or may not curve the results (depends on the overall class performance).
 
 ## The Data
 >
