@@ -26,6 +26,7 @@ library(tidyverse)
 ```
 
 The dataset contains information on `r nrow(bechdel)` movies released between `r min(bechdel$year)` and `r max(bechdel$year)`.
+
 However we'll focus our analysis on movies released between 1990 and 2013.
 
 ```{r}
