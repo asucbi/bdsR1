@@ -142,12 +142,12 @@ knitr::include_graphics("img/titles.png")
 .pull-left[
 ```{r output.lines=17}
 ## original code as of March 2023, but has since changed
-page %>%
-  html_nodes(".titleColumn a")
+# page %>%
+#   html_nodes(".titleColumn a")
 
 ## looks like new way of extracting titles
-# page %>%
-#   html_nodes(".ipc-title__text")
+page %>%
+  html_nodes(".ipc-title__text")
 
 ```
 ]
@@ -164,7 +164,7 @@ knitr::include_graphics("img/titles.png")
 .pull-left[
 ```{r output.lines=16}
 page %>%
-  html_nodes(".titleColumn a") %>%
+  html_nodes(".ipc-title__text") %>%
   html_text()
 ```
 ]
@@ -181,7 +181,7 @@ knitr::include_graphics("img/titles.png")
 .pull-left[
 ```{r output.lines=14}
 titles <- page %>%
-  html_nodes(".titleColumn a") %>%
+  html_nodes(".ipc-title__text") %>%
   html_text()
 
 titles
@@ -213,12 +213,12 @@ knitr::include_graphics("img/years.png")
 
 .pull-left[
 ```{r output.lines=17}
-page %>%
-  html_nodes(".secondaryInfo")
+# page %>%
+#   html_nodes(".secondaryInfo")
 
 # new way of scraping years
-# page %>%
-#   html_nodes(".cvucyi")
+page %>%
+  html_nodes(".cvucyi")
 ```
 ]
 .pull-right[
