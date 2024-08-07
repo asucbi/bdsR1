@@ -1,0 +1,283 @@
+---
+title: "tidymodels - Logistic regression"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Nicholas Duran & Derek Powell"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    anchor_sections: FALSE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(openintro)
+library(ggridges)
+set.seed(1234)
+
+# https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/
+```
+
+class: middle
+
+# Predicting categorical data with logistic regression
+
+---
+
+## Spam filters
+
+.pull-left-narrow[
+- Data from 3921 emails and 21 variables on them
+- Outcome: whether the email is spam or not
+- Predictors: number of characters, whether the email had "Re:" in the subject, time at which email was sent, number of times the word "inherit" shows up in the email, etc.
+]
+.pull-right-wide[
+.small[
+```{r}
+library(openintro)
+glimpse(email)
+```
+]
+]
+
+---
+
+.question[
+Would you expect longer or shorter emails to be spam?
+]
+
+--
+
+.pull-left[
+```{r echo=FALSE, out.width="100%"}
+email %>%
+  ggplot(aes(x = num_char, y = spam, fill = spam, color = spam)) +
+  geom_density_ridges2(alpha = 0.5) +
+  labs(
+    x = "Number of characters (in thousands)", 
+    y = "Spam",
+    title = "Spam vs. number of characters"
+    ) +
+  guides(color = "none", fill = "none") +
+  scale_fill_manual(values = c("#E48957", "#CA235F")) +
+  scale_color_manual(values = c("#DEB4A0", "#CA235F"))
+```
+]
+.pull-right[
+```{r echo=FALSE}
+email %>% 
+  group_by(spam) %>% 
+  summarise(mean_num_char = mean(num_char))
+```
+]
+
+---
+
+.question[
+Would you expect emails that have subjects starting with "Re:", "RE:", "re:", or "rE:" to be spam or not?
+]
+
+--
+
+```{r echo=FALSE}
+email %>%
+  ggplot(aes(x = re_subj, fill = spam)) +
+  geom_bar(position = "fill") +
+  labs(
+    x = 'Whether “re:”, "RE:", etc. was in the email subject.', 
+    fill = "Spam", 
+    y = NULL,
+    title = 'Spam vs. "re:" in subject'
+    ) +
+  scale_fill_manual(values = c("#DEB4A0", "#CA235F"))
+```
+
+---
+
+## Modelling spam
+
+- Both number of characters and whether the message has "re:" in the subject might be related to whether the email is spam. How do we come up with a model that will let us explore this relationship?
+
+--
+- For simplicity, we'll focus on "re:" in the subject line (`re_subj`) as predictor, but the model we describe can be expanded to take multiple predictors as well.
+
+---
+
+## Quick principles behind logistic regression
+
+- Note: Do not want to dwell too much here as not necessary to understand the test
+- Logistic regression is a GLM used to model a binary categorical outcome using numerical and categorical predictors
+- Parallels to normal regression that are important to get the gist
+
+---
+
+## Quick principles behind logistic regression
+
+- If you have equation phobia, look away! (just kidding)
+
+--
+
+- Simple linear regression: outcome variable predicted from the equation of a straight line
+ 
+$$y_i = b_0 + b_1X_1 + \epsilon_i$$
+--
+
+- In multiple regression, there are multiple predictors
+
+$$y_i = b_0 + b_1X_1 + b_2X_2 + ... + b_nX_n + \epsilon_i$$
+--
+
+- Cannot simply apply a linear regression to a situation where outcome variable is categorical. The relationship between variables is not linear! 
+
+---
+
+## Quick principles behind logistic regression
+
+- Instead of predicting the value of variable Y from predictor variables X, we predict the __probability__ of Y occurring given known values of X  
+  - "e" is the base of natural logarithms
+
+$$P(Y) = \frac{1}{1 + e^{b_0 + b_1X_1 + \epsilon_i}}$$
+--
+
+- And of course we can do this multiple predictors
+
+$$P(Y) = \frac{1}{1 + e^{b_0 + b_1X_1 + b_2X_2 + ... + b_nX_n + \epsilon_i}}$$
+
+- What is going on here?
+
+---
+
+## Quick principles behind logistic regression
+
+- Remember: We cannot simply apply a linear regression to a situation where outcome variable is categorical. The relationship between variables is not linear!
+
+- One way around the problem, transform the data using the logarithmic transformation. This transformation is a way of expressing a non-linear relationship in a linear way. 
+
+--
+
+- The logistic regression equation is based on this principle. The equation is now expressed in logarithmic terms (called the __logit__). 
+
+$$P(Y) = \frac{1}{1 + e^{b_0 + b_1X_1 + b_2X_2 + ... + b_nX_n + \epsilon_i}}$$
+--
+
+- The resulting value from the equation varies between 0 and 1. A value close to 0 means that Y is very unlikely to have occurred, value closer to 1 means Y is very likely to have occurred. 
+
+---
+
+## Quick principles behind logistic regression
+
+- Like linear regression, each predictor variable in the logistic regression equation has its own coefficient.
+
+--
+
+- When we run an analysis, we need to estimate these values so we can solve the equation. These parameters are estimated by fitting models, based on the available predictors, to the observed data. 
+
+--
+
+- Specifically, values of the parameters estimated using __maximum_likelihood_estimates__. 
+
+---
+
+## Modeling spam
+
+In R we fit a GLM in the same way as a linear model except we
+
+- specify the model with `logistic_reg()`
+- use `"glm"` instead of `"lm"` as the engine 
+- define `family = "binomial"` for the link function to be used in the model
+
+--
+
+```{r}
+spam_fit <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(spam ~ re_subj, data = email, family = "binomial")
+```
+
+- STOP HERE
+
+---
+
+## Assessing the contribution of predictors: the z-statistic
+
+```{r}
+tidy(spam_fit)
+```
+
+- Same as linear regression: $z = \frac{b}{SE_b}$
+
+- Tells us whether the predictor is significantly different from zero; if so, we can assume making significant contributions to prediction to the outcome (Y)
+
+--
+
+- Alternative (better way of doing this) is to examine likelihood ratio statistics
+
+- With large $b$, the standard error can get inflated, and z-statistic can be underestimated
+
+---
+
+## The odds ratio
+
+- More crucial to the interpretation of the logistic regression. 
+
+```{r}
+tidy(spam_fit)
+```
+
+- Simply computed by taking the exponential of $B$: 
+
+```{r}
+exp(-2.89)
+```
+
+---
+
+```{r}
+exp(-2.89)
+```
+
+- Represents the change in odds resulting from a unit change in the predictor
+- If the value is greater than 1, as the predictor increases the odds of the outcome occurring increases; if value is less than 1, as the predictor increases, the odds of the outcome decreases
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

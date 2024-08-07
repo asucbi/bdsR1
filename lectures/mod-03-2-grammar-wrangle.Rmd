@@ -1,0 +1,494 @@
+---
+title: "Grammar of data wrangling"
+subtitle: "<br><br> Behavioral Data Science I in R"
+author: "School of Social and Behavioral Sciences"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r child = "setup.Rmd"}
+
+# devtools::install_github("hadley/emo")
+# "cast_from": xaringan::inf_mr(cast_from = '../')
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+class: middle
+
+# Grammar of data wrangling
+
+???
+In previous lectures we've talked about a grammar of graphics and in this lecture we're going to go over a grammar of data wrangling.
+
+---
+
+## A grammar of data wrangling...
+
+... based on the concepts of functions as verbs that manipulate data frames
+
+.pull-left[
+```{r dplyr-part-of-tidyverse, echo=FALSE, out.width="70%", caption = "dplyr is part of the tidyverse"}
+knitr::include_graphics("mod-03-2-grammar-wrangle_files/dplyr-part-of-tidyverse.png")
+```
+]
+.pull-right[
+.midi[
+- `select`: pick columns by name
+- `arrange`: reorder rows
+- `slice`: pick rows using index(es)
+- `filter`: pick rows matching criteria
+- `distinct`: filter for unique rows
+- `mutate`: add new variables
+- `summarise`: reduce variables to values
+- `group_by`: for grouped operations
+- ... (many more)
+]
+]
+
+???
+A grammar of data wrangling is based on the concepts of functions as verbs that manipulate data frames and the package that does this within the tidyverse is called dplyr. This package offers a variety of functions - again, each of which are verbs. I'm not going to go through this entire list right now because I'll be introducing each one of these functions in turn with examples that go along with them. But I do want to draw your attention to the fact that things, like "select" "arrange" "slice" "filter" "mutate" are all verbs - actions - that we apply to the dataframe to either transform the data that we have or get some useful information out of it. 
+
+---
+
+## Rules of **dplyr** functions
+
+- First argument is *always* a data frame
+- Subsequent arguments say what to do with that data frame
+- Always return a data frame
+- Don't modify in place
+
+???
+So there are four rules of all dplyr functions. The first argument of the function will always a dataframe. The second rule is that the subsequent arguments specify what to do with that dataframe. The third rule is that a function will always return a dataframe. dplyr functions take in a dataframe and then they return one. Lastly, dplyr functions do not modify in place. What that means is that when we apply a function from dplyr to a dataframe we're not changing that dataframe in some irreversible way. The big takeaway of this fourth bullet point is that you should feel free to be adventurous. If you're just tinkering and experimenting with some way to do a dataframe modification, just go ahead and do it. You are not changing your original dataframe when you run it through a function to generate some new output. Of course, to retain that output you're going to need to save it as a new object, which I'll show you how to do in a bit. 
+
+---
+
+## Data: Hotel bookings
+
+- Data from two hotels: one resort and one city hotel
+- Observations: Each row represents a hotel booking
+- Goal for original data collection: Development of prediction models to classify a hotel booking's likelihood to be cancelled ([Antonia et al., 2019](https://www.sciencedirect.com/science/article/pii/S2352340918315191#bib5))
+
+```{r message=FALSE}
+hotels <- read_csv("mod-03-2-grammar-wrangle_files/hotels.csv")
+```
+
+.footnote[
+Source: [TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md)
+]
+
+???
+The dataset that we're going to use as an illustrative example is on hotel bookings. In this dataset, we have data on two hotels. One of them is a resort hotel and the other one is a city hotel. Each row in our dataset represents a hotel booking from some person. This data was originally collected to build prediction models to classify whether some bookings are more likely to be cancelled or bailed on (where people just don't show up). If you're running a hotel business, this is a big deal because you don't want a bunch of empty rooms. Often what happens is that hotels overbook themselves assuming some of the reservations are going to be cancelled. But of course, you don't want to be in a situation where you've overbooked the rooms and a guest arrives one evening to find there are no rooms. So if you can predict ahead of time which rooms are likely to be cancelled or bailed on, then you smartly calibrate your overbooking rate. We're not going to be working on the actual prediction model, but we are going to be working on some data wrangling steps. 
+
+Ok, so this dataset is stored as a CSV file. Let's start by reading it in and saving it as an object: hotels. 
+
+---
+
+## First look: Variables
+
+```{r output.lines=18}
+names(hotels)
+```
+
+???
+We can see a list of the variables here. I'm not going to go through all of them but I will highlight a few that are important. The first one, the "hotel" variable, tells me whether our observation in each row is a city hotel or a resort hotel. Another important one is the variable called "is_cancelled," which is an indicator variable for whether the booking was cancelled or not prior to the arrival date. And this "lead time" variable tells me how long before the arrival date the booking was made. 
+
+---
+
+## Second look: Overview
+
+```{r output.lines=18}
+glimpse(hotels)
+```
+
+???
+We can now use the glimpse function to take another look at our hotels dataset. Right off, we get the number of rows and columns. Remember, the definition of tidy data that the columns tell us right away how many variables we have and the rows tell us how many individual-level observations we have. I know right away we have 111,390 bookings - almost 120,000 bookings - in this dataset. And for each one of these bookings we have information on 32 variables 
+
+---
+
+## Select a single column
+
+View only `lead_time` (number of days between booking and arrival date):
+
+```{r}
+select(hotels, lead_time)
+```
+
+???
+Now, suppose that I wanted to select a single column from this dataset. I just want to view the "lead time" variable, which, again, is how far in advance people booked their hotel room. Are you like the person in the first observation who booked 342 days prior to their stay? Or are you like the person in the third observation who booked 7 days prior to their stay? 
+
+---
+
+## Select a single column
+
+.pull-left[
+```{r eval=FALSE}
+select( #<<
+  hotels,
+  lead_time
+)
+```
+]
+.pull-right[
+- Start with the function (a verb): `select()`
+]
+
+???
+Now, let's dissect this function. First, note the "select" function is named after a verb. This is giveaway that we want to do perform some action on the dataframe. 
+
+---
+
+## Select a single column
+
+.pull-left[
+```{r eval=FALSE}
+select(
+  hotels, #<<
+  lead_time
+)
+```
+]
+.pull-right[
+- Start with the function (a verb): `select()`
+- First argument: data frame we're working with , `hotels`
+]
+
+???
+Now, the first argument in our "select" function is the dataframe we're working with, which we loaded in and named "hotels." 
+
+---
+
+## Select a single column
+
+.pull-left[
+```{r eval=FALSE}
+select(
+  hotels,
+  lead_time #<<
+)
+```
+]
+.pull-right[
+- Start with the function (a verb): `select()`
+- First argument: data frame we're working with , `hotels`
+- Second argument: variable we want to select, `lead_time`
+]
+
+???
+The second argument tells select what to do with the dataframe, and in this case, it is to select the "lead time" variable. 
+
+---
+
+## Select a single column
+
+.pull-left[
+```{r}
+select(
+  hotels,
+  lead_time
+)
+```
+]
+.pull-right[
+- Start with the function (a verb): `select()`
+- First argument: data frame we're working with , `hotels`
+- Second argument: variable we want to select, `lead_time`
+- Result: data frame with `r nrow(hotels)` rows and 1 column
+]
+
+???
+And voila, the result becomes a dataframe with 119,390 rows - so that's same as the original data frame - but only one column as opposed to all 32 we originally had.  
+
+---
+
+.tip[
+dplyr functions always expect a data frame and always yield a data frame.
+]
+
+```{r}
+select(hotels, lead_time)
+```
+
+???
+And remember- dplyr functions always expect to be given a dataframe and they always return a dataframe. 
+
+---
+
+## Select multiple columns
+
+View only the `hotel` type and `lead_time`:
+
+--
+
+.pull-left[
+```{r}
+select(hotels, hotel, lead_time)
+```
+]
+--
+.pull-right[
+.question[
+What if we wanted to select these columns, and then arrange the data in descending order of lead time?
+]
+]
+
+???
+So what if I had wanted to select multiple columns? Say I wanted to view only the hotel type and lead time. What I can do is just keep adding variables. But, of course, the first argument has to stay hotels - which is the name of the dataframe - but all subsequent arguments can be all the variables I want to select. And the resulting dataframe will show the number of columns corresponding to the number of my selected variables. But the number of rows won't change because we're selecting columns and not messing with the rows.   
+
+Now, what if we wanted to select the same columns but now arrange the data rows in descending order of lead time? 
+
+---
+
+## Data wrangling, step-by-step
+
+.pull-left[
+Select:
+```{r}
+hotels %>%
+  select(hotel, lead_time)
+```
+]
+
+--
+.pull-right[
+Select, then arrange:
+```{r}
+hotels %>%
+  select(hotel, lead_time) %>%
+  arrange(desc(lead_time))
+```
+]
+
+???
+We want the highest lead time on top and the lowest at the bottom. What I can do is start with the dataframe, then I select the two variables hotel and lead time as before, [ADVANCE] and then I call this new function: arrange with another function qualifier called "desc." What does this get me? Well, based on the example, the highest lead time of 737 days is at top. And we can also see that this booking happens to be for a resort hotel. Then the next one was 709 days also in a resort hotel and then we have a bunch of bookings in a city hotel that were 629 days prior to the stay. 
+
+Alright, so when I was reading out the code you might have noticed I kept saying "and then." "Do this and then." Where I was saying "and then" corresponds in the code to what is called a pipe operator. And this is what we're going to talk about next. 
+
+---
+
+class: middle
+
+# Pipes
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+--
+
+.pull-left[
+- Start with the data frame `hotels`, and pass it to the `select()` function,
+]
+.pull-right[
+.small[
+```{r}
+hotels %>% #<<
+  select(hotel, lead_time) %>%
+  arrange(desc(lead_time))
+```
+]
+]
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+.pull-left[
+- Start with the data frame `hotels`, and pass it to the `select()` function,
+- then we select the variables `hotel` and `lead_time`,
+]
+.pull-right[
+.small[
+```{r}
+hotels %>%
+  select(hotel, lead_time) %>% #<<
+  arrange(desc(lead_time))
+```
+]
+]
+
+---
+
+## What is a pipe?
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+.pull-left[
+- Start with the data frame `hotels`, and pass it to the `select()` function,
+- then we select the variables `hotel` and `lead_time`,
+- and then we arrange the data frame by `lead_time` in descending order.
+]
+.pull-right[
+.small[
+```{r}
+hotels %>%
+  select(hotel, lead_time) %>%
+  arrange(desc(lead_time)) #<<
+```
+]
+]
+
+???
+So, in programming, a pipe is a technique for passing information from one process to another. So we start with the data from hotels and pass it to the select function then we select the variables hotel and lead time and then we arrange the dataframe by lead time in descending order.
+
+---
+
+## Aside
+
+The pipe operator is implemented in the package **magrittr**, though we don't need to load this package explicitly since **tidyverse** does this for us.
+
+--
+
+.question[
+Any guesses as to why the package is called magrittr?
+]
+
+--
+
+.pull-left[
+```{r magritte, echo=FALSE, out.width="90%", caption = "Magritte's pipe"}
+knitr::include_graphics("mod-03-2-grammar-wrangle_files/magritte.jpg")
+```
+]
+.pull-right[
+```{r magrittr, echo=FALSE, out.width="100%", caption = "magrittr's pipe"}
+knitr::include_graphics("mod-03-2-grammar-wrangle_files/magrittr.jpg")
+```
+]
+
+???
+So, this is just a silly aside, the magrittr package is named after this art piece by Rene Magritte. In his art piece, the French here says: "This is not a pipe." Magritte, a surrealist, was being meta, where the subtext of the message is that the image of something is just a representation, not the actual thing. I know, deep. But you'll find such naming quirkiness in a lot of R. 
+
+---
+
+## How does a pipe work?
+
+- You can think about the following sequence of actions - find keys, 
+unlock car, start car, drive to work, park.
+
+--
+- Expressed as a set of nested functions in R pseudocode this would look like:
+```{r eval=FALSE}
+park(drive(start_car(find("keys")), to = "work"))
+```
+
+--
+- Writing it out using pipes give it a more natural (and easier to read) 
+structure:
+```{r eval=FALSE}
+find("keys") %>%
+  start_car() %>%
+  drive(to = "work") %>%
+  park()
+```
+
+???
+Alright, so how does a pipe work? Well, lets start with a little example. Think about the following sequence of actions. We first find our keys, to unlock a car to start it, to drive the car to work, to finally park it. If we were going to write this out in pseudocode, we can translate the actions into made-up nested functions. 
+
+It might look something like this. To interpret, I need to start at the innermost parentheses and then work my way out. So at the innermost core: find keys, expand out: with the keys I found I start car, expand out: and with the car I started I drive to work, expand out: and with the car that I drove to work I finally apply the function of park. Ok. Great. And somewhat confusing. 
+
+But I can write this all out with pipes instead. This gives the sequence of actions a more natural and easier to read structure. Here, in the first line, I call some made-up function "find," i.e, an action, that acts on some argument, i.e., a noun, which in this case is keys. Next, the found keys are then piped into the action of starting car. Note that the empty parenthesis for the made-up function "start_car." You might be thinking to yourself, does this function not take an argument? Well, remember that the pipe operator takes what came before it and uses it as the first argument of the next line of code. So what the "start_car" function is acting on is not on some nonexistent argument, but on the found keys. Next, the started car is now piped into the function "drive," which takes the started car as it's argument and specifies it is to be driven to work. Next, the car driven to work is piped into the next line, which is the function "park." 
+
+---
+
+## A note on piping and layering
+
+- `%>%` used mainly in **dplyr** pipelines, *we pipe the output of the previous line of code as the first input of the next line of code*
+
+--
+- `+` used in **ggplot2** plots is used for "layering", *we create the plot in layers, separated by `+`*
+
+???
+Ok, recap. The pipe operator is used mainly in dplyr pipelines and we are following a sequence of actions where the output of the previous line of code acts as the first input of the next line of code. 
+
+And if you remember from previous lectures, something analogous is going on with ggplot2 plots. In creating plots, we create layers separated by the plus sign instead of the pipe. Wouldn't it be nice if these were the same operator? But sadly not. They happened to be developed at different points in history and are now locked in. But thankfully, even though you might be thinking, "okay, this is going to get confusing," R has some nice features for warning you when you mix these two things up. 
+
+---
+
+## dplyr
+
+.midi[
+`r emo::ji("x")`
+
+```{r error=TRUE}
+hotels +
+  select(hotel, lead_time)
+```
+
+`r emo::ji("white_check_mark")`
+
+```{r eval=FALSE}
+hotels %>%
+  select(hotel, lead_time)
+```
+
+```{r echo=FALSE, output.lines=6}
+hotels %>%
+  select(hotel, lead_time)
+```
+]
+
+???
+So, for example, if you use the plus operator instead of the dplyr pipe operator, you might get this error. Alright, I lied, this error message is not super helpful. You might be thinking, why can't it find the object hotel in my dataframe. I know it's a variable in there. The reason, of course, is that the dataframe itself didn't get passed to the select function and it can't find the variable named "hotel." But if you had used the pipe operator, you would have had any problems.  
+
+---
+
+## ggplot2
+
+.midi[
+`r emo::ji("x")`
+
+```{r error=TRUE}
+ggplot(hotels, aes(x = hotel, fill = deposit_type)) %>%
+  geom_bar()
+```
+
+`r emo::ji("white_check_mark")`
+
+```{r out.width="25%"}
+ggplot(hotels, aes(x = hotel, fill = deposit_type)) +
+  geom_bar()
+```
+]
+
+???
+Okay, but in ggplot2, if you accidentally use the pipe operator, R now is pretty smart about that and will actually tell you, "hey, there's an error did you use the pipe instead of the plus?" So, if we were to then change it with a plus we can get the visualization that we expected to get. 
+---
+
+## Code styling
+
+Many of the styling principles are consistent across `%>%` and `+`:
+
+- always a space before
+- always a line break after (for pipelines with more than 2 lines)
+
+`r emo::ji("x")`
+
+```{r eval=FALSE}
+ggplot(hotels,aes(x=hotel, y=deposit_type))+geom_bar()
+```
+
+`r emo::ji("white_check_mark")`
+
+```{r eval=FALSE}
+ggplot(hotels, aes(x = hotel, y = deposit_type)) +
+  geom_bar()
+```
+
+???
+In terms of code styling, many of the styling principles are consistent across the pipe operator and the layering operator. For both, we always want to leave a space before and after it, and we always want to have a line break after it is used. So, for example, if I was to look at this ggplot code, I don't have any of the spaces around my equal signs or anything. I also want to have an actual line break after the plus sign. Now, this is not absolutely required as the first line of your code will still run - but just because it runs doesn't mean that it's the appropriate way to do things. The reason why we actually want to lay out our code in a particular way is that it makes it a lot easier to debug. It's way easier to see which feature of the plot corresponds to exactly which line. So try to stay consistent when you code!  

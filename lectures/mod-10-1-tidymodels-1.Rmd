@@ -1,0 +1,464 @@
+---
+title: "tidymodels - Linear models with single and multiple predictors"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Nicholas Duran & Derek Powell"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    anchor_sections: FALSE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(learningtower)
+library(ggtext)
+library(knitr)
+library(kableExtra)
+set.seed(1234)
+options(dplyr.print_min = 10, dplyr.print_max = 6)
+```
+
+class: middle
+
+# Review: What is a model?
+
+---
+
+## Modelling
+
+- Use models to explain the relationship between variables and to make predictions
+- For now we will focus on **linear** models (but remember there are *many* *many* other types of models too!)
+
+.pull-left[
+```{r echo = FALSE, out.width = "100%"}
+df1 <- tibble(x = 1:100, y = x + rnorm(100, mean = 0, sd = 5))
+ggplot(df1, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(title = "Linear", x = NULL, y = NULL) +
+  theme(
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+    )
+```
+]
+.pull-right[
+```{r echo = FALSE, out.width = "100%"}
+df2 <- tibble(x = seq(-6, 5.9, 0.1), y = (1 / (1+exp(-2*x))) + rnorm(120, mean = 0, sd = 0.1))
+ggplot(df2, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "loess", color = "#8E2C90", se = FALSE) +
+  labs(title = "Non-linear", x = NULL, y = NULL) +
+  theme(
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+    )
+```
+]
+
+---
+
+## Data: Programme for International Student Assessment (PISA)
+
+---
+
+# Remember this from Module 1?
+
+```{r, echo=T, eval=F}
+data(student_subset_2018)
+data(countrycode)
+student_scores <- student_subset_2018 %>%
+  inner_join(countrycode, by = "country") 
+```
+
+```{r, echo=F}
+data(student_subset_2018)
+data(countrycode)
+student_scores <- student_subset_2018 %>%
+  inner_join(countrycode, by = "country") %>% ungroup %>%
+  select(c(1, 4, 7, 10:13, 5:6, 8:9, 14:15, 17:22))
+```
+
+.pull-left[
+
+- Student academic performance from across the world. In 2018, PISA involved 79 countries and 600,000+ students worldwide
+- 4000 students selected from random 
+]
+
+.pull-right[
+
+```{r, echo=F}
+knitr::include_graphics("img/impact-story-PISA-cover.jpg")
+```
+
+]
+
+---
+
+```{r results="hide"}
+student_scores %>%
+  filter(student_id == "3205249") %>%
+  glimpse()
+```
+
+.large[
+.pull-left[
+```{r output.lines=10, echo=FALSE}
+student_scores %>%
+  filter(student_id == "3205249") %>%
+  glimpse()
+```
+]
+.pull-right[
+```{r output.lines=11:19, echo=FALSE}
+student_scores %>%
+  filter(student_id == "3205249") %>%
+  glimpse()
+```
+]
+]
+
+---
+
+## Models as functions
+
+- We can represent relationships between variables using **functions**
+- A function is a mathematical concept: the relationship between an output and one or more inputs
+  - Plug in the inputs and receive back the output
+  - Example: The formula $y = 3x + 7$ is a function with input $x$ and output $y$. If $x$ is $5$, $y$ is $22$, $y = 3 \times 5 + 7 = 22$
+
+---
+
+## Science achievement as a function of reading performance
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "science-read-plot", echo = FALSE, warning = FALSE, out.width = "60%"}
+```
+]
+.panel[.panel-name[Code]
+
+```{r science-read-plot, fig.show="hide", warning=F}
+ggplot(data = student_scores, aes(x = read, y = science)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Science achievement as a function of reading performance",
+    subtitle = "Based on 2018 PISA Assessment",
+    x = "Reading Score",
+    y = "Science Score"
+  )
+```
+]
+]
+
+---
+
+## Vocabulary
+
+- **Response variable:** Variable whose behavior or variation you are trying to understand, on the y-axis
+
+--
+- **Explanatory variables:** Other variables that you want to use to explain the variation in the response, on the x-axis
+
+--
+- **Predicted value:** Output of the **model function**
+  - The model function gives the typical (expected) value of the response variable *conditioning* on the explanatory variables
+  
+--
+- **Residuals:** A measure of how far each case is from its predicted value (based on a particular model)
+  - Residual = Observed value - Predicted value
+  - Tells how far above/below the expected value each case is
+
+---
+
+## Residuals
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "science-read-plot-residuals", echo = FALSE, warning = FALSE, out.width = "60%"}
+```
+]
+.panel[.panel-name[Code]
+.small[
+```{r science-read-plot-residuals, fig.show="hide", warning=FALSE}
+ht_wt_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(science ~ read, data = student_scores)
+
+ht_wt_fit_tidy <- tidy(ht_wt_fit$fit) 
+ht_wt_fit_aug  <- augment(ht_wt_fit$fit) %>%
+  mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
+
+ggplot(data = ht_wt_fit_aug) +
+  geom_point(aes(x = read, y = science, color = res_cat)) +
+  geom_line(aes(x = read, y = .fitted), size = 0.75, color = "#8E2C90") + 
+  labs(
+    title = "Science achievement as a function of reading performance",
+    subtitle = "Based on 2018 PISA Assessment",
+    x = "Reading Score",
+    y = "Science Score"
+  ) +
+  guides(color = "none") +
+  scale_color_manual(values = c("#260b27", "#e6b0e7")) +
+  geom_text(aes(x = 125, y = 600), label = "Positive residual", color = "#e6b0e7", hjust = 0, size = 8) +
+  geom_text(aes(x = 500, y = 300), label = "Negative residual", color = "#260b27", hjust = 0, size = 8)
+
+```
+]
+]
+]
+
+---
+class: middle
+
+## Some other variable that might be important?
+
+---
+
+## Multiple explanatory variables
+
+.panelset[
+.panel[.panel-name[Plot]
+.pull-left-narrow[
+.question[
+How, if at all, does the relationship between science and reading vary by gender?
+]
+]
+.pull-right-wide[
+```{r ref.label = "height-width-sex", echo = FALSE, warning = FALSE, out.width = "80%"}
+```
+]
+]
+.panel[.panel-name[Code]
+```{r height-width-sex, fig.show="hide", warning=FALSE}
+ggplot(data = student_scores, aes(x = read, y = science, color = gender)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Science achievement as a function of reading performance and gender",
+    subtitle = "Based on 2018 PISA Assessment",
+    x = "Reading Score",
+    y = "Science Score"
+  ) +
+  scale_color_manual(values = c("#E48957", "#071381"))
+```
+]
+]
+
+---
+
+## Models - upsides and downsides
+
+- Models can sometimes reveal patterns that are not evident in a graph of the data. This is a great advantage of modeling over simple visual inspection of data. 
+- There is a real risk, however, that a model is imposing structure that is not really there on the scatter of data, just as people imagine animal shapes in the stars. A skeptical approach is always warranted.
+
+---
+
+## Variation around the model...
+
+is just as important as the model, if not more!  
+
+*Statistics is the explanation of variation in the context of what remains unexplained.*
+
+- The scatter suggests that there might be other factors that account for large parts of student-to-student variability, or perhaps just that randomness plays a big role.
+- Adding more explanatory variables to a model can sometimes usefully reduce the size of the scatter around the model.
+
+---
+
+## How do we use models?
+
+- Explanation: Characterize the relationship between $y$ and $x$ via *slopes* for numerical explanatory variables or *differences* for categorical explanatory variables
+- Prediction: Plug in $x$, get the predicted $y$
+
+---
+class: middle
+
+# tidymodels time
+
+---
+
+
+```{r out.width="98%", echo=FALSE}
+knitr::include_graphics("img/tidymodels.png")
+```
+
+---
+
+## Models with single predictors
+
+---
+
+## Step 1: Specify model
+
+```{r}
+linear_reg()
+```
+
+---
+
+## Step 2: Set model fitting *engine*
+
+```{r}
+linear_reg() %>%
+  set_engine("lm") # lm: linear model
+```
+
+---
+
+## Step 3: Fit model & estimate parameters
+
+... using **formula syntax**
+
+```{r fit-model}
+linear_reg() %>%
+  set_engine("lm") %>%
+  fit(science ~ read, data = student_scores)
+```
+
+---
+
+## A closer look at model output
+
+```{r ref.label="fit-model", echo=FALSE}
+```
+
+.large[
+$$\widehat{science}_{i} = 76.651 + 0.8413 \times read_{i}$$
+]
+
+---
+
+## A tidy look at model output
+
+```{r}
+linear_reg() %>%
+  set_engine("lm") %>%
+  fit(science ~ read, data = student_scores) %>%
+  tidy()
+```
+
+.large[
+$$\widehat{science}_{i} = 76.7 + 0.841 \times read_{i}$$
+]
+
+---
+
+## Slope and intercept
+
+.large[
+$$\widehat{science}_{i} = 76.7 + 0.841 \times read_{i}$$
+]
+
+--
+
+- **Slope:** For each additional 1 unit improvement in reading score, the science score is expected to be higher, on average, by 0.841 units of improvement.
+
+--
+- **Intercept:** Students whose reading scores are 0 are expected to receive a science score of 76.7, on average. (Does this make sense?)
+
+---
+
+## Correlation does not imply causation
+
+Remember this when interpreting model coefficients
+
+```{r echo=FALSE, out.width="90%"}
+knitr::include_graphics("img/cell_phones.png")
+```
+
+.footnote[
+Source: XKCD, [Cell phones](https://xkcd.com/925/)
+]
+
+---
+
+## Models with multiple predictors
+
+---
+
+```{r, echo=F, warning=F, out.width = "90%"}
+ggplot(data = student_scores, aes(x = escs, y = read, color = gender)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Reading performance as a function of socioeconomic status and gender",
+    subtitle = "Based on 2018 PISA Assessment",
+    x = "Socioeconomic Score",
+    y = "Reading Score"
+  ) +
+  scale_color_manual(values = c("#E48957", "#071381"))
+```
+
+---
+
+## Interpretation of estimates
+
+```{r}
+ss_main_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(read ~ escs + gender, data = student_scores)
+tidy(ss_main_fit)
+```
+
+--
+- **Slope - escs:** *All else held constant*, for each 1 unit increase in socioeconomic score (escs), we would expect the reading score to be higher, on average, by 39.9 points.
+
+--
+- **Slope - gender:** *All else held constant*, men have lower reading score, on average, by 33.8 points than females.
+
+--
+- **Intercept:** Females with a socioeconomic score (escs) of 0 are expected to get a reading score of 485 points, on average. (Doesn't make sense in context.)
+
+
+---
+
+## Main vs. interaction effects
+
+.question[
+Suppose we want to predict reading score from students socioeconomic score and gender (male or female). Do you think a model with main effects or interaction effects is more appropriate? Explain your reasoning.
+
+**Hint:** Main effects would mean rate at which reading score changes as socioeconomic score (escs) increases would be the same for female and male students and interaction  effects would mean the rate at which reading score changes as as socioeconomic score (escs) increases would be different for female and male students.
+]
+
+---
+
+```{r}
+ss_int_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(read ~ escs*gender, data = student_scores)
+tidy(ss_int_fit)
+```
+
+---
+
+## Comparing models with adjusted R-squared
+
+... a (more) objective measure for model selection
+
+- Adjusted $R^2$ doesn't increase if the new variable does not provide any new 
+information or is completely unrelated, as it applies a penalty for number of 
+variables included in the model.
+
+```{r}
+glance(ss_main_fit)$adj.r.squared
+glance(ss_int_fit)$adj.r.squared
+```
+
+
+
+
+
+

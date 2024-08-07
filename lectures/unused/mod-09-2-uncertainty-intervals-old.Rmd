@@ -1,0 +1,265 @@
+---
+title: "Quantifying uncertainty with intervals"
+subtitle: "<br><br> Behavioral Data Science in R"
+author: "Derek Powell & Nicholas Duran"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "slides.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+---
+
+```{r child = "setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+## Generalization
+
+As (data) scientists, we want to draw inferences about the world from the limited set of observations (data) that we have
+
+- Want to __generalize__ from a __sample__ to a __population__
+
+```{r, echo=F, out.width="50%"}
+knitr::include_graphics("img/bean-plot.png")
+```
+---
+
+## Uncertainty
+
+- The inferences we make about the unobserved population are __uncertain__
+- Statistics is all about describing and quantifying this uncertainty
+- We measure uncertainty with __probabilities__
+
+---
+
+class: middle
+
+# Intervals
+
+---
+
+## Estimation and intervals
+
+So far we have done lots of estimation (mean, median, slope, etc.), i.e.
+- used data from samples to calculate sample statistics
+- which can then be used as estimates for population parameters
+
+---
+
+.question[
+If you want to catch a fish, do you prefer a spear or a net?
+]
+
+<br>
+
+.pull-left[
+```{r echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/spear.png")
+```
+]
+.pull-right[
+```{r echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/net.png")
+```
+]
+
+---
+
+.question[
+If you want to estimate a population parameter, do you prefer to report a range of values the parameter might be in, or a single value?
+]
+
+<br>
+
+--
+
+- If we report a point estimate, we probably won’t hit the exact population parameter
+- If we report a range of plausible values we have a good shot at capturing the parameter
+
+---
+
+## The idea
+
+- Statistics like means and regression coefficients are __point-values__: single values representing the best estimate.
+- Can capture our degree of certainty or uncertainty in those estimates using an interval or range rather than a single value
+- We'd like to say things like, our best estimate is X, and we're 95% sure the true value is between Y and Z.
+- If the interval is small, then we've got a lot of certainty, if it's big, acknowledging more uncertainty
+
+---
+
+## Types of interval
+
+.pull-left[
+Frequentist __Confidence Intervals__
+
+- XX% of the time we calculate such an interval, it will contain the population parameter 
+]
+
+.pull-right[
+Bayesian __Credible Intervals__
+
+- The range of plausible values in which we believe the population parameter falls based on our model and observations, with XX% probability.
+- "We estimate the mean is 4.3 with a 95% Credible Interval of 3.9 to 4.5" = we are 95% sure the mean is between 3.9 and 4.5
+]
+
+--
+
+Intuitively, the Bayesian Credible interval is what we want, but the Frequentist interval is easier to calculate.
+
+---
+
+## Being loosely Bayesian
+
+- Sometimes, Frequentist confidence intervals and Bayesian credible intervals will be essentially identical
+- In these cases, you can safely interpret confidence intervals like Bayesian credible intervals
+
+--
+
+.hand[When is this ok?]
+
+- When you have a simple model (e.g. linear regression)
+- And a good amount of data
+
+---
+
+## Calculating a confidence interval
+
+$$CI_{95} = \text{Estimate} + - 1.96(\text{Std. Err.}) $$
+
+.tip[
+The formula for a confidence interval comes from the __Central Limit Theorem__
+]
+
+---
+
+## Plotting confidence intervals of means
+
+```{r, echo = F}
+bikes <- read_csv("../data/bikes.csv") %>% 
+  mutate(day_of_week = ordered(day_of_week, levels = c("Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat")))
+```
+
+.midi[
+- `geom_pointrange()` plots a statistic and an error bar that can be used to represent an interval 
+]
+.panelset[
+.panel[.panel-name[Plot]
+```{r ref.label = "interv-mean", echo = FALSE, warning = FALSE}
+```
+]
+.panel[.panel-name[Code]
+
+
+
+
+```{r interv-mean, fig.show = "hide", warning = FALSE}
+bikes %>% 
+  group_by(day_of_week) %>%
+  summarize(
+    M = mean(rides),
+    SE = sd(rides)/sqrt(n()),
+    ul = M + 1.96*SE,
+    ll = M - 1.96*SE
+  ) %>% 
+  ggplot(aes(x=day_of_week, y = M, ymin = ll, ymax = ul)) +
+  geom_pointrange() +
+  labs(y = "Rides/day", x = "Day")
+```
+]
+]
+
+
+
+---
+
+## CI for regression coefficients
+
+```{r, echo=F}
+howell <- read_csv("../data/howell1.csv") %>% 
+  filter(age >= 18)
+```
+
+```{r}
+fit <- lm(weight ~ height, data = howell)
+summary(fit)
+```
+
+---
+
+## Computing confidence intervals for regression coefficients
+
+.small[
+Extract model coefficients with `broom::tidy()` and calculate manually:
+
+```{r}
+broom::tidy(fit) %>% 
+  mutate(
+    ll = estimate - 1.96 * std.error,
+    ul = estimate + 1.96 * std.error
+    )
+```
+
+Or for a single coefficient, use `confint()`:
+
+```{r}
+confint(fit, "height", .95)
+```
+]
+---
+
+## Plotting prediction intervals
+
+- The `modelr` package can be useful for creating predictions from models.
+- `data_grid()` and `seq_range()` functions can help create sequences of values for plotting across the range of a given dataset
+
+.pull-left[
+
+.small[
+```{r}
+library(modelr)
+
+pred_df <- data_grid(howell, height = seq_range(height, 100))
+
+preds <- predict(fit, pred_df, se.fit=T)
+
+pred_df <- pred_df %>% 
+  mutate(
+    predicted = preds$fit,
+    ul = predicted + 1.96*preds$se.fit,
+    ll = predicted - 1.96*preds$se.fit
+  )
+
+```
+]
+]
+
+.pull-right[
+```{r}
+pred_df
+```
+
+]
+
+---
+
+## Plotting prediction intervals (2)
+
+
+```{r}
+
+ggplot() + 
+  geom_point(data = howell, aes(x=height, y=weight)) +
+  geom_line(data = pred_df, aes(x=height, y = predicted), color = "blue") +
+  geom_ribbon(data = pred_df, aes(x=height, ymin = ll, ymax=ul), fill="blue", alpha=.25)
+```
+
+
+---
