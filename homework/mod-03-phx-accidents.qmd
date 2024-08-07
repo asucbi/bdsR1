@@ -1,0 +1,167 @@
+---
+title: "HW 03 - Car accidents"
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+![](img/accident.jpg){fig-align="center" width=100%}
+
+
+In this assignment we'll look at traffic accidents in Phoenix.
+
+The data are made available on Kaggle by a scientist at Lyft named Sobhan Moosavi.[^mod-03-phx-accidents-1] We will see more on Kaggle throughout the course as it's a great way to find public datasets. 
+
+The data covers all recorded car accidents in Phoenix from January 2016 to January 2022. Note that some of the variables were modified for the purpose of this assignment. 
+
+:::callout-note
+The data you find on Kaggle includes all accidents across the United States for six years (almost 3 million cases!). You will also find the complete set of variables described on Kaggle. If you haven't set up an account, you really should give it a go.
+:::
+
+# Getting started
+
+First, open the R Markdown document `mod-03-hw.Rmd` and knit it. Make sure it compiles without errors.
+
+## Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+-   Update the YAML, changing the author name to your name, and **knit** the document.
+
+## Packages
+
+We'll use the **tidyverse** package for much of the data wrangling and visualization. This package is already installed for you. You can load it by running the following in your Console:
+
+```{r load-packages, message = FALSE, eval = TRUE}
+library(tidyverse)
+```
+
+## Data
+
+The data is in two files and both are hanging out in an online repository. The first file is called `phoenix_accidents_1.csv` and the second file is called `phoenix_accidents_2.csv`. 
+
+We need to load in the data before we can do anything with it. We use the function `read_csv()` to do so. 
+
+```{r load-data, message = FALSE, eval = TRUE}
+phx_accidents_1 <- 
+  read_csv("https://asucbi.github.io/data/phoenix_accidents_1.csv") 
+
+phx_accidents_2 <- 
+  read_csv("https://asucbi.github.io/data/phoenix_accidents_2.csv") 
+```
+
+:::callout-note
+Notice that the `read_csv` function is able to retrieve these files just as long as you give it the correct URL to the repository. 
+:::
+
+```{r echo = FALSE, eval = TRUE}
+phx_accidents = left_join(phx_accidents_1, phx_accidents_2, by="id")
+```
+
+# Exercises
+
+---
+
+### Exercise 1
+
+-   Create a code chunk (give it a sensible name) and join `phx_accidents_1` and `phx_accidents_2` datasets into a single dataset and call it `phx_accidents`. Be sure to join `by=` the common variable between the two datasets. 
+
+---
+
+### Exercise 2 
+
+-   What does each row in the joined dataset represent?
+
+---
+
+**Moving on...**
+
+Lets investigate the dataset a bit. Below is description of all the variables in your joined dataset. Read through them, try to get a sense of what you have available:
+
+| Variable Name                                      | Description                                                                                                                                                |
+|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id` | Accident ID |
+| `latitude` | Latitude of accident location |                                                                                             
+| `longitude` | Longitude of accident location |
+| `severity` | Shows the severity of the accident in terms of traffic delay: Minor/Slight, Moderate, Severe |
+| `road_length` | The length of the road extent affected by the accident (in miles) |
+| `dateof` | Date of the accident |
+| `day_of_week` | Day of the week of the accident |
+| `month_of_year` | Month of the year of the accident |
+| `week_of_year` | Week of the year of the accident |
+| `time` | Time of the accident on the 24h clock |
+| `zipcode` | Phoenix area zipcode |
+| `highway` | Whether the accident occurred on a city street or on a highway |
+| `street` | Shows more detailed information on street/highway location in address field |
+| `side` | Shows the relative side of the street (Right/Left) in address field. |
+| `special_cond` | Special condition that was recorded for the location of the accident: Traffic light/stop sign, Pedestrian crossing, Road/highway junction, Other, Unknown |
+| `light` | Light condition at the time of accident: Daylight, Darkness (artificial lights lit), Darkness (artificial lights unlit), Other |
+| `weather` | Weather condition at the time of accident: Fine, Raining, Snowing, Fog or smoke or dust, Other, Unknown |
+| `wind` | High winds (greater than 26 mph): Windy or Other |
+| `wind_speed` | Shows wind speed (in miles per hour). |
+| `precipitation` | Shows precipitation amount in inches, if there is any. |
+| `visibility` | Shows visibility (in miles). |
+
+---
+
+### Exercise 3
+
+-   Create a new variable within the dataset called `day_of_week_type` that indicates whether the accident occurred on a Saturday or Sunday (if so, call it "Weekend"), and if not, call it "Weekday." You're going to need it for Exercise 4. 
+
+```{r eval = TRUE, echo = FALSE}
+phx_accidents <- phx_accidents %>% mutate(day_of_week_type = if_else(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday"))
+```
+
+---
+
+### Exercise 4
+
+-   Recreate the following plot, and describe in context of the data. 
+-   In your answer, don't forget to label your R chunk as well (where it says `label-me-1`). Your label should be short, informative, shouldn't include spaces, and shouldn't shouldn't repeat a previous label.
+
+```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
+phx_accidents %>%
+  ggplot(aes(x = time, fill = severity)) +
+  geom_density(alpha = 0.50) +
+  facet_wrap(~day_of_week_type, ncol = 1) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  labs(
+    title = "Number of accidents throughout the day",
+    subtitle = "By day of week and severity",
+    x = "Time of day",
+    y = "Density",
+    fill = "Severity"
+  ) 
+```
+
+:::callout-tip
+Somewhere in your code you want to add "theme_minimal()" to accurately recreate.
+:::
+
+```{r eval = FALSE, echo = TRUE}
+phx_accidents %>%
+  ggplot(___) +
+  ___() +
+  ___() +
+  theme_minimal()
+```
+
+---
+
+### Exercise 5
+
+-   Create another data visualization based on these data and provide a written interpretation. 
+
+:::callout-important
+You can choose any variables and any type of visualization you like^[however,  no animated plots please], but it must have at least three variables, e.g. a scatterplot of x vs. y isn't enough, but if points are colored by z, that's fine. In your answer, don't forget to label your R chunk as well (where it says `label-me-2`).
+:::
+
+# Submitting your work
+
+Once you are happy with the final state of your work, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.  
+
+
+[^mod-03-phx-accidents-1]: Source: [Kaggle dataset](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents?resource=download) 
+
+

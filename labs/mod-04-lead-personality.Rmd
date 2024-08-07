@@ -1,13 +1,7 @@
 ---
 title: "Lab 04 - Lead exposure and personality"
-# bibliography: references.bib
-# biblio-style: apalike
-# link-citations: yes
-knit: (function(inputFile, encoding) {
-    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/labs/")
-  })
 params: 
-    SHOW_SOLS: FALSE # if i wanted to give solutions, could toggle back on. 
+    SHOW_SOLS: FALSE 
     TOGGLE: TRUE
 ---
 
@@ -26,7 +20,9 @@ source('assets/setup.R')
 ```
 
 
-More and more, epidemiologists are uncovering the alarmingly detrimental effects of environmental pollution for human health and well-being. As has long been known, childhood lead exposure has particularly damaging and lifelong consequences, with even low levels stunting intellectual development. The ancient Romans famously lined their aquaducts with lead, which some have speculated may have hastened the empire's downfall by contaminating their drinking water ([Nriagu,1983 ](https://dl.tufts.edu/concern/pdfs/6395wk23b)). More recently, atmospheric lead exposure from leaded gasoline was substantial across the developed world. Fortunately, in the U.S. the Clean Air Act of 1970 began transitioning away from the use of leaded gasoline, though it wasn't outright banned in the U.S. until 1996. Some epidemiologists and economists believe that reduced lead exposure (especially during childhood) is at least partly responsible for reductions in crime since the 80s and 90s ([Higney et al., 2022](https://www-sciencedirect-com.ezproxy1.lib.asu.edu/science/article/pii/S0166046222000667)).
+More and more, epidemiologists are uncovering the alarmingly detrimental effects of environmental pollution for human health and well-being. As has long been known, childhood lead exposure has particularly damaging and lifelong consequences, with even low levels stunting intellectual development. The ancient Romans famously lined their aquaducts with lead, which some have speculated may have hastened the empire's downfall by contaminating their drinking water ([Nriagu,1983 ](https://dl.tufts.edu/concern/pdfs/6395wk23b)). 
+
+More recently, atmospheric lead exposure from leaded gasoline was substantial across the developed world. Fortunately, in the U.S. the Clean Air Act of 1970 began transitioning away from the use of leaded gasoline, though it wasn't outright banned in the U.S. until 1996. Some epidemiologists and economists believe that reduced lead exposure (especially during childhood) is at least partly responsible for reductions in crime since the 80s and 90s ([Higney et al., 2022](https://www-sciencedirect-com.ezproxy1.lib.asu.edu/science/article/pii/S0166046222000667)).
 
 However, the benefits of environmental reforms are often not felt evenly. Leaded gasoline was used in the developing world long after it was banned in most Western nations---the last stockpiles were only finally used up by Algeria in July of 2021 ([NPR](https://www.npr.org/2021/08/30/1031429212/the-world-has-finally-stopped-using-leaded-gasoline-algeria-used-the-last-stockp))!  And even in the U.S., many communities are still exposed to too much lead and other environmental pollutants, especially communities of color like Flint, MI.
 
@@ -52,9 +48,9 @@ __Recommended reading:__ ["Lead: America’s Real Criminal Element" (_Mother Jon
 
 # Getting started
 
-Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-04-lead-personality`.
+Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 4`.
 
-First, open the R Markdown document `lab-04.Rmd` and Knit it.
+First, open the R Markdown document `mod-04-lab.Rmd` and Knit it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 
@@ -85,7 +81,7 @@ We're going to work with two datasets in this lab, both of which can be found as
 You can read the first of these in using the following, we'll call it `survey`.
 
 ```{r load-data, message = FALSE, eval = TRUE}
-survey <- read_csv("../data/eu-pers-survey.csv")
+survey <- read_csv("data/eu-pers-survey.csv")
 ```
 
 The variable descriptions are as follows:
@@ -109,44 +105,23 @@ The variable descriptions are as follows:
 The second dataset we will use is some country-level statistics for all European Union countries. You can read in the second dataset with the following, calling it `eudata`:
 
 ```{r}
-eudata <- read_csv("../data/eu-country-data.csv")
+eudata <- read_csv("data/eu-country-data.csv")
 ```
 
 
 # Exercises
 
-
-<!-- If workign remotely through Zoom, make sure that the person taking the lead for an exercise is sharing their screen. -->
-
-Work together to complete these exercises. Each person in your group should get a chance to take the lead for an exercise. You don't have to switch at     each exercise, you can find your a cadence that works for your team and stick to it. 
-
 ## Get to know your data
 
 ---
 
-`r qbegin(1)`
-I didn't give you an explanation of the `eudata` variables. Look at the names of the variables in the `eudata` data. What do you think the data in each of these variables represents?
-`r qend()`
-
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
-
-# Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. 
-
-```
-`r solend()`
-
+1. I didn't give you an explanation of the `eudata` variables. Look at the names of the variables in the `eudata` data. What do you think the data in each of these variables represents?
 
 ---
 
-`r qbegin(2)`
+2. Let's inspect our `survey` data to see if it contains responses from all EU countries. Write the code to see which countries are missing in the `survey` dataset as compared to the `eudata` dataset? 
 
-Let's inspect our `survey` data to see if it contains responses from all EU countries. Are there any Countries missing in the `survey` dataset as compared to the `eudata` dataset? 
-
-`r qend()`
-
-To help with this exercise, we can first print out the country variable in each by indexing the data frames with the `$` operator. First, squint at these and see if you can find any differences.
+To help with this exercise, you could print out the country variable in each by indexing the data frames with the `$` operator. Then, squint at these two lists and see if you can find any differences.
 
 ```{r}
 survey$Country
@@ -156,42 +131,46 @@ survey$Country
 eudata$Country
 ```
 
-If you're going cross-eyed, you can also try using the `%in%` operator to see which of the countries from one dataset are in the list of countries from the other dataset.
+If you're going cross-eyed, there is a better way. In fact, it's the way I want you to use. Write a single line of code using the `%in%` operator to see which of the countries from one dataset are NOT in the list of countries from the other dataset. 
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r echo=FALSE}
+:::green
+__HINT:__ You should get back two countries. You will also see that it's not so much these two countries are missing from each data set, but they are spelled differently across the two datasets.  
+:::
+
+```{r echo=FALSE, eval=FALSE}
 survey %>% 
   filter(!Country %in% eudata$Country)
 ```
-`r solend()`
 
+---
 
 ## Joining data frames
 
-To investigate whether lead exposure is related to personality, we need to join these data frames into one. But, first we need to recode the `Country` variables so that they match.
+To investigate whether lead exposure is related to personality, we need to join the two data frames into one. 
 
-We know there's some problems related to Czech Republic and Bosnia & Herzegovina, so let's inspect the `Country` variable in each dataset to see what exactly is wrong.
+But, we're going to have problems with the `Country` variable in each dataset because of those two countries that are misspelled. 
 
-`r solbegin(show=TRUE, toggle=TRUE)`
+This is how our problematic countries are spelled in the `eudata` dataset: 
 
 ```{r}
 eudata %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
+```
+
+And this is how they are spelled in the `survey` dataset: 
+
+```{r}
 survey %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
 ```
 
-:::green
+:::frame
 __NOTE:__ The code above uses something called a ["regular expression"](https://en.wikipedia.org/wiki/Regular_expression) in the `str_detect` function to check where the values of `Country` match either "Czech" or "Bosnia". Regular expressions are powerful tools for working with text, though we will keep things simple in this course.
 :::
 
-`r solend()`
+---
 
+3. Now that we know what the problem is, use the `case_when` function to recode the `Country` variable in the `eudata` data frame to match how they are written in the `survey` data.
 
-`r qbegin(3)`
-Now that we know what the problem is, use the `case_when` function to recode the `Country` variable in the `eudata` data frame to match how they are written in the `survey` data.
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
+```{r eval=TRUE, echo=FALSE}
 eudata <- eudata %>% 
   mutate(
     Country = case_when(
@@ -199,43 +178,35 @@ eudata <- eudata %>%
      Country== "Czech Republic" ~ "Czechia",
      TRUE ~ Country
   )
-  )
+)
 ```
-`r solend()`
 
-:::green
-__NOTE:__ If we had a lot of countries to rename, we could also use the titular function from the `countrycode` package to rename countries according to standard naming conventions.
-:::
+---
 
-`r qbegin(4)`
-Now we are ready to join the data frames. Join them on the `Country` variable. Will it make a difference which kind of join you perform?
-`r qend()`
+4. Now we are ready to join the data frames. Join them on the `Country` variable. Will it make a difference which kind of join you perform?
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
+
+```{r, eval=TRUE, echo=FALSE}
 combined <- left_join(eudata, survey, by = "Country")
 ```
-`r solend()`
 
+---
 
 ## Claim: Lead exposure affects "agreeableness"
 
 In this paper it is argued that lead exposure is associated with lower agreeableness, so that people exposed to more lead are less agreeable. 
 
-`r qbegin(5)`
-Make a plot to examine whether there is any association between the average agreeableness score in each country and the average lead exposure.
+5. Make a plot to examine whether there is any association between the average agreeableness score in each country and the average lead exposure. What do you conclude?
 
-What do you conclude?
-`r qend()`
+This is what your code should produce:
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
+```{r, eval=TRUE, echo=FALSE}
 combined %>% 
   ggplot(aes(x=mean_leadexposure, y = mean_a)) +
   geom_point()
 ```
-`r solend()`
 
+---
 
 ## Exploring further: Geography
 
@@ -243,7 +214,7 @@ You have surely heard that "correlation is not causation" --- so we can't say wh
 
 One thing we might think could influence personality is geography. Without playing too much into broad stereotypes, there are many historical and cultural differences between people in Eastern Europe versus Western Europe. Maybe people in the East or West are more or less agreeable? Maybe they also happen to have more or less lead exposure?
 
-The `ggplot2` package includes a function called `map_data()` that loads data for plotting maps of different parts of the world. The code below loads data with latitude and longitude points marking the boundaries of all the different nations of the world and then turns that `data.frame` object into a `tibble`.
+The `ggplot2` package includes a function called `map_data()` that loads data for plotting maps of different parts of the world. The code below loads data with latitude (lat) and longitude (long) points marking the boundaries of all the different nations of the world and then turns that `data.frame` object into a `tibble`.
 
 ```{r}
 map_data("world") %>% 
@@ -252,26 +223,22 @@ map_data("world") %>%
 
 If we join this with our `combined` data, we will be ready to plot a map of the variable we're interested in.
 
-`r qbegin(6)`
-Join the `combined` data with the `map_data("world")` data. Make sure to do so in a way that only keeps the countries we have data for in the `combined` dataset. You can assign this to a variable just called `d`.
+6. Join the `map_data("world")` with the `combined` data to create a new dataset. Make sure to do so in a way that only keeps the countries we have data for in the `combined` dataset. You can assign this new dataset to a variable just called `d`.
 
-```{r, eval=F}
-d <- ...
-```
-
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
+```{r, echo=FALSE, eval=TRUE}
 d <- map_data("world") %>% 
   right_join(combined, by = c("region"="Country"))
 ```
-`r solend()`
 
 :::green
+__Hint:__ Pay attention to the fact I wrote you want to prioritize the countries in the `combined` dataset. The `map_data("world")` dataset has way more countries than we need. So which join function do you want to use? Next, you need to specify in the join function which variable in each dataset has the countries we want to join on (using the `by = c(VAR1=VAR2)` argument). 
+:::
+
+:::frame
 Short variable names like `d` can be useful for "temporary" data that won't be used for more than one thing. We're only going to be using `d` to make our map plots, but we wouldn't use it for any other kinds of analysis, so the short and generically non-descript name can be OK here.
 :::
 
+---
 
 ### Map it!
 
@@ -283,27 +250,29 @@ ggplot(d, aes(x=long, y = lat, group=group)) +
   coord_fixed() 
 ```
 
-`r qbegin(7)`
-Modify the code above to plot agreeableness by country. Use the `fill` of the maps colors to plot agreeableness and use the viridis color scheme to make it look nicer with `scale_fill_viridis_c()`.
+7. Modify the code above to plot agreeableness by country. What you produce should look like so:
 
-
-Then, do the same for lead exposure. Do you notice any patterns? Does the geographic explanation of the association seem plausible? Can you see the association between lead and agreeableness on the maps?
-
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-```{r}
-ggplot(d, aes(x=long, y = lat, group=group, fill = mean_leadexposure)) + 
-  geom_polygon() + 
-  scale_fill_viridis_c() +
-  coord_fixed() 
-
-ggplot(d, aes(x=long, y = lat, group=group, fill = mean_a)) + 
+```{r, eval=TRUE, echo=FALSE}
+ggplot(d, aes(x=long, y = lat, group=group, fill = mean_a)) +
   geom_polygon() + 
   scale_fill_viridis_c() +
   coord_fixed() 
 ```
-`r solend()`
+
+:::green
+__Hint:__ To generate this, use the `fill` option in the `aes()`, making `fill` equal to the agreeableness variable. And then, somewhere in your code, you will use the viridis color scheme to make it look nicer with `scale_fill_viridis_c()`  
+:::
+
+8. Now do what you just did, but now plot lead exposure by country instead of agreeableness. 
+
+```{r, eval=FALSE, echo=FALSE}
+ggplot(d, aes(x=long, y = lat, group=group, fill = mean_leadexposure)) + 
+  geom_polygon() + 
+  scale_fill_viridis_c() +
+  coord_fixed() 
+```
+
+9. Write-up: Compare the plots. Do you notice any patterns? Does the geographic explanation of the association between agreeableness and lead exposure seem plausible? 
 
 ---
 
@@ -312,5 +281,5 @@ Now go back through your write up to make sure you've answered all questions and
 :::red
 **SUBMITTING YOUR WORK**
 
-Once you decide as a team that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.   
+Once you decide that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.   
 :::

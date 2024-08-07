@@ -57,3 +57,7 @@ Do not use spaces in code chunk labels.
 ### Exercise 8
 
 ...
+
+### Exercise 9
+
+...

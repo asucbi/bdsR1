@@ -28,9 +28,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 function toggle_visibility(id1, id2) {
@@ -68,7 +65,7 @@ if(f.classList.contains('fa-chevron-circle-right')) {
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -251,69 +248,6 @@ pre code {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -321,16 +255,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -347,23 +271,23 @@ div.tocify {
 <p>In January 2017, Buzzfeed published an article on why Nobel laureates show immigration is so important for American science.</p>
 <p>You can read the article <a href="https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science">here</a>.
 In the article they show that while most living Nobel laureates in the sciences are based in the US, many of them were born in other countries.</p>
-<p>This is one reason why scientific leaders say that immigration is vital for progress.
-In this lab we will work with the data from this article to recreate some of their visualizations as well as explore new questions.</p>
+<p>This is one reason why scientific leaders say that immigration is vital for progress.</p>
+<p>In this lab we will work with the data from this article to recreate some of their visualizations as well as explore new questions.</p>
 <div class="lo">
 <p><strong>LEARNING OBJECTIVES</strong></p>
 <ul>
-<li>Collaborating within Posit Cloud and generating final RMarkdown report</li>
+<li>Working within Posit Cloud and generating final RMarkdown report</li>
 <li>Replicating published results</li>
 <li>Data wrangling and visualization</li>
 </ul>
 </div>
 <div class="red">
 <p><strong>PRE-LAB ACTIVITY</strong></p>
-<p>Read the Buzzfeed article titled <a href="https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science"><em>These Nobel Prize Winners Show Why Immigration Is So Important For American Science</em></a><em>.</em> We will replicate this analysis in the workshop so it’s crucial that you’re familiar with it ahead of time.</p>
+<p>Read the Buzzfeed article titled <a href="https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science"><em>These Nobel Prize Winners Show Why Immigration Is So Important For American Science</em></a><em>.</em> We will replicate this analysis in this assignment so it’s crucial that you’re familiar with it ahead of time.</p>
 </div>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
-<p>Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named <code>Module 3</code>.</p>
+<p>Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named <code>Assignments: Module 3</code>.</p>
 <p>First, open the R Markdown document <code>mod-03-lab.Rmd</code> and Knit it.</p>
 <p>Make sure it compiles without errors and you can preview the output within the Viewer Pane.</p>
 <p>The output should also be automatically saved as an <code>.html</code> file with the same name.</p>
@@ -385,7 +309,7 @@ In this lab we will work with the data from this article to recreate some of the
 <h2>Data</h2>
 <p>The dataset for this assignment can be found as a CSV (comma separated values) file in the <code>data</code> folder of your repository.</p>
 <p>You can read it in using the following.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>nobel <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../data/nobel.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>nobel <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/nobel.csv&quot;</span>)</span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
 <table>
 <thead>
@@ -517,51 +441,45 @@ In these cases the variables below reflect a different name than their counterpa
 </tr>
 </tbody>
 </table>
+<hr />
 </div>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Take turns answering the exercises.
-<!-- If working remotely through Zoom, make sure that the person taking the lead for an exercise is sharing their screen. --></p>
-<p>You don’t have to switch at each exercise, you can find your a cadence that works for your team and stick to it.</p>
 <div id="get-to-know-your-data" class="section level2">
 <h2>Get to know your data</h2>
-<hr />
-<div class="question-begin">
-Question 1
-</div>
-<div class="question-body">
-<p>How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent?</p>
+<ol style="list-style-type: decimal">
+<li>How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent?</li>
+</ol>
 <p><strong>There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.</strong></p>
-</div>
-<p class="question-end">
-</p>
-<div style="display:none;">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. </span></span></code></pre></div>
-</div>
-<p class="solution-end">
-</p>
 <hr />
-<div class="question-begin">
-Question 2
-</div>
-<div class="question-body">
-<p>Create a new data frame called <code>nobel_living</code> that filters for</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Create a new data frame called <code>nobel_living</code> that filters for:
 <ul>
-<li>laureates for whom <code>country</code> is available</li>
-<li>laureates who are people as opposed to organizations (organizations are denoted with <code>"org"</code> as their <code>gender</code>)</li>
+<li>laureates for whom <code>country</code> is available,</li>
+<li>laureates who are people as opposed to organizations (organizations are denoted with <code>"org"</code> as their <code>gender</code>),</li>
 <li>laureates who are still alive (their <code>died_date</code> is <code>NA</code>)</li>
+</ul></li>
+</ol>
+<div class="green">
+<p><strong>Hints with Pseudocode:</strong></p>
+<ul>
+<li>Start with the dataset <code>nobel</code> then pipe (%&gt;%) this into…
+<ul>
+<li>a filter function that needs to do three things based on the exercise instructions…</li>
+<li>FIRST THING: make sure you are getting rows where some country is actually listed in the <code>country</code> variable (did you inspect the variable to see what it looks like when a country is not listed?),</li>
+<li>SECOND THING: make sure you are getting rows where gender is not listed as <code>org</code></li>
+<li>THIRD THING: make sure you you are getting rows where the <code>died_date</code> variable IS listed as <code>NA</code></li>
+</ul></li>
 </ul>
-<p>Confirm that once you have filtered for these characteristics you are left with a data frame with 228 observations, once again using inline code.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>nobel_living <span class="ot">&lt;-</span> nobel <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    FIRST THING,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    SECOND THING,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    THIRD THING</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
-<p class="question-end">
-</p>
-<div style="display:none;">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
-</div>
-<p class="solution-end">
-</p>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+<p><strong>Confirm that once you have filtered for these characteristics you are left with a data frame with 228 observations.</strong></p>
 <hr />
 </div>
 <div id="claim-most-living-nobel-laureates-were-based-in-the-us-when-they-won-their-prizes" class="section level2">
@@ -570,108 +488,78 @@ Question 2
 <p>Let’s see if that’s true.</p>
 <p>First, we’ll create a new variable to identify whether the laureate was in the US when they won their prize. We’ll use the <code>mutate()</code> function for this.</p>
 <p>The following pipeline mutates the <code>nobel_living</code> data frame by adding a new variable called <code>country_us</code>. We use an if statement to create this variable.</p>
-<p>The first argument in the <code>if_else()</code> function we’re using to write this if statement is the condition we’re testing for. If <code>country</code> is equal to <code>"USA"</code>, we set <code>country_us</code> to <code>"USA"</code>. If not, we set the <code>country_us</code> to <code>"Other"</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>nobel_living <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">country_us =</span> <span class="fu">if_else</span>(country <span class="sc">==</span> <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  )</span></code></pre></div>
+<p>The first argument in the <code>if_else()</code> function we’re using is the condition we’re testing for. If <code>country</code> is equal to <code>"USA"</code>, we set <code>country_us</code> to <code>"USA"</code>. If not, we set the <code>country_us</code> to <code>"Other"</code>.</p>
 <div class="green">
 <!-- __NOTE:__ We can achieve the same result using the `fct_other()` function we've seen before (i.e. with `country_us = fct_other(country, "USA")`). We decided to use the `if_else()` here to show you one example of an if statement in R. -->
 <p><strong>UNDERSTANDING CHECK</strong> Make sure you understand what is going on with the <code>if_else</code> function when used with <code>mutate</code>. This is a common method for creating a new variable (e.g., “country_us”) given the values of some other variable in your dataset (e.g., country).</p>
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>nobel_living <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">country_us =</span> <span class="fu">if_else</span>(country <span class="sc">==</span> <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Other&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Next, we will limit our analysis to only the following categories: Physics, Medicine, Chemistry, and Economics.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>nobel_living_science <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Physics&quot;</span>, <span class="st">&quot;Medicine&quot;</span>, <span class="st">&quot;Chemistry&quot;</span>, <span class="st">&quot;Economics&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>nobel_living_science <span class="ot">&lt;-</span> nobel_living <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Physics&quot;</span>, <span class="st">&quot;Medicine&quot;</span>, <span class="st">&quot;Chemistry&quot;</span>, <span class="st">&quot;Economics&quot;</span>))</span></code></pre></div>
 <div class="green">
 <p><strong>UNDERSTANDING CHECK</strong> Do you understand what is going on with the use of <code>%in%</code> as a twist to the <code>filter</code> function? The “category” variable has six levels. You can check this by running <code>unique(nobel_living$category)</code>. But we only want the four categories listed above. So what we’re telling filter to do is to look <code>%in</code> “category” for the four categories. And notice how these four categories have been grouped into a character vector using the super common <code>c()</code> function.</p>
 </div>
-<p>For the next exercise work with the <code>nobel_living_science</code> data frame you created above.
-This means you’ll need to define this data frame in your starter document, even though the next exercise doesn’t explicitly ask you to do so.</p>
+<p>For the next exercise work with the <code>nobel_living_science</code> data frame you created above. [<strong>NOTE:</strong> If not obvious, you need to copy/paste the code given to you above into your starter file to create <code>nobel_living_science</code> because you’re going to need it for Exercise 3].</p>
 <hr />
-<div class="question-begin">
-Question 3
+<ol start="3" style="list-style-type: decimal">
+<li><p>Create a faceted bar plot visualizing the relationship between the category of prize and whether the laureate was in the US when they won the nobel prize. Interpret your visualization, and say a few words about whether Buzzfeed’s claim for this section is supported by the data.</p>
+<ul>
+<li>Your visualization should be faceted by <code>category</code>.</li>
+<li>For each facet you should have two bars, one for winners in the US and one for Other.</li>
+<li>Flip the coordinates so the bars are horizontal, not vertical.</li>
+</ul></li>
+</ol>
+<div class="green">
+<p><strong>Hint:</strong> You see that little word below “Solution” below? If you click it it will show you what the figure should look like. <strong>BUT - PLEASE WAIT BEFORE CLICKING IT!!!</strong> Seriously, hold off for one sec. </p>
+<p>A big part of learning to do data science and how to program is the process of trial and error and attempting to make sense of instructions, hitting an impasse, and then figuring out how to get past it. So, it’s okay to struggle a bit. Once you have…</p>
+<p>Then hit “Solution” to see what you should be generating. It’s still going to be a challenge 😅</p>
+<div class="solution-begin">
+<span id="sol-start-1" class="fa fa-chevron-circle-right solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-1&#39;, &#39;sol-start-1&#39;)"> Solution </span>
 </div>
-<div class="question-body">
-<p>Create a faceted bar plot visualizing the relationship between the category of prize and whether the laureate was in the US when they won the nobel prize.</p>
-<p>Interpret your visualization, and say a few words about whether Buzzfeed’s claim for this section is supported by the data.</p>
-<pre><code>-   Your visualization should be faceted by category.
--   For each facet you should have two bars, one for winners in the US and one for Other.
--   Flip the coordinates so the bars are horizontal, not vertical.</code></pre>
-</div>
-<p class="question-end">
-</p>
-<div style="display:none;">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
+<div id="sol-body-1" class="solution-body" style="display: none;">
+<p><img src="mod-03-nobel-laureates_files/figure-html/prize-living-in-us-1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
 <p class="solution-end">
 </p>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.d* -->
+</div>
 <hr />
 </div>
 <div id="claim-of-those-us-based-nobel-laureates-many-were-born-in-other-countries" class="section level2">
 <h2>Claim: Of those US-based Nobel laureates, many were born in other countries</h2>
-<div class="question-begin">
-Question 4
-</div>
-<div class="question-body">
-<p>Create a new variable called <code>born_country_us</code> that has the value <code>"USA"</code> if the laureate is born in the US, and <code>"Other"</code> otherwise.</p>
-<p>How many of the winners are born in the US?</p>
-</div>
-<p class="question-end">
-</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a new variable called <code>born_country_us</code> that has the value <code>"USA"</code> if the laureate is born in the US, and <code>"Other"</code> otherwise. How many of the winners are born in the US?</li>
+</ol>
 <div class="green">
 <p><strong>Hint:</strong> You should be able to <del>cheat</del> borrow from code you used earlier to create the <code>country_us</code> variable.</p>
 </div>
-<div style="display:none;">
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
-</div>
-<p class="solution-end">
-</p>
 <hr />
-<div class="question-begin">
-Question 5
+<ol start="5" style="list-style-type: decimal">
+<li><p>Swap out a variable to your visualization from the code written in Exercise 3 to capture whether the laureate was born in the US or not. Based on your visualization, do the data appear to support Buzzfeed’s claim for this section? Explain your reasoning in 1-2 sentences.</p>
+<ul>
+<li>Your final visualization should contain a facet for each category.</li>
+<li>Within each facet, there should be a bar for whether the laureate won the award in the US or not.</li>
+<li>Each bar should have segments for whether the laureate was born in the US or not.</li>
+</ul></li>
+</ol>
+<div class="yellow">
+<p>Note that your bar plot won’t exactly match the one from the Buzzfeed article. This is likely because the data has been updated since the article was published.</p>
 </div>
-<div class="question-body">
-<p>Add a second variable to your visualization from Exercise 3 based on whether the laureate was born in the US or not.</p>
-<p>Based on your visualization, do the data appear to support Buzzfeed’s claim for this section? Explain your reasoning in 1-2 sentences.</p>
-<pre><code>-   Your final visualization should contain a facet for each category.
--   Within each facet, there should be a bar for whether the laureate won the award in the US or not.
--   Each bar should have segments for whether the laureate was born in the US or not.</code></pre>
-</div>
-<p class="question-end">
-</p>
-<div style="display:none;">
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
-</div>
-<p class="solution-end">
-</p>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
 <hr />
 </div>
 <div id="where-were-immigrant-nobelists-born" class="section level2">
 <h2>Where were immigrant Nobelists born?</h2>
-<div class="green">
-<p>Note that your bar plot won’t exactly match the one from the Buzzfeed article. This is likely because the data has been updated since the article was published.</p>
-</div>
-<div class="question-begin">
-Question 6
-</div>
-<div class="question-body">
-<p>In a single pipeline, filter for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the <code>count()</code> function) for their birth country (<code>born_country</code>) and arrange the resulting data frame in descending order of number of observations for each country. Which country is the most common?</p>
-</div>
-<p class="question-end">
-</p>
-<div style="display:none;">
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
-</div>
-<p class="solution-end">
-</p>
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.* -->
+<ol start="6" style="list-style-type: decimal">
+<li>In a single pipeline, filter for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the <code>count()</code> function) for their birth country (<code>born_country</code>) and arrange the resulting data frame in descending order of number of observations for each country. Which country is the most common?</li>
+</ol>
 <hr />
 <p>Now go back through your write up to make sure you’ve answered all questions and all of your R chunks are properly labelled.</p>
 <div class="red">
 <p><strong>SUBMITTING YOUR WORK</strong></p>
-<p>Once you decide as a team that you’re done with this lab, change the YAML <code>output</code> from <code>html_output</code> to <code>pdf_output.</code> Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.</p>
+<p>Once you decide that you’re done with this lab, change the YAML <code>output</code> from <code>html_output</code> to <code>pdf_output.</code> Now knit the document to produce a final PDF file. Upload that sucker as a Canvas assignment.</p>
 </div>
 <div id="interested-in-how-buzzfeed-made-their-visualizations" class="section level3">
 <h3>Interested in how Buzzfeed made their visualizations?</h3>
@@ -746,8 +634,6 @@ Question 6
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -780,35 +666,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

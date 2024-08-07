@@ -3,8 +3,8 @@ name: "BDSR1"
 output_dir: "../docs/labs"
 output:
   bookdown::html_document2:
-    toc: true
-    toc_float: true
+    toc: false
+    toc_float: false
     theme: cosmo
     highlight: tango
     number_sections: false

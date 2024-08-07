@@ -11,7 +11,10 @@ library(tidyverse)
 ```
 
 ```{r load-data, message=FALSE}
-nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
+nobel <- read_csv("data/nobel.csv")
+
+# NOTE: below will also load in the file. This is because `read_csv` can also pull files stored online. 
+# nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
 ```
 
 ## Exercises

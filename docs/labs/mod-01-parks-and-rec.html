@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>LAB 01 - Parks and Recreation</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-chevron-circle-right')) {
+    f.classList.add('fa-chevron-circle-down')
+    f.classList.remove('fa-chevron-circle-right')
+} else {
+    f.classList.add('fa-chevron-circle-right')
+    f.classList.remove('fa-chevron-circle-down')
+}
+}
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/style-labs.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">LAB 01 - Parks and Recreation</h1>
+
+</div>
+
+
+<p><img src="img/parksandrec.jpeg" width="80%" style="display: block; margin: auto;" /></p>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>The goal of this assignment is to introduce you to R, RStudio, and its integration with Canvas. You’ll be using all three throughout the course to analyze real data and come to informed conclusions!</p>
+<div id="starting-slow" class="section level2">
+<h2>Starting slow</h2>
+<p>As the course progresses, you are encouraged to explore beyond what the assignments dictate; a willingness to experiment will make you a much better programmer!</p>
+<p>Before we get to that stage, however, you need to build some basic fluency in R. First, we will explore the fundamental building blocks of R and RStudio.</p>
+</div>
+<div id="terminology" class="section level2">
+<h2>Terminology</h2>
+<p>We’ve already thrown around a few new terms, so let’s define them before we proceed.</p>
+<ul>
+<li><p><strong>R:</strong> Name of the programming language we will be using throughout the course.</p></li>
+<li><p><strong>RStudio:</strong> An integrated development environment for R.
+In other words, a convenient interface for writing and running R code.</p></li>
+<li><p><strong>Posit Cloud</strong> The online service for accessing RStudio.</p></li>
+</ul>
+</div>
+<div id="hello-rstudio" class="section level2">
+<h2>Hello RStudio!</h2>
+<p>Go to <a href="ADD%20URL%20HERE">rstudio.cloud</a> and then <strong>navigate to the course workspace</strong> via the left sidebar.</p>
+<ul>
+<li>Look for the course workspace called “BDS Fall 2024”</li>
+</ul>
+<div class="lo">
+<p>If anyone in your team is getting stuck, <strong>go find the Canvas page “How to set up and access Posit Cloud” and follow the instructions there.</strong></p>
+</div>
+</div>
+<div id="access-projects" class="section level2">
+<h2>Access Projects</h2>
+<p>For each assignment within each module there will be what is called an “RStudio Project.”</p>
+<p>If you look now, there should be a project available to you called: <strong>Assignments: Module 1.</strong> Go ahead and open it.</p>
+</div>
+<div id="rstudio-layout" class="section level2">
+<h2>RStudio Layout</h2>
+<p>You are now in Posit Cloud/RStudio. It is here where you will edit documents, run code, view your results, and interpret them. Basically, everything you need to do data science is contained here. Now, time to get familiar with the layout.</p>
+<p style="margin-bottom: 20px;">
+RStudio is comprised of <strong>four panes:</strong>
+</p>
+<p><img src="img/rstudio-anatomy-new.png" width="80%" style="display: block; margin: auto;" /></p>
+<p style="margin-top: 20px;">
+<ul>
+<li>On the <strong>bottom left</strong> is the <strong>Console,</strong> this is where you can write code that will be evaluated.</li>
+</ul>
+</p>
+<div class="lo">
+<p>Try typing <code>2 + 2</code> here and hit enter, what do you get?</p>
+</div>
+<ul>
+<li>On the <strong>bottom right</strong> is the <strong>Files</strong> pane, as well as other panes that will come handy as we start our analysis.
+<ul>
+<li>If you click on a file, it will open in the editor, on the top left pane.</li>
+</ul></li>
+<li>The <strong>top right</strong> pane shows your <strong>Environment.</strong> If you define a variable it would show up there.</li>
+</ul>
+<div class="lo">
+<p>Go ahead and define your first variable. Try typing <code>x &lt;- 2</code> in the Console and hit enter, what do you get in the <strong>Environment</strong> pane?</p>
+</div>
+<ul>
+<li>Finally, the <strong>top left</strong> pane is the Editor where you will primarily be writing code and text into a special document called a R Notebook.</li>
+</ul>
+<div class="yellow">
+<p><strong>NOTE:</strong> An R Notebook is a type of document that combines R code with ordinary text and graphics, allowing you to write, run, and see the results of your R code alongside commentary and analysis. It’s a powerful tool for data analysis and visualization, making it easy to compile your findings, code, and charts in one interactive and easy-to-share document.</p>
+</div>
+</div>
+<div id="starter-files" class="section level2">
+<h2>Starter Files</h2>
+<p>In the Files pane you should see these two R Notebooks:</p>
+<ul>
+<li>mod-01-lab.Rmd</li>
+<li>mod-01-hw.Rmd</li>
+</ul>
+<p>Go ahead and open up <code>mod-01-lab.Rmd</code>. This is your “starter file” for this assignment. You will build upon this document as you work on the exercises in this assignment. When you are done, you will generate a PDF from this document and submit it on Canvas. More on that later.</p>
+</div>
+</div>
+<div id="warm-up" class="section level1">
+<h1>Warm up</h1>
+<p>Before we introduce the data, let’s warm up with some simple exercises.</p>
+<div id="step-1.-update-the-yaml" class="section level2">
+<h2>Step 1. Update the YAML</h2>
+<div class="lo">
+<p style="margin-bottom: 20px;">
+Assuming <code>mod-01-lab.Rmd</code> is open, change the author name to your name at the very top. And go ahead and put in today’s date. You’ve just edited the metadata for this Notebook.
+</p>
+<p><img src="img/yaml-raw-to-rendered-new.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div class="yellow">
+<p><strong>NOTE:</strong> The top portion of your R Markdown document (between the three dashed lines) is called <strong>YAML</strong>. It stands for “YAML Ain’t Markup Language”. It contains metadata (settings and information about the notebook itself). It’s used to specify things like the title, author, date, and output format (e.g., PDF, HTML). Think of it as a header that tells R and other tools how to process and display the notebook, ensuring that the document is formatted and behaves as intended when it’s compiled or shared.</p>
+</div>
+</div>
+<div id="step-2-knit-it" class="section level2">
+<h2>Step 2: Knit it!</h2>
+<div class="lo">
+<p style="margin-bottom: 20px;">
+Now, look for that little button at the top called “Knit” (in the image below, it’s bounded in the red box). Go ahead and click it now. You’ll see some some activity under the <strong>Render</strong> tab in the Console pane and a beautiful notebook (similar to what you’re reading now) will appear in the bottom-right Console pane under the <strong>Viewer</strong> tab.
+</p>
+<p><img src="img/knit1.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div class="green">
+<p><strong>NOTE:</strong> When you knit for the first time, your browser might get upset if you have an ad blocker on. Watch my video “How to prepare and submit a submission in Posit Cloud for Canvas” in the Module “Important Resources and HOWTOs” if you’re having trouble.</p>
+</div>
+</div>
+<div id="step-3.-submit-it-to-canvas" class="section level2">
+<h2>Step 3. Submit it to Canvas</h2>
+<p>When you’re all done with the HW assignment and you’re ready to submit the rendered document to Canvas, you want to change the “Knit” setting to <strong>Knit to PDF.</strong></p>
+<div class="lo">
+<p>Go ahead and do this now. Select the dropdown arrow and you will see the option for knitting to PDF. Click it and look for the PDF document that has been generated in the same folder where you placed the HW starter file. You will submit the PDF on Canvas.</p>
+<p><img src="img/knit2.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+</div>
+</div>
+<div id="packages" class="section level1">
+<h1>Packages</h1>
+<p>R is an open-source language, and developers contribute functionality to R via packages.
+In this assignment we will use the following packages:</p>
+<ul>
+<li><strong>tidyverse</strong>: a collection of packages for doing data analysis in a “tidy” way</li>
+<li><strong>bdsdata</strong>: a package (your instructors created) that contains various data sets for this course (Behavioral Data Science I)</li>
+</ul>
+<div class="yellow">
+<p><strong>NOTE:</strong> R packages are add-ons for the R programming language, providing extra functions and tools for tasks like data analysis and visualization. They’re like apps you install to expand R’s abilities, with thousands available on CRAN (Comprehensive R Archive Network) for various uses, from plotting charts to statistical testing, simplifying complex operations.”</p>
+</div>
+<p style="margin-bottom: 20px;">
+<p>We use the <code>library()</code> function to load packages.</p>
+<p>In your R Markdown document you should see an R chunk labelled <code>load-packages</code> which has the necessary code for loading both packages.</p>
+<div class="lo">
+<p>Go ahead and load these into your Console by clicking on the <strong>Run Current Chunk</strong> icon (green arrow pointing right icon).</p>
+<p><img src="img/load-packages-chunk-new.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<p>Note that these packages also get loaded in your R Markdown environment when you <strong>Knit</strong> your R Markdown document.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The data we will be working with is all about the show <a href="https://en.wikipedia.org/wiki/Parks_and_Recreation">‘Parks and Recreation,’</a> a popular mockumentary style sitcom that ran from 2009-2015.</p>
+<p>The dataset contains IMDB information about every episode from every season. <strong>We will be focusing on which characters were mentioned in each episode’s description.</strong> I know, I know, not super exciting, but it’s just to get us started.</p>
+<div class="yellow">
+<p><strong>NOTE:</strong> <a href="https://www.imdb.com/">IMBD</a> is a community-led online database for information related to films and television. One of the features is “User Ratings” that allows people to rate each episode on a scale from 1 to 10 (with 10 being the highest possible score).</p>
+</div>
+<p>The data can be found in the <strong>bdsdata</strong> package, and it’s called <code>parks_rec</code>.
+Since the dataset is distributed with the package, we don’t need to load it separately; it becomes available to us when we load the package.</p>
+<div class="yellow">
+<p><strong>NOTE:</strong> <code>parks_rec</code> is derived from a much more complete dataset that someone posted to the site <a href="http://kaggle.com">Kaggle.com</a>. Kaggle is a great online resource for aspiring and seasoned data scientists where lots of interesting datasets are provided by a large, open community. If curious, you can check out the original dataset <a href="https://www.kaggle.com/datasets/bcruise/parks-and-recreation-episode-data">here</a>.</p>
+</div>
+<div class="lo">
+<p>You can view the dataset as a spreadsheet using the <code>View()</code> function. Type it directly into the Console and press Enter.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">View</span>(parks_rec)</span></code></pre></div>
+<p>You’ll see the following <strong>data viewer</strong> window pop up.</p>
+<p><img src="img/view-data-new.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div class="lo">
+<p>What happens when you type the <code>View()</code> function into your R Markdown file and try to knit it? Go ahead. Do it!</p>
+</div>
+<p>Next, if you hover over description of each episode in the data viewer you can see the full description.</p>
+<p>Next, you can find out more about the dataset by inspecting its documentation.</p>
+<p>How do you pull up this so-called documentation?</p>
+<p>With the power of <code>?</code>. In the R programming language, typing <code>?</code> followed by a function or dataset name is a quick and efficient way to access help documentation.</p>
+<div class="lo">
+<p>Go ahead and type <code>?parks_rec</code> in the Console and see what happens.</p>
+</div>
+<div class="yellow">
+<p><strong>NOTE:</strong></p>
+<p>This <code>?</code> feature is crucial for both beginners and experienced users because it provides immediate explanations, usage examples, and details about the function or dataset’s parameters and behavior. Essentially, it acts as an instant guide, making it easier to understand and correctly apply various tools and data within R.</p>
+</div>
+<hr />
+<p>Ok, now it’s time to start answering exercise questions in your R markdown starter file.</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<ol style="list-style-type: decimal">
+<li>According to the data dictionary, how many unique characters from the show are included in this dataset?</li>
+</ol>
+<p>🧶 ✅ <em>Write your answer in your R Markdown starter document under Exercise 1, knit the document as a “html_document” (default output in the YAML).</em></p>
+<hr />
+<ol start="2" style="list-style-type: decimal">
+<li>Again, according to the data dictionary, how many rows of data do we have for this dataset?</li>
+</ol>
+<p>🧶 ✅ <em>Write your answer in your R Markdown starter document under Exercise 2, knit the document as a “html_document” (default output in the YAML).</em></p>
+<hr />
+<ol start="3" style="list-style-type: decimal">
+<li>Who are the three most mentioned show characters across all seasons? To do this you will need to count the frequencies of each character and display the results in descending order of frequency. The following code does exactly that. Go ahead and write it for yourself.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##    character   n
+## 1     Leslie 119
+## 2        Ron  64
+## 3        Tom  55
+## 4        Ben  54
+## 5       Andy  51
+## 6      Chris  38
+## 7        Ann  36
+## 8      April  35
+## 9      Donna   9
+## 10     Jerry   8</code></pre>
+<div class="green">
+<p>If you were going to read the two lines of code above in plain English, it would go something like: “Start with the <code>parks_rec</code> data frame, <strong>and then</strong> count the number of times each unique character shows up, and display the results sorted in descending order.”</p>
+<p>Really pay attention to that weird set of symbols, <code>%&gt;%</code> (also called a “pipe operator”). It is the same as saying <strong>and then.</strong> Like any good conjunction, it connects things. In this case, it is connecting the data frame with the <code>count</code> function.</p>
+</div>
+<p>🧶 ✅ <em>Write your answer in your R Markdown starter document under Exercise 3, knit the document as a “html_document” (default output in the YAML).</em></p>
+<hr />
+<p><strong>Moving on to Exercise 4</strong></p>
+<p>Now I’m going to give you a set of instruction you need to plug into your document. These will help you answer Exercise 4 (which is coming up next).</p>
+<p>We’re going to zoom in on the character “Leslie” played by Amy Poehler. We want to find out which season she shows up the most.</p>
+<p>For this we need to first <code>filter</code> the data to just get rows with “Leslie” as the character and count how many of these “Leslie” rows occur in each level of <code>season</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">==</span> <span class="st">&quot;Leslie&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">count</span>(season, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##   season  n
+## 1      2 24
+## 2      4 22
+## 3      6 22
+## 4      5 21
+## 5      3 16
+## 6      7  8
+## 7      1  6</code></pre>
+<div class="lo">
+<p><strong>STOP HERE</strong> and as a group make sure you understand what is going on. <strong>DISCUSS!</strong></p>
+<p>What does the <code>%&gt;%</code> represent in this code? What do the numbers under the <code>n</code> column represent?</p>
+</div>
+<p>One thing you and your team may have noticed is that there looks like a big decline of episodes mentioning “Leslie” in certain seasons. Is this really the case? In thinking critically, what else might be going on?</p>
+<p><strong>Perhaps there are just fewer episodes in Seasons 1 and 7 compared to the other seasons?</strong></p>
+<p>Well, let’s find out. Let’s count how many unique episodes are in each season.</p>
+<p>To do this we start start by grouping the data by season and then counting the number of rows in each season.</p>
+<p>And voila! I just wrote the code to do it below. Go ahead and copy it and run it for yourself.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">group_by</span>(season) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 2
+## # Groups:   season [7]
+##   season     n
+##    &lt;int&gt; &lt;int&gt;
+## 1      6   100
+## 2      4    98
+## 3      5    97
+## 4      3    68
+## 5      2    62
+## 6      7    35
+## 7      1     9</code></pre>
+<div class="lo">
+<p><strong>STOP HERE</strong> and as a group make sure you understand what is going on. <strong>DISCUSS!</strong></p>
+<p>First: what do you think the <code>group_by</code> function in the code is doing? State it in plain English.</p>
+<p>Second: The table (i.e., tibble) that the code generated doesn’t look right. What doesn’t look right? Why might there be a problem in the numbers being generated?</p>
+<p>After you’ve discussed it a bit, go ahead and <strong>click the little word “Solution”</strong> below for my answer.</p>
+<div class="solution-begin">
+<span id="sol-start-1" class="fa fa-chevron-circle-right solution-icon clickable" onclick="toggle_visibility(&#39;sol-body-1&#39;, &#39;sol-start-1&#39;)"> Solution </span>
+</div>
+<div id="sol-body-1" class="solution-body" style="display: none;">
+<p>Were there really 100 episodes in Season 6?! Likely not. In our code we are assuming that each row corresponds to a unique episode. But is this right?</p>
+<p>When we visually reinspect our data using <code>View(parks_rec)</code>, we might notice the following. The <code>episode_num</code> column has repeating values. Clearly each row does not correspond to a unique episode.</p>
+<p><img src="img/repeated-lines.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<p class="solution-end">
+</p>
+</div>
+<p><strong>Let’s fix things</strong></p>
+<p>We want to run the same code we just used, but after grouping by season, we want to get distinct episode numbers before counting. That is, we want to add the <code>distinct()</code> function somewhere to the following code:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">group_by</span>(season) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Update the code chunk by adding the <code>distinct()</code> function with the correct argument.</li>
+</ol>
+<p><strong>Let me give you some hints on how to do this:</strong></p>
+<ul>
+<li>What is the <code>distinct</code> function? Why not use <code>?</code> to pull up its documentation to see if you can decipher any clues on how to use it.</li>
+<li>The <code>distinct</code> function takes an argument. Just like the <code>group_by</code> function takes an argument (in our code, it’s the <code>season</code> column). What column in our data frame do we want distinct values for?</li>
+<li>When you add a new function, a lot of times you need to do add it as a new pipeline. So you’ll need to use <code>%&gt;%</code> as well, right?</li>
+</ul>
+<p>If you do things correctly, you will get a table that looks like the following:</p>
+<pre><code>## # A tibble: 7 × 2
+## # Groups:   season [7]
+##   season     n
+##    &lt;int&gt; &lt;int&gt;
+## 1      2    24
+## 2      4    22
+## 3      5    22
+## 4      6    22
+## 5      3    16
+## 6      7    11
+## 7      1     6</code></pre>
+<p>🧶 ✅ <em>Write your answer in your R Markdown starter document under Exercise 4, knit the document as a “html_document” (default output in the YAML).</em></p>
+<hr />
+<div class="green">
+<p><strong>NOTE:</strong> What we just did above was meant to underscore a very important point. When you write code and get some output, that’s only the first step. It is up to you to determine whether the output makes sense! If not, adjust accordingly.</p>
+</div>
+<p><strong>Moving on to Exercise 5</strong></p>
+<p>Now that we just discovered that there are indeed a different number of episodes for each season, looking at the raw count of how many times a character is mentioned across episodes does not allow for a fair comparison. For example, Leslie appears 6 times in Season 1, but 21 times in Season 5. We can confirm this from our earlier analysis. But we also know from our other analysis there are only 6 episodes in Season 1. This means, for Season 1, Leslie is featured in 100% of them (<code>6/6 = 1.0</code>). This is similar to the 95.45% (<code>21/22 = 0.95</code>) of episodes she is featured in for Season 5.</p>
+<div class="lo">
+<p><strong>STOP HERE</strong> and as a group make sure you understand why using raw counts does not allow for a fair comparison. <strong>DISCUSS!</strong></p>
+</div>
+<p>What might make for a fairer comparison? Rather than raw count, <strong>lets do proportions.</strong></p>
+<p>The following visualization compares Leslie’s mentions to some of the more mid-tier characters, <strong>taking proportion of overall episodes into account.</strong></p>
+<p><img src="mod-01-parks-and-rec_files/figure-html/unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="green">
+<p>Clearly Leslie is the focus of the show! Most of the plots involve her in some featured way.</p>
+</div>
+<ol start="5" style="list-style-type: decimal">
+<li>Using information from the visual, which character is never featured in more than 50% of any season?</li>
+</ol>
+<hr />
+<ol start="6" style="list-style-type: decimal">
+<li>Using information from the visual, which character is never mentioned in Seasons 1 and 2?</li>
+</ol>
+</div>
+<div id="submit-to-canvas" class="section level1">
+<h1>Submit to Canvas</h1>
+<p>When you’re all done, it’s now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch my little video in the Canvas page: “How to prepare and submit a submission in Posit Cloud for Canvas”</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

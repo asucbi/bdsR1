@@ -14,11 +14,13 @@ library(readxl)
 
 ### Instructional staff employment trends
 
+Load in data. Make sure you are changing "eval=FALSE" to "eval=TRUE" or just remove it altogether.
+
 ```{r label-me, eval=FALSE}
 staff <- "___"
 ```
 
-### Question 1
+### Exercise 1
 
 Remove this text, and add your answer for Question 1 here.
 Add code chunks as needed.
@@ -29,7 +31,7 @@ Do not use spaces in code chunk labels.
 staff_long <- "convert from wide to long"
 ```
 
-### Question 2
+### Exercise 2
 
 Remove this text, and add your answer for Question 2 here.
 Add code chunks as needed.
@@ -40,7 +42,7 @@ Do not use spaces in code chunk labels.
 
 ```
 
-### Question 3
+### Exercise 3
 
 ```{r label-me-3, fig.width = 10, fig.fullwidth = TRUE}
 
@@ -48,5 +50,5 @@ Do not use spaces in code chunk labels.
 
 ...
 
-Add question headings as needed.
+Add Exercise headings as needed.
 

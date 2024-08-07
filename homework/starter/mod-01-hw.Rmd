@@ -1,5 +1,5 @@
 ---
-title: "HW 01 - Parks and Recreation"
+title: "HW 01 - Hello R"
 author: "Insert your name here"
 date: "Insert date here"
 output: html_document
@@ -7,42 +7,77 @@ output: html_document
 
 ## Load packages and data
 
-```{r load-packages, message = FALSE}
-library(tidyverse)
-library(bdsdata)
+```{r load-packages, message=FALSE}
+library(tidyverse) 
+library(datasauRus)
 ```
-
-This is a R Markdown document!
 
 ## Exercises
 
 ### Exercise 1
 
-There are \_\_\_ unique characters from the show in the dataset.
+Remove this text, and add your answer for Exercise 1 here.
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 2 here.
+The answers for this exercise are given for you in the instructions. You just need to copy over. 
+
+Note that the R chunks are labelled with `filter-dino`, `plot-dino`, and `cor-dino` to provide spaces to place the code for filtering, plotting, and calculating the correlation coefficient.
+
+First, filter the data in the dino dataset:
+
+```{r filter-dino}
+
+```
+
+Next, plot the data in the dino dataset:
+
+```{r plot-dino, fig.height=3, fig.width=6}
+
+```
+
+And now calculate the correlation between `x` and `y` in this dataset:
+
+```{r cor-dino}
+
+```
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 3 here. (Hint: You might also want to click on the green arrow pointing right icon in the code chunk below to help with your answer)
+Add code and narrative as needed.
 
-```{r most-common-characters}
-parks_rec %>%
-  count(character, sort = TRUE)
+Note that the R chunks are labelled with `filter-plot-star` and `cor-star` to provide spaces to place the code for filtering, plotting, and calculating the correlation coefficient.
+
+To finish, clean up the narrative by removing these instructions.
+
+```{r filter-plot-star}
+
 ```
+
+```{r cor-star}
+
+```
+
+I'm some text, you should replace me with more meaningful text...
 
 ### Exercise 4
 
-```{r distinct-episodes-a-season}
-# remove this comment and add the code for Exercise 4 here
+Add code and narrative as needed.
+Note that two R chunks are given but they are not labeled.
+Use the convention from above to name them appropriately.
+
+```{r}
+
+```
+
+```{r}
+
 ```
 
 ### Exercise 5
 
-Remove this text, and add your answer for Exercise 5 here.
+Add code and narrative as needed. **NOTE** Most of the code for this exercise are given for you in the instructions. You just need to copy over. But you will need to figure out from the instructions how to resize figures and how to change the look of your report.  
 
-### Exercise 6
+To add R chunks either type out the backticks, curly braces, and the letter `r` or use the Insert chunk button above, green C+.
 
-Remove this text, and add your answer for Exercise 6 here.
+

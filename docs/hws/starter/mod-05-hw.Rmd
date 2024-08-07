@@ -20,9 +20,8 @@ Add code chunks as needed.
 Don't forget to label your code chunk.
 Do not use spaces in code chunk labels.
 
-```{r label-me, eval=FALSE}
-# Just some dummy code. My solution required two pipes, you might do things different. Several ways to get to the correct solution (some easier than others).
-dataset_you_imported %>% some_function(on_some_variable) %>% some_other_function(on_some_new_variable_generated_from_previous_step_in_pipe)
+```{r label-me}
+
 ```
 
 “In this sample, the first three most common names of purchasers are …”.

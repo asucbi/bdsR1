@@ -1,10 +1,9 @@
 ---
-title: "Lab 03 - Plastic Pollution"
+title: "Lab 02 - Plastic Pollution"
 author: "Insert your name here"
 date: "Insert date here"
 output: html_document
 ---
-
 
 ## Packages
 
@@ -98,7 +97,7 @@ Remove this text and enter your answer here.
 ```
 
 
-# Bonus
+# Bonus: 20 extra credit points if you can get this one! It's not that hard. You can do it! 
 
 ## Question 11
 

@@ -16,13 +16,13 @@ first_url <- "https://www.politifact.com/factchecks/list/?ruling=pants-fire"
 
 page <- read_html(first_url)
 
-# question 1: scrape statements ----------------------------------------------------------------
+# Exercise 1: scrape statements ----------------------------------------------------------------
 
 statements <- page %>%
   html_nodes(".m-statement__quote") %>%
   ___()
 
-# question 2: scrape links -----------------------------------------------------------------
+# Exercise 2: scrape links -----------------------------------------------------------------
 
 links <- page %>%
   html_nodes(".m-statement__quote") %>%
@@ -30,19 +30,19 @@ links <- page %>%
   html_attr("href") %>%
   str_c("___", .)
 
-# question 3: scrape sources ---------------------------------------------------------------
+# Exercise 3: scrape sources ---------------------------------------------------------------
 
 sources <- page %>%
   html_nodes(".m-statement__name") %>%
   ___
 
-# question 4: scrape descriptions ----------------------------------------------------------
+# Exercise 4: scrape descriptions ----------------------------------------------------------
 
 descriptions <- page %>%
   html_nodes("___") %>%
   ___
 
-# question 5: put together in a data frame -------------------------------------------------
+# Exercise 5: put together in a data frame -------------------------------------------------
 
 first_thirty <- tibble(
   source = ___,
@@ -51,12 +51,15 @@ first_thirty <- tibble(
   link = ___
 )
 
-# question 6: scrape next thirty fact-checks ------------------------------------------------
+# Exercise 6: scrape next thirty fact-checks ------------------------------------------------
 
 second_url <- "___"
 
+## repeat code from exercises 1 through 5 to create "second_thirty," for example:
+
 page <- read_html(second_url)
-...
+
+... 
 
 second_thirty <- tibble(
   ...
