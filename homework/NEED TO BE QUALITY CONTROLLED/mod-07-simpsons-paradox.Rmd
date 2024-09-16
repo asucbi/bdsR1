@@ -3,7 +3,7 @@ title: "HW 07 - Smokers in Whichkham"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
   })
-link-citations: yes
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}

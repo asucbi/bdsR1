@@ -3,7 +3,7 @@ title: "HW 08 - Football, brains, and cognitive performance"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
   })
-link-citations: yes
+link-citations: true
 ---
 
 ```{r include = FALSE}
