@@ -131,7 +131,8 @@ survey$Country
 eudata$Country
 ```
 
-If you're going cross-eyed, there is a better way. In fact, it's the way I want you to use. Write a single line of code using the `%in%` operator to see which of the countries from one dataset are NOT in the list of countries from the other dataset. 
+If you're going cross-eyed, there is a better way. In fact, it's the way I want you to use. 
+Write one or two lines of code using the `%in%` operator to see which of the countries from one dataset are NOT in the list of countries from the other dataset. 
 
 :::green
 __HINT:__ You should get back two countries. You will also see that it's not so much these two countries are missing from each data set, but they are spelled differently across the two datasets.  
