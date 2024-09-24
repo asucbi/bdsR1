@@ -79,11 +79,16 @@ Below is a list of data repositories that might be helpful. You’re not limited
 
 ## Deliverables
 
-1.  Dataset and research question proposal pitch - in-class, October 8th and 10th
-2.  Proposal document - due October 11th (Friday)
-3.  Proposal peer review - in-class, October 17th
-4.  Analysis notebook - due November 27th (Wednesday)
-5.  Peer Review - in-class, December 3rd and 5th
+1.  Dataset and research question proposal pitch
+2.  Proposal document 
+3.  Proposal peer review 
+4.  Analysis notebook 
+5.  Peer Review - in-class
+
+:::callout-important
+See "Course Schedule" in Canvas for all due dates
+:::
+
 
 ### 1. Dataset and research question proposal
 
