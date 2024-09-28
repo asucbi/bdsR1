@@ -1,13 +1,7 @@
 ---
 title: "Lab 07 - Children's word learning"
-# bibliography: references.bib
-# biblio-style: apalike
-# link-citations: yes
-knit: (function(inputFile, encoding) {
-    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/labs/")
-  })
 params: 
-    SHOW_SOLS: FALSE # if i wanted to give solutions, could toggle back on. 
+    SHOW_SOLS: FALSE 
     TOGGLE: TRUE
 ---
 
@@ -16,7 +10,7 @@ source('assets/setup.R')
 
 # :::red : use for pre-lab activity instructions
 # :::lo : use for outlining the learning objectives
-# :::green : use for tips on how to complete the task --- I've been using more for "extra info" DP
+# :::green : use for tips on how to complete the task 
 # :::yellow : use for additional information on how to use R that does not directly have anything to do with the assignment tasks
 # :::frame : use when want to set some additional instructions/code/examples apart from the assignment task when explaining something about how to use R
 
@@ -35,15 +29,15 @@ Of course, children don't learn their vocabulary at random, by reading through t
 **LEARNING OBJECTIVES**
 
 -   Visualize trends across time
--   Visualising relationships between variables
+-   Visualizing relationships between variables
 -   Discovering Simpson's paradox via visualizations
 :::
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `lab-07-word-learning`.
+Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 7`.
 
-First, open the R Markdown document `lab-07.Rmd` and Knit it.
+First, open the R Markdown document `mod-07-lab.Rmd` and **Knit** it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 
@@ -53,7 +47,7 @@ The output should also be automatically saved as an `.html` file with the same n
 
 Before we introduce the data, let's warm up with a simple exercise.
 
--   Update the YAML, changing the author name to your name, and **knit** the document.
+-   Update the YAML, changing the author name to your name, and **Knit** the document.
 
 ## Packages
 
@@ -66,7 +60,7 @@ library(tidyverse)
 
 ## Data
 
-The data for this lab is contained in a file called `wordbank-item-freq.csv`. Read that file in to a variable `wordbank`. When you've got it loaded, a `glimpse()` should look like this:
+The data for this lab is contained in a file called `wordbank-item-freq.csv`. Let's read that CSV into a dataframe named `wordbank` and take a `glimpse` at it:
 
 ```{r, echo=F}
 wordbank <- read_csv("../data/wordbank-item-freq.csv")
@@ -75,7 +69,8 @@ glimpse(wordbank)
 ```
 
 
-The data for this lab originally comes from the [Wordbank](http://wordbank.stanford.edu/), an open database of children's vocabulary development run out of Stanford University. The data we'll be workign with is a summary of many parents' responses on the CDI for their children. The CDI was administered to many different parents/children when those children were at different ages. Based on these many responses, the average proportion of children who produce each word at each age was calculated.
+The data for this lab originally comes from the [Wordbank](http://wordbank.stanford.edu/), an open database of children's vocabulary development run out of Stanford University. 
+The data we'll be working with is a summary of many parents' responses on the CDI for their children. The CDI was administered to many different parents/children when those children were at different ages. Based on these many responses, the average proportion of children who produce each word at each age was calculated.
 
 
 This dataset has a few key variables:
@@ -92,7 +87,6 @@ If you would like to explore more of the Wordbank data, you can do so with the `
 # Exercises
 
 Take turns answering the exercises.
-<!-- If workign remotely through Zoom, make sure that the person taking the lead for an exercise is sharing their screen. -->
 
 You don't have to switch at each exercise, you can find your a cadence that works for your team and stick to it.
 
@@ -102,42 +96,28 @@ You don't have to switch at each exercise, you can find your a cadence that work
 
 Let's begin with some quick exploratory analyses to get you navigating around and familiar with this data.
 
-`r qbegin(1)`
-What are the 3 most commonly produced words by 18mo? Among the sounds, which is the one least likely to be produced at 30mo?
-`r qend()`
+1. What are the 3 most commonly produced words by 18mo? Among the sounds, which is the one least likely to be produced at 30mo?
 
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
 ```{r}
-
-# Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here. 
+# Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.
 
 ```
-`r solend()`
 
 
 ---
 
-`r qbegin(2)`
+2. Let's plot the trajectory of children's word learning across time for some different words. For the "sounds" category, plot the trajectory of children's learning from 16mo to 30mo, with the proportion of children producing the word on the y-axis and age on the x-axis. Think about what kind of `geom_` makes the most sense for this, and use color to differentiate the words. From your plot, which word do children tend to know best? Which word is learned the fastest from 16 to 25 months? Just for fun, speculate a bit as to why that word might be learned so quickly in that time period.
 
-Let's plot the trajectory of children's word learning across time for some different words. For the "sounds" category, plot the trajectory of children's learning from 16mo to 30mo, with the proportion of children producing the word on the y-axis and age on the x-axis. Think about what kind of geom makes the most sense for this, and use color to differentiate the words. From your plot, which word do children tend to know best? Which word is learned the fastest from 16 to 25 months? Just for fun, speculate a bit as to why that word might be learned so quickly in that time period.
-`r qend()`
+```{r}
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
+```
 
-`r solend()`
 
-`r qbegin(3)`
+3. Now let's plot the trajectory of children's word learning across time for some different categories of words. As before, now for the categories in `c("sounds", "games_routines", "body_parts", "animals","clothing","people","pronouns","connecting_words","quantifiers","helping_verbs")`, proportion of children producing the word on the y-axis and age on the x-axis. Since there are a fair number of categories, you may want to facet and/or use the `linetype` aesthetic to help you tell the lines apart.
 
-Now let's plot the trajectory of children's word learning across time for some different categories of words. As before, now for the categories in `c("sounds", "games_routines", "body_parts", "animals","clothing","people","pronouns","connecting_words","quantifiers","helping_verbs")`, proportion of children producing the word on the y-axis and age on the x-axis. Since there are a fair number of categories, you may want to facet or also use the `linetype` aesthetic to help you tell the lines apart.
+```{r}
 
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-
-`r solend()`
-
-<!-- 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.* -->
+```
 
 ---
 
@@ -147,48 +127,31 @@ So far we have seen that some words (and word categories) seem easier for childr
 
 The `freq` variable measures the frequency of the word in English, as the number of times the word appeared out of a collection of written works collected by Google containing one trillion words (1,024,908,267,229 to be exact).
 
-`r qbegin(4)`
-Real quick, what are the 10 most frequent words in this dataset? The 10 least frequent? 
-`r qend()`
+4. Quickly list the 10 most frequent words in this dataset, and then the 10 least frequent words.
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
 ```{r}
 
 ```
-`r solend()`
 
 
-`r qbegin(5)`
-Make a visualization of the relationship between word frequency and the proportion of children who produce the word at two years of age. Dealing with the frequency of words directly can be a bit wonky, as the distribution of word frequency tends to be very skewed. So transform the frequency into log-frequency before plotting.  
+5. Make a visualization of the relationship between word frequency and the proportion of children who produce the word at two years of age. Dealing with the frequency of words directly can be a bit wonky, as the distribution of word frequency tends to be very skewed. So transform the frequency into log-frequency before plotting.  
 
 To help you visualize, you may also want to add a linear fit to the plot with `geom_smooth(method="lm")`.
-`r qend()`
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
+```{r}
 
-`r solend()`
-
+```
 
 
-`r qbegin(6)`
-Is the relationship positive, negative, or basically non-existent? Is that at all surprising? What might explain it?
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-
-`r solend()`
+6. Is the relationship positive, negative, or basically non-existent? Is that at all surprising? What might explain it?
 
 
-`r qbegin(7)`
-Make another visualization of the relationship between the log-frequency of each word and the proportion of children who produce the word at two years of age, but this time facet the plot by word category. Now what do you see?
+
+7. Make another visualization of the relationship between the log-frequency of each word and the proportion of children who produce the word at two years of age, but this time facet the plot by word category. Now what do you see?
 
 Can you put into words the set of relationships observed between these two plots?
 
-`r qend()`
 
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-
-`r solend()`
 
 ## Digging in qualitatively
 
@@ -222,27 +185,11 @@ wordbank %>%
 ```
 
 
-`r qbegin(8)`
-The plot above makes the unexpected negative relationship very clear. But as you look at this plot, are there any low frequency word categories children might hear relatively more often than they are written about in books?
-
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-
-`r solend()`
+8. The plot above makes the unexpected negative relationship very clear. But as you look at this plot, are there any low frequency word categories children might hear relatively more often than they are written about in books?
 
 
-`r qbegin(9)`
-What about the high-frequency word categories children struggle to learn like quantifiers and connecting words. What are the most frequent words in those categories? How often do you think children hear those words?
+9. What about the high-frequency word categories children struggle to learn like quantifiers and connecting words. What are the most frequent words in those categories? How often do you think children hear those words?
 
-`r qend()`
-
-`r solbegin(show=params$SHOW_SOLS, toggle=params$TOGGLE)`
-
-
-
-
-`r solend()`
 
 :::yellow
 For those interested in language learning, [this conference paper](http://langcog.stanford.edu/papers/RFR-cogsci2009.pdf) measures the frequency of words in child-directed speech by recording and transcribing all of the speech one child heard from birth to three years of age! The study finds somewhat different results than our analysis and is worth reflecting about as you think about the analyses we conducted here.
@@ -252,8 +199,9 @@ For those interested in language learning, [this conference paper](http://langco
 
 Now go back through your write up to make sure you've answered all questions and all of your R chunks are properly labelled.
 
+
 :::red
 **SUBMITTING YOUR WORK**
 
-Once you decide as a team that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.   
+Once you decide that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.   
 :::
