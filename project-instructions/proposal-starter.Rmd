@@ -1,23 +1,38 @@
 ---
 title: "Project proposal"
-author: "Team name"
-output: github_document
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
 ---
 
-```{r load-packages, message = FALSE}
-library(tidyverse)
-library(broom)
-```
+The entire proposal document should be AT LEAST 2 pages and no more than 5 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
 
-## 1. Introduction
+## Section 1. Introduction (Data and Research Questions)
+
+#### Using a combination of written text and code chunks/output, make sure you:
+
+-   Tell us where your data comes from, how it was collected, what each row represents, and what are the key variables you are interested in.
+
+-   Describe several research questions that you might answer with this data. Remember, your research questions should have something to do with a meaningful human behavior or psychological process.
+
+-   Be sure to put your data in the /data folder, make sure the notebook includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
+
+## Section 2. Analysis plan 
+
+#### For each of your research questions, include:
+
+-   Which variables you will use to help answer your questions.
+
+-   Describe the visualizations you will make along with some explanation on how they help you learn more about your data. Feel free to add images (screenshots) to your document to help with the explanation. 
+
+-   What results from these visualizations would help to support different hypotheses?
 
 
 
-## 2. Data
 
 
 
-## 3. Data analysis plan
+
 
 
 

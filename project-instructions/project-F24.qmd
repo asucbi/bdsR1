@@ -106,21 +106,19 @@ Your research question should have something to do with a meaningful human behav
 
 ### 2. Proposal document
 
-This is a draft of the introduction section of your project as well as a data analysis plan and your dataset.
+-   **Section 1 - Introduction (Data and Research Questions)** The introduction should introduce your data and general research questions: 
 
--   **Section 1 - Introduction:** The introduction should introduce your general research question and your data. Be sure to include: where the data came from, how it was collected, what each row represents, and what are the key variables you are interested in.
+    -   Tell us where your data comes from, how it was collected, what each row represents, and what are the key variables you are interested in.
+    -   Prepare several research questions that you might answer with this data. Remember, your research questions should have something to do with a meaningful human behavior or psychological process.
+    -   Be sure to include: Put your data in the /data folder, make sure the notebook includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
 
--   **Section 2 - Data:** Place your data in the /data folder, make sure the notebook includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
-
--   **Section 3 - Research question:** What are the research questions that you will use this data to help answer? Remember, your research questions should have something to do with a meaningful human behavior or psychological process.
-
--   **Section 4 - Analysis plan:** For each of your research questions, include:
+-   **Section 2 - Analysis plan** For each of your research questions, include:
 
     -   Which variables you will use to help answer your question.
-    -   Describe the visualizations you will make along with some explanation on how they help you learn more about your data.
+    -   Describe the visualizations you will make along with some explanation on how they help you learn more about your data. Feel free to add images (screenshots) to your document to help with the explanation. 
     -   What results from these visualizations would help to support different hypotheses?
 
-Each section should be no more than 1 page. You can check a print preview to confirm length.
+The entire proposal document should be AT LEAST 2 pages and no more than 5 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
 
 :::callout-important
 You will prepare your proposal as a RMarkdown notebook and knit it as PDF for submission
@@ -137,18 +135,19 @@ More information on the peer review process will be provided at a later date.
 
 ### 4.  Analysis notebook
 
-You will prepare a final RMarkdown notebook as a presentation of your project using a provided template (we will provide it to you). You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the notebook. 
+You will prepare a final RMarkdown notebook as a presentation of your project. You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the notebook. 
 
 There is no limit to the length of the notebook. 
 
 Your presentation should:
 
-- Introduce the dataset
-- Introduce and explain your research question(s)
+- Introduce the dataset 
+- Introduce and explain your research question(s) 
 - Explain how you arrived at your research question. Was it based on theory? Explain your theory. Based on earlier exploratory data analysis? Show this analysis (at least partially).
 - Explain/motivate why your question(s) is meaningful or interesting
 - Present and explain the visualization(s) you used to address your research question(s)
 - Present and explain any models you fit to address your research question(s)
+- A final concluding statement
 
 :::callout-important
 Before you finalize your presentation and submit it as a PDF, make sure your chunks are turned off with `echo = FALSE`. 
