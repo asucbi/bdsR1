@@ -338,10 +338,10 @@ Does the output look right? If you set things up right you will be getting the s
 
 ---
 
-# STOP HERE FOR COMPUTING LAB SUBMISSION PART 1
+# LAB 6: SUBMIT PART 1
 
 :::red
-Take a screenshot of the output from Exercise 7 and upload to Canvas by **April 18th, 11:59PM.** 
+Take a screenshot of the output from Exercise 7 and upload to Canvas by **the lab due date** 
 
 **Screenshot should look like this:**
 
@@ -537,9 +537,9 @@ __Note__ that this will result in some warnings when you run the code, and that'
 
 ---
 
-# ALL DONE FOR COMPUTING LAB SUBMISSION PART 2
+# LAB 6: SUBMIT PART 2
 
 :::red
-Once you have completed `mod-06-lab.Rmd`, knit it, make sure it looks great, and upload to Canvas by **April 22nd, 11:59PM.** Please leave all your completed `.R` script files in Posit Cloud. 
+Once you have completed `mod-06-lab.Rmd`, knit it, make sure it looks great, and upload to Canvas by the lab due date. Please leave all your completed `.R` script files in Posit Cloud. 
 :::
 

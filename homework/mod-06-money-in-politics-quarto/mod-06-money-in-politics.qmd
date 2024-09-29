@@ -142,7 +142,7 @@ The contents of the table might not be identical because the content of the web 
 #| echo: false
 #| message: false
 
-pac_all <- read.csv("/Users/nduran4/Desktop/GitProjects/BDS1/bdsR1-ground-F24/homework/mod-06-money-in-politics-quarto/data/pac-all.csv")
+pac_all <- read.csv("/Users/nduran4/Desktop/GitProjects/BDS1/bdsR1-ground/homework/mod-06-money-in-politics-quarto/data/pac-all.csv")
 pac_all2 <- pac_all %>% separate(country_parent, c("country", "parent"), sep="/", extra = "merge")
 pac_all3 <- pac_all2 %>%
   mutate(total = str_remove(total, "\\$"), total = str_remove_all(total, ",")) %>%

@@ -78,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -388,36 +388,36 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
-<pre><code>##  [1] &quot;Biden Executive Order 14019 “requires our taxpayer-funded federal agencies to violate the Hatch Act and engage in illegal vote harvesting.”&quot;         
-##  [2] &quot;Vice President Kamala Harris “was born in Canada.”&quot;                                                                                                  
-##  [3] &quot;President Joe Biden “killed his first wife.”&quot;                                                                                                        
-##  [4] &quot;Kamala Harris was “Indian all the way, and then all of a sudden, she made a turn and she went, she became a Black person.”&quot;                          
-##  [5] &quot;Sen. J.D. Vance is “known for his obsession with couches.”&quot;                                                                                          
-##  [6] &quot;Vice President Kamala Harris is “calling for an end to the child tax credit.”&quot;                                                                       
-##  [7] &quot;Kamala Harris said, “Today we celebrate the Olympics. Because Olympians are Olympic.”&quot;                                                               
-##  [8] &quot;Rose Garden video shows that President Joe Biden was taller when he emerged from July 24 Oval Office speech.&quot;                                        
-##  [9] &quot;Video shows President Joe Biden’s July 24 address is “either CGI or a mask.”&quot;                                                                        
-## [10] &quot;Videos show Jill Biden alone in Paris and at White House with Joe Biden at the same time.&quot;                                                           
-## [11] &quot;President Joe Biden is stepping down from the 2024 presidential race because he’s dead.&quot;                                                             
-## [12] &quot;\&quot;Muere la madre de Michelle Obama, deja herencia a &#39;Mi hijo Michael&#39;\&quot;.&quot;                                                                            
-## [13] &quot;\&quot;Kamala Harris no es elegible para postularse para la presidencia. Ninguno de sus padres eran ciudadanos estadounidenses natos cuando ella nació\&quot;.&quot;
-## [14] &quot;“Michelle Obama’s mother dies, leaves inheritance to ‘my son Michael.’”&quot;                                                                             
-## [15] &quot;Fox News aired a chyron that said, “Kamala could be the oldest elected female president.”&quot;                                                           
-## [16] &quot;Kamala Harris “is not eligible to hold the office of president” because her parents were non-citizens.&quot;                                              
-## [17] &quot;A July 21 video aired by PBS News shows President Joe Biden’s “first video address following dropping out of the presidential race.”&quot;                
-## [18] &quot;The Secret Service staged the July 13 shooting at Trump rally.&quot;                                                                                      
-## [19] &quot;Photo shows that two days after former President Donald Trump’s attempted assassination, the top part of his ear “grew back.”&quot;                       
-## [20] &quot;The shooter who attempted to assassinate Donald Trump was “Maxwell Yearick.”&quot;                                                                        
-## [21] &quot;Thomas Crooks “was a registered Democrat who voted for Clinton and Biden.”&quot;                                                                          
-## [22] &quot;Photo shows Secret Service agents smiling while escorting Donald Trump offstage after assassination attempt.&quot;                                        
-## [23] &quot;Donald Trump escenificó el tiroteo en su mitin en Butler, Pensilvania.&quot;                                                                              
-## [24] &quot;Estas imágenes muestran a Thomas Matthew Crooks, el sospechoso del tiroteo en el mitin de Donald Trump.&quot;                                             
-## [25] &quot;A photo from viral social media posts shows Trump rally shooting suspect Thomas Matthew Crooks.&quot;                                                     
-## [26] &quot;Donald Trump staged the shooting at his rally in Butler, Pennsylvania.&quot;                                                                              
-## [27] &quot;“El que disparo Donald Trump, Mark Violets ha sido asesinado.”&quot;                                                                                      
-## [28] &quot;“Butler Police confirm the shooter’s name is Mark Violets. He is a known Antifa extremist.”&quot;                                                         
-## [29] &quot;“Trump rally shooter has been identified as 32-year-old California resident, Hank Pecker.”&quot;                                                          
-## [30] &quot;LGBTQ+ leaders sign World Economic Forum treaty to “Accept Pedophiles as &#39;Legally Protected Minority’”&quot;</code></pre>
+<pre><code>##  [1] &quot;Hurricane Helene was the product of intentional weather modification.&quot;                                                                                                          
+##  [2] &quot;Vice President Kamala Harris responded, “Next question please,” when asked about the economy during an Aug. 29 CNN interview.&quot;                                                  
+##  [3] &quot;“Serena Williams reportedly passes away following tragic car crash in Texas.”&quot;                                                                                                  
+##  [4] &quot;Haitians are responsible for the disappearance of 16 cats in Bangor, Maine.&quot;                                                                                                    
+##  [5] &quot;Video shows Vice President Kamala Harris “hammered.”&quot;                                                                                                                           
+##  [6] &quot;\&quot;Profesores de la Universidad de Howard confirman: &#39;Kamala fue la peor estudiante de la historia&#39;\&quot;.&quot;                                                                          
+##  [7] &quot;“A staffer reveals that Kamala Harris doesn’t actually own a gun.”&quot;                                                                                                             
+##  [8] &quot;Video claims to show Donald Trump in an interview with Diddy&quot;                                                                                                                   
+##  [9] &quot;Vice President Kamala Harris’ college professors disparaged her as their “worst student.”&quot;                                                                                      
+## [10] &quot;“Illegal” Haitians in Springfield, Ohio, are “reportedly killing and eating pets.”&quot;                                                                                             
+## [11] &quot;Vice President Kamala Harris is “talking about bringing back the draft.”&quot;                                                                                                       
+## [12] &quot;\&quot;ABC elimina a los moderadores del debate David Muir y Linsey Davis\&quot;.&quot;                                                                                                        
+## [13] &quot;Este es “vídeo de una inmigrante haitiana que asesinó y se comió al gato de sus vecinos” en Springfield, Ohio.&quot;                                                                 
+## [14] &quot;The plus in LGBTQ+ includes pedophilia.&quot;                                                                                                                                        
+## [15] &quot;The apparent assassination attempt against former President Donald Trump on Sept. 15, 2024, was “staged.”&quot;                                                                      
+## [16] &quot;“ABC lost $27M in ad revenue after advertisers pulled ads from the network after the way they hosted the debate\&quot; on Sept. 10.&quot;                                                 
+## [17] &quot;Former President Donald Trump admitted during the Sept. 10 presidential debate that he “blew up the Nord Stream pipeline.”&quot;                                                     
+## [18] &quot;ABC News fired presidential debate moderators David Muir and Linsey Davis.&quot;                                                                                                     
+## [19] &quot;Imagen muestra carnet del Partido Comunista de la vicepresidenta Kamala Harris.&quot;                                                                                                
+## [20] &quot;The Minnesota Vikings have denounced Tim Walz: “We don’t suppᴏrt his values.”&quot;                                                                                                  
+## [21] &quot;A Haitian woman was arrested in Springfield, Ohio, for eating a cat.&quot;                                                                                                           
+## [22] &quot;Kamala Harris “descubierta usando unos zarcillos con audífonos inhalambricos, para que le soplaran las respuestas durante el debate contra Donald Trump”.&quot;                      
+## [23] &quot;Vice President Kamala Harris wore NOVA H1 audio earrings in the Sept. 10, 2024, presidential debate.&quot;                                                                           
+## [24] &quot;\&quot;Dallas County Texas (tells) election workers to (illegally) lie on registration &amp; use a church address to register homeless people to vote!”&quot;                                 
+## [25] &quot;Image shows “Michelle Obama’s necklace from DNC speech” said “Mike.”&quot;                                                                                                           
+## [26] &quot;\&quot;In Springfield (Ohio), they&#39;re eating the dogs, the people that came in, they&#39;re eating the cats. They&#39;re eating, they&#39;re eating the pets of the people that live there.”&quot;    
+## [27] &quot;“BREAKING: Apalachee High School shooter has been identified as non-binary trans girl Samantha Hyde.”&quot;                                                                          
+## [28] &quot;“In less than 48 hours the United States government is shutting down for good.”&quot;                                                                                                
+## [29] &quot;“The transgender thing is incredible... your kid goes to school and comes home a few days later with an operation. The school decides what’s going to happen with your child.\&quot;&quot;
+## [30] &quot;On June 7, 2011, Kamala Harris was involved in a San Francisco hit-and-run crash that injured a woman named Alicia Brown.&quot;</code></pre>
 <p>And simply save the resulting data as a vector of length 30:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
@@ -444,36 +444,36 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
-<pre><code>##  [1] &quot;/factchecks/2024/aug/02/claudia-tenney/executive-order-to-expand-voter-registration-calls/&quot; 
-##  [2] &quot;/factchecks/2024/aug/01/threads-posts/kamala-harris-was-born-in-the-us-not-canada/&quot;         
-##  [3] &quot;/factchecks/2024/jul/31/instagram-posts/president-joe-bidens-first-wife-died-in-a-collisio/&quot;
-##  [4] &quot;/factchecks/2024/jul/31/donald-trump/donald-trumps-pants-on-fire-claim-at-nabj-about-ho/&quot;   
-##  [5] &quot;/factchecks/2024/jul/31/jb-pritzker/pritzker-repeats-a-baseless-claim-about-jd-vance-a/&quot;    
-##  [6] &quot;/factchecks/2024/jul/30/jd-vance/kamala-harris-has-worked-to-expand-the-child-tax-c/&quot;       
-##  [7] &quot;/factchecks/2024/jul/29/threads-posts/no-kamala-harris-didnt-say-this-quote-about-the-ol/&quot;  
-##  [8] &quot;/factchecks/2024/jul/26/instagram-posts/president-joe-biden-didnt-get-taller-its-the-camer/&quot;
-##  [9] &quot;/factchecks/2024/jul/25/viral-image/now-you-see-him-altered-video-of-joe-bidens-july-2/&quot;    
-## [10] &quot;/factchecks/2024/jul/25/tweets/claims-that-jill-biden-was-at-the-white-house-and/&quot;          
-## [11] &quot;/factchecks/2024/jul/25/instagram-posts/president-joe-biden-isnt-dead-nor-is-his-death-why/&quot;
-## [12] &quot;/factchecks/2024/jul/25/tweets/la-madre-de-michelle-obama-no-declaro-en-su-testam/&quot;         
-## [13] &quot;/factchecks/2024/jul/24/tweets/kamala-harris-nacio-en-california-y-si-puede-ser-p/&quot;         
-## [14] &quot;/factchecks/2024/jul/24/viral-image/satirical-story-about-michelle-obamas-mother-is-st/&quot;    
-## [15] &quot;/factchecks/2024/jul/23/viral-image/fake-fox-news-chyron-says-kamala-harris-could-be-t/&quot;    
-## [16] &quot;/factchecks/2024/jul/22/instagram-posts/birtherism-is-back-but-kamala-harris-born-in-calif/&quot;
-## [17] &quot;/factchecks/2024/jul/22/tweets/this-video-doesnt-show-president-joe-bidens-first/&quot;          
-## [18] &quot;/factchecks/2024/jul/17/threads-posts/claims-that-the-secret-service-staged-trump-rally/&quot;   
-## [19] &quot;/factchecks/2024/jul/16/threads-posts/does-a-photo-show-that-trumps-ear-grew-back-after/&quot;   
-## [20] &quot;/factchecks/2024/jul/16/instagram-posts/no-trump-rally-shooter-wasnt-maxwell-yearick/&quot;      
-## [21] &quot;/factchecks/2024/jul/15/facebook-posts/claim-that-20-year-old-trump-rally-shooter-voted-f/&quot; 
-## [22] &quot;/factchecks/2024/jul/15/threads-posts/image-that-appears-to-show-secret-service-agents-s/&quot;  
-## [23] &quot;/factchecks/2024/jul/15/tweets/las-afirmaciones-de-que-el-intento-de-asesinato-co/&quot;         
-## [24] &quot;/factchecks/2024/jul/15/social-media/no-esta-foto-no-es-de-thomas-matthew-crooks-el-sos/&quot;   
-## [25] &quot;/factchecks/2024/jul/14/social-media/no-this-photo-is-not-of-trump-rally-shooting-suspe/&quot;   
-## [26] &quot;/factchecks/2024/jul/14/social-media/donald-trump-staged-the-shooting-at-his-rally-in-b/&quot;   
-## [27] &quot;/factchecks/2024/jul/14/instagram-posts/mark-violets-no-disparo-a-donald-trump-en-redes-so/&quot;
-## [28] &quot;/factchecks/2024/jul/14/facebook-posts/mark-violets-of-antifa-didnt-shoot-donald-trump-so/&quot; 
-## [29] &quot;/factchecks/2024/jul/14/threads-posts/donald-trump-shooter-was-not-identified-as-32-year/&quot;  
-## [30] &quot;/factchecks/2024/jul/11/tweets/did-lgbtq-leaders-sign-a-wef-pro-pedophile-treaty/&quot;</code></pre>
+<pre><code>##  [1] &quot;/factchecks/2024/sep/27/instagram-posts/hurricane-helene-was-not-a-product-of-weather-modi/&quot;
+##  [2] &quot;/factchecks/2024/sep/27/social-media/next-question-please-was-not-kamala-harris-respons/&quot;   
+##  [3] &quot;/factchecks/2024/sep/27/facebook-posts/serena-williams-death-hoax-spreads-on-social-media/&quot; 
+##  [4] &quot;/factchecks/2024/sep/26/instagram-posts/lies-about-haitians-killing-pet-cats-spreads-from/&quot; 
+##  [5] &quot;/factchecks/2024/sep/24/viral-image/sober-seriously-altered-video-slows-kamala-harris/&quot;     
+##  [6] &quot;/factchecks/2024/sep/24/facebook-posts/profesores-de-la-universidad-de-howard-no-dijeron/&quot;  
+##  [7] &quot;/factchecks/2024/sep/23/instagram-posts/no-kamala-harris-spokesperson-didnt-say-the-democr/&quot;
+##  [8] &quot;/factchecks/2024/sep/20/tiktok-posts/no-this-edited-video-doesnt-depict-a-conversation/&quot;    
+##  [9] &quot;/factchecks/2024/sep/19/facebook-posts/social-media-posts-about-kamala-harris-college-stu/&quot; 
+## [10] &quot;/factchecks/2024/sep/18/bernie-moreno/republican-us-senate-candidate-bernie-moreno-pushe/&quot;  
+## [11] &quot;/factchecks/2024/sep/18/donald-trump/donald-trump-falsely-says-kamala-harris-is-talking/&quot;   
+## [12] &quot;/factchecks/2024/sep/18/facebook-posts/no-abc-news-no-despidio-a-los-moderadores-del-deba/&quot; 
+## [13] &quot;/factchecks/2024/sep/18/tweets/el-arresto-de-una-mujer-en-canton-ohio-no-tiene-re/&quot;         
+## [14] &quot;/factchecks/2024/sep/17/michele-morrow/ncs-michele-morrow-falsely-says-the-plus-in-lgbtq/&quot;  
+## [15] &quot;/factchecks/2024/sep/16/tweets/claims-that-an-apparent-assassination-attempt-agai/&quot;         
+## [16] &quot;/factchecks/2024/sep/15/threads-posts/claim-that-abc-lost-27-million-in-ad-revenue-after/&quot;  
+## [17] &quot;/factchecks/2024/sep/13/instagram-posts/did-donald-trump-take-credit-for-blowing-up-the-no/&quot;
+## [18] &quot;/factchecks/2024/sep/13/facebook-posts/no-abc-news-did-not-fire-presidential-debate-moder/&quot; 
+## [19] &quot;/factchecks/2024/sep/13/facebook-posts/kamala-harris-no-tiene-un-carnet-del-partido-comun/&quot; 
+## [20] &quot;/factchecks/2024/sep/12/facebook-posts/touchdown-false-the-minnesota-vikings-didnt-denoun/&quot; 
+## [21] &quot;/factchecks/2024/sep/12/instagram-posts/arrest-of-a-canton-ohio-woman-unrelated-to-baseles/&quot;
+## [22] &quot;/factchecks/2024/sep/12/tweets/no-kamala-harris-no-uso-pendientes-con-audifonos-e/&quot;         
+## [23] &quot;/factchecks/2024/sep/11/social-media/no-kamala-harris-was-not-wearing-audio-earrings-du/&quot;   
+## [24] &quot;/factchecks/2024/sep/11/tweets/texas-election-law-allows-homeless-voters-to-regis/&quot;         
+## [25] &quot;/factchecks/2024/sep/11/viral-image/michelle-obama-wore-a-vote-necklace-at-the-2020-dn/&quot;    
+## [26] &quot;/factchecks/2024/sep/11/donald-trump/trump-repeats-baseless-claims-that-haitian-immigra/&quot;   
+## [27] &quot;/factchecks/2024/sep/05/tweets/samantha-hyde-was-not-the-apalachee-high-school-sh/&quot;         
+## [28] &quot;/factchecks/2024/sep/05/viral-image/governments-gears-still-grind-purported-permanent/&quot;     
+## [29] &quot;/factchecks/2024/sep/05/donald-trump/trumps-pants-on-fire-claim-that-schools-are-perfor/&quot;   
+## [30] &quot;/factchecks/2024/sep/05/tweets/no-proof-kamala-harris-injured-a-person-in-2011-ca/&quot;</code></pre>
 <p>Oh, oh. These don’t really look like URLs as we know them though.</p>
 <p>These are URL fragments. Some minor work needs to be done to get them looking like actual URLs.</p>
 <p>Click on one of fact-check statements in your browser and take note of the URL of the resulting webpage. Can you see how this URL has some additional information that is missing from what we scraped above?</p>
@@ -556,10 +556,10 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <hr />
 </div>
 </div>
-<div id="stop-here-for-computing-lab-submission-part-1" class="section level1">
-<h1>STOP HERE FOR COMPUTING LAB SUBMISSION PART 1</h1>
+<div id="lab-6-submit-part-1" class="section level1">
+<h1>LAB 6: SUBMIT PART 1</h1>
 <div class="red">
-<p>Take a screenshot of the output from Exercise 7 and upload to Canvas by <strong>April 18th, 11:59PM.</strong></p>
+<p>Take a screenshot of the output from Exercise 7 and upload to Canvas by <strong>the lab due date</strong></p>
 <p><strong>Screenshot should look like this:</strong></p>
 <p><img src="img/screenshot-hw-PART1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
@@ -771,10 +771,10 @@ spoon</td>
 <hr />
 </div>
 </div>
-<div id="all-done-for-computing-lab-submission-part-2" class="section level1">
-<h1>ALL DONE FOR COMPUTING LAB SUBMISSION PART 2</h1>
+<div id="lab-6-submit-part-2" class="section level1">
+<h1>LAB 6: SUBMIT PART 2</h1>
 <div class="red">
-<p>Once you have completed <code>mod-06-lab.Rmd</code>, knit it, make sure it looks great, and upload to Canvas by <strong>April 22nd, 11:59PM.</strong> Please leave all your completed <code>.R</code> script files in Posit Cloud.</p>
+<p>Once you have completed <code>mod-06-lab.Rmd</code>, knit it, make sure it looks great, and upload to Canvas by the lab due date. Please leave all your completed <code>.R</code> script files in Posit Cloud.</p>
 </div>
 </div>
 
