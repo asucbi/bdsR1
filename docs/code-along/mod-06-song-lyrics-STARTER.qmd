@@ -1,12 +1,19 @@
 ---
 title: "mod-06-song-lyrics"
 format: html
-editor: visual
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
 # **Tuning in to psychological change: Linguistic markers of psychological traits and emotions over time in popular U.S. song lyrics \[[LINK](https://psycnet.apa.org/record/2011-05681-001)\]**
 
-American culture is filled with cultural products. Yet few studies have investigated how changes in cultural products correspond to changes in psychological traits and emotions. The current research fills this gap by testing the hypothesis that one cultural product---word use in popular song lyrics---changes over time in harmony with cultural changes in individualistic traits. Linguistic analyses of the most popular songs from 1980--2007 demonstrated changes in word use that mirror psychological change. Over time, use of words related to self-focus and antisocial behavior increased, whereas words related to other-focus, social interactions, and positive emotion decreased. These findings offer novel evidence regarding the need to investigate how changes in the tangible artifacts of the sociocultural environment can provide a window into understanding cultural changes in psychological processes.
+American culture is filled with cultural products.
+Yet few studies have investigated how changes in cultural products correspond to changes in psychological traits and emotions.
+The current research fills this gap by testing the hypothesis that one cultural product---word use in popular song lyrics---changes over time in harmony with cultural changes in individualistic traits.
+Linguistic analyses of the most popular songs from 1980--2007 demonstrated changes in word use that mirror psychological change.
+Over time, use of words related to self-focus and antisocial behavior increased, whereas words related to other-focus, social interactions, and positive emotion decreased.
+These findings offer novel evidence regarding the need to investigate how changes in the tangible artifacts of the sociocultural environment can provide a window into understanding cultural changes in psychological processes.
 
 # Part 1: Extracting the Top 10 Artists of all Time
 
@@ -20,13 +27,18 @@ library(rvest)
 library(glue)
 ```
 
--   Determine the URL you'd like to pull information from. Utilize the read_html() function to transform the URL into an HTML document.
+-   Determine the URL you'd like to pull information from.
+    Utilize the read_html() function to transform the URL into an HTML document.
 
--   Pinpoint the CSS selector that targets the specific data you wish to obtain. A basic understanding of HTML and CSS can be beneficial. If not, you can leverage the Chrome extension, [SelectorGadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), to assist in identifying the CSS selector. A quick tip: simply right-click on a page element in Chrome and choose "**Inspect**".
+-   Pinpoint the CSS selector that targets the specific data you wish to obtain.
+    A basic understanding of HTML and CSS can be beneficial.
+    If not, you can leverage the Chrome extension, [SelectorGadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), to assist in identifying the CSS selector.
+    A quick tip: simply right-click on a page element in Chrome and choose "**Inspect**".
 
 -   Employ the html_nodes() function combined with the identified CSS selector to retrieve your desired data.
 
--   Finally, store your extracted information in a data frame. I've opted for tibbles in this case (they're somewhat more user-friendly compared to traditional data frames).
+-   Finally, store your extracted information in a data frame.
+    I've opted for tibbles in this case (they're somewhat more user-friendly compared to traditional data frames).
 
 ```{r}
 
@@ -66,7 +78,8 @@ urls_of_artists <- glue('{url_base}', '{top_artists$artist}')
 head(urls_of_artists)
 ```
 
--   Let's start simple and begin with a single artist and identify the URLs associated with their top songs. The hardest part is finding the CSS selectors where the URLs are located!
+-   Let's start simple and begin with a single artist and identify the URLs associated with their top songs.
+    The hardest part is finding the CSS selectors where the URLs are located!
 
 -   To zero in on the precise CSS selector/tag, the SelectorGadget might be helpful.
 
@@ -130,7 +143,8 @@ artists_lyrics
 
 -   We set up the function `get_lyrics <- function(urls_songs){ ... }` and copy/paste within `{ ... }` the code we wrote above in the section "From the list, select the first URL and lets scrape lyrics."
 
--   But remember this is a function so the big change is that the function takes an argument (named whatever, here it is called `urls_songs)` that is just a placeholder. When we actually apply the function, we will swap out `urls_songs` with the variable we want to analyze.
+-   But remember this is a function so the big change is that the function takes an argument (named whatever, here it is called `urls_songs)` that is just a placeholder.
+    When we actually apply the function, we will swap out `urls_songs` with the variable we want to analyze.
 
 ```{r}
 
@@ -161,11 +175,14 @@ get_lyrics <- function(urls_songs) {
 
 ```
 
--   Here is our function: get_lyrics(x). What goes in x? In this case, a dataframe (tibble) of song URLs!
+-   Here is our function: get_lyrics(x).
+    What goes in x?
+    In this case, a dataframe (tibble) of song URLs!
 
 -   And we conveniently have the ten URLs stored in the \`urls_of_songs_one_artist\` dataframe (tibble) we created earlier.
 
--   We simply "map" the URLs to get_lyrics(x) using the "map_dfr" function! It's as easy as the following:
+-   We simply "map" the URLs to get_lyrics(x) using the "map_dfr" function!
+    It's as easy as the following:
 
 ```{r}
 
@@ -174,7 +191,10 @@ lyrics_songs_for_one_artist <- map_dfr(urls_of_songs_one_artist, get_lyrics)
 head(lyrics_songs_for_one_artist)
 ```
 
--   Now, nearing the last step. We don't merely want all the song lyrics from a single artist. We want to output a new dataframe that returns all the song lyrics from all the top artists! So think conceptually what we want to do step-by-step:
+-   Now, nearing the last step.
+    We don't merely want all the song lyrics from a single artist.
+    We want to output a new dataframe that returns all the song lyrics from all the top artists!
+    So think conceptually what we want to do step-by-step:
 
     -   We know we want some sort of function that at the end of the day that should take as input a dataframe (tibble) of each artist's URL page where all the top songs (and their URLs are located)
 
@@ -184,7 +204,8 @@ head(lyrics_songs_for_one_artist)
 
     -   To do this, we can repurpose most of the code we already wrote.
 
-This is complex so let's just see if we can do the above with a single artist. If we can do it with one, we can easily map it to all others.
+This is complex so let's just see if we can do the above with a single artist.
+If we can do it with one, we can easily map it to all others.
 
 ```{r}
 # get first artist URL, scrape lyrics
@@ -201,7 +222,8 @@ This is complex so let's just see if we can do the above with a single artist. I
 # head(lyrics_all_songs_for_one_artist)
 ```
 
-Oh, we forgot the artist's name. Let's add it the tibble we just built
+Oh, we forgot the artist's name.
+Let's add it the tibble we just built
 
 ```{r}
 
@@ -233,7 +255,11 @@ Oh, we forgot the artist's name. Let's add it the tibble we just built
 
 ### SOME NOTES IF CURIOUS BUT FEEL FREE TO SKIP:
 
-**Issue 1.** Oh Oh. What is going on? Why just returning Rihanna? Well, because when you look at "urls_of_artists" tibble that we created, there is weirdness in the names. For example, spaces where there shouldn't be.
+**Issue 1.** Oh Oh.
+What is going on?
+Why just returning Rihanna?
+Well, because when you look at "urls_of_artists" tibble that we created, there is weirdness in the names.
+For example, spaces where there shouldn't be.
 
 ````         
 ```         
@@ -241,7 +267,8 @@ https://genius.com/artists/Maroon 5
 ```
 ````
 
-No bueno. The actual URL looks like this:
+No bueno.
+The actual URL looks like this:
 
 ````         
 ```         
