@@ -436,7 +436,7 @@ At this point you have now completed the four script `.R` files. Just **leave th
 ## Data Cleaning
 
 :::lo
-**IMPORTANT!!! For the following exercises you need to work in `lab-07.Rmd`.**
+**IMPORTANT!!! For the following exercises you need to work in `mod-06-lab.Rmd`.**
 :::
 
 Now that you have created two new tidy datasets, we can do some data cleaning. Fun!
