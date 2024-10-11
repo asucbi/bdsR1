@@ -6,7 +6,7 @@ library(fs)
 # quarto_file <- "mod-02-phx-salaries.qmd"
 # quarto_file <- "mod-03-phx-accidents.qmd"
 # quarto_file <- "mod-04-college-majors.qmd"
-quarto_file <- "mod-05-legos.qmd"
+# quarto_file <- "mod-05-legos.qmd"
 
 # Define the output directory where you want the extra copy
 output_dir <- "../docs/hws"
