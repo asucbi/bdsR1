@@ -92,7 +92,7 @@ See "Course Schedule" in Canvas for all due dates
 
 ### 1. Dataset and research question proposal
 
-Students will be randomly paired to meet 1:1 and each give their “2-minute pitch” of their data analysis plan. After the pitch each pair will discuss the idea, think of possible issues, weaknesses, as well as other ideas or inspirations. Then you’ll trade roles and every 10 minutes we will swap partners and repeat.
+Students will be randomly paired to meet 1:1 and each give their “5-minute pitch” of their data analysis plan. After the pitch each pair will discuss the idea, think of possible issues, weaknesses, as well as other ideas or inspirations. Then you’ll trade roles and every 10 minutes we will swap partners and repeat.
 
 In your pitch, you will:
 
@@ -118,7 +118,7 @@ Your research question should have something to do with a meaningful human behav
     -   Describe the visualizations you will make along with some explanation on how they help you learn more about your data. Feel free to add images (screenshots) to your document to help with the explanation. 
     -   What results from these visualizations would help to support different hypotheses?
 
-The entire proposal document should be AT LEAST 2 pages and no more than 5 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
+The entire proposal document should be AT LEAST 3 pages and no more than 8 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
 
 :::callout-important
 You will prepare your proposal as a RMarkdown notebook and knit it as PDF for submission
