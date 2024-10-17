@@ -19,11 +19,9 @@ In the United States, *"only American citizens (and immigrants with green cards)
 
 In this assignment we will scrape and work with data foreign connected PACs that donate to US political campaigns.
 
-First, we will get data foreign connected PAC contributions in the 2022 election cycle.
+First, we will get data foreign connected PAC contributions in the 2024 election cycle.
 
 Then, you will use a similar approach to get data such contributions from previous years so that we can examine trends over time.
-
-In order to complete this assignment you will need a Chrome browser with the [Selector Gadget extension](http://selectorgadget.com/) installed.
 
 ## Getting started
 
@@ -47,7 +45,6 @@ library(tidyverse)
 library(robotstxt)
 library(rvest)
 library(scales)
-library(here)
 ```
 
 ```{r}
@@ -56,6 +53,7 @@ library(here)
 #| echo: false
 
 library(kableExtra)
+library(here)
 ```
 
 ## Data
@@ -98,23 +96,27 @@ Since that means repeating a task many times, let's first write a function
 Complete the following steps (#1-5) in the `scrape-page-pac.R` file in the `scripts` folder of your Posit Cloud project folder for Module 6. Open up this file now as the steps below go hand-in-hand with the starter code already written in `scrape-page-pac.R.` All you need to do is replace the `___` with code you should already know. 
 :::
 
+::: callout-important
+**CRITICAL:** We are going to do something a bit different here with reading in the web pages. Instead of reading the live URL for each page, you are going to read in a static URL for each page. I have already collected these for you. These static pages are stored in the `static-pages-opensecrets` folder. We can do the scraping exactly as we have in the previous assignments. The major difference is that we are not going to access a site starting with something like "http:\\", instead you are going to access the site as stored as a HTML file. 
+:::
+
 -   **STEP #1:** Complete the code for the function called `scrape_pac()`. The goal of the function is to scrape the table from the Open Secrets webpage for foreign-connected PAC contributions in a given year (please take a look at the actual table as it's displayed on the website. You can find the link in the first sidenote; above and to the far right of your screen). This function should:
 
-    - have one input: the URL of the webpage where the table is located
+    - have one input: the static HTML file of a webpage that contains the table
     
     - rename variables scraped, using `snake_case` naming; variables are the table headers
     
     - add a new column to the data frame for `year` using `mutate()` 
 
 ::: callout-note
-The function isn't set up to take a year argument, but it does take a URL argument. So how do you get the year? Well, click on the link for the first sidenote again and examine the URL in your web browser. Do you see how the year is embedded in the URL?
+How do you get the year? Well, look at how the HTML files are named in the `static-pages-opensecrets` folder. Do you see how the year is embedded in the filename?
 
-What you want to do is extract out just the year using the `str_sub()` function, where you will extract the last 4 characters from the URL. You will probably want to look at the help for this function to figure out how to so this. 
+What you want to do is extract out just the year using the `str_sub()` function, where you will extract the characters corresponding to the year from the filename. You will probably want to look at the help for this function to figure out how to so this. 
 :::
 
--   **STEP #2:** Define the URLs for 2022, 2020, and 2000 contributions. Then, test your function using these URLs as inputs. Does the function seem to do what you expected it to do?
+-   **STEP #2:** Define the static URLs for 2022, 2020, and 2000 contributions. Then, test your function using these URLs as inputs. Does the function seem to do what you expected it to do?
 
--   **STEP #3:** Construct a vector called `urls` that contains the URLs for each webpage that contains information on foreign-connected PAC contributions for *every other year* starting at 2000 and going up to 2022 (e.g., 2000, 2002, 2004, etc.)
+-   **STEP #3:** Construct a vector called `urls` that contains the URLs for each webpage that contains information on foreign-connected PAC contributions for *every other year* starting at 2000 and going up to 2024 (e.g., 2000, 2002, 2004, etc.)
 
 -   **STEP #4:** Map the `scrape_pac()` function over `urls` in a way that will result in a data frame called `pac_all`.
 
