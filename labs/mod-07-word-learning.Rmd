@@ -76,12 +76,12 @@ The data we'll be working with is a summary of many parents' responses on the CD
 This dataset has a few key variables:
 
 - `item_definition`: The word
-- `category`: The Wordbank category to which the word belongs
-- `16:30`: These variables indicate the proportion of children who produce the word at each month from 16 mo (`16`) to 30 mo (`30`).
+- `category`: The Wordbank-defined semantic category to which the word belongs
+- `16:30`: These variables indicate the proportion of children who produce the word at each month from 16 mo (`16`) to 30 mo (`30`). For example, at 16 months, almost half (`0.48`--48%) of children can say "grrr".
 - `freq`: The number of times the word appears in Google's [Trillion Word Corpus](https://ai.googleblog.com/2006/08/all-our-n-gram-are-belong-to-you.html).
 
 :::green
-If you would like to explore more of the Wordbank data, you can do so with the `wordbankr` package. Also __note__: the words and word-frequencies were somewhat lazily joined by me---so don't use this data directly for any real research purposes without looking things over more carefully.
+If you would like to explore more of the Wordbank data, you can do so with the `wordbankr` package. Also __note__: the words and word-frequencies were somewhat lazily joined---so don't use this data directly for any real research purposes without looking things over more carefully.
 :::
 
 # Exercises
@@ -106,7 +106,7 @@ Let's begin with some quick exploratory analyses to get you navigating around an
 
 ---
 
-2. Let's plot the trajectory of children's word learning across time for some different words. For the "sounds" category, plot the trajectory of children's learning from 16mo to 30mo, with the proportion of children producing the word on the y-axis and age on the x-axis. Think about what kind of `geom_` makes the most sense for this, and use color to differentiate the words. From your plot, which word do children tend to know best? Which word is learned the fastest from 16 to 25 months? Just for fun, speculate a bit as to why that word might be learned so quickly in that time period.
+2. Let's plot the trajectory of children's word learning across time for some different words. For the "sounds" category, plot the trajectory of children's learning from 16 to 30 mos, with the proportion of children producing the word on the y-axis and age on the x-axis. Think about what kind of `geom_` makes the most sense for this, and use color to differentiate the words. From your plot, which word do children tend to know best? Which word is learned the fastest from 16 to 25 months? Just for fun, speculate a bit as to why that word might be learned so quickly in that time period.
 
 ```{r}
 
