@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 07 - Children’s word learning</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+if(f.classList.contains('fa-chevron-circle-right')) {
+    f.classList.add('fa-chevron-circle-down')
+    f.classList.remove('fa-chevron-circle-right')
+} else {
+    f.classList.add('fa-chevron-circle-right')
+    f.classList.remove('fa-chevron-circle-down')
+}
+}
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/style-labs.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 07 - Children’s word learning</h1>
+
+</div>
+
+
+<p>Young children are prodigious learners, especially when it comes to learning language. Children generally start producing simple one-word utterances around 12 months of age and their phonological processing (the processing of what words sound like) is quite mature by 18 months of age. Then, through the next few years of life to age five children learn an average of 6-7 words per day!</p>
+<p>Of course, children don’t learn their vocabulary at random, by reading through the dictionary, or even primarily through formal education. Children learn words based on their day-to-day experiences and interactions. So what determines which words children learn and when?</p>
+<div class="lo">
+<p><strong>LEARNING OBJECTIVES</strong></p>
+<ul>
+<li>Visualize trends across time</li>
+<li>Visualizing relationships between variables</li>
+<li>Discovering Simpson’s paradox via visualizations</li>
+</ul>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<p>Go to the course Posit Cloud Workspace and locate the folder for the lab assignment, which should be named <code>Assignments: Module 7</code>.</p>
+<p>First, open the R Markdown document <code>mod-07-lab.Rmd</code> and <strong>Knit</strong> it.</p>
+<p>Make sure it compiles without errors and you can preview the output within the Viewer Pane.</p>
+<p>The output should also be automatically saved as an <code>.html</code> file with the same name.</p>
+<div id="warm-up" class="section level2">
+<h2>Warm up</h2>
+<p>Before we introduce the data, let’s warm up with a simple exercise.</p>
+<ul>
+<li>Update the YAML, changing the author name to your name, and <strong>Knit</strong> the document.</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>Load any packages you need here. If you find you need another as you work through the lab, add it here and re-run the chunk.</p>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The data for this lab is contained in a file called <code>wordbank-item-freq.csv</code>. Let’s read that CSV into a dataframe named <code>wordbank</code> and take a <code>glimpse</code> at it:</p>
+<pre><code>## Rows: 609
+## Columns: 22
+## $ downloaded      &lt;date&gt; 2022-09-22, 2022-09-22, 2022-09-22, 2022-09-22, 2022-…
+## $ item_id         &lt;dbl&gt; 4, 5, 6, 7, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21,…
+## $ item_definition &lt;chr&gt; &quot;grrr&quot;, &quot;meow&quot;, &quot;moo&quot;, &quot;ouch&quot;, &quot;uh oh&quot;, &quot;vroom&quot;, &quot;alli…
+## $ category        &lt;chr&gt; &quot;sounds&quot;, &quot;sounds&quot;, &quot;sounds&quot;, &quot;sounds&quot;, &quot;sounds&quot;, &quot;sou…
+## $ `16`            &lt;dbl&gt; 0.48, 0.41, 0.50, 0.34, 0.71, 0.38, 0.02, 0.03, 0.04, …
+## $ `17`            &lt;dbl&gt; 0.49, 0.48, 0.52, 0.41, 0.68, 0.40, 0.04, 0.07, 0.06, …
+## $ `18`            &lt;dbl&gt; 0.55, 0.56, 0.62, 0.51, 0.78, 0.51, 0.06, 0.11, 0.10, …
+## $ `19`            &lt;dbl&gt; 0.64, 0.68, 0.75, 0.61, 0.87, 0.57, 0.13, 0.20, 0.18, …
+## $ `20`            &lt;dbl&gt; 0.65, 0.71, 0.76, 0.64, 0.87, 0.57, 0.14, 0.21, 0.21, …
+## $ `21`            &lt;dbl&gt; 0.67, 0.78, 0.78, 0.67, 0.89, 0.61, 0.19, 0.28, 0.23, …
+## $ `22`            &lt;dbl&gt; 0.65, 0.77, 0.79, 0.70, 0.88, 0.60, 0.22, 0.33, 0.26, …
+## $ `23`            &lt;dbl&gt; 0.74, 0.81, 0.85, 0.77, 0.88, 0.69, 0.30, 0.44, 0.37, …
+## $ `24`            &lt;dbl&gt; 0.77, 0.86, 0.88, 0.78, 0.90, 0.70, 0.40, 0.50, 0.43, …
+## $ `25`            &lt;dbl&gt; 0.78, 0.89, 0.88, 0.86, 0.93, 0.75, 0.47, 0.56, 0.49, …
+## $ `26`            &lt;dbl&gt; 0.76, 0.88, 0.88, 0.82, 0.90, 0.71, 0.50, 0.58, 0.51, …
+## $ `27`            &lt;dbl&gt; 0.80, 0.92, 0.92, 0.83, 0.93, 0.70, 0.52, 0.61, 0.54, …
+## $ `28`            &lt;dbl&gt; 0.90, 0.96, 0.95, 0.93, 0.97, 0.86, 0.74, 0.78, 0.74, …
+## $ `29`            &lt;dbl&gt; 0.79, 0.91, 0.92, 0.86, 0.91, 0.72, 0.66, 0.71, 0.63, …
+## $ `30`            &lt;dbl&gt; 0.82, 0.93, 0.93, 0.88, 0.89, 0.74, 0.70, 0.73, 0.66, …
+## $ word            &lt;chr&gt; &quot;grrr&quot;, &quot;meow&quot;, &quot;moo&quot;, &quot;ouch&quot;, &quot;uhoh&quot;, &quot;vroom&quot;, &quot;allig…
+## $ freq            &lt;dbl&gt; 276325, 810281, 1631972, 1174728, 27389, 209222, 14176…
+## $ freqrank        &lt;dbl&gt; 0.8327283, 0.9108456, 0.9405968, 0.9281497, 0.3541304,…</code></pre>
+<p>The data for this lab originally comes from the <a href="http://wordbank.stanford.edu/">Wordbank</a>, an open database of children’s vocabulary development run out of Stanford University.
+The data we’ll be working with is a summary of many parents’ responses on the CDI for their children. The CDI was administered to many different parents/children when those children were at different ages. Based on these many responses, the average proportion of children who produce each word at each age was calculated.</p>
+<p>This dataset has a few key variables:</p>
+<ul>
+<li><code>item_definition</code>: The word</li>
+<li><code>category</code>: The Wordbank-defined semantic category to which the word belongs</li>
+<li><code>16:30</code>: These variables indicate the proportion of children who produce the word at each month from 16 mo (<code>16</code>) to 30 mo (<code>30</code>). For example, at 16 months, almost half (<code>0.48</code>–48%) of children can say “grrr”.</li>
+<li><code>freq</code>: The number of times the word appears in Google’s <a href="https://ai.googleblog.com/2006/08/all-our-n-gram-are-belong-to-you.html">Trillion Word Corpus</a>.</li>
+</ul>
+<div class="green">
+<p>If you would like to explore more of the Wordbank data, you can do so with the <code>wordbankr</code> package. Also <strong>note</strong>: the words and word-frequencies were somewhat lazily joined—so don’t use this data directly for any real research purposes without looking things over more carefully.</p>
+</div>
+</div>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p>Take turns answering the exercises.</p>
+<p>You don’t have to switch at each exercise, you can find your a cadence that works for your team and stick to it.</p>
+<div id="get-to-know-your-data" class="section level2">
+<h2>Get to know your data</h2>
+<hr />
+<p>Let’s begin with some quick exploratory analyses to get you navigating around and familiar with this data.</p>
+<ol style="list-style-type: decimal">
+<li>What are the 3 most commonly produced words by 18mo? Among the sounds, which is the one least likely to be produced at 30mo?</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Need to watch videos and read material to see if there is a suggested way of doing this in there. Add answers here.</span></span></code></pre></div>
+<hr />
+<ol start="2" style="list-style-type: decimal">
+<li><p>Let’s plot the trajectory of children’s word learning across time for some different words. For the “sounds” category, plot the trajectory of children’s learning from 16 to 30 mos, with the proportion of children producing the word on the y-axis and age on the x-axis. Think about what kind of <code>geom_</code> makes the most sense for this, and use color to differentiate the words. From your plot, which word do children tend to know best? Which word is learned the fastest from 16 to 25 months? Just for fun, speculate a bit as to why that word might be learned so quickly in that time period.</p></li>
+<li><p>Now let’s plot the trajectory of children’s word learning across time for some different categories of words. As before, now for the categories in <code>c("sounds", "games_routines", "body_parts", "animals","clothing","people","pronouns","connecting_words","quantifiers","helping_verbs")</code>, proportion of children producing the word on the y-axis and age on the x-axis. Since there are a fair number of categories, you may want to facet and/or use the <code>linetype</code> aesthetic to help you tell the lines apart.</p></li>
+</ol>
+<hr />
+</div>
+<div id="word-learning-and-word-frequency" class="section level2">
+<h2>Word learning and word frequency</h2>
+<p>So far we have seen that some words (and word categories) seem easier for children to learn. One reason something might be easier to learn is if it is encountered more frequently. We can learn the streets we drive more frequently, the recipes we cook more often, and so forth. Could it be that children are faster to learn the words that appear more frequently in the English language?</p>
+<p>The <code>freq</code> variable measures the frequency of the word in English, as the number of times the word appeared out of a collection of written works collected by Google containing one trillion words (1,024,908,267,229 to be exact).</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Quickly list the 10 most frequent words in this dataset, and then the 10 least frequent words.</p></li>
+<li><p>Make a visualization of the relationship between word frequency and the proportion of children who produce the word at two years of age. Dealing with the frequency of words directly can be a bit wonky, as the distribution of word frequency tends to be very skewed. So transform the frequency into log-frequency before plotting.</p></li>
+</ol>
+<p>To help you visualize, you may also want to add a linear fit to the plot with <code>geom_smooth(method="lm")</code>.</p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Is the relationship positive, negative, or basically non-existent? Is that at all surprising? What might explain it?</p></li>
+<li><p>Make another visualization of the relationship between the log-frequency of each word and the proportion of children who produce the word at two years of age, but this time facet the plot by word category. Now what do you see?</p></li>
+</ol>
+<p>Can you put into words the set of relationships observed between these two plots?</p>
+</div>
+<div id="digging-in-qualitatively" class="section level2">
+<h2>Digging in qualitatively</h2>
+<p>Do you speak to a toddler the same way you speak to a friend? A professor?</p>
+<p>From our analyses, it seems like some word categories are harder for children to learn, in that even though they are common words to which children would be frequently exposed, children still do not learn to produce them themselves until later in development. This might be something about the word categories themselves. For instance, there is evidence that children find it easier to learn nouns than verbs or adjectives (e.g. Gentner, 1982; Markman &amp; Hutchinson, 1984).</p>
+<p>However, the explanation might also be something about child-directed speech. The word-frequency data in this dataset came from Google Books data, based on the number of times words appeared in a collection of about 8 million books. How might the words used in books differ from the words heard by toddlers?</p>
+<div class="yellow">
+<p>For the curious, this <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0213554">paper</a> discusses some more detailed concerns about using these kinds of datasets. And this <a href="https://github.com/hackerb9/gwordlist">github repository</a> has some telling discussion of using raw word frequency counts generated from Google N-gram corpora. It can be tempting to treat data as “truth”—but things are rarely so straightforward.</p>
+</div>
+<p>This plot shows the proportion of children producing each word category (averaging over the words in that category) against the average frequency of those words.</p>
+<p><img src="mod-07-word-learning_files/figure-html/unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>The plot above makes the unexpected negative relationship very clear. But as you look at this plot, are there any low frequency word categories children might hear relatively more often than they are written about in books?</p></li>
+<li><p>What about the high-frequency word categories children struggle to learn like quantifiers and connecting words. What are the most frequent words in those categories? How often do you think children hear those words?</p></li>
+</ol>
+<div class="yellow">
+<p>For those interested in language learning, <a href="http://langcog.stanford.edu/papers/RFR-cogsci2009.pdf">this conference paper</a> measures the frequency of words in child-directed speech by recording and transcribing all of the speech one child heard from birth to three years of age! The study finds somewhat different results than our analysis and is worth reflecting about as you think about the analyses we conducted here.</p>
+</div>
+<hr />
+<p>Now go back through your write up to make sure you’ve answered all questions and all of your R chunks are properly labelled.</p>
+<div class="red">
+<p><strong>SUBMITTING YOUR WORK</strong></p>
+<p>Once you decide that you’re done with this lab, change the YAML <code>output</code> from <code>html_output</code> to <code>pdf_output.</code> Now knit the document to produce a final PDF file. Upload the PDF as a Canvas assignment.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
