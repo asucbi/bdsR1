@@ -1,7 +1,8 @@
 ---
-title: "Homework Module 8"
-author: "Your name here"
-output: html_notebook
+title: "HW 08 - Football Brains"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
 ---
 
 ## Warming up
