@@ -1,7 +1,8 @@
 ---
 title: "Homework Module 8"
-author: "Homework Key"
-output: html_notebook
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
 ---
 
 ## Warming up
@@ -13,7 +14,7 @@ library(modelr)
 ```
 
 
-```{r}
+```{r load-data}
 fb <- read_csv("data/FootballBrain.csv")
 ```
 
@@ -22,117 +23,79 @@ fb <- read_csv("data/FootballBrain.csv")
 
 ### Exercise 1
 
-```{r}
-fb <- fb %>% 
-  filter(Group != "Control") %>% 
-  drop_na(RT)
-```
+Remove this text, and add your answer for Exercise 1 here including any code needed.
+
 
 ### Exercise 2
 
-It's a character variable to start.
+Remove this text, and add your answer for Exercise 2 here including any code needed.
 
-```{r}
-fb <- fb %>% 
-  mutate(Group = relevel(factor(Group), ref= "FBNoConcuss"))
-```
 
 ### Exercise 3
 
+Remove this text, and add your answer for Exercise 3 here including any code needed.
 
-```{r}
-fb %>% 
-  pivot_longer(
-    c(LeftHipp, RT),
-    names_to = "var"
-    ) %>% 
-  ggplot(aes(x=Group, y = value)) +
-  geom_boxplot() +
-  facet_wrap(~var, scales="free")
-
-```
 
 ### Exercise 4
 
-```{r}
-fb %>% 
-  group_by(Years) %>%
-  mutate(concuss = if_else(Group == "FBNoConcuss", 0, 1)) %>%
-  summarize(prop = mean(concuss), count = n()) %>% 
-  ggplot(aes(x=Years, y = prop, size = count)) +
-    geom_point()
-```
+Remove this text, and add your answer for Exercise 4 here including any code needed.
 
 
 ### Exericse 5
 
-Generally most responses here are fine. The boxplot might make it harder to think about as an "association". However, in the point plot, the points summarizing only 1 individual are a bit problematic.
+Remove this text, and add your answer for Exercise 5 here including any code needed.
+
 
 ### Exercise 6
 
-add code for plots here
+Remove this text, and add your answer for Exercise 6 here including any code needed.
+
 
 ### Exercise 7
 
-```{r}
-summary(fit1 <- lm(Hipp ~ Years, fb))
-```
+Remove this text, and add your answer for Exercise 7 here including any code needed.
+
 
 ### Exercise 8
 
+Remove this text, and add your answer for Exercise 8 here including any code needed.
 
-```{r}
-summary(fit2 <-  lm(Hipp ~ Years + Group, fb))
-summary(fit3 <-  lm(Hipp ~ Years * Group, fb))
-```
+
 
 ### Exericse 9
 
-```{r}
-AIC(fit1, fit2, fit3)
-```
+Remove this text, and add your answer for Exercise 9 here including any code needed.
 
-`fit2` is weakly preferred over `fit1`.
 
 ### Exercise 10
 
-add these plots
+Remove this text, and add your answer for Exercise 10 here including any code needed.
+
 
 ### Exercise 11
 
-```{r}
-summary(fit4 <- lm(RT ~ Hipp, fb))
-```
+Remove this text, and add your answer for Exercise 11 here including any code needed.
+
 
 ### Exercise 12
 
-Pretty much any alternate hypothesis is fine.
+Remove this text, and add your answer for Exercise 12 here including any code needed.
+
 
 ### Exercise 13
 
-```{r}
-standardize <- function(x){
-  (x - mean(x))/sd(x)
-}
+Remove this text, and add your answer for Exercise 13 here including any code needed.
 
-fb_standardized <- fb %>% 
-  mutate_at(vars(Hipp, Years, RT), standardize)
-```
 
 
 ### Exercise 14
 
+Remove this text, and add your answer for Exercise 14 here including any code needed.
 
-```{r}
 
-coef(fit1_s <- lm(RT ~ Hipp, fb_standardized))
-coef(fit2_s <- lm(RT ~ Years, fb_standardized))  
-coef(fit3_s <- lm(RT ~ Hipp + Years, fb_standardized))  
-```
 
 ### Exercise 15
 
-Explain in terms of standardized coefficients: a 1 SD increase in `Hipp` leads to a .65 SD increase in simple RT.
+Remove this text, and add your answer for Exercise 15 here including any code needed.
 
-In `fit3_s` the `Years` coefficient becomes negligle but the `Hipp` coefficient is unaffected. `Hipp` predicts over and above `Years`, but `Years` does not predict over and above `Hipp`. A causal chain is more plausible.
 
