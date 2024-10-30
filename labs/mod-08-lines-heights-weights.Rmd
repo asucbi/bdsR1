@@ -42,7 +42,7 @@ In this lab we will learn more about how to think about linear functions and how
 
 Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 8`.
 
-First, open the R Markdown document `lab-08.Rmd` and Knit it.
+First, open the R Markdown document `mod-08-lab.Rmd` and Knit it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 
@@ -106,13 +106,13 @@ plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
 
 ## Data
 
-We will again use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell. Read the data in from the `howell1.csv` file.
+We will use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell. Read the data in from the `howell1.csv` file.
 
 ```{r, echo=F}
 howell <- read_csv("data/howell1.csv")
 ```
 
-In class we actually examined a subset of this dataset, focusing only on measurements from villagers who were 18 years old or older. Now we'll examine the measurements of children
+Let's separate the adults from the children, and then we will start by examining the measurements of the children.
 
 ```{r}
 children <- howell %>% filter(age < 18)
@@ -169,7 +169,6 @@ plot_residual_predicted <- function(fit){
 
 
 `r qbegin(6)`
-
 Create the following plots to evaluate `fit_children`:
 
 - Histogram of residuals
@@ -182,14 +181,11 @@ Describe what you notice about each of the plots. Does the model pass our checks
 Ok let's plot the data to see what has been going wrong.
 
 `r qbegin(7)`
-
 Make a scatterplot of heights and weights for the `children` data. What does the relationship look like?
-
 `r qend()`
 
 
 `r qbegin(8)`
-
 The function below will create a plot of your model predictions and observed data. Use the function to create a plot, and compare what you are seeing in this plot with what you see in the residuals plots.
 
 :::green
@@ -213,7 +209,7 @@ data %>%
 # Bonus: Curves from lines
 
 ::: lo
-The following two questions are "bonus" questions that go beyond what was covered in the lecture. We would like you to make an earnest attempt at them, but we just be grading for effort.
+The following two questions are "bonus" questions that go beyond what was covered in the lecture. We would like you to make an earnest attempt at them, but we may just be grading for effort.
 :::
 
 The term "linear models" can sometimes feel like a bit of a misnomer---linear models can actually capture some non-linear relationships.
