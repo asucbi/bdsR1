@@ -1,13 +1,9 @@
 ---
-title: "Lab 08 - Heights, weights, and lines o my"
-# bibliography: references.bib
-# biblio-style: apalike
-# link-citations: yes
+title: "Lab 08 - Heights, weights, and lines--oh my!"
 knit: (function(inputFile, encoding) {
     rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/labs/")
   })
-params: 
-    SHOW_SOLS: FALSE # if i wanted to give solutions, could toggle back on. 
+params:
     TOGGLE: TRUE
 ---
 
@@ -44,7 +40,7 @@ In this lab we will learn more about how to think about linear functions and how
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the assignment project for this module.
+Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 8`.
 
 First, open the R Markdown document `lab-08.Rmd` and Knit it.
 
@@ -112,13 +108,8 @@ plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
 
 We will again use a dataset of height and weight measurements of !Kung San people collected by Nancy Howell. Read the data in from the `howell1.csv` file.
 
-```{r, eval=FALSE, echo=T}
-howell <- read_csv("data/howell1.csv")
-```
-
-
 ```{r, echo=F}
-howell <- read_csv("../data/howell1.csv")
+howell <- read_csv("data/howell1.csv")
 ```
 
 In class we actually examined a subset of this dataset, focusing only on measurements from villagers who were 18 years old or older. Now we'll examine the measurements of children
