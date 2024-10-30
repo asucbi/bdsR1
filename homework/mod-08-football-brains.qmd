@@ -1,36 +1,22 @@
 ---
 title: "HW 08 - Football, brains, and cognitive performance"
-knit: (function(inputFile, encoding) {
-    rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs/hws/")
-  })
-link-citations: true
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
-```{r include = FALSE}
-knitr::opts_chunk$set(
-  eval = FALSE,
-  out.width = "80%",
-  fig.asp = 0.618,
-  fig.width = 10,
-  dpi = 300
-)
-```
-
-```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 3, fig.cap = "Photo from Wikimedia", eval = TRUE}
-knitr::include_graphics("img/1024px-Clemson_and_Temple.jpg")
-```
+![](img/1024px-Clemson_and_Temple.jpg){fig-align="center" width=100%}
 
 College football, a beloved and celebrated sport, captivates millions of fans nationwide while also providing a platform for young athletes to chase their dreams. However, beneath the glory of the gridiron lurk serious risks to the health and safety of student-athletes. College football players, often young and eager to showcase their talent, face a heightened risk of head injuries due to the game's physically demanding nature. The relentless collisions and intense practices contribute to a concerning pattern of concussions, putting the long-term health of these student-athletes in jeopardy. Research has shown that repeated concussions, even in the amateur ranks, can lead to severe conditions like chronic traumatic encephalopathy (CTE), prompting serious concerns about player safety.
 
 These concerns have also sparked intense debates regarding the compensation of college athletes. Many argue that the current system, which classifies these players as "amateurs," is fundamentally flawed. The athletes who generate substantial revenue for their institutions and the NCAA often receive limited financial support or none at all, despite the physical and mental toll they endure. As the link between concussions and CTE becomes clearer, the call for fair compensation and improved healthcare for college football players grows louder. This intersection of player safety, amateurism, and financial exploitation in college sports underscores the need for a more equitable and comprehensive approach to the well-being of student-athletes.
 
 
-
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the Module 8 assignment project (or your own copy of it if you have already started it.)
+Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `Assignments: Module 8`.
 
-First, open the R Markdown document `hw-08.Rmd` and Knit it.
+First, open the R Markdown document `mod-08-hw.Rmd` and Knit it.
 
 ## Warm up
 

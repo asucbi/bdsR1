@@ -7,7 +7,8 @@ library(fs)
 # quarto_file <- "mod-03-phx-accidents.qmd"
 # quarto_file <- "mod-04-college-majors.qmd"
 # quarto_file <- "mod-05-legos.qmd"
-quarto_file <- here::here("homework/mod-07-simpsons-paradox.qmd")
+#quarto_file <- here::here("homework/mod-07-simpsons-paradox.qmd")
+quarto_file <- here::here("homework/mod-08-football-brains.qmd")
 
 # Define the output directory where you want the extra copy
 output_dir <- here::here("docs/hws/")
