@@ -1,6 +1,6 @@
 project:
   title: "Homework"
-  # output-dir: ../../docs/hws
+  output-dir: ../../docs/hws
 
 format:
   html:

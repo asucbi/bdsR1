@@ -13,7 +13,7 @@ library(here)
 scrape_pac <- function(static_url) {
   
   # READ THE PAGE
-  page <- ___(here("data/static-pages-opensecrets", static_url)) # HINT: what's the rvest function for reading an html page?
+  page <- ___(here("static-pages-opensecrets", static_url)) # HINT: what's the rvest function for reading an html page?
 
   # EXTRACT THE TABLE (calling it "pac")
   pac <-  page %>%

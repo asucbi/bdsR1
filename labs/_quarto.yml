@@ -1,6 +1,6 @@
 project:
   title: "Lab"
-  output-dir: ../../docs/labs
+  output-dir: ../docs/labs
 
   
 format:

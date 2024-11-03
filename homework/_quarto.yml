@@ -1,6 +1,6 @@
 project:
   title: "HW"
-  # output-dir: "../docs/hws"
+  output-dir: ../docs/hws
 
 format:
   html:
@@ -24,4 +24,3 @@ knitr:
 #     fig.asp: 0.618
 #     fig.width: 8
 #     dpi: 300
-
