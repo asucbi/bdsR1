@@ -9,7 +9,7 @@ editor:
 
 ![](img/mauro-mora-31-pOduwZGE-unsplash.jpg){fig-align="center"}
 
-The GSS gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes.
+The General Social Survey (GSS) gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes.
 Hundreds of trends have been tracked since 1972.
 
 In addition, since the GSS adopted questions from earlier surveys, trends can be followed for up to 70 years.
@@ -18,7 +18,7 @@ The GSS contains a standard core of demographic, behavioral, and attitudinal que
 
 Among the topics covered are civil liberties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, and stress and traumatic events.
 
-In this assignment we analyze data from the 2016 GSS, using it to do some prediction using
+In this assignment we analyze data from the 2016 GSS, using it to do some predictions.
 
 ::: callout-important
 **LEARNING OBJECTIVES**
