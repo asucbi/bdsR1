@@ -1,23 +1,24 @@
 project:
-  title: "HW"
-  output-dir: ../docs/hws
+  title: "Homework"
+  output-dir: ../../docs/hws
 
 format:
   html:
-    theme: united
+    theme: darkly
     # css: styles.css
     self-contained: true
-    # grid:
-    #   margin-width: 10px   
+  #   grid:
+  #     margin-width: 10px   
   # pdf: default
-# execute:
-#   echo: fenced
-reference-location: margin        
-citation-location: margin         
+execute:
+  echo: fenced
+tbl-colwidths: [25,75]
+# reference-location: margin        
+# citation-location: margin         
 # bibliography: skeleton.bib
 knitr:
   opts_chunk: 
-    # eval: FALSE
+    eval: TRUE
     message: FALSE
     warning: FALSE
 #     out.width: "80%"

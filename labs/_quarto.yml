@@ -1,7 +1,8 @@
 project:
-  title: "HW"
-  output-dir: ../docs/hws
+  title: "Lab"
+  output-dir: ../docs/labs
 
+  
 format:
   html:
     theme: united
@@ -24,3 +25,4 @@ knitr:
 #     fig.asp: 0.618
 #     fig.width: 8
 #     dpi: 300
+
