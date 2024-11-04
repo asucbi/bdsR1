@@ -90,7 +90,7 @@ plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
 
 `r qbegin(4)`
 
-Read in the `sim2d.csv` data as `simd2` and copy and paste the code below into your starter file. Copy and paste the code below into your starter file. Play around with different values for `intercept2` and `slope2` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value below 85 or better.
+Read in the `simd2.csv` data as `simd2` and copy and paste the code below into your starter file. Copy and paste the code below into your starter file. Play around with different values for `intercept2` and `slope2` to see if you can find a nicely fitting line. Note how the RSS change as you try different numbers. You should be able to find an RSS value below 85 or better.
 
 
 ```{r, echo=T}
@@ -194,7 +194,8 @@ The code here uses a couple functions from the `modelr` package that we will lea
 
 ```{r, echo=T}
 plot_height_weight_preds <- function(fit, data){
-  preds <- data_grid(data, height = seq_range(height, 100)) %>% 
+  preds <- data_grid(data, height = seq_range(height, 100),
+                     .model = fit) %>% 
   mutate(predicted = predict(fit, .))
 
 data %>% 

@@ -15,7 +15,7 @@ params:
 source('assets/setup.R')
 library(tidyverse)
 # library(modelr)
-library(dsbox)
+library(dsbox) # devtools::install_github("tidyverse/dsbox")
 library(broom)
 source("starter/m8-helpers.R")
 
@@ -56,9 +56,9 @@ Source: [UCI Machine Learning Repository - Bike Sharing Dataset](http://archive.
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the assignment project for this module.
+Go to the course Posit Cloud Workspace and locate the assignment project for this module, which should be called `Assignments: Module 8b`.
 
-First, open the R Markdown document `lab-08b.Rmd` and Knit it.
+First, open the R Markdown document `mod-lab-08b.Rmd` and Knit it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 

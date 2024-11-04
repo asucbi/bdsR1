@@ -1,0 +1,81 @@
+---
+title: "Lab 08b: Bike rentals in DC"
+author: "Insert your name here"
+date: "Insert date here"
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(dsbox) # devtools::install_github("tidyverse/dsbox")
+library(broom)
+
+source("starter/m8-helpers.R")
+```
+
+```{r load-data, message=FALSE}
+data(dcbikeshare)
+```
+
+## Exercises
+
+
+### Exercise 1
+
+Remove this text, and add your answer for Exercise 2 here.
+
+
+### Exercise 2
+
+Remove this text, and add your answer for Exercise 2 here.
+
+
+### Exercise 3
+
+Remove this text, and add your answer for Exercise 3 here.
+
+
+### Exercise 4
+
+Remove this text, and add your answer for Exercise 4 here.
+
+
+### Exercise 5
+
+...
+
+
+### Exercise 6
+
+...
+
+
+### Exercise 7
+
+...
+
+
+### Exercise 8
+
+...
+
+
+### Exercise 9
+
+...
+
+
+### Exercise 10
+
+...
+
+
+### Exercise 11
+
+...
+
+
+### Exercise 12
+
+...
