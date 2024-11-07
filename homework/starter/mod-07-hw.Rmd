@@ -17,7 +17,7 @@ library(mosaicData)
 The dataset we'll use is called Whickham from the **mosaicData** package.
 You can find out more about the dataset by inspecting their documentation, which you can access by running `?Whickham` in the Console or using the Help menu in RStudio to search for `Whickham`.
 
-```{r, include=include_sol}
+```{r, load-data}
 data("Whickham")
 ```
 
