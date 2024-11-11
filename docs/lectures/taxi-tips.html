@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nick Duran">
-<meta name="dcterms.date" content="2024-11-07">
+<meta name="dcterms.date" content="2024-11-11">
 
 <title>Prediction w/ tidyModels</title>
 <style>
@@ -102,82 +102,10 @@ window.Quarto = {
 
 </head>
 
-<body>
+<body class="fullcontent">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul class="collapse">
-  <li><a href="#part-1-what-are-tidymodels" id="toc-part-1-what-are-tidymodels" class="nav-link active" data-scroll-target="#part-1-what-are-tidymodels">PART 1: What are tidyModels</a>
-  <ul class="collapse">
-  <li><a href="#machine-learning-as-a-predictive-modeling-process" id="toc-machine-learning-as-a-predictive-modeling-process" class="nav-link" data-scroll-target="#machine-learning-as-a-predictive-modeling-process">Machine learning as a predictive modeling process</a></li>
-  <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn">Your turn</a></li>
-  <li><a href="#the-whole-game" id="toc-the-whole-game" class="nav-link" data-scroll-target="#the-whole-game">The whole game</a></li>
-  </ul></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
-  <ul class="collapse">
-  <li><a href="#taxi-trips-in-chicago-in-2022" id="toc-taxi-trips-in-chicago-in-2022" class="nav-link" data-scroll-target="#taxi-trips-in-chicago-in-2022">Taxi trips in Chicago in 2022</a></li>
-  </ul></li>
-  <li><a href="#part-2-data-budget" id="toc-part-2-data-budget" class="nav-link" data-scroll-target="#part-2-data-budget">PART 2: Data Budget</a>
-  <ul class="collapse">
-  <li><a href="#data-splitting-and-spending" id="toc-data-splitting-and-spending" class="nav-link" data-scroll-target="#data-splitting-and-spending">Data splitting and spending</a></li>
-  <li><a href="#your-turn-1" id="toc-your-turn-1" class="nav-link" data-scroll-target="#your-turn-1">Your turn</a></li>
-  <li><a href="#the-initial-split" id="toc-the-initial-split" class="nav-link" data-scroll-target="#the-initial-split">The initial split</a></li>
-  <li><a href="#accessing-the-data" id="toc-accessing-the-data" class="nav-link" data-scroll-target="#accessing-the-data">Accessing the data</a></li>
-  <li><a href="#your-turn-2" id="toc-your-turn-2" class="nav-link" data-scroll-target="#your-turn-2">Your turn</a></li>
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory data analysis</a></li>
-  <li><a href="#your-turn-3" id="toc-your-turn-3" class="nav-link" data-scroll-target="#your-turn-3">Your turn</a></li>
-  <li><a href="#split-smarter" id="toc-split-smarter" class="nav-link" data-scroll-target="#split-smarter">Split smarter</a></li>
-  <li><a href="#your-turn-4" id="toc-your-turn-4" class="nav-link" data-scroll-target="#your-turn-4">Your turn</a></li>
-  </ul></li>
-  <li><a href="#part-3-fitting-a-model" id="toc-part-3-fitting-a-model" class="nav-link" data-scroll-target="#part-3-fitting-a-model">PART 3: Fitting a model</a>
-  <ul class="collapse">
-  <li><a href="#do-it-the-tidymodels-way" id="toc-do-it-the-tidymodels-way" class="nav-link" data-scroll-target="#do-it-the-tidymodels-way">Do it the tidymodels way</a></li>
-  <li><a href="#your-turn-5" id="toc-your-turn-5" class="nav-link" data-scroll-target="#your-turn-5">Your turn</a></li>
-  <li><a href="#models-well-be-using-today" id="toc-models-well-be-using-today" class="nav-link" data-scroll-target="#models-well-be-using-today">Models we’ll be using today</a></li>
-  <li><a href="#model-workflows" id="toc-model-workflows" class="nav-link" data-scroll-target="#model-workflows">Model workflows</a></li>
-  <li><a href="#a-model-workflow" id="toc-a-model-workflow" class="nav-link" data-scroll-target="#a-model-workflow">A model workflow</a></li>
-  <li><a href="#your-turn-6" id="toc-your-turn-6" class="nav-link" data-scroll-target="#your-turn-6">Your turn</a></li>
-  <li><a href="#pre-processing-adding-recipes" id="toc-pre-processing-adding-recipes" class="nav-link" data-scroll-target="#pre-processing-adding-recipes">Pre-processing: Adding “recipes”</a></li>
-  <li><a href="#how-do-you-understand-your-new-tree_fit-model" id="toc-how-do-you-understand-your-new-tree_fit-model" class="nav-link" data-scroll-target="#how-do-you-understand-your-new-tree_fit-model">How do you <strong>understand</strong> your new <code>tree_fit</code> model?</a></li>
-  <li><a href="#your-turn-7" id="toc-your-turn-7" class="nav-link" data-scroll-target="#your-turn-7">Your turn</a></li>
-  </ul></li>
-  <li><a href="#part-4-metrics-for-model-performance" id="toc-part-4-metrics-for-model-performance" class="nav-link" data-scroll-target="#part-4-metrics-for-model-performance">PART 4: Metrics for model performance</a>
-  <ul class="collapse">
-  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link" data-scroll-target="#confusion-matrix">Confusion matrix</a></li>
-  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy">Accuracy</a></li>
-  <li><a href="#sensitivity" id="toc-sensitivity" class="nav-link" data-scroll-target="#sensitivity">Sensitivity</a></li>
-  <li><a href="#specificity" id="toc-specificity" class="nav-link" data-scroll-target="#specificity">Specificity</a></li>
-  <li><a href="#combining-the-metrics" id="toc-combining-the-metrics" class="nav-link" data-scroll-target="#combining-the-metrics">Combining the metrics</a></li>
-  <li><a href="#your-turn-8" id="toc-your-turn-8" class="nav-link" data-scroll-target="#your-turn-8">Your turn</a></li>
-  <li><a href="#roc-curves" id="toc-roc-curves" class="nav-link" data-scroll-target="#roc-curves">ROC curves</a></li>
-  <li><a href="#your-turn-9" id="toc-your-turn-9" class="nav-link" data-scroll-target="#your-turn-9">Your turn</a></li>
-  </ul></li>
-  <li><a href="#part-5-using-resampling-to-estimate-performance" id="toc-part-5-using-resampling-to-estimate-performance" class="nav-link" data-scroll-target="#part-5-using-resampling-to-estimate-performance">PART 5: Using resampling to estimate performance</a>
-  <ul class="collapse">
-  <li><a href="#dangers-of-overfitting" id="toc-dangers-of-overfitting" class="nav-link" data-scroll-target="#dangers-of-overfitting">⚠️ Dangers of Overfitting ⚠️</a></li>
-  <li><a href="#v-fold-k-fold-cross-validation" id="toc-v-fold-k-fold-cross-validation" class="nav-link" data-scroll-target="#v-fold-k-fold-cross-validation">V-fold (K-fold) Cross-validation</a></li>
-  <li><a href="#your-turn-10" id="toc-your-turn-10" class="nav-link" data-scroll-target="#your-turn-10">Your turn</a></li>
-  <li><a href="#lets-do-some-cross-validation" id="toc-lets-do-some-cross-validation" class="nav-link" data-scroll-target="#lets-do-some-cross-validation">Let’s do some cross-validation</a></li>
-  <li><a href="#fit-our-model-to-the-resamples" id="toc-fit-our-model-to-the-resamples" class="nav-link" data-scroll-target="#fit-our-model-to-the-resamples">Fit our model to the resamples!</a></li>
-  <li><a href="#your-turn-11" id="toc-your-turn-11" class="nav-link" data-scroll-target="#your-turn-11">Your turn</a></li>
-  <li><a href="#evaluating-model-performance" id="toc-evaluating-model-performance" class="nav-link" data-scroll-target="#evaluating-model-performance">Evaluating model performance</a></li>
-  <li><a href="#your-turn-12" id="toc-your-turn-12" class="nav-link" data-scroll-target="#your-turn-12">Your turn</a></li>
-  <li><a href="#what-you-would-report" id="toc-what-you-would-report" class="nav-link" data-scroll-target="#what-you-would-report">What you would report</a></li>
-  <li><a href="#your-turn-13" id="toc-your-turn-13" class="nav-link" data-scroll-target="#your-turn-13">Your turn</a></li>
-  <li><a href="#completing-the-whole-game" id="toc-completing-the-whole-game" class="nav-link" data-scroll-target="#completing-the-whole-game">Completing the whole game</a></li>
-  </ul></li>
-  <li><a href="#part-6-next-steps" id="toc-part-6-next-steps" class="nav-link" data-scroll-target="#part-6-next-steps">PART 6: Next Steps?</a>
-  <ul class="collapse">
-  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">Random forest 🌳🌲🌴🌵🌳🌳🌴🌲🌵🌴🌳🌵</a></li>
-  <li><a href="#model-tuning" id="toc-model-tuning" class="nav-link" data-scroll-target="#model-tuning">Model tuning</a></li>
-  <li><a href="#variable-importance" id="toc-variable-importance" class="nav-link" data-scroll-target="#variable-importance">Variable importance</a></li>
-  </ul></li>
-  </ul>
-</nav>
-</div>
+
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -199,7 +127,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 7, 2024</p>
+      <p class="date">November 11, 2024</p>
     </div>
   </div>
   
@@ -220,8 +148,9 @@ window.Quarto = {
 </div>
 <p><img src="hexes/tidymodels.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 <section id="part-1-what-are-tidymodels" class="level1">
-<h1>PART 1: What are tidyModels</h1>
-<p>A modeling framework!</p>
+<h1>PART 1: What are tidyModels?</h1>
+<section id="a-modeling-framework" class="level4">
+<h4 class="anchored" data-anchor-id="a-modeling-framework">A modeling framework!</h4>
 <p><img src="img/tm-org.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r load-tm}</span></span>
@@ -250,16 +179,11 @@ window.Quarto = {
 #&gt; • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 </div>
+</section>
 <section id="what-we-will-be-working-on-today" class="level3">
 <h3 class="anchored" data-anchor-id="what-we-will-be-working-on-today">What we will be working on today</h3>
 <ul>
 <li>Minimal version of predictive modeling process</li>
-</ul>
-</section>
-<section id="what-we-will-not-be-working-on-today-but-that-is-in-the-recorded-lectures" class="level3">
-<h3 class="anchored" data-anchor-id="what-we-will-not-be-working-on-today-but-that-is-in-the-recorded-lectures">What we will not be working on today but that is in the recorded lectures</h3>
-<ul>
-<li>Feature engineering (recipes)</li>
 </ul>
 </section>
 <section id="machine-learning-as-a-predictive-modeling-process" class="level2">
@@ -767,21 +691,21 @@ Note
 <h3 class="anchored" data-anchor-id="logistic-regression">Logistic regression</h3>
 <p><strong>The concept of odds and probability:</strong></p>
 <ul>
-<li>The <strong>probability</strong> of some event happening can be expressed as a value between 0 and 1</li>
-<li>If the probability of an event occurring is <span class="math inline">\({p}\)</span>, the <strong>odds</strong> of an event occurring can be expressed as <span class="math inline">\(\frac{p}{1 - p}\)</span></li>
+<li><p>The <strong>probability</strong> of some event happening can be expressed as a value between 0 and 1</p></li>
+<li><p>If the probability of an event occurring is <span class="math inline">\({p}\)</span>, the <strong>odds</strong> of an event occurring can be expressed as <span class="math inline">\(\frac{p}{1 - p}\)</span></p></li>
 </ul>
 <p>“If there is a 75% chance (or 0.75 probability) that it will rain today, then… the odds of it raining are 3 to 1, meaning that it is 3 times more likely to rain than not.”</p>
 <p><strong>From odds to log-odds:</strong></p>
 <ul>
-<li>It’s challenging to work with odds in mathematical modeling, especially when there are multiple factors that might affect an outcome</li>
-<li>This is why we take the logarithm of the odds which puts it on a scale that is easier to work with</li>
+<li><p>It’s challenging to work with odds in mathematical modeling, especially when there are multiple factors that might affect an outcome</p></li>
+<li><p>This is why we take the logarithm of the odds which puts it on a scale that is easier to work with</p></li>
 </ul>
 <p><strong>The Logistic Regression Equation:</strong></p>
 <p><span class="math inline">\(log(\frac{p}{1 - p}) = \beta_0 + \beta_1\cdot \text{A}\)</span></p>
 <ul>
-<li><span class="math inline">\(log(\frac{p}{1 - p})\)</span> is the log-odds (or the logit) of the probability of our event of interest (e.g., getting a tip)</li>
-<li><span class="math inline">\(\beta_0\)</span> is the intercept, which represents the log-odds of the event when predictor A is zero</li>
-<li><span class="math inline">\(\beta_1\cdot \text{A}\)</span> is the slope of coefficient for predictor <code>A</code>, indicating how much the log-odds of the event changes with a one-unit change in <code>A</code></li>
+<li><p><span class="math inline">\(log(\frac{p}{1 - p})\)</span> is the log-odds (or the logit) of the probability of our event of interest (e.g., getting a tip)</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span> is the intercept, which represents the log-odds of the event when predictor A is zero</p></li>
+<li><p><span class="math inline">\(\beta_1\cdot \text{A}\)</span> is the slope of coefficient for predictor <code>A</code>, indicating how much the log-odds of the event changes with a one-unit change in <code>A</code></p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -798,18 +722,18 @@ Note
 </div>
 <p><strong>Relating this back to taxi’s and tips</strong></p>
 <ul>
-<li>We want to predict whether someone will tip (“one”) or not based on the trip distance, in odometer meters (<code>A</code>).</li>
-<li><span class="math inline">\(\beta_0\)</span> would represent the log-odds of receiving a tip with zero distance</li>
-<li><span class="math inline">\(\beta_1\)</span> shows how the log-odds of receiving a tip with each additional meter in distance</li>
-<li>Maybe as distance increases, the probability of getting a tip increases? (but not linearly- there are diminishing returns after a certain point)</li>
+<li><p>We want to predict whether someone will tip (“one”) or not based on the trip distance, in odometer meters (<code>A</code>).</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span> would represent the log-odds of receiving a tip with zero distance</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> shows how the log-odds of receiving a tip with each additional meter in distance</p></li>
+<li><p>Maybe as distance increases, the probability of getting a tip increases? (but not linearly- there are diminishing returns after a certain point)</p></li>
 </ul>
 </section>
 <section id="a-possibly-helpful-visual" class="level3">
 <h3 class="anchored" data-anchor-id="a-possibly-helpful-visual">A possibly helpful visual</h3>
 <ul>
-<li>Lets simulate a dataset of 500 observations with a single predictor <code>A</code> using our logistic regression equation. We ensure that the log-odds of the binary outcome (<code>class</code> with levels “zero” and “one”) increases with respect to <code>A</code> with an intercept of <code>.1</code> and a slope of <code>2</code>.</li>
-<li>Estimate the probability (converting log-odds to probabilities) of the “one” class for different values of <code>A</code> and plot these (<code>A</code> values are binned in 0.5 increments; error bars show the confidence intervals for estimates)</li>
-<li>The visual demonstrates the concept of the odds and probabilities changing in a non-linear fashion across the range of <code>A</code>, a key concept in logistic regression.</li>
+<li><p>Lets simulate a dataset of 500 observations with a single predictor <code>A</code> using our logistic regression equation. We ensure that the log-odds of the binary outcome (<code>class</code> with levels “zero” and “one”) increases with respect to <code>A</code> with an intercept of <code>.1</code> and a slope of <code>2</code>.</p></li>
+<li><p>Estimate the probability (converting log-odds to probabilities) of the “one” class for different values of <code>A</code> and plot these (<code>A</code> values are binned in 0.5 increments; error bars show the confidence intervals for estimates)</p></li>
+<li><p>The visual demonstrates the concept of the odds and probabilities changing in a non-linear fashion across the range of <code>A</code>, a key concept in logistic regression.</p></li>
 </ul>
 <p>What a logistic regression is doing is trying to fit this sort of sigmoid line to separate the two classes in an outcome.</p>
 <div class="cell">
@@ -886,12 +810,12 @@ Variable explanations
 </div>
 <p><strong>A few things to keep in mind</strong></p>
 <ul>
-<li>A tree chooses a feature and a split point (e.g., if <code>Age &gt;= 6.5</code>) to partition the data into subsets that are as homogeneous “pure” as possible (meaning that the node contains data points from predominantly one class)
+<li><p>A tree chooses a feature and a split point (e.g., if <code>Age &gt;= 6.5</code>) to partition the data into subsets that are as homogeneous “pure” as possible (meaning that the node contains data points from predominantly one class)</p>
 <ul>
 <li>Just know there are measures for evaluating the “purity” of a node, e.g., Gini Impurity, Entropy, Classification Error</li>
 </ul></li>
-<li>This process is repeated recursively, forming a tree structure until certain stopping criteria are met (e.g., when a node has a small number of observations, some maximum depth).</li>
-<li>Trees are also <strong>pruned</strong> to reduce its complexity</li>
+<li><p>This process is repeated recursively, forming a tree structure until certain stopping criteria are met (e.g., when a node has a small number of observations, some maximum depth).</p></li>
+<li><p>Trees are also <strong>pruned</strong> to reduce its complexity</p></li>
 </ul>
 </section>
 <section id="another-possibly-helpful-visual" class="level3">
@@ -918,41 +842,64 @@ Variable explanations
 </section>
 </section>
 <section id="model-workflows" class="level2">
-<h2 class="anchored" data-anchor-id="model-workflows">Model workflows</h2>
+<h2 class="anchored" data-anchor-id="model-workflows">Model Workflows</h2>
+<p>In tidyModels, we use something called a workflow to streamline our model-building process. Think of a workflow as a ‘recipe’ that combines data preprocessing and modeling steps into one neat package. This approach ensures that everything needed for our model to work — from preparing the data to making predictions — is bundled together.</p>
+<p>Let’s break down what each part of a workflow does and why it’s helpful.</p>
+<section id="what-is-a-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-workflow">What is a Workflow?</h3>
+<p>A workflow in tidyModels consists of two main parts:</p>
 <ul>
-<li>In tidymodels, there is this idea that a model-oriented data analysis consists of a preprocessor and a model, and these should be built into a single “workflow” object
+<li><p>Preprocessor: This handles all the data preparation tasks.</p></li>
+<li><p>Model: This is where we specify the type of model we want to fit to our data.</p></li>
+</ul>
+<section id="step-1-the-preprocessor" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-the-preprocessor">Step 1: The Preprocessor</h4>
+<p>The preprocessor is responsible for preparing our data before it gets to the model. This can be as simple or complex as needed:</p>
 <ul>
-<li><strong>Preprocessors</strong> range from simple formulas <code>y ~ x1 + x2</code> to sophisticated <code>recipes</code> that allow feature engineering operations (e.g., extract features using a PCA), remove variables with zero variances, categorizes missing categorical data (NA’s) as <code>unknown</code>, dummy codes categorical variables, and lots more</li>
-<li><strong>Models</strong> allow different ways to fit the data</li>
+<li><p>For straightforward tasks, we might use a simple formula like y ~ x1 + x2, which just tells the model what our target (y) and predictor variables (x1, x2) are.</p></li>
+<li><p>For more complex tasks, we can use a <strong>recipe.</strong> Recipes are powerful because they let us add specific preprocessing steps like:</p>
+<ul>
+<li>Removing variables with no variance,</li>
+<li>Converting categorical variables into numeric ‘dummy’ variables,</li>
+<li>Handling missing data by filling in or categorizing NA values,</li>
+<li>Applying advanced techniques like PCA (Principal Component Analysis) to reduce the number of features</li>
 </ul></li>
-<li><strong>By packaging preprocessing steps and modeling in one workflow, lots of advantages!</strong>
+<li><p>With recipes, we have a lot of flexibility in how we transform and prepare our data.</p></li>
+</ul>
+</section>
+<section id="step-2-the-model" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-the-model">Step 2: The Model</h4>
+<p>Next, we specify the model we want to fit. This could be anything from a linear regression to a decision tree. In tidyModels, we can easily swap out different model types within the workflow without changing the preprocessing steps, allowing us to experiment with different approaches.</p>
+</section>
+<section id="why-use-a-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="why-use-a-workflow">Why Use a Workflow?</h4>
 <ul>
-<li>Ensures that new data goes through the same preprocessing steps as training data</li>
-<li>Ensures consistency and reproducibility</li>
-<li>They can help organize your work when working with multiple models</li>
-<li>Handles new data better than base R tools in terms of new factor levels</li>
-</ul></li>
+<li><p><strong>Consistency and Reproducibility:</strong> When we apply a workflow to new data, it automatically uses the same preprocessing steps as with the training data. This consistency is important because it prevents any mismatch between training and testing data, helping us achieve more reliable results.</p></li>
+<li><p><strong>Better Organization:</strong> If you’re experimenting with multiple models, workflows make it easier to keep track of each model’s steps. Rather than manually re-running preprocessing each time, you have a ready-to-use workflow for each model, keeping things organized and clear.</p></li>
+<li><p><strong>Improved Handling of New Data:</strong> When we bring in new data that has slightly different values (e.g., new categories in a factor), workflows manage these changes more gracefully than base R. This makes workflows especially helpful in real-world applications where incoming data can vary.</p></li>
 </ul>
 <p><img src="hexes/workflows.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"> <img src="hexes/parsnip.png" class="absolute" data-top="-20" data-right="64" width="64" height="74"></p>
+</section>
+</section>
 </section>
 <section id="a-model-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-model-workflow">A model workflow</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tree-wflow}</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="in">#logi_spec &lt;-</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="in">tree_spec &lt;-                            # set up all the specs on model</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="in">  decision_tree(cost_complexity = 0.002) %&gt;%   </span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="in">  set_mode("classification")</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 1: Specify the model with desired parameters</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="in">tree_spec &lt;- </span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="in">  decision_tree(cost_complexity = 0.002) %&gt;%  # Define model type and complexity</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="in">  set_mode("classification")                   # Set mode to "classification" for binary outcomes</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="in">#logi_wflow &lt;-</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="in">tree_wflow &lt;- workflow() %&gt;%            # build the workflow</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="in">  add_formula(tip ~ .) %&gt;%              # preprocessor steps (could be lots!)</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="in">  add_model(tree_spec)                  # add model</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 2: Build the workflow</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="in">tree_wflow &lt;- workflow() %&gt;% </span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="in">  add_formula(tip ~ .) %&gt;%                     # Add the formula defining target and predictors</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="in">  add_model(tree_spec)                         # Attach the specified model</span></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="in">#logi_fit &lt;-                            </span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit &lt;-                             # now fit to training data </span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 3: Fit the workflow to training data</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit &lt;- </span></span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="in">  tree_wflow %&gt;% </span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="in">  fit(data = taxi_train) </span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="in">  fit(data = taxi_train)                       # Fit the workflow to the training dataset</span></span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -975,11 +922,26 @@ Tip
 <h2 class="anchored" data-anchor-id="your-turn-6">Your turn</h2>
 <p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
-<li><h3 id="copy-the-chunk-above-r-tree-wflow-and-edit-the-code-to-create-a-workflow-for-a-logistic-regression-model" class="anchored"><em>Copy the chunk above “{r tree-wflow}” and edit the code to create a workflow for a logistic regression model</em></h3>
-<ul>
-<li>Make sure you swap out <code>tree_*</code> for <code>logi_*</code> when saving each set of code</li>
-</ul></li>
+<li><h3 id="fill-out-the-chunk-below-to-create-a-workflow-for-a-logistic-regression-model" class="anchored"><em>Fill out the chunk below to create a workflow for a logistic regression model</em></h3></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r logi-wflow}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 1: Specify the model with desired parameters</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="in"># Here, create a logistic regression model specification</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="in"># Set the mode to "classification" since we're predicting a binary outcome</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="in">### logi_spec &lt;- ...</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 2: Build the workflow</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="in"># Initialize a workflow object</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="in"># Add the formula (e.g., tip ~ .) to specify the target and predictors</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="in"># Attach the logistic regression model specified in Step 1</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="in">### logi_wflow &lt;- ..</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="in"># Step 3: Fit the workflow to training data</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="in"># Use the fit() function to apply the workflow to the training data (e.g., taxi_train)</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="in">### logi_fit &lt;- ... </span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><img src="hexes/recipes.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 </section>
 <section id="pre-processing-adding-recipes" class="level2">
@@ -988,27 +950,46 @@ Tip
 <li>Hypothetical additions just for illustrative purposes</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: false</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="in">tree_rec &lt;-</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="in">  step_date(some_var1, features = c("dow", "month", "year")) %&gt;% </span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="in">  step_rm(some_var1) %&gt;% </span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="in">  step_dummy(all_nominal_predictors()) %&gt;% </span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="in">  step_zv(all_predictors()) %&gt;% </span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="in">  step_normalize(all_numeric_predictors()) %&gt;%</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="in">  step_pca(all_numeric_predictors())</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="in">#logi_wflow &lt;-</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="in">tree_wflow &lt;- workflow() %&gt;%            # build the workflow</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="in">  add_formula(tip ~ .) %&gt;%              # preprocessor: add formula</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="in">  add_recipe(tree_rec) %&gt;%              # preprocessor: add recipe</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="in">  add_model(tree_spec)                  # add model</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: false</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="in"># Define a preprocessing recipe with various steps</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="in">tree_rec &lt;- </span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="in">  step_date(some_var1, features = c("dow", "month", "year")) %&gt;%   # Extract date features like day of week, month, and year from a date variable</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="in">  step_rm(some_var1) %&gt;%                                           # Remove the original date variable after extracting features</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="in">  step_dummy(all_nominal_predictors()) %&gt;%                         # Convert categorical predictors into dummy (one-hot encoded) variables</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="in">  step_zv(all_predictors()) %&gt;%                                    # Remove any predictors with zero variance (i.e., predictors that are constant)</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="in">  step_normalize(all_numeric_predictors()) %&gt;%                     # Normalize all numeric predictors to have mean 0 and standard deviation 1</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="in">  step_pca(all_numeric_predictors())                               # Apply Principal Component Analysis (PCA) to reduce dimensionality of numeric predictors</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="in"># Build the workflow by combining the recipe and model</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="in">tree_wflow &lt;- workflow() %&gt;% </span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="in">  add_formula(tip ~ .) %&gt;%                                         # Specify the formula for the target variable (tip) and predictors (all other columns)</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="in">  add_recipe(tree_rec) %&gt;%                                         # Add the preprocessing recipe defined above</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="in">  add_model(tree_spec)                                             # Attach the specified model (e.g., decision tree model) to the workflow</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Visit <a href="https://www.tidymodels.org/find/recipes/" class="uri">https://www.tidymodels.org/find/recipes/</a> for details on all possible recipes</li>
 </ul>
 </section>
+</section>
+<section id="recap-so-far" class="level1">
+<h1>Recap so far</h1>
+<p>Alright, let’s take a moment to sum up what we covered today.</p>
+<p>We created a workflow for a decision tree model to predict tips. Here’s a reminder of what each part does:</p>
+<ul>
+<li><code>tree_fit</code>: This is our final, trained decision tree model. We built it by:
+<ul>
+<li>Specifying a decision tree model with classification mode.</li>
+<li>Using a workflow to package the preprocessing steps (formula and recipe) and model together.</li>
+<li>Fitting this workflow to the training dataset (<code>taxi_train</code>), resulting in <code>tree_fit</code>.</li>
+</ul></li>
+</ul>
+<p>Dataset Reminder — <code>taxi_test</code>:</p>
+<ul>
+<li><code>taxi_test</code> is our test dataset that we held out during training.</li>
+<li>We’ll use <code>taxi_test</code> to evaluate how well <code>tree_fit</code> performs on new, unseen data.</li>
+</ul>
 <section id="how-do-you-understand-your-new-tree_fit-model" class="level2">
 <h2 class="anchored" data-anchor-id="how-do-you-understand-your-new-tree_fit-model">How do you <strong>understand</strong> your new <code>tree_fit</code> model?</h2>
 <!-- Could talk about broom methods for looking at fitted objects: glance, tidy, only focusing on augment as set up for prediction -->
@@ -1027,9 +1008,9 @@ What happens when you run <code>predict(logi_fit, new_data = taxi_test)</code>
 <div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="in">predict(tree_fit, new_data = taxi_test)</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="in">predict(tree_fit, new_data = taxi_test)</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 2,000 × 1
 #&gt;    .pred_class
@@ -1051,9 +1032,9 @@ What happens when you run <code>predict(logi_fit, new_data = taxi_test)</code>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test)</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test)</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 2,000 × 10
 #&gt;    .pred_class .pred_yes .pred_no tip   distance company local dow   month  hour
@@ -1144,10 +1125,10 @@ Warning
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-fit-augment}</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="in">  relocate(tip, .pred_class, .pred_yes, .pred_no)</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-fit-augment}</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="in">  relocate(tip, .pred_class, .pred_yes, .pred_no)</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 8,000 × 10
 #&gt;    tip   .pred_class .pred_yes .pred_no distance company local dow   month  hour
@@ -1170,11 +1151,11 @@ Warning
 <p><img src="img/confusion-matrix.png" class="img-fluid"></p>
 <p><code>conf_mat()</code> can be used to see how well the model is doing at prediction</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r conf-mat-plot}</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="in">  conf_mat(truth = tip, estimate = .pred_class) %&gt;%</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="in">  autoplot(type = "heatmap")</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r conf-mat-plot}</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="in">  conf_mat(truth = tip, estimate = .pred_class) %&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="in">  autoplot(type = "heatmap")</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1189,11 +1170,11 @@ Warning
 <p>This is a straightforward measure of the proportion of correct predictions out of all predictions.</p>
 <p><img src="img/confusion-matrix-accuracy.png" class="img-fluid" width="500"></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r acc-2}</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(.pred_class = factor("yes", levels = c("yes", "no"))) %&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r acc-2}</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(.pred_class = factor("yes", levels = c("yes", "no"))) %&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric  .estimator .estimate
@@ -1220,10 +1201,10 @@ Dangers of accuracy
 <p>Where accuracy provides a quick understanding of how often the model is correct, sensitivity is an important measure when the cost of missing a positive case (false negative) is high. In our scenario, a positive case is the outcome variable coded as “1” (tip: yes). In other scenarios, this is more consequential (such as correctly predicting the percentage of sick people who have some targeted condition).</p>
 <p><img src="img/confusion-matrix-sensitivity.png" class="img-fluid" width="500"></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sens}</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="in">  sensitivity(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sens}</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="in">  sensitivity(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric     .estimator .estimate
@@ -1237,10 +1218,10 @@ Dangers of accuracy
 <p>This is essentially the compliment of sensitivity. Specificity is an important measure of how well the model correctly predicts the true negative. In our scenario, a true negative is the outcome variable coded as “0” (tip: no). Pay attention to specificity when the cost of a false positive is high (like convicting an innocent person).</p>
 <p><img src="img/confusion-matrix-specificity.png" class="img-fluid" width="500"></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r spec}</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="in">  specificity(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r spec}</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="in">  specificity(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric     .estimator .estimate
@@ -1253,12 +1234,12 @@ Dangers of accuracy
 <h2 class="anchored" data-anchor-id="combining-the-metrics">Combining the metrics</h2>
 <p>We can use <code>metric_set()</code> to combine multiple calculations into a single table</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-metrics}</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-metrics}</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 3
 #&gt;   .metric     .estimator .estimate
@@ -1270,13 +1251,13 @@ Dangers of accuracy
 </div>
 <p>All yardstick metric functions work with grouped data frames!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-metrics-grouped}</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(local) %&gt;%</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-metrics-grouped}</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(local) %&gt;%</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 6 × 4
 #&gt;   local .metric     .estimator .estimate
@@ -1356,16 +1337,16 @@ Why 1-sensitivity for FPR?
 </div>
 <p><strong>Here’s the ROC curve for our model based on the training data:</strong></p>
 <div class="cell" data-output-location="column">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-curve}</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-width: 6</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-height: 6</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="in">#| output-location: "column"</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_curve(truth = tip, .pred_yes) %&gt;%</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="in">  autoplot() +</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x="FPR, 1-specificity", y="TPR, or sensitivity")</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-curve}</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-width: 6</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-height: 6</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="in">#| output-location: "column"</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_curve(truth = tip, .pred_yes) %&gt;%</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="in">  autoplot() +</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x="FPR, 1-specificity", y="TPR, or sensitivity")</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1382,10 +1363,10 @@ Why 1-sensitivity for FPR?
 </ul>
 <p><strong>Let’s get the actual value for AUC:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc}</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc}</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric .estimator .estimate
@@ -1447,10 +1428,10 @@ Note
 <!-- We call this a "resubstitution estimate" -->
 <p><strong>Here’s our model performance on the training data</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-train}</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_train)</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-train}</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_train)</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 8,000 × 10
 #&gt;    .pred_class .pred_yes .pred_no tip   distance company local dow   month  hour
@@ -1469,11 +1450,11 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-acc}</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_train) %&gt;%</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(tip, .pred_class)</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-acc}</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_train) %&gt;%</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(tip, .pred_class)</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric  .estimator .estimate
@@ -1483,11 +1464,11 @@ Note
 </div>
 <p><strong>Here’s our model performance on the test data (unseen data)</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-acc-test}</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_test) %&gt;%</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(tip, .pred_class)</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-acc-test}</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="in">  augment(taxi_test) %&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="in">  accuracy(tip, .pred_class)</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric  .estimator .estimate
@@ -1554,9 +1535,9 @@ Other advantages of resampling with V-fold cross-validation
 <section id="lets-do-some-cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="lets-do-some-cross-validation">Let’s do some cross-validation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv}</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train) # v = 10 is default</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv}</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train) # v = 10 is default</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation 
 #&gt; # A tibble: 10 × 2
@@ -1576,10 +1557,10 @@ Other advantages of resampling with V-fold cross-validation
 </div>
 <p><strong>What is in this?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-splits}</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train)</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds$splits[1:3]</span></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-splits}</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train)</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds$splits[1:3]</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; [[1]]
 #&gt; &lt;Analysis/Assess/Total&gt;
@@ -1609,9 +1590,9 @@ Note
 </div>
 <p><strong>We can do this with how many folds we want</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-v}</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, v = 5)</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-v}</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, v = 5)</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  5-fold cross-validation 
 #&gt; # A tibble: 5 × 2
@@ -1626,9 +1607,9 @@ Note
 </div>
 <p><strong>Stratification often helps, with very little downside</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-strata}</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, strata = tip)</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-strata}</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, strata = tip)</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation using stratification 
 #&gt; # A tibble: 10 × 2
@@ -1662,11 +1643,11 @@ Important
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-folds}</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train, v = 10, strata = tip)</span></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds</span></span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-folds}</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train, v = 10, strata = tip)</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation using stratification 
 #&gt; # A tibble: 10 × 2
@@ -1690,10 +1671,10 @@ Important
 <h2 class="anchored" data-anchor-id="fit-our-model-to-the-resamples">Fit our model to the resamples!</h2>
 <p>We will fit 10 models on 10 slightly different analysis sets.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fit-resamples}</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res &lt;- fit_resamples(tree_wflow, taxi_folds)</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fit-resamples}</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res &lt;- fit_resamples(tree_wflow, taxi_folds)</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # Resampling results
 #&gt; # 10-fold cross-validation using stratification 
@@ -1736,10 +1717,10 @@ Alternate resampling schemes
 <p><strong>Handling Small Datasets:</strong> It is particularly useful when dealing with small datasets where you might not be able to afford to set aside a portion of the data as a test set.</p>
 <p><strong>Uncertainty Estimates:</strong> It provides a way to create confidence intervals for various performance metrics, giving a sense of how uncertain those metrics are.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r bootstraps}</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(3214)</span></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="in">bootstraps(taxi_train)</span></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r bootstraps}</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(3214)</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="in">bootstraps(taxi_train)</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # Bootstrap sampling 
 #&gt; # A tibble: 25 × 2
@@ -1791,10 +1772,10 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r collect-metrics}</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics()</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r collect-metrics}</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics()</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 6
 #&gt;   .metric     .estimator   mean     n std_err .config             
@@ -1838,10 +1819,10 @@ explore(taxi_res,
 <h3 class="anchored" data-anchor-id="does-our-model-perfomance-change-when-fit-once-on-the-training-data-vs-resampling-on-the-training-data">Does our model perfomance change when fit once on the training data vs resampling on the training data?</h3>
 <p><strong>Do you remember this from way back when? This is the ROC AUC from no resampling:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc-2}</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc-2}</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric .estimator .estimate
@@ -1851,11 +1832,11 @@ explore(taxi_res,
 </div>
 <p><strong>Now, this is from resampling:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics() %&gt;% </span></span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="in">  select(.metric, mean, n)</span></span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics() %&gt;% </span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="in">  select(.metric, mean, n)</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 3
 #&gt;   .metric       mean     n
@@ -1889,12 +1870,12 @@ explore(taxi_res,
 <li><strong>Test Set Performance:</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;%</span></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;%</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 3
 #&gt;   .metric     .estimator .estimate
@@ -1905,10 +1886,10 @@ explore(taxi_res,
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;% </span></span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;% </span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric .estimator .estimate
