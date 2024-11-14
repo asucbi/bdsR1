@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nick Duran">
-<meta name="dcterms.date" content="2024-11-11">
+<meta name="dcterms.date" content="2024-11-14">
 
 <title>Prediction w/ tidyModels</title>
 <style>
@@ -127,7 +127,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 11, 2024</p>
+      <p class="date">November 14, 2024</p>
     </div>
   </div>
   
@@ -139,14 +139,12 @@ window.Quarto = {
 </header>
 
 
-<!-- NOTE: TURN THIS ON WHEN YOU ARE GENERATING A VERSION TO POST ONLINE THAT STUDENTS WILL ACCESS -->
-<div class="cell">
-<style type="text/css">
-.callout-caution {
-  display: none;
-}
-</style>
-</div>
+<!-- NOTE: IF YOU WANT, THIS TURNS ON A VERSION WITHOUT DROP DOWN HINTS -->
+<!-- ```{css, echo=FALSE} -->
+<!-- .callout-caution { -->
+<!--   display: none; -->
+<!-- } -->
+<!-- ``` -->
 <p><img src="hexes/tidymodels.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 <section id="part-1-what-are-tidymodels" class="level1">
 <h1>PART 1: What are tidyModels?</h1>
@@ -177,7 +175,7 @@ window.Quarto = {
 #&gt; ✖ dplyr::filter()  masks stats::filter()
 #&gt; ✖ dplyr::lag()     masks stats::lag()
 #&gt; ✖ recipes::step()  masks stats::step()
-#&gt; • Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+#&gt; • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 </div>
 </section>
@@ -746,7 +744,7 @@ Seriously, can you guess what or who or where I’m thinking about?
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="taxi-tips-lecture-code-along_files/figure-html/unnamed-chunk-18-1.svg" class="img-fluid figure-img" width="672"></p>
+<p><img src="taxi-tips-lecture-code-along_files/figure-html/unnamed-chunk-17-1.svg" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -941,22 +939,22 @@ Tip
 <section id="recap-so-far" class="level1">
 <h1>Recap so far</h1>
 <p>Alright, let’s take a moment to sum up what we covered today.</p>
-<p>We created a workflow for a decision tree model to predict tips. Here’s a reminder of what each part does:</p>
+<p>We created a workflow for a decision tree/logistic regression model to predict tips. Here’s a reminder of what each part does:</p>
 <ul>
-<li><code>tree_fit</code>: This is our final, trained decision tree model. We built it by:
+<li><code>tree_fit</code>/<code>logi_fit</code>: This is our final, trained model. We built it by:
 <ul>
-<li>Specifying a decision tree model with classification mode.</li>
+<li>Specifying amodel with classification mode.</li>
 <li>Using a workflow to package the preprocessing steps (formula and recipe) and model together.</li>
-<li>Fitting this workflow to the training dataset (<code>taxi_train</code>), resulting in <code>tree_fit</code>.</li>
+<li>Fitting this workflow to the training dataset (<code>taxi_train</code>), resulting in <code>tree_fit</code>/<code>logi_fit</code>.</li>
 </ul></li>
 </ul>
 <p>Dataset Reminder — <code>taxi_test</code>:</p>
 <ul>
 <li><code>taxi_test</code> is our test dataset that we held out during training.</li>
-<li>We’ll use <code>taxi_test</code> to evaluate how well <code>tree_fit</code> performs on new, unseen data.</li>
+<li>We’ll use <code>taxi_test</code> to evaluate how well <code>tree_fit</code>/<code>logi_fit</code> performs on new, unseen data.</li>
 </ul>
-<section id="how-do-you-understand-your-new-tree_fit-model" class="level2">
-<h2 class="anchored" data-anchor-id="how-do-you-understand-your-new-tree_fit-model">How do you <strong>understand</strong> your new <code>tree_fit</code> model?</h2>
+<section id="how-do-we-understand-our-new-tree_fitlogi_fit-models" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-we-understand-our-new-tree_fitlogi_fit-models">How do we <strong>understand</strong> our new <code>tree_fit</code>/<code>logi_fit</code> models?</h2>
 <!-- Could talk about broom methods for looking at fitted objects: glance, tidy, only focusing on augment as set up for prediction -->
 <section id="predict-with-your-model" class="level4">
 <h4 class="anchored" data-anchor-id="predict-with-your-model">Predict with your model</h4>
@@ -1277,15 +1275,19 @@ An important aside: Two class data
 </section>
 <section id="roc-curves" class="level2">
 <h2 class="anchored" data-anchor-id="roc-curves">ROC curves</h2>
-<p>An ROC (receiver operator characteristic) curve is a graphical plot that illustrates the diagnostic ability of a binary classifier system.</p>
-<p><strong>It primarily:</strong></p>
+<p>An ROC curve, or Receiver Operator Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes — in our case, predicting a tip (yes) or no tip.</p>
+<p><strong>What Does the ROC Curve Show Us?</strong></p>
+<p>The ROC curve plots sensitivity (true positive rate) on the y-axis against 1 - specificity (false positive rate) on the x-axis, across all possible threshold values. This means:</p>
 <ul>
-<li>Calculates the sensitivity and specificity for all possible thresholds. It helps you (in a visual way) understand whether a model is optimally balancing sensitivity and specificity in a way that makes sense</li>
+<li><p>Each point on the curve represents a different threshold.</p></li>
+<li><p>The curve helps us see how sensitivity and specificity balance out as we adjust that threshold.</p></li>
 </ul>
-<p><strong>It is created by:</strong></p>
+<p><strong>Why Is This Useful?</strong></p>
+<p>The ROC curve lets us understand how well our model separates positive and negative classes over a range of thresholds, rather than just one. This can reveal if the model maintains a good trade-off between correctly identifying tips and avoiding false positives as the threshold changes.</p>
+<p>For example:</p>
 <ul>
-<li>Plotting true positive rate (TPR, or sensitivity) against the false positive rate (FPR, 1-sensitivity) at various threshold settings</li>
-<li>In other words: plotting the rate in which the models correctly predict “tip=yes” and the rate in which the models mistakenly predict that “tip=yes” at various points above which a prediction is considered to be of the positive class.</li>
+<li><p>At lower thresholds, the model is more likely to predict ‘yes tip,’ which increases sensitivity but might lower specificity.</p></li>
+<li><p>At higher thresholds, the model is stricter, predicting ‘no tip’ more often, which decreases sensitivity but increases specificity.</p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1321,10 +1323,15 @@ Why 1-sensitivity for FPR?
 </div>
 </div>
 <p><strong>How do we interpret:</strong></p>
+<p>A key takeaway from the ROC curve is the AUC (Area Under the Curve). The AUC gives us a single value that summarizes how well the model distinguishes between classes across all thresholds:</p>
 <ul>
-<li><p>A high Area Under the Curve (AUC) indicates that for the majority of thresholds, the TPR (sensitivity) was high and the FPR was low. It means that the model has a good measure of separability and is capable of distinguishing between the positive and negative classes across a wide range of thresholds.</p></li>
-<li><p>ROC AUC = 1 💯</p></li>
-<li><p>ROC AUC = 1/2 😢</p></li>
+<li><p>AUC = 1: Perfect separation of classes (ideal).</p></li>
+<li><p>AUC = 0.5: No better than random guessing.</p></li>
+</ul>
+<p>In general, a higher AUC means better performance. Our AUC value, shown here, helps us quickly assess the model’s ability to separate classes across a wide range of thresholds.</p>
+<ul>
+<li>ROC AUC = 1 💯</li>
+<li>ROC AUC = 0.5 😢</li>
 </ul>
 <p><strong>Let’s get the actual value for AUC:</strong></p>
 <div class="cell">
@@ -1362,7 +1369,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When you look at a ROC curve, each point corresponds to a threshold, but the curve itself does not tell you what these thresholds are. To find out, you would need to refer back to the data used to create the ROC curve.</p>
+<p>Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can’t see the exact thresholds on the curve itself. To pinpoint a particular threshold, we’d need to look at our data.</p>
 </div>
 </div>
 </section>
@@ -1658,6 +1665,13 @@ Important
 #&gt; 10 &lt;split [7200/800]&gt; Fold10 &lt;tibble [3 × 4]&gt; &lt;tibble [0 × 3]&gt;</code></pre>
 </div>
 </div>
+</section>
+<section id="your-turn-11" class="level2">
+<h2 class="anchored" data-anchor-id="your-turn-11">Your turn</h2>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
+<ul>
+<li><h3 id="now-run-vfold_cv-to-get-10-splits-and-refit-your-logistic-regression-workflow-using-fit_resamples" class="anchored"><em>Now run <code>vfold_cv</code> to get 10 splits and refit your logistic regression workflow (using <code>fit_resamples</code>)</em></h3></li>
+</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1708,13 +1722,6 @@ Alternate resampling schemes
 </section>
 </div>
 </div>
-</section>
-<section id="your-turn-11" class="level2">
-<h2 class="anchored" data-anchor-id="your-turn-11">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
-<ul>
-<li><h3 id="now-run-vfold_cv-to-get-10-splits-and-refit-your-logistic-regression-workflow-using-fit_resamples" class="anchored"><em>Now run <code>vfold_cv</code> to get 10 splits and refit your logistic regression workflow (using <code>fit_resamples</code>)</em></h3></li>
-</ul>
 <p><img src="hexes/tune.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 </section>
 <section id="evaluating-model-performance" class="level2">
