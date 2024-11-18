@@ -11,7 +11,7 @@ title: "HW 09 - Wrap up!"
 
 It's almost time to wrap up the course!
 
-In this two part assignment, we will return to a dataset we started with in Module 1, and then you will try something new and get creative!
+In this assignment, we will return to a dataset that I touched on ever so briefly in Module 1, and then you will try something new and get creative!
 
 # Getting started
 
@@ -37,7 +37,7 @@ For the second part you get to choose which package to use.
 
 ## Part 1: Mirror, mirror on the wall, who's the ugliest of them all?
 
-Below you will find a simple plot using the `student_subset_2018` dataset, which we worked on in a code-along in the first week of the course! This dataset results from the efforts of the Programme for International Student Assessment (PISA) where, every three years, they administer standardized tests in areas of reading, mathematics, and scientific literacy with 600,000+ 15-year-old students across 80 countries.
+Below you will find a simple plot using the `student_subset_2018` dataset. This dataset results from the efforts of the Programme for International Student Assessment (PISA) where, every three years, they administer standardized tests in areas of reading, mathematics, and scientific literacy with 600,000+ 15-year-old students across 80 countries.
 
 We're just looking at a small subset of the data from 2018 and we're plotting math scores vs. reading scores, colored by gender (which is PISA's labeling, and is coded as either "male" or "female"). 
 
