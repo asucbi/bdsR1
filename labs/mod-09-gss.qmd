@@ -38,7 +38,7 @@ In this assignment we analyze data from the 2016 GSS, using it to do some predic
 
 Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named `Module 9`.
 
-First, open the R Markdown document `mod-09-lab-1.Rmd` and **Knit** it.
+First, open the R Markdown document `mod-09-lab.Rmd` and **Knit** it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.
 
@@ -104,6 +104,10 @@ It's important that you don't recode the NAs, just the remaining levels.
 
 -   Finally, `count()` how many times each new level appears in the `advfront` variable.
 
+::: callout-tip
+To answer Exercise 1, you're going to use `mutate`, `case_when`, and `fct_relevel` at some point.
+:::
+
 ### Exercise 2
 
 -   Combine the levels of the `polviews` variable such that levels that have the word "liberal" in them are lumped into a level called `"Liberal"` and those that have the word conservative in them are lumped into a level called `"Conservative"`.
@@ -119,6 +123,10 @@ But feel free to solve the problem however you like, this is just one option!
 -   Then, re-order the levels in the following order: `"Conservative"` , `"Moderate"`, and `"Liberal"`.
 
 -   Finally, `count()` how many times each new level appears in the `polviews` variable.
+
+::: callout-tip
+To answer Exercise 2, in addition to the functions already mentioned, you're going to use `mutate` and `fct_relevel` at some point.
+:::
 
 ### Exercise 3
 
@@ -145,6 +153,8 @@ gss16_advfront <- gss16 %>%
 
 -   Use these specific names below to make it easier to follow the rest of the instructions.
 
+-   Set the seed to the value "123" so we all get the same result
+
 ```{r}
 #| eval: false
 
@@ -159,20 +169,23 @@ gss16_test  <- ___
 
 ### Exercise 5
 
-Create a recipe with the following steps for predicting `advfront` from `polviews`, `wrkstat`, and `educ`.
-Name this recipe `gss16_rec_1`.
-(We'll create one more recipe later, that's why we're naming this recipe `_1`.) Sample code is provided below.
+In the lecture I introduced recipes briefly, here is your opportunity to extend and learn on your own.
 
--   `step_other()` to pool values that occur less than 10% of the time (`threshold = 0.10`) in the `wrkstat` variable into `"Other"`.
+See the sample code provided below and complete it. **Note** that the recipe object you're building is called `gss16_rec_1`. 
+Preprocessing/feature engineering steps:
 
--   `step_dummy()` to create dummy variables for `all_nominal()` variables that are predictors, i.e. `all_predictors()`
+- First declare you're creating a recipe using `recipe` and fill in the missing arguments
+
+- Next, for the the `wrkstat` variable, you're going to pool values in `wrkstat` that occur less than 10% of the time and call them `Other`. You will use the default `step_other()` function to do so. 
+
+- Next, for all nominal (categorical) variables, you're going to create dummy variables. **Note** that using `-all_outcomes()` ensures that the target variable (outcome) is not accidentally included when creating dummy variables. Your focus should only be on predictors.  
 
 ```{r}
 #| eval: false
 
 gss16_rec_1 <- recipe(___ ~ ___, data = ___) %>%
-  step_other(wrkstat, threshold = ___, other = "Other") %>%
-  step_dummy(all_nominal(), -all_outcomes())
+  step_other(___, threshold = ___, ___ = "Other") %>%
+  step_dummy(___, -all_outcomes())
 ```
 
 ::: callout-note
@@ -187,6 +200,7 @@ To learn more about recipes in general, visit <https://recipes.tidymodels.org//a
 
 Specify a logistic regression model using `"glm"` as the engine.
 Name this specification `gss16_spec`.
+
 Do this the tidymodels way.
 
 ```{r}
@@ -204,9 +218,9 @@ Name this workflow `gss16_wflow_1`.
 ```{r}
 #| eval: false
 
-gss16_wflow_1 <- ___ %>%
-  ___ %>%
-  ___
+gss16_wflow_1 <- ___ %>% # first declare what you're doing
+  ___ %>% # add something
+  ___ # add something
 ```
 
 ## Part 5: Model fit with cross-validation
@@ -216,30 +230,31 @@ gss16_wflow_1 <- ___ %>%
 Perform 5-fold cross validation.
 specifically,
 
--   #1: split the training data into 5 folds (don't forget to set a seed first!),
+-   #1: split the training data into 5 folds (don't forget to set a seed: set it as `123`),
 
 -   #2: apply the workflow you defined earlier to the folds with `fit_resamples()`, and
 
 -   #3: `collect_metrics()` and comment on the consistency of metrics across folds (you can get the area under the ROC curve and the accuracy for each fold by setting `summarize = FALSE` in `collect_metrics()`)
 
--   #4: report the average area under the ROC curve and the accuracy for all cross validation folds `collect_metrics()`
+-   #4: report the average area under (auc) for the ROC and the accuracy for all cross validation folds `collect_metrics()`
 
 ```{r}
 #| eval: false
 
 #1:
 ___ # do something here to set the seed
+
 gss16_folds < ___
 
 #2:
 gss16_fit_rs_1 <- ___ %>%
-  fit_resamples(___)
+ # here you fit the resampled data
 
 #3:
-collect_metrics(___, summarize = FALSE)
+# here you collect the metrics with summarize set at false
 
 #4
-collect_metrics(___)
+# here you collect the metrics, but now showing the average
 ```
 
 ## Part 6: Model comparison
@@ -249,17 +264,35 @@ collect_metrics(___)
 Now, try a different, simpler model: predict `advfront` from only `polviews` and `educ`.
 Specifically,
 
--   update the recipe to reflect this simpler model specification (and name it `gss16_rec_2`),
+-   #1: update the recipe to reflect this simpler model specification (and name it `gss16_rec_2`),
 
--   redefine the workflow with the new recipe (and name this new workflow `gss16_wflow_2`),
+-   #2: redefine the workflow with the new recipe (and name this new workflow `gss16_wflow_2`),
 
--   perform cross validation, and
+-   #3: perform cross validation, and
 
--   report the average area under the ROC curve and the accuracy for all cross validation folds `collect_metrics()`.
+-   #4: report the average area under the ROC curve and the accuracy for all cross validation folds `collect_metrics()`.
+
+```{r}
+#| eval: false
+
+#1:
+gss16_rec_2 < gss16_rec_1 %>% # just modify the original recipe
+  # there is something very simple you can do here with `step_rm`
+
+#2:
+gss16_wflow_2 <- ___ %>%
+ # setting up a new workflow, but you can copy/paste from above, you're just swapping out to the new recipe 
+
+#3:
+# don't forget to set the seed
+
+#4
+# collect the metrics like you did before
+```
 
 ### Exercise 10
 
-Comment on which model performs better (one including `wrkstat`, model 1, or the one excluding `wrkstat`, model 2) on the training data based on area under the ROC curve.
+Comment on which model performs better (one including `wrkstat`, model 1, or the one excluding `wrkstat`, model 2) on the training data based on area under curve for the ROC.
 
 ::: callout-note
 If not obvious from the lectures, this sort of model comparison is what cross-validation allows!
@@ -269,25 +302,14 @@ If not obvious from the lectures, this sort of model comparison is what cross-va
 
 ### Exercise 11
 
-Fit both models to the testing data, plot the ROC curves for the predictions for both models, and calculate the areas under the ROC curve.
+Take the best performing model (see Exercise 10) and use the corresponding workflow (either `gss16_wflow_1` or `gss16_wflow_2`) and fit it on all the training data (no resampling). Then, take this model and fit it on the test data. Provide some metrics of test data performance. 
 
--   Does your answer to the previous exercise hold for the testing data as well?
+At the very least, performance metrics like:
 
--   Explain your reasoning.
+- **plot** the ROC curve for the predictions
+- calculate the area under curve for the ROC
 
-::: callout-tip
-If you haven't yet done so, you'll need to first train your workflows on the training data with the following, and then use these fit objects to calculate predictions for the test data.
-
-```{r}
-#| eval: false
-
-gss16_fit_1 <- gss16_wflow_1 %>%
-  fit(gss16_train)
-
-gss16_fit_2 <- gss16_wflow_2 %>%
-  fit(gss16_train)
-```
-:::
+Once you've run this, answer the following questions: What would it mean if the fit on the testing data was much worse than the fit on the training data? Explain your reasoning.
 
 ## Part 8: Starting over w/ a decision tree
 
@@ -298,7 +320,8 @@ gss16_fit_2 <- gss16_wflow_2 %>%
 ### Exercise 12
 
 In this final challenge, lets build a completely new classification model using this data.
-Using my lecture materials, I want you to:
+
+**Using my lecture materials, I want you to:**
 
 -   set up the specs for a decision tree, add it to a workflow
 

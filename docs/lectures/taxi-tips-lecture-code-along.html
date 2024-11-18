@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nick Duran">
-<meta name="dcterms.date" content="2024-11-14">
+<meta name="dcterms.date" content="2024-11-18">
 
 <title>Prediction w/ tidyModels</title>
 <style>
@@ -127,7 +127,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 14, 2024</p>
+      <p class="date">November 18, 2024</p>
     </div>
   </div>
   
@@ -175,7 +175,7 @@ window.Quarto = {
 #&gt; ✖ dplyr::filter()  masks stats::filter()
 #&gt; ✖ dplyr::lag()     masks stats::lag()
 #&gt; ✖ recipes::step()  masks stats::step()
-#&gt; • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+#&gt; • Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 </div>
 </div>
 </section>
@@ -202,10 +202,10 @@ window.Quarto = {
 <p><img src="img/what_is_ml.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="how-are-statistics-and-machine-learning-related-how-are-they-different" class="anchored"><em>How are statistics and machine learning related?; How are they different?</em></h3></li>
 </ul>
@@ -341,10 +341,10 @@ Note
 <li><p>Spending too much data in <strong>training</strong> prevents us from computing a good assessment of predictive <strong>performance</strong>.</p></li>
 <li><p>Spending too much data in <strong>testing</strong> prevents us from computing a good estimate of model <strong>parameters</strong>.</p></li>
 </ul>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-1" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-1">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="when-is-a-good-time-to-split-your-data" class="anchored"><em>When is a good time to split your data?</em></h3></li>
 </ul>
@@ -429,11 +429,11 @@ What is <code>set.seed()</code>?
 <h3 class="anchored" data-anchor-id="the-test-set">The test set</h3>
 <p>🙈</p>
 <p>There are 2500 rows and 7 columns in the test set.</p>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 </section>
 <section id="your-turn-2" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-2">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="split-your-data-so-20-is-held-out-for-the-test-set-and-show-the-first-10-rows-of-so-of-the-training-data" class="anchored"><em>Split your data so 20% is held out for the test set and show the first 10 rows of so of the training data</em></h3></li>
 </ul>
@@ -444,10 +444,10 @@ What is <code>set.seed()</code>?
 <section id="exploratory-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h2>
 <p>As you know by now, before we get too far into our data analysis, we want to do some exploration with visualizations. So lets get to it.</p>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-3" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-3">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="whats-the-distribution-of-the-outcome-tip" class="anchored"><em>What’s the distribution of the outcome, <code>tip</code>?</em></h3></li>
 <li><h3 id="whats-the-distribution-of-numeric-variables-like-distance" class="anchored"><em>What’s the distribution of numeric variables like <code>distance</code>?</em></h3></li>
@@ -517,10 +517,10 @@ Tip
 </ul>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-4" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-4">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="go-back-and-modify-your-earlier-code-where-you-split-the-data-to-stratify-by-tip" class="anchored"><em>Go back and modify your earlier code where you split the data to stratify by tip</em></h3></li>
 </ul>
@@ -625,10 +625,10 @@ Tip
 <li>Set the Mode – Set whether it’s a classification or regression model.</li>
 </ol>
 <p>This setup gives us a lot of flexibility to try different modeling techniques and see what works best. The goal is to keep our code clear and reusable, letting us focus on finding the best model for our data.</p>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-5" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-5">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="edit-the-code-to-create-a-logistic-regression-model" class="anchored"><em>Edit the code to create a logistic regression model</em></h3></li>
 </ul>
@@ -880,10 +880,10 @@ Tip
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> taxi_train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-6" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-6">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="fill-out-the-chunk-below-to-create-a-workflow-for-a-logistic-regression-model" class="anchored"><em>Fill out the chunk below to create a workflow for a logistic regression model</em></h3></li>
 </ul>
@@ -935,24 +935,6 @@ Tip
 <li>Visit <a href="https://www.tidymodels.org/find/recipes/" class="uri">https://www.tidymodels.org/find/recipes/</a> for details on all possible recipes</li>
 </ul>
 </section>
-</section>
-<section id="recap-so-far" class="level1">
-<h1>Recap so far</h1>
-<p>Alright, let’s take a moment to sum up what we covered today.</p>
-<p>We created a workflow for a decision tree/logistic regression model to predict tips. Here’s a reminder of what each part does:</p>
-<ul>
-<li><code>tree_fit</code>/<code>logi_fit</code>: This is our final, trained model. We built it by:
-<ul>
-<li>Specifying amodel with classification mode.</li>
-<li>Using a workflow to package the preprocessing steps (formula and recipe) and model together.</li>
-<li>Fitting this workflow to the training dataset (<code>taxi_train</code>), resulting in <code>tree_fit</code>/<code>logi_fit</code>.</li>
-</ul></li>
-</ul>
-<p>Dataset Reminder — <code>taxi_test</code>:</p>
-<ul>
-<li><code>taxi_test</code> is our test dataset that we held out during training.</li>
-<li>We’ll use <code>taxi_test</code> to evaluate how well <code>tree_fit</code>/<code>logi_fit</code> performs on new, unseen data.</li>
-</ul>
 <section id="how-do-we-understand-our-new-tree_fitlogi_fit-models" class="level2">
 <h2 class="anchored" data-anchor-id="how-do-we-understand-our-new-tree_fitlogi_fit-models">How do we <strong>understand</strong> our new <code>tree_fit</code>/<code>logi_fit</code> models?</h2>
 <!-- Could talk about broom methods for looking at fitted objects: glance, tidy, only focusing on augment as set up for prediction -->
@@ -1061,11 +1043,11 @@ Additional methods for understanding models
 </div>
 </div>
 <p>Learn more at <a href="https://www.tmwr.org/explain.html" class="uri">https://www.tmwr.org/explain.html</a></p>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 </section>
 <section id="your-turn-7" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-7">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="for-the-fitted-logistic-regression-model-use-augment-then-glance-and-tidy.-what-happens-with-each" class="anchored"><em>For the fitted logistic regression model, use <code>augment</code>, then <code>glance</code> and <code>tidy</code>. What happens with each?</em></h3></li>
 </ul>
@@ -1233,10 +1215,10 @@ Dangers of accuracy
 #&gt; 6 no    sensitivity binary        0.998</code></pre>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-8" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-8">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h2 id="compute-a-confusion-matrix-for-your-logistic-model-and-produce-a-table-that-shows-its-accuracy-specificity-sensitivity-scores" class="anchored"><em>Compute a confusion matrix for your logistic model and produce a table that shows its accuracy, specificity, sensitivity scores</em></h2></li>
 </ul>
@@ -1372,33 +1354,54 @@ Note
 <p>Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can’t see the exact thresholds on the curve itself. To pinpoint a particular threshold, we’d need to look at our data.</p>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 <section id="your-turn-9" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-9">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="compute-and-plot-an-roc-curve-for-your-logistic-model" class="anchored"><em>Compute and plot an ROC curve for your logistic model</em></h3></li>
 </ul>
 </section>
+</section>
+<section id="recap-so-far" class="level1">
+<h1>Recap so far</h1>
+<p>Alright, where are we at with things:</p>
+<p>We created a workflow for a decision tree/logistic regression model to predict tips. Here’s a reminder of what each part does:</p>
+<ul>
+<li><code>tree_fit</code>/<code>logi_fit</code>: This is our final, trained model. We built it by:
+<ul>
+<li><p>Specifying a model with classification mode.</p></li>
+<li><p>Using a workflow (<code>tree_wflow</code>/<code>logi_wflow</code>) to package the preprocessing steps (formula and recipe) and model together.</p></li>
+<li><p>Fitting this workflow to the training dataset (<code>taxi_train</code>), resulting in <code>tree_fit</code>/<code>logi_fit</code>.</p></li>
+<li><p>We have taken <code>tree_fit</code>/<code>logi_fit</code> and determined how well it performs with the training dataset based (computing a bunch of metrics along the way)</p></li>
+</ul></li>
+</ul>
+<p>Dataset Reminder — <code>taxi_test</code>:</p>
+<ul>
+<li><code>taxi_test</code> is our test dataset that we held out during training.</li>
+<li>We’ll use <code>taxi_test</code> to evaluate how well <code>tree_fit</code>/<code>logi_fit</code> performs on new, unseen data.</li>
+</ul>
 </section>
 <section id="part-5-using-resampling-to-estimate-performance" class="level1">
 <h1>PART 5: Using resampling to estimate performance</h1>
 <section id="dangers-of-overfitting" class="level2">
 <h2 class="anchored" data-anchor-id="dangers-of-overfitting">⚠️ Dangers of Overfitting ⚠️</h2>
 <p>Models can easily be overfitted to the training data, meaning they perform well on the training data but poorly on unseen data.</p>
-<section id="fitting-to-your-training-data" class="level3">
-<h3 class="anchored" data-anchor-id="fitting-to-your-training-data">Fitting to your training data</h3>
+<section id="fitting-to-your-training-data" class="level4">
+<h4 class="anchored" data-anchor-id="fitting-to-your-training-data">Fitting to your training data</h4>
 <p><img src="https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-train-1.svg" class="img-fluid"></p>
 </section>
-<section id="problems-when-generalizing-to-test-data" class="level3">
-<h3 class="anchored" data-anchor-id="problems-when-generalizing-to-test-data">Problems when generalizing to test data</h3>
+<section id="problems-when-generalizing-to-test-data" class="level4">
+<h4 class="anchored" data-anchor-id="problems-when-generalizing-to-test-data">Problems when generalizing to test data</h4>
 <p><img src="https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-test-1.svg" class="img-fluid"></p>
 </section>
-<section id="is-our-model-doing-well-on-training-but-poorly-on-new-data" class="level3">
-<h3 class="anchored" data-anchor-id="is-our-model-doing-well-on-training-but-poorly-on-new-data">Is our model doing well on training but poorly on new data?</h3>
+</section>
+<section id="is-our-model-doing-well-on-training-but-poorly-on-new-data" class="level2">
+<h2 class="anchored" data-anchor-id="is-our-model-doing-well-on-training-but-poorly-on-new-data">Is our model doing well on training but poorly on new data?</h2>
 <!-- We call this "resubstitution" or "repredicting the training set" -->
 <!-- We call this a "resubstitution estimate" -->
-<p><strong>Here’s our model performance on the training data</strong></p>
+<section id="heres-our-model-performance-on-the-training-data" class="level4">
+<h4 class="anchored" data-anchor-id="heres-our-model-performance-on-the-training-data">Here’s our model performance on the training data</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-train}</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
@@ -1434,7 +1437,9 @@ Note
 #&gt; 1 accuracy binary         0.924</code></pre>
 </div>
 </div>
-<p><strong>Here’s our model performance on the test data (unseen data)</strong></p>
+</section>
+<section id="heres-our-model-performance-on-the-test-data-unseen-data" class="level4">
+<h4 class="anchored" data-anchor-id="heres-our-model-performance-on-the-test-data-unseen-data">Here’s our model performance on the test data (unseen data)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r augment-acc-test}</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="in">tree_fit %&gt;%</span></span>
@@ -1448,34 +1453,37 @@ Note
 #&gt; 1 accuracy binary         0.914</code></pre>
 </div>
 </div>
+<p>The comparison between training accuracy and test accuracy are very close: 0.924 vs.&nbsp;0.914. What does this mean?</p>
+<ul>
+<li>The model generalizes reasonably well (good!)</li>
+<li><strong>Or</strong> that your test set may not be large or representative enough to fully assess generalization</li>
+</ul>
+<p>This comparison alone doesn’t give us the full picture. It’s not enough.</p>
+<p>Why? Because this evaluation depends on just one split of the data into training and test sets. If this split isn’t representative of all possible data scenarios, it could lead to overly optimistic or overly pessimistic results.</p>
 </section>
-<section id="better-to-fit-on-training-data-via-a-process-of-resampling" class="level3">
-<h3 class="anchored" data-anchor-id="better-to-fit-on-training-data-via-a-process-of-resampling">Better to fit on training data via a process of resampling</h3>
-<p>Resampling is basically an empirical simulation system used to understand how well the model would work on new data. It’s a more robust estimate of the model’s performance</p>
+<section id="better-to-first-fit-on-training-data-via-a-process-of-resampling" class="level4">
+<h4 class="anchored" data-anchor-id="better-to-first-fit-on-training-data-via-a-process-of-resampling">Better to first fit on training data via a process of resampling</h4>
+<p>To truly understand how well our model performs, we need to use resampling techniques like cross-validation.</p>
+<p>Cross-validation gives us multiple test scenarios by repeatedly splitting the training data and evaluating the model on different subsets. This not only gives us a more robust estimate of performance but also highlights whether the model might be overfitting or underfitting.</p>
 </section>
 </section>
 <section id="v-fold-k-fold-cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="v-fold-k-fold-cross-validation">V-fold (K-fold) Cross-validation</h2>
-<ul>
-<li>We want to repeatedly sample (“fold”) the training data to create unique subsets (e.g., Resample 1, Resample 2, Resample <em>B</em>) for analysis and assessment</li>
-</ul>
+<p>We want to repeatedly sample (“fold”) the training data to create unique subsets (e.g., Resample 1, Resample 2, Resample <em>B</em>) for analysis and assessment.</p>
+<p>We randomly split the training data into V (or K) distinct blocks of roughly equal size (AKA the “folds”).</p>
 <p><img src="https://www.tmwr.org/premade/resampling.svg" class="img-fluid"></p>
-<ul>
-<li>Here, we randomly split the training data into V (or K) distinct blocks of roughly equal size (AKA the “folds”)</li>
-</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://www.tmwr.org/premade/three-CV.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
+<section id="in-fold-1" class="level4">
+<h4 class="anchored" data-anchor-id="in-fold-1">In Fold 1:</h4>
 <ul>
-<li>In Fold 1:
-<ul>
-<li>We leave out the first block of analysis data and fit a model</li>
-<li>This model is used to predict the held-out block of assessment data</li>
-</ul></li>
-<li>We continue this process until we’ve predicted all V assessment blocks</li>
-<li>This process ensures that every observation from the original dataset has the chance of appearing in the analysis and assessment set</li>
+<li><p>We leave out the first block of analysis data and fit a model</p></li>
+<li><p>This model is used to predict the held-out block of assessment data</p></li>
+<li><p>We continue this process until we’ve predicted all V assessment blocks</p></li>
+<li><p>This process ensures that every observation from the original dataset has the chance of appearing in the analysis and assessment set</p></li>
 </ul>
 <p><img src="https://www.tmwr.org/premade/three-CV-iter.svg" class="img-fluid"></p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1495,10 +1503,11 @@ Other advantages of resampling with V-fold cross-validation
 </ul>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
+</section>
 </section>
 <section id="your-turn-10" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-10">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="if-we-use-10-folds-what-percent-of-the-training-data-ends-up-in-analysis-for-each-fold-for-assessment-for-each-fold" class="anchored"><em>If we use 10 folds, what percent of the training data ends up in ANALYSIS for each fold? for ASSESSMENT for each fold?</em></h3></li>
 </ul>
@@ -1508,8 +1517,9 @@ Other advantages of resampling with V-fold cross-validation
 <h2 class="anchored" data-anchor-id="lets-do-some-cross-validation">Let’s do some cross-validation</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv}</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train) # v = 10 is default</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train) # v = 10 is default</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation 
 #&gt; # A tibble: 10 × 2
@@ -1527,26 +1537,6 @@ Other advantages of resampling with V-fold cross-validation
 #&gt; 10 &lt;split [7200/800]&gt; Fold10</code></pre>
 </div>
 </div>
-<p><strong>What is in this?</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-splits}</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train)</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds$splits[1:3]</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; [[1]]
-#&gt; &lt;Analysis/Assess/Total&gt;
-#&gt; &lt;7200/800/8000&gt;
-#&gt; 
-#&gt; [[2]]
-#&gt; &lt;Analysis/Assess/Total&gt;
-#&gt; &lt;7200/800/8000&gt;
-#&gt; 
-#&gt; [[3]]
-#&gt; &lt;Analysis/Assess/Total&gt;
-#&gt; &lt;7200/800/8000&gt;</code></pre>
-</div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1560,11 +1550,12 @@ Note
 <p>These separate sets are in a list column, which is a way to store non-atomic types in a dataframe</p>
 </div>
 </div>
-<p><strong>We can do this with how many folds we want</strong></p>
+<section id="we-can-do-this-with-how-many-folds-we-want" class="level4">
+<h4 class="anchored" data-anchor-id="we-can-do-this-with-how-many-folds-we-want">We can do this with how many folds we want</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-v}</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, v = 5)</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-v}</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, v = 5)</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  5-fold cross-validation 
 #&gt; # A tibble: 5 × 2
@@ -1577,11 +1568,13 @@ Note
 #&gt; 5 &lt;split [6400/1600]&gt; Fold5</code></pre>
 </div>
 </div>
-<p><strong>Stratification often helps, with very little downside</strong></p>
+</section>
+<section id="stratification-often-helps-with-very-little-downside" class="level4">
+<h4 class="anchored" data-anchor-id="stratification-often-helps-with-very-little-downside">Stratification often helps, with very little downside</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-strata}</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, strata = tip)</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r vfold-cv-strata}</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="in">vfold_cv(taxi_train, strata = tip)</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation using stratification 
 #&gt; # A tibble: 10 × 2
@@ -1599,6 +1592,7 @@ Note
 #&gt; 10 &lt;split [7200/800]&gt; Fold10</code></pre>
 </div>
 </div>
+</section>
 <section id="well-use-this-setup" class="level3">
 <h3 class="anchored" data-anchor-id="well-use-this-setup">We’ll use this setup:</h3>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -1615,11 +1609,11 @@ Important
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-folds}</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train, v = 10, strata = tip)</span></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r taxi-folds}</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds &lt;- vfold_cv(taxi_train, v = 10, strata = tip)</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_folds</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; #  10-fold cross-validation using stratification 
 #&gt; # A tibble: 10 × 2
@@ -1641,12 +1635,13 @@ Important
 </section>
 <section id="fit-our-model-to-the-resamples" class="level2">
 <h2 class="anchored" data-anchor-id="fit-our-model-to-the-resamples">Fit our model to the resamples!</h2>
-<p>We will fit 10 models on 10 slightly different analysis sets.</p>
+<section id="we-will-fit-10-models-on-10-slightly-different-analysis-sets." class="level4">
+<h4 class="anchored" data-anchor-id="we-will-fit-10-models-on-10-slightly-different-analysis-sets.">We will fit 10 models on 10 slightly different analysis sets.</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fit-resamples}</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res &lt;- fit_resamples(tree_wflow, taxi_folds)</span></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res</span></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fit-resamples}</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res &lt;- fit_resamples(tree_wflow, taxi_folds)</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # Resampling results
 #&gt; # 10-fold cross-validation using stratification 
@@ -1665,63 +1660,14 @@ Important
 #&gt; 10 &lt;split [7200/800]&gt; Fold10 &lt;tibble [3 × 4]&gt; &lt;tibble [0 × 3]&gt;</code></pre>
 </div>
 </div>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
+</section>
 </section>
 <section id="your-turn-11" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-11">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="now-run-vfold_cv-to-get-10-splits-and-refit-your-logistic-regression-workflow-using-fit_resamples" class="anchored"><em>Now run <code>vfold_cv</code> to get 10 splits and refit your logistic regression workflow (using <code>fit_resamples</code>)</em></h3></li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Alternate resampling schemes
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><img src="hexes/rsample.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
-<section id="bootstrapping" class="level2">
-<h2 class="anchored" data-anchor-id="bootstrapping">Bootstrapping</h2>
-<ul>
-<li><p>Assess model accuracy and stability</p></li>
-<li><p>From your original training dataset, create many (often thousands) of new “bootstrap” training datasets by sampling with replacement.</p></li>
-</ul>
-<p><img src="https://www.tmwr.org/premade/bootstraps.svg" class="img-fluid"></p>
-<ul>
-<li>After running the bootstrap process many times, you’ll end up with a distribution of performance metrics (like accuracy or AUC).</li>
-</ul>
-<p><strong>Handling Small Datasets:</strong> It is particularly useful when dealing with small datasets where you might not be able to afford to set aside a portion of the data as a test set.</p>
-<p><strong>Uncertainty Estimates:</strong> It provides a way to create confidence intervals for various performance metrics, giving a sense of how uncertain those metrics are.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r bootstraps}</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(3214)</span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="in">bootstraps(taxi_train)</span></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; # Bootstrap sampling 
-#&gt; # A tibble: 25 × 2
-#&gt;    splits              id         
-#&gt;    &lt;list&gt;              &lt;chr&gt;      
-#&gt;  1 &lt;split [8000/2902]&gt; Bootstrap01
-#&gt;  2 &lt;split [8000/2916]&gt; Bootstrap02
-#&gt;  3 &lt;split [8000/3004]&gt; Bootstrap03
-#&gt;  4 &lt;split [8000/2979]&gt; Bootstrap04
-#&gt;  5 &lt;split [8000/2961]&gt; Bootstrap05
-#&gt;  6 &lt;split [8000/2962]&gt; Bootstrap06
-#&gt;  7 &lt;split [8000/3026]&gt; Bootstrap07
-#&gt;  8 &lt;split [8000/2926]&gt; Bootstrap08
-#&gt;  9 &lt;split [8000/2972]&gt; Bootstrap09
-#&gt; 10 &lt;split [8000/2972]&gt; Bootstrap10
-#&gt; # ℹ 15 more rows</code></pre>
-</div>
-</div>
-<p><a href="https://rsample.tidymodels.org/reference/index.html" class="uri">https://rsample.tidymodels.org/reference/index.html</a></p>
-</section>
-</div>
-</div>
 <p><img src="hexes/tune.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 </section>
 <section id="evaluating-model-performance" class="level2">
@@ -1730,6 +1676,20 @@ Alternate resampling schemes
 <li>The goal of resampling is to produce a single estimate of performance for a model</li>
 <li>The final performance is based on the hold-out predictions by averaging the statistics from the V folds.</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r collect-metrics}</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics()</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 3 × 6
+#&gt;   .metric     .estimator   mean     n std_err .config             
+#&gt;   &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+#&gt; 1 accuracy    binary     0.923     10 0.00320 Preprocessor1_Model1
+#&gt; 2 brier_class binary     0.0699    10 0.00262 Preprocessor1_Model1
+#&gt; 3 roc_auc     binary     0.592     10 0.0126  Preprocessor1_Model1</code></pre>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1741,20 +1701,6 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Even though we end up estimating V models, these models are discarded after we have our performance estimate. 🗑</p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r collect-metrics}</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics()</span></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; # A tibble: 3 × 6
-#&gt;   .metric     .estimator   mean     n std_err .config             
-#&gt;   &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
-#&gt; 1 accuracy    binary     0.923     10 0.00320 Preprocessor1_Model1
-#&gt; 2 brier_class binary     0.0699    10 0.00262 Preprocessor1_Model1
-#&gt; 3 roc_auc     binary     0.592     10 0.0126  Preprocessor1_Model1</code></pre>
 </div>
 </div>
 <section id="we-can-reliably-measure-performance-using-only-the-training-data" class="level3">
@@ -1778,23 +1724,24 @@ explore(taxi_res,
         hover_cols = c(tip))
 ```
 -->
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 </section>
 </section>
 <section id="your-turn-12" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-12">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="use-collect_metrics-to-get-a-single-estimates-of-performance-on-your-cross-validated-logistic-regression" class="anchored"><em>Use <code>collect_metrics()</code> to get a single estimates of performance on your cross-validated logistic regression</em></h3></li>
 <li><h3 id="generate-a-new-confusion-matrix-for-your-cross-validated-logistic-regression" class="anchored"><em>Generate a new confusion matrix for your cross-validated logistic regression</em></h3></li>
 </ul>
-<section id="does-our-model-perfomance-change-when-fit-once-on-the-training-data-vs-resampling-on-the-training-data" class="level3">
-<h3 class="anchored" data-anchor-id="does-our-model-perfomance-change-when-fit-once-on-the-training-data-vs-resampling-on-the-training-data">Does our model perfomance change when fit once on the training data vs resampling on the training data?</h3>
-<p><strong>Do you remember this from way back when? This is the ROC AUC from no resampling:</strong></p>
+<section id="compare-model-performance-with-all-the-training-data-vs.-resampling-subsets-of-training-data" class="level3">
+<h3 class="anchored" data-anchor-id="compare-model-performance-with-all-the-training-data-vs.-resampling-subsets-of-training-data">Compare model performance with all the training data vs.&nbsp;resampling (subsets of training data)</h3>
+<section id="roc-auc-from-all-the-training-data" class="level4">
+<h4 class="anchored" data-anchor-id="roc-auc-from-all-the-training-data">ROC AUC from all the training data:</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc-2}</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r roc-auc-2}</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_train) %&gt;% </span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric .estimator .estimate
@@ -1802,13 +1749,15 @@ explore(taxi_res,
 #&gt; 1 roc_auc binary         0.611</code></pre>
 </div>
 </div>
-<p><strong>Now, this is from resampling:</strong></p>
+</section>
+<section id="roc-auc-from-resampling-subsets-of-training-data" class="level4">
+<h4 class="anchored" data-anchor-id="roc-auc-from-resampling-subsets-of-training-data">ROC AUC from resampling (subsets of training data):</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics() %&gt;% </span></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="in">  select(.metric, mean, n)</span></span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_res %&gt;%</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="in">  collect_metrics() %&gt;% </span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="in">  select(.metric, mean, n)</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 3
 #&gt;   .metric       mean     n
@@ -1818,36 +1767,49 @@ explore(taxi_res,
 #&gt; 3 roc_auc     0.592     10</code></pre>
 </div>
 </div>
-<section id="lesson-is-that-the-fitting-a-model-on-just-the-training-set-without-resampling-gives-you-overly-optimistic-metrics" class="level4">
-<h4 class="anchored" data-anchor-id="lesson-is-that-the-fitting-a-model-on-just-the-training-set-without-resampling-gives-you-overly-optimistic-metrics">Lesson is that the fitting a model on just the training set (without resampling) gives you overly optimistic metrics ⚠️</h4>
+</section>
+<section id="all-the-training-data-was-slightly-optimistic-0.611-resampling-gives-us-a-better-estimate-of-expected-performance-0.592." class="level4">
+<h4 class="anchored" data-anchor-id="all-the-training-data-was-slightly-optimistic-0.611-resampling-gives-us-a-better-estimate-of-expected-performance-0.592.">All the training data was slightly optimistic (<strong>0.611</strong>), resampling gives us a better estimate of expected performance (<strong>0.592</strong>).</h4>
 </section>
 </section>
+</section>
+<section id="recap-of-proper-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="recap-of-proper-workflow">Recap of proper workflow</h2>
+<ol type="1">
+<li>Split the Data into Training and Testing Sets</li>
+<li>Specify the Model</li>
+<li>Preprocess the Data with Recipes (Optional)</li>
+<li>Create a Workflow</li>
+<li>Validate the Model with Resampling (e.g., Cross-Validation)</li>
+<li>Fit the Final Model (using all the training data)</li>
+<li>Test the Final Model</li>
+</ol>
 </section>
 <section id="what-you-would-report" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-would-report">What you would report</h2>
-<ul>
-<li><strong>Training Performance (Cross-Validation):</strong>
+<section id="training-performance-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="training-performance-cross-validation">Training Performance (Cross-Validation)</h4>
+<p>Summarize the model’s expected performance on unseen data, using the mean and standard deviation of metrics across folds. This gives an indication of how well the model is expected to perform on unseen data, taking into account the variability due to different subsets of the training data.</p>
 <ul>
 <li>Present metrics that summarize the model’s performance across the folds
 <ul>
-<li>mean and standard deviation of accuracy</li>
+<li>Accuracy: mean and standard deviation</li>
+<li>Sensitivity</li>
+<li>Specificity</li>
 <li>AUC</li>
-<li>sensitivity</li>
-<li>specificity</li>
-</ul></li>
 </ul></li>
 </ul>
-<p>This gives an indication of how well the model is expected to perform on unseen data, taking into account the variability due to different subsets of the training data.</p>
-<ul>
-<li><strong>Test Set Performance:</strong></li>
-</ul>
+</section>
+<section id="verify-performance-w-test-data" class="level4">
+<h4 class="anchored" data-anchor-id="verify-performance-w-test-data">Verify Performance w/ Test Data</h4>
+<p>Present metrics for the final model evaluated on the test set to show its actual generalizability. The performance metrics derived from the held-out test set give the reader an understanding of how the model performs on completely unseen data. This is the ultimate test of the model’s generalizability.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;%</span></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="in">taxi_metrics &lt;- metric_set(accuracy, specificity, sensitivity)</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;% ## NOTE: switched out taxi_train for taxi_test</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="in">  taxi_metrics(truth = tip, estimate = .pred_class)</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 3 × 3
 #&gt;   .metric     .estimator .estimate
@@ -1858,10 +1820,10 @@ explore(taxi_res,
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;% </span></span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="in">augment(tree_fit, new_data = taxi_test) %&gt;% </span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="in">  roc_auc(truth = tip, .pred_yes)</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 1 × 3
 #&gt;   .metric .estimator .estimate
@@ -1869,19 +1831,19 @@ explore(taxi_res,
 #&gt; 1 roc_auc binary         0.602</code></pre>
 </div>
 </div>
-<p>The performance metrics derived from the held-out test set give the reader an understanding of how the model performs on completely unseen data. This is the ultimate test of the model’s generalizability and is often considered the most important set of metrics to report.</p>
-<ul>
-<li><strong>Overfitting Discussion</strong></li>
-</ul>
+</section>
+<section id="overfitting-discussion" class="level4">
+<h4 class="anchored" data-anchor-id="overfitting-discussion">Overfitting Discussion</h4>
 <p>Discuss any signs of overfitting observed (for instance, if there was a large discrepancy between the cross-validation performance and the test set performance).</p>
-<ul>
-<li><strong>Model Interpretability</strong></li>
-</ul>
+</section>
+<section id="model-interpretability" class="level4">
+<h4 class="anchored" data-anchor-id="model-interpretability">Model Interpretability</h4>
 <p>It’s often important to discuss what the model’s parameters or predictions mean in the context of the subject area.</p>
+<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
+</section>
 </section>
 <section id="your-turn-13" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-13">Your turn</h2>
-<p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
 <ul>
 <li><h3 id="generate-a-final-report-for-your-regression-logistic-model-but-now-using-the-test-set" class="anchored"><em>Generate a final report for your regression logistic model, but now using the test set</em></h3></li>
 </ul>
@@ -1893,6 +1855,9 @@ explore(taxi_res,
 </section>
 <section id="part-6-next-steps" class="level1">
 <h1>PART 6: Next Steps?</h1>
+<section id="adjust-the-threshold-setting" class="level2">
+<h2 class="anchored" data-anchor-id="adjust-the-threshold-setting">Adjust the threshold setting</h2>
+</section>
 <section id="random-forest" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest">Random forest 🌳🌲🌴🌵🌳🌳🌴🌲🌵🌴🌳🌵</h2>
 <ul>
@@ -1922,6 +1887,43 @@ explore(taxi_res,
 <ul>
 <li><code>vip</code> package</li>
 </ul>
+</section>
+<section id="alternate-resampling-schemes-bootstrapping" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-resampling-schemes-bootstrapping">Alternate resampling schemes: Bootstrapping</h2>
+<ul>
+<li><p>Assess model accuracy and stability</p></li>
+<li><p>From your original training dataset, create many (often thousands) of new “bootstrap” training datasets by sampling with replacement.</p></li>
+</ul>
+<p><img src="https://www.tmwr.org/premade/bootstraps.svg" class="img-fluid"></p>
+<ul>
+<li>After running the bootstrap process many times, you’ll end up with a distribution of performance metrics (like accuracy or AUC).</li>
+</ul>
+<p><strong>Handling Small Datasets:</strong> It is particularly useful when dealing with small datasets where you might not be able to afford to set aside a portion of the data as a test set.</p>
+<p><strong>Uncertainty Estimates:</strong> It provides a way to create confidence intervals for various performance metrics, giving a sense of how uncertain those metrics are.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r bootstraps}</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(3214)</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="in">bootstraps(taxi_train)</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # Bootstrap sampling 
+#&gt; # A tibble: 25 × 2
+#&gt;    splits              id         
+#&gt;    &lt;list&gt;              &lt;chr&gt;      
+#&gt;  1 &lt;split [8000/2902]&gt; Bootstrap01
+#&gt;  2 &lt;split [8000/2916]&gt; Bootstrap02
+#&gt;  3 &lt;split [8000/3004]&gt; Bootstrap03
+#&gt;  4 &lt;split [8000/2979]&gt; Bootstrap04
+#&gt;  5 &lt;split [8000/2961]&gt; Bootstrap05
+#&gt;  6 &lt;split [8000/2962]&gt; Bootstrap06
+#&gt;  7 &lt;split [8000/3026]&gt; Bootstrap07
+#&gt;  8 &lt;split [8000/2926]&gt; Bootstrap08
+#&gt;  9 &lt;split [8000/2972]&gt; Bootstrap09
+#&gt; 10 &lt;split [8000/2972]&gt; Bootstrap10
+#&gt; # ℹ 15 more rows</code></pre>
+</div>
+</div>
+<p><a href="https://rsample.tidymodels.org/reference/index.html" class="uri">https://rsample.tidymodels.org/reference/index.html</a></p>
 </section>
 </section>
 

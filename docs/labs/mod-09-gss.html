@@ -3125,7 +3125,7 @@ Important
 <section id="getting-started" class="level1">
 <h1>Getting started</h1>
 <p>Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named <code>Module 9</code>.</p>
-<p>First, open the R Markdown document <code>mod-09-lab-1.Rmd</code> and <strong>Knit</strong> it.</p>
+<p>First, open the R Markdown document <code>mod-09-lab.Rmd</code> and <strong>Knit</strong> it.</p>
 <p>Make sure it compiles without errors and you can preview the output within the Viewer Pane.</p>
 <section id="warm-up" class="level2">
 <h2 class="anchored" data-anchor-id="warm-up">Warm up</h2>
@@ -3188,6 +3188,19 @@ Warning
 <li><p>Then, re-order the levels in the following order: <code>&quot;Agree&quot;</code> and <code>&quot;Not agree&quot;</code>.</p></li>
 <li><p>Finally, <code>count()</code> how many times each new level appears in the <code>advfront</code> variable.</p></li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To answer Exercise 1, you’re going to use <code>mutate</code>, <code>case_when</code>, and <code>fct_relevel</code> at some point.</p>
+</div>
+</div>
 </section>
 <section id="exercise-2" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-2">Exercise 2</h3>
@@ -3211,6 +3224,19 @@ Tip
 <li><p>Then, re-order the levels in the following order: <code>&quot;Conservative&quot;</code> , <code>&quot;Moderate&quot;</code>, and <code>&quot;Liberal&quot;</code>.</p></li>
 <li><p>Finally, <code>count()</code> how many times each new level appears in the <code>polviews</code> variable.</p></li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To answer Exercise 2, in addition to the functions already mentioned, you’re going to use <code>mutate</code> and <code>fct_relevel</code> at some point.</p>
+</div>
+</div>
 </section>
 <section id="exercise-3" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-3">Exercise 3</h3>
@@ -3232,6 +3258,7 @@ Tip
 <ul>
 <li><p>Split the data into training (75%) and testing (25%) data sets. Make sure to set a seed before you do the <code>initial_split()</code>. Call the training data <code>gss16_train</code> and the testing data <code>gss16_test</code>.</p></li>
 <li><p>Use these specific names below to make it easier to follow the rest of the instructions.</p></li>
+<li><p>Set the seed to the value “123” so we all get the same result</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>___ <span class="co"># do something here to set the seed</span></span>
@@ -3246,15 +3273,17 @@ Tip
 <h2 class="anchored" data-anchor-id="part-3-feature-engineering">Part 3: Feature engineering</h2>
 <section id="exercise-5" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-5">Exercise 5</h3>
-<p>Create a recipe with the following steps for predicting <code>advfront</code> from <code>polviews</code>, <code>wrkstat</code>, and <code>educ</code>. Name this recipe <code>gss16_rec_1</code>. (We’ll create one more recipe later, that’s why we’re naming this recipe <code>_1</code>.) Sample code is provided below.</p>
+<p>In the lecture I introduced recipes briefly, here is your opportunity to extend and learn on your own.</p>
+<p>See the sample code provided below and complete it. <strong>Note</strong> that the recipe object you’re building is called <code>gss16_rec_1</code>. Preprocessing/feature engineering steps:</p>
 <ul>
-<li><p><code>step_other()</code> to pool values that occur less than 10% of the time (<code>threshold = 0.10</code>) in the <code>wrkstat</code> variable into <code>&quot;Other&quot;</code>.</p></li>
-<li><p><code>step_dummy()</code> to create dummy variables for <code>all_nominal()</code> variables that are predictors, i.e. <code>all_predictors()</code></p></li>
+<li><p>First declare you’re creating a recipe using <code>recipe</code> and fill in the missing arguments</p></li>
+<li><p>Next, for the the <code>wrkstat</code> variable, you’re going to pool values in <code>wrkstat</code> that occur less than 10% of the time and call them <code>Other</code>. You will use the default <code>step_other()</code> function to do so.</p></li>
+<li><p>Next, for all nominal (categorical) variables, you’re going to create dummy variables. <strong>Note</strong> that using <code>-all_outcomes()</code> ensures that the target variable (outcome) is not accidentally included when creating dummy variables. Your focus should only be on predictors.</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gss16_rec_1 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(___ <span class="sc">~</span> ___, <span class="at">data =</span> ___) <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_other</span>(wrkstat, <span class="at">threshold =</span> ___, <span class="at">other =</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_other</span>(___, <span class="at">threshold =</span> ___, <span class="at">___ =</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(___, <span class="sc">-</span><span class="fu">all_outcomes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3275,7 +3304,8 @@ Note
 <h2 class="anchored" data-anchor-id="part-4-buld-a-workflow">Part 4: Buld a workflow</h2>
 <section id="exercise-6" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-6">Exercise 6</h3>
-<p>Specify a logistic regression model using <code>&quot;glm&quot;</code> as the engine. Name this specification <code>gss16_spec</code>. Do this the tidymodels way.</p>
+<p>Specify a logistic regression model using <code>&quot;glm&quot;</code> as the engine. Name this specification <code>gss16_spec</code>.</p>
+<p>Do this the tidymodels way.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gss16_spec <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3285,9 +3315,9 @@ Note
 <h3 class="anchored" data-anchor-id="exercise-7">Exercise 7</h3>
 <p>Build a workflow that uses the recipe you defined (<code>gss16_rec</code>) and the model you specified (<code>gss16_spec</code>). Name this workflow <code>gss16_wflow_1</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gss16_wflow_1 <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  ___ <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  ___</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gss16_wflow_1 <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span> <span class="co"># first declare what you&#39;re doing</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  ___ <span class="sc">%&gt;%</span> <span class="co"># add something</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  ___ <span class="co"># add something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -3297,25 +3327,26 @@ Note
 <h3 class="anchored" data-anchor-id="exercise-8">Exercise 8</h3>
 <p>Perform 5-fold cross validation. specifically,</p>
 <ul>
-<li><p>#1: split the training data into 5 folds (don’t forget to set a seed first!),</p></li>
+<li><p>#1: split the training data into 5 folds (don’t forget to set a seed: set it as <code>123</code>),</p></li>
 <li><p>#2: apply the workflow you defined earlier to the folds with <code>fit_resamples()</code>, and</p></li>
 <li><p>#3: <code>collect_metrics()</code> and comment on the consistency of metrics across folds (you can get the area under the ROC curve and the accuracy for each fold by setting <code>summarize = FALSE</code> in <code>collect_metrics()</code>)</p></li>
-<li><p>#4: report the average area under the ROC curve and the accuracy for all cross validation folds <code>collect_metrics()</code></p></li>
+<li><p>#4: report the average area under (auc) for the ROC and the accuracy for all cross validation folds <code>collect_metrics()</code></p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1:</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>___ <span class="co"># do something here to set the seed</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gss16_folds <span class="sc">&lt;</span> ___</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#2:</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gss16_fit_rs_1 <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(___)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#3:</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(___, <span class="at">summarize =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#4</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(___)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>gss16_folds <span class="sc">&lt;</span> ___</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#2:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>gss16_fit_rs_1 <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a> <span class="co"># here you fit the resampled data</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#3:</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># here you collect the metrics with summarize set at false</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#4</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># here you collect the metrics, but now showing the average</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -3325,15 +3356,30 @@ Note
 <h3 class="anchored" data-anchor-id="exercise-9.">Exercise 9.</h3>
 <p>Now, try a different, simpler model: predict <code>advfront</code> from only <code>polviews</code> and <code>educ</code>. Specifically,</p>
 <ul>
-<li><p>update the recipe to reflect this simpler model specification (and name it <code>gss16_rec_2</code>),</p></li>
-<li><p>redefine the workflow with the new recipe (and name this new workflow <code>gss16_wflow_2</code>),</p></li>
-<li><p>perform cross validation, and</p></li>
-<li><p>report the average area under the ROC curve and the accuracy for all cross validation folds <code>collect_metrics()</code>.</p></li>
+<li><p>#1: update the recipe to reflect this simpler model specification (and name it <code>gss16_rec_2</code>),</p></li>
+<li><p>#2: redefine the workflow with the new recipe (and name this new workflow <code>gss16_wflow_2</code>),</p></li>
+<li><p>#3: perform cross validation, and</p></li>
+<li><p>#4: report the average area under the ROC curve and the accuracy for all cross validation folds <code>collect_metrics()</code>.</p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gss16_rec_2 <span class="sc">&lt;</span> gss16_rec_1 <span class="sc">%&gt;%</span> <span class="co"># just modify the original recipe</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># there is something very simple you can do here with `step_rm`</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#2:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>gss16_wflow_2 <span class="ot">&lt;-</span> ___ <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a> <span class="co"># setting up a new workflow, but you can copy/paste from above, you&#39;re just swapping out to the new recipe </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#3:</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># don&#39;t forget to set the seed</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#4</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># collect the metrics like you did before</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="exercise-10" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-10">Exercise 10</h3>
-<p>Comment on which model performs better (one including <code>wrkstat</code>, model 1, or the one excluding <code>wrkstat</code>, model 2) on the training data based on area under the ROC curve.</p>
+<p>Comment on which model performs better (one including <code>wrkstat</code>, model 1, or the one excluding <code>wrkstat</code>, model 2) on the training data based on area under curve for the ROC.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3353,31 +3399,13 @@ Note
 <h2 class="anchored" data-anchor-id="part-7-get-test-set-performance-metrics">Part 7: Get test set performance metrics</h2>
 <section id="exercise-11" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-11">Exercise 11</h3>
-<p>Fit both models to the testing data, plot the ROC curves for the predictions for both models, and calculate the areas under the ROC curve.</p>
+<p>Take the best performing model (see Exercise 10) and use the corresponding workflow (either <code>gss16_wflow_1</code> or <code>gss16_wflow_2</code>) and fit it on all the training data (no resampling). Then, take this model and fit it on the test data. Provide some metrics of test data performance.</p>
+<p>At the very least, performance metrics like:</p>
 <ul>
-<li><p>Does your answer to the previous exercise hold for the testing data as well?</p></li>
-<li><p>Explain your reasoning.</p></li>
+<li><strong>plot</strong> the ROC curve for the predictions</li>
+<li>calculate the area under curve for the ROC</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you haven’t yet done so, you’ll need to first train your workflows on the training data with the following, and then use these fit objects to calculate predictions for the test data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gss16_fit_1 <span class="ot">&lt;-</span> gss16_wflow_1 <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(gss16_train)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>gss16_fit_2 <span class="ot">&lt;-</span> gss16_wflow_2 <span class="sc">%&gt;%</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(gss16_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
+<p>Once you’ve run this, answer the following questions: What would it mean if the fit on the testing data was much worse than the fit on the training data? Explain your reasoning.</p>
 </section>
 </section>
 <section id="part-8-starting-over-w-a-decision-tree" class="level2">
@@ -3397,7 +3425,8 @@ Note
 </div>
 <section id="exercise-12" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-12">Exercise 12</h3>
-<p>In this final challenge, lets build a completely new classification model using this data. Using my lecture materials, I want you to:</p>
+<p>In this final challenge, lets build a completely new classification model using this data.</p>
+<p><strong>Using my lecture materials, I want you to:</strong></p>
 <ul>
 <li><p>set up the specs for a decision tree, add it to a workflow</p></li>
 <li><p>then, set up to do a ten fold cross-validation, fitting on the resamples (you’ll use your workflow for this)</p></li>
