@@ -1,0 +1,28 @@
+project:
+  title: "Lab"
+  output-dir: ../docs/labs
+
+  
+format:
+  html:
+    theme: united
+    # css: styles.css
+    self-contained: true
+    # grid:
+    #   margin-width: 10px   
+  # pdf: default
+# execute:
+#   echo: fenced
+reference-location: margin        
+citation-location: margin         
+# bibliography: skeleton.bib
+knitr:
+  opts_chunk: 
+    # eval: FALSE
+    message: FALSE
+    warning: FALSE
+#     out.width: "80%"
+#     fig.asp: 0.618
+#     fig.width: 8
+#     dpi: 300
+

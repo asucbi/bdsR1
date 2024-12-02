@@ -1,5 +1,5 @@
 ---
-title: "Lab 08a - Heights, weights, and lines--oh my!"
+title: "Lab 08b: Bike rentals in DC"
 author: "Insert your name here"
 date: "Insert date here"
 ---
@@ -8,13 +8,14 @@ date: "Insert date here"
 
 ```{r load-packages, message=FALSE}
 library(tidyverse)
-library(modelr)
+library(dsbox) # devtools::install_github("tidyverse/dsbox")
+library(broom)
 
 source("starter/m8-helpers.R")
 ```
 
 ```{r load-data, message=FALSE}
-
+data(dcbikeshare)
 ```
 
 ## Exercises
@@ -22,7 +23,8 @@ source("starter/m8-helpers.R")
 
 ### Exercise 1
 
-Draw on graph paper.
+Remove this text, and add your answer for Exercise 2 here.
+
 
 ### Exercise 2
 
@@ -31,31 +33,23 @@ Remove this text, and add your answer for Exercise 2 here.
 
 ### Exercise 3
 
-```{r, echo=T}
-intercept1 <- 0
-slope1 <- 0
-plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
-```
-
 Remove this text, and add your answer for Exercise 3 here.
+
 
 ### Exercise 4
 
-```{r, echo=T}
-intercept2 <- 0
-slope2 <- 0
-plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
-```
-
 Remove this text, and add your answer for Exercise 4 here.
+
 
 ### Exercise 5
 
 ...
 
+
 ### Exercise 6
 
 ...
+
 
 ### Exercise 7
 
@@ -73,5 +67,15 @@ Remove this text, and add your answer for Exercise 4 here.
 
 
 ### Exercise 10
+
+...
+
+
+### Exercise 11
+
+...
+
+
+### Exercise 12
 
 ...
