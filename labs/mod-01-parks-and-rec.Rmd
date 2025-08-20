@@ -11,7 +11,7 @@ source("assets/setup.R")
 # devtools::install_github("rstudio-education/dsbox")
 # devtools::install_github("asucbi/bdsdata")
 ```
-TESTTESTTEST
+
 ```{r include = FALSE, eval = TRUE}
 # knitr::opts_chunk$set(
 #   eval = FALSE,
@@ -52,7 +52,7 @@ We've already thrown around a few new terms, so let's define them before we proc
 
 Go to [rstudio.cloud](ADD URL HERE) and then **navigate to the course workspace** via the left sidebar. 
 
--   Look for the course workspace called "BDS Fall 2024"
+-   Look for the course workspace called "BDS in R | F25"
 
 :::lo 
 If anyone in your team is getting stuck, **go find the Canvas page "How to set up and access Posit Cloud" and follow the instructions there.**  
