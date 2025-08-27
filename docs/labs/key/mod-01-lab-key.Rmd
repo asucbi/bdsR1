@@ -1,0 +1,55 @@
+---
+title: "LAB 01 - Parks and Recreation"
+author: "Jessica Kosie"
+date: "08/26/2025"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+```
+
+This is a R Markdown document!
+
+## Exercises
+
+```{r load-data, message = FALSE}
+
+parks_rec <- read_csv("data/parks_rec.csv")
+
+```
+
+### Exercise 1
+
+There are \_\_\_ unique characters from the show in the dataset.
+
+### Exercise 2
+
+Remove this text, and add your answer for Exercise 2 here.
+
+### Exercise 3
+
+Remove this text, and add your answer for Exercise 3 here. (Hint: You might also want to click on the green arrow pointing right icon in the code chunk below to help with your answer)
+
+```{r most-common-characters}
+parks_rec %>%
+  count(character, sort = TRUE)
+```
+
+### Exercise 4
+
+```{r distinct-episodes-a-season}
+# remove this comment and add the code for Exercise 4 here
+```
+
+### Exercise 5
+
+Remove this text, and add your answer for Exercise 5 here.
+
+### Exercise 6
+
+Remove this text, and add your answer for Exercise 6 here.

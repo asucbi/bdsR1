@@ -1,0 +1,71 @@
+---
+title: "LAB 01 - Parks and Recreation"
+author: "Jessica Kosie"
+date: "08/26/2025"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(bdsdata)
+```
+
+This is a R Markdown document!
+
+## Exercises
+
+```{r load-data, message = FALSE}
+
+parks_rec <- read_csv("data/parks_rec.csv")
+
+```
+
+### Exercise 1
+
+There are *10* unique characters from the show in the dataset.
+
+### Exercise 2
+
+*There are 469 rows in the dataset.*
+
+### Exercise 3
+
+*Leslie, Ron, and Tom*
+
+```{r most-common-characters}
+parks_rec %>%
+  count(character, sort = TRUE)
+```
+
+### Exercise 4
+
+```{r distinct-episodes-a-season}
+
+parks_rec %>%
+  filter(character == "Leslie") %>%
+  count(season, sort = TRUE)
+
+parks_rec %>%
+  group_by(season) %>%
+  count(sort = TRUE)
+
+parks_rec %>%
+  group_by(season) %>%
+  distinct(episode_num) %>% 
+  count(sort = TRUE)
+
+```
+
+### Exercise 5
+
+*April*
+
+### Exercise 6
+
+*Ben*

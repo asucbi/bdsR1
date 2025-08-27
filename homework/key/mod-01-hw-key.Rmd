@@ -1,0 +1,133 @@
+---
+title: "HW 01 - Hello R"
+author: "Jessica Kosie"
+date: "08/26/2025"
+output: 
+  html_document: 
+    fig_width: 10
+    fig_height: 8
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse) 
+library(datasauRus)
+```
+
+## Exercises
+
+### Exercise 1
+
+*The data file has 1846 rows and 3 variables*
+
+### Exercise 2
+
+The answers for this exercise are given for you in the instructions. You just need to copy over. 
+
+Note that the R chunks are labelled with `filter-dino`, `plot-dino`, and `cor-dino` to provide spaces to place the code for filtering, plotting, and calculating the correlation coefficient.
+
+First, filter the data in the dino dataset:
+
+```{r filter-dino}
+
+dino_data <- datasaurus_dozen %>%
+  filter(dataset == "dino")
+
+```
+
+Next, plot the data in the dino dataset:
+
+```{r plot-dino, fig.height=3, fig.width=6}
+
+ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+```
+
+And now calculate the correlation between `x` and `y` in this dataset:
+
+```{r cor-dino}
+
+dino_data %>%
+  summarize(r = cor(x, y))
+
+```
+
+### Exercise 3
+
+Add code and narrative as needed.
+
+Note that the R chunks are labelled with `filter-plot-star` and `cor-star` to provide spaces to place the code for filtering, plotting, and calculating the correlation coefficient.
+
+To finish, clean up the narrative by removing these instructions.
+
+```{r filter-plot-star}
+
+star_data <- datasaurus_dozen %>%
+  filter(dataset == "star")
+
+ggplot(data = star_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+```
+
+```{r cor-star}
+
+star_data %>%
+  summarize(r = cor(x, y))
+
+```
+
+*The correlation for `star` is very similar to the correlation for `dino`. They are both small and slightly negative.*
+
+### Exercise 4
+
+Add code and narrative as needed.
+Note that two R chunks are given but they are not labeled.
+Use the convention from above to name them appropriately.
+
+```{r}
+
+circle_data <- datasaurus_dozen %>%
+  filter(dataset == "circle")
+
+ggplot(data = circle_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+```
+
+```{r}
+
+circle_data %>%
+  summarize(r = cor(x, y))
+
+```
+
+*Again, this correlation is very simlar to `dino` and `star`. It is negligible and negative.*
+
+### Exercise 5
+
+Add code and narrative as needed. **NOTE** Most of the code for this exercise are given for you in the instructions. You just need to copy over. But you will need to figure out from the instructions how to resize figures and how to change the look of your report.  
+
+To add R chunks either type out the backticks, curly braces, and the letter `r` or use the Insert chunk button above, green C+.
+
+```{r}
+
+ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
+  geom_point()+
+  facet_wrap(~ dataset, ncol = 3) +
+  theme(legend.position = "none")
+
+```
+```{r}
+
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarize(r = cor(x, y))
+
+```
+
+
