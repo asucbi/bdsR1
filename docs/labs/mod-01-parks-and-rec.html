@@ -386,15 +386,16 @@ Now, look for that little button at the top called “Knit” (in the image belo
 In this assignment we will use the following packages:</p>
 <ul>
 <li><strong>tidyverse</strong>: a collection of packages for doing data analysis in a “tidy” way</li>
+<li><strong>bdsdata</strong>: a package (your instructors created) that contains various data sets for this course (Behavioral Data Science I)</li>
 </ul>
 <div class="yellow">
 <p><strong>NOTE:</strong> R packages are add-ons for the R programming language, providing extra functions and tools for tasks like data analysis and visualization. They’re like apps you install to expand R’s abilities, with thousands available on CRAN (Comprehensive R Archive Network) for various uses, from plotting charts to statistical testing, simplifying complex operations.”</p>
 </div>
 <p style="margin-bottom: 20px;">
 <p>We use the <code>library()</code> function to load packages.</p>
-<p>In your R Markdown document you should see an R chunk labelled <code>load-packages</code> which has the necessary code for loading the tidyverse package.</p>
+<p>In your R Markdown document you should see an R chunk labelled <code>load-packages</code> which has the necessary code for loading both packages.</p>
 <div class="lo">
-<p>Go ahead and load tidyverse into your Console by clicking on the <strong>Run Current Chunk</strong> icon (green arrow pointing right icon).</p>
+<p>Go ahead and load these into your Console by clicking on the <strong>Run Current Chunk</strong> icon (green arrow pointing right icon).</p>
 <p><img src="img/load-packages-chunk-new.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 <p>Note that these packages also get loaded in your R Markdown environment when you <strong>Knit</strong> your R Markdown document.</p>
@@ -406,11 +407,8 @@ In this assignment we will use the following packages:</p>
 <div class="yellow">
 <p><strong>NOTE:</strong> <a href="https://www.imdb.com/">IMBD</a> is a community-led online database for information related to films and television. One of the features is “User Ratings” that allows people to rate each episode on a scale from 1 to 10 (with 10 being the highest possible score).</p>
 </div>
-<p>First, we will need to read in the dataset.</p>
-<div class="lo">
-<p>Go ahead and read in the dataset by clicking on the <strong>Run Current Chunk</strong> icon (green arrow pointing right icon).</p>
-<p><img src="img/read-in-data.png" width="80%" style="display: block; margin: auto auto auto 0;" /></p>
-</div>
+<p>The data can be found in the <strong>bdsdata</strong> package, and it’s called <code>parks_rec</code>.
+Since the dataset is distributed with the package, we don’t need to load it separately; it becomes available to us when we load the package.</p>
 <div class="yellow">
 <p><strong>NOTE:</strong> <code>parks_rec</code> is derived from a much more complete dataset that someone posted to the site <a href="http://kaggle.com">Kaggle.com</a>. Kaggle is a great online resource for aspiring and seasoned data scientists where lots of interesting datasets are provided by a large, open community. If curious, you can check out the original dataset <a href="https://www.kaggle.com/datasets/bcruise/parks-and-recreation-episode-data">here</a>.</p>
 </div>
@@ -454,19 +452,17 @@ In this assignment we will use the following packages:</p>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 2
-##    character     n
-##    &lt;chr&gt;     &lt;int&gt;
-##  1 Leslie      119
-##  2 Ron          64
-##  3 Tom          55
-##  4 Ben          54
-##  5 Andy         51
-##  6 Chris        38
-##  7 Ann          36
-##  8 April        35
-##  9 Donna         9
-## 10 Jerry         8</code></pre>
+<pre><code>##    character   n
+## 1     Leslie 119
+## 2        Ron  64
+## 3        Tom  55
+## 4        Ben  54
+## 5       Andy  51
+## 6      Chris  38
+## 7        Ann  36
+## 8      April  35
+## 9      Donna   9
+## 10     Jerry   8</code></pre>
 <div class="green">
 <p>If you were going to read the two lines of code above in plain English, it would go something like: “Start with the <code>parks_rec</code> data frame, <strong>and then</strong> count the number of times each unique character shows up, and display the results sorted in descending order.”</p>
 <p>Really pay attention to that weird set of symbols, <code>%&gt;%</code> (also called a “pipe operator”). It is the same as saying <strong>and then.</strong> Like any good conjunction, it connects things. In this case, it is connecting the data frame with the <code>count</code> function.</p>
@@ -480,16 +476,14 @@ In this assignment we will use the following packages:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>parks_rec <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">==</span> <span class="st">&quot;Leslie&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">count</span>(season, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 2
-##   season     n
-##    &lt;dbl&gt; &lt;int&gt;
-## 1      2    24
-## 2      4    22
-## 3      6    22
-## 4      5    21
-## 5      3    16
-## 6      7     8
-## 7      1     6</code></pre>
+<pre><code>##   season  n
+## 1      2 24
+## 2      4 22
+## 3      6 22
+## 4      5 21
+## 5      3 16
+## 6      7  8
+## 7      1  6</code></pre>
 <div class="lo">
 <p><strong>STOP HERE</strong> and as a group make sure you understand what is going on. <strong>DISCUSS!</strong></p>
 <p>What does the <code>%&gt;%</code> represent in this code? What do the numbers under the <code>n</code> column represent?</p>
@@ -505,7 +499,7 @@ In this assignment we will use the following packages:</p>
 <pre><code>## # A tibble: 7 × 2
 ## # Groups:   season [7]
 ##   season     n
-##    &lt;dbl&gt; &lt;int&gt;
+##    &lt;int&gt; &lt;int&gt;
 ## 1      6   100
 ## 2      4    98
 ## 3      5    97
@@ -547,7 +541,7 @@ In this assignment we will use the following packages:</p>
 <pre><code>## # A tibble: 7 × 2
 ## # Groups:   season [7]
 ##   season     n
-##    &lt;dbl&gt; &lt;int&gt;
+##    &lt;int&gt; &lt;int&gt;
 ## 1      2    24
 ## 2      4    22
 ## 3      5    22
@@ -567,7 +561,7 @@ In this assignment we will use the following packages:</p>
 </div>
 <p>What might make for a fairer comparison? Rather than raw count, <strong>lets do proportions.</strong></p>
 <p>The following visualization compares Leslie’s mentions to some of the more mid-tier characters, <strong>taking proportion of overall episodes into account.</strong></p>
-<p><img src="mod-01-parks-and-rec_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="mod-01-parks-and-rec_files/figure-html/unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <div class="green">
 <p>Clearly Leslie is the focus of the show! Most of the plots involve her in some featured way.</p>
 </div>

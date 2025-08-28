@@ -125,19 +125,23 @@ This is a R Markdown document!
 
 \subsection{Exercises}\label{exercises}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{parks\_rec }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/parks\_rec.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \subsubsection{Exercise 1}\label{exercise-1}
 
-There are \_\_\_ unique characters from the show in the dataset.
+There are \emph{10} unique characters from the show in the dataset.
 
 \subsubsection{Exercise 2}\label{exercise-2}
 
-Remove this text, and add your answer for Exercise 2 here.
+\emph{There are 469 rows in the dataset.}
 
 \subsubsection{Exercise 3}\label{exercise-3}
 
-Remove this text, and add your answer for Exercise 3 here. (Hint: You
-might also want to click on the green arrow pointing right icon in the
-code chunk below to help with your answer)
+\emph{Leslie, Ron, and Tom}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -147,33 +151,95 @@ code chunk below to help with your answer)
 \end{Shaded}
 
 \begin{verbatim}
-##    character   n
-## 1     Leslie 119
-## 2        Ron  64
-## 3        Tom  55
-## 4        Ben  54
-## 5       Andy  51
-## 6      Chris  38
-## 7        Ann  36
-## 8      April  35
-## 9      Donna   9
-## 10     Jerry   8
+## # A tibble: 10 x 2
+##    character     n
+##    <chr>     <int>
+##  1 Leslie      119
+##  2 Ron          64
+##  3 Tom          55
+##  4 Ben          54
+##  5 Andy         51
+##  6 Chris        38
+##  7 Ann          36
+##  8 April        35
+##  9 Donna         9
+## 10 Jerry         8
 \end{verbatim}
 
 \subsubsection{Exercise 4}\label{exercise-4}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# remove this comment and add the code for Exercise 4 here}
+\NormalTok{parks\_rec }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(character }\SpecialCharTok{==} \StringTok{"Leslie"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(season, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## # A tibble: 7 x 2
+##   season     n
+##    <dbl> <int>
+## 1      2    24
+## 2      4    22
+## 3      6    22
+## 4      5    21
+## 5      3    16
+## 6      7     8
+## 7      1     6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{parks\_rec }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(season) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(}\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 2
+## # Groups:   season [7]
+##   season     n
+##    <dbl> <int>
+## 1      6   100
+## 2      4    98
+## 3      5    97
+## 4      3    68
+## 5      2    62
+## 6      7    35
+## 7      1     9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{parks\_rec }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(season) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(episode\_num) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{count}\NormalTok{(}\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 2
+## # Groups:   season [7]
+##   season     n
+##    <dbl> <int>
+## 1      2    24
+## 2      4    22
+## 3      5    22
+## 4      6    22
+## 5      3    16
+## 6      7    11
+## 7      1     6
+\end{verbatim}
+
 \subsubsection{Exercise 5}\label{exercise-5}
 
-Remove this text, and add your answer for Exercise 5 here.
+\emph{April}
 
 \subsubsection{Exercise 6}\label{exercise-6}
 
-Remove this text, and add your answer for Exercise 6 here.
+\emph{Ben}
 
 \end{document}
