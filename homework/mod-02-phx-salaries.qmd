@@ -64,14 +64,14 @@ You can also view the data with the `head()` and `glimpse()` functions. These ar
 -   How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.
 
 :::callout-tip
-**Hint:** The Markdown Quick Reference sheet has an example of inline R code that might be helpful. You can access it from the Help menu in RStudio.
+**Hint:** Googling "get the number of rows in a dataset in r" may help!
 :::
 
 ---
 
 ### Exercise 2
 
--   Run `View(phxsal)` in your Console to view the data in the data viewer. 
+-   Run `View(phxsal)` in your **Console** to view the data in the data viewer. 
 -   What does each row in the dataset represent?
 
 ---

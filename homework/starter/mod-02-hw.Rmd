@@ -7,11 +7,12 @@ output: html_document
 
 ## Packages
 
-We'll use the **tidyverse** package for this analysis.
-Run the following code in the Console to load this package.
+We'll use the **tidyverse** package for this analysis and **ggridges** for plotting.
+Run the following code in the Console to load these packages.
 
 ```{r load-packages, message=FALSE, warning=FALSE, eval=TRUE}
 library(tidyverse)
+library(ggridges)
 ```
 
 ## Data
