@@ -133,18 +133,18 @@ You might consider doing some research on Trinidad and Tobago to see why plastic
 
 ---
 
-- **NOTE:** From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can and should code and view the results yourself.
+- **NOTE:** From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can **and should** code and view the results yourself.
 
 Another way of visualizing numerical data is using density plots.
 
-```{r plastic_waste_per_cap-dens}
+```{r plastic_waste_per_cap-dens, eval = FALSE}
 ggplot(data = plastic_waste, aes(x = plastic_waste_per_cap)) +
   geom_density()
 ```
 
 And compare distributions across continents by coloring density curves by continent.
 
-```{r plastic_waste_per_cap-dens-color}
+```{r plastic_waste_per_cap-dens-color, eval = FALSE}
 ggplot(data = plastic_waste, 
        mapping = aes(x = plastic_waste_per_cap, 
                      color = continent)) +
@@ -153,7 +153,7 @@ ggplot(data = plastic_waste,
 
 The resulting plot may be a little difficult to read, so let's also fill the curves in with colors as well.
 
-```{r plastic_waste_per_cap-dens-color-fill}
+```{r plastic_waste_per_cap-dens-color-fill, eval = FALSE}
 ggplot(data = plastic_waste, 
        mapping = aes(x = plastic_waste_per_cap, 
                      color = continent, 
@@ -168,15 +168,13 @@ The `alpha` argument takes values between 0 and 1: 0 is completely transparent a
 
 There is no way to tell what value will work best, so you just need to try a few.
 
-```{r plastic_waste_per_cap-dens-color-fill-alpha}
+```{r plastic_waste_per_cap-dens-color-fill-alpha, eval = FALSE}
 ggplot(data = plastic_waste, 
        mapping = aes(x = plastic_waste_per_cap, 
                      color = continent, 
                      fill = continent)) +
   geom_density(alpha = 0.7)
 ```
-
-This still doesn't look great...
 
 ---
 
@@ -223,7 +221,7 @@ ggplot(data = plastic_waste,
 
 # Bonus
 
-11. Recreate the following plot, and interpret what you see in context of the data.
+11. Recreate (**exactly!**) the following plot, **and** interpret what you see in context of the data.
 
 :::green
 20 extra credit points if you can get this one! It's not that hard. You can do it! 

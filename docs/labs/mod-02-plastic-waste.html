@@ -76,7 +76,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -363,25 +363,22 @@ One way of identifying this country is to filter the data for countries where pl
 </ol>
 <hr />
 <ul>
-<li><strong>NOTE:</strong> From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can and should code and view the results yourself.</li>
+<li><strong>NOTE:</strong> From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can <strong>and should</strong> code and view the results yourself.</li>
 </ul>
 <p>Another way of visualizing numerical data is using density plots.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plastic_waste, <span class="fu">aes</span>(<span class="at">x =</span> plastic_waste_per_cap)) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="mod-02-plastic-waste_files/figure-html/plastic_waste_per_cap-dens-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>And compare distributions across continents by coloring density curves by continent.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plastic_waste, </span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plastic_waste_per_cap, </span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                     <span class="at">color =</span> continent)) <span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="mod-02-plastic-waste_files/figure-html/plastic_waste_per_cap-dens-color-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>The resulting plot may be a little difficult to read, so let’s also fill the curves in with colors as well.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plastic_waste, </span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plastic_waste_per_cap, </span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                     <span class="at">color =</span> continent, </span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>                     <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="mod-02-plastic-waste_files/figure-html/plastic_waste_per_cap-dens-color-fill-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>The overlapping colors make it difficult to tell what’s happening with the distributions in continents plotted first, and hence covered by continents plotted over them.</p>
 <p>We can change the transparency level of the fill color to help with this.
 The <code>alpha</code> argument takes values between 0 and 1: 0 is completely transparent and 1 is completely opaque.</p>
@@ -391,8 +388,6 @@ The <code>alpha</code> argument takes values between 0 and 1: 0 is completely tr
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                     <span class="at">color =</span> continent, </span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                     <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>)</span></code></pre></div>
-<p><img src="mod-02-plastic-waste_files/figure-html/plastic_waste_per_cap-dens-color-fill-alpha-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>This still doesn’t look great…</p>
 <hr />
 <ol start="5" style="list-style-type: decimal">
 <li>Recreate the density plots above using a different (lower) alpha level that works better for displaying the density curves for all continents.</li>
@@ -432,7 +427,7 @@ The <code>alpha</code> argument takes values between 0 and 1: 0 is completely tr
 <div id="bonus" class="section level1">
 <h1>Bonus</h1>
 <ol start="11" style="list-style-type: decimal">
-<li>Recreate the following plot, and interpret what you see in context of the data.</li>
+<li>Recreate (<strong>exactly!</strong>) the following plot, <strong>and</strong> interpret what you see in context of the data.</li>
 </ol>
 <div class="green">
 <p>20 extra credit points if you can get this one! It’s not that hard. You can do it!</p>
