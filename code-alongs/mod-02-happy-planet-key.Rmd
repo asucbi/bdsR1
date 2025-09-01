@@ -1,0 +1,360 @@
+---
+title: "Happy Planet Code-Along"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-packages}
+library(tidyverse) #this is the tidyverse package that we almost always use!
+library(viridisLite) #this package is for adding colorblind-friendly colors to your plots.
+```
+
+
+# Introduction
+
+Before we start in earnest, we need to introduce some basic points about `R` and markdown
+
+## Markdown
+
+A simple markup language for creating text documents.
+
+- Can use basic syntax to create formatted text, such as headings, (with `#`), bullet points, **bolding**, *italics*, and `code_syntax`. 
+- You can also embed `R` code in text, like `2+2 =` `r 2+2`
+- and embed code chunks and their outputs (creation hotkey: `cmd-option-i`)
+
+  
+## Coding in R
+
+Things we'll go over ...
+
+- Typing commands in the console
+- R is dumb
+  - Avoid typos (but flexibility with spacing, line breaks)
+  - Read left to right
+  - Errors happen! Read your error messages. Google them!
+- Mathematical operators (`+ - * / ^`)
+- Order of operations
+- Variable assignment (`<-`) hotkey: `option -` (option and minus at same time)
+- Calculations with variables
+- Naming variables (rules and conventions)
+- Using functions
+  - Arguments, named arguments, and defaults
+  - E.g. `round()`
+  - Piping (`%>%` OR `|>`) hotkey: `shift-ctrl-M` (Mac: `shift-command-M`)
+- Tab completion
+- Indexing dataframes/tibbles and lists (`$`)
+- Comments (`#`)
+
+
+# Exploratory data analysis
+
+## Questions:
+
+* How much does average happiness vary across countries?
+* Which countries are happiest? Which are least happy?
+* Can you buy happiness? How does per capita GDP relate to happiness?
+* What is the cost of happiness? How does a country's happiness relate to its ecological footprint?
+
+### Load the Happy Planet Index data frame we will be using. 
+
+```{r read-data}
+# source: "https://www.lock5stat.com/datasets3e/HappyPlanetIndex.csv"
+# notes to future self: you're smart
+happy <- read_csv("data/HappyPlanetIndex.csv")
+
+```
+Check out the dataset. What are the variables? 
+
+Type `?happy` in the console (recall that we used this last week to get information about our dataset). What happens? Why?
+
+### Let's clean up our dataset. Assume we want to replace the numbers in the region variable with the actual regions they correspond to. We also want to turn the HDI variable into a categorical variable with 4 levels. 
+
+Note: HDI (Human Development Index) measures a country's average achievements in three key dimensions: health, knowledge, and a decent standard of living.
+
+```{r clean-data}
+
+happy <- happy %>% 
+  mutate(
+    Region = case_when(
+      Region == 1 ~ "Latin America",
+      Region == 2 ~ "Western",
+      Region == 3 ~ "Middle East",
+      Region == 4 ~ "SubSaharan Africa",
+      Region == 5 ~ "South Asia",
+      Region == 6 ~ "East Asia",
+      Region == 7 ~ "Former Soviet",
+      TRUE ~ NA_character_
+    ),
+    HDI_group = factor(case_when(
+      HDI <= .55 ~ "Low",
+      HDI < .699 ~ "Medium",
+      HDI < .799 ~ "High",
+      HDI >= .799 ~ "Very high",
+      is.na(HDI) ~ NA_character_
+    ), levels = c("Low","Medium","High","Very high")
+  )
+  )
+
+```
+
+
+### Glimpse (i.e., take a quick look) at the data. 
+
+We'll make a code chunk and use "glimpse" for a view we can include in an output notebook.
+
+```{r glimpse-data}
+
+?glimpse
+
+glimpse(happy) 
+
+```
+
+
+### How much does happiness vary across countries?
+
+Let's create a histogram!
+
+```{r, happiness-histogram}
+
+ggplot(happy, aes(x=Happiness)) + 
+  geom_histogram(binwidth=.5)
+
+```
+
+#### Which are the happiest countries?
+
+Hint: filter for a value that indicates "high" happiness and arrange from highest to lowest.
+
+```{r high-happiness}
+
+happy  %>%  
+  filter(Happiness >= 8)  %>% 
+  arrange(desc(Happiness))
+
+```
+
+#### Which are the least happy countries?
+
+Hint: `head()` gives you the top rows, but you want the bottom rows. Try ?head to see if it gives you suggestions.
+
+```{r low-happiness}
+
+happy %>% 
+  arrange(desc(Happiness)) %>% 
+  tail()
+
+```
+
+
+#### How does happiness vary by region?
+
+Get summary statistics (mean, sd) of Happiness across the different Regions.
+
+```{r happiness-by-region}
+
+happy %>% 
+  group_by(Region)  %>% 
+  summarise(Mean_Happiness = mean(Happiness),
+            SD_Happiness = sd(Happiness))  %>% 
+  arrange(Mean_Happiness)
+
+happy %>% 
+  ggplot(aes(x=Happiness, fill=Region)) +
+  geom_histogram()
+
+```
+
+## Can you buy happiness?
+
+Visualize the relation between happiness and GDP. Does this differ by Region?
+
+```{r buy-happiness}
+
+ggplot(happy, aes(x=GDPperCapita, y=Happiness)) +
+  geom_point()
+
+ggplot(happy, aes(x=GDPperCapita, y=Happiness, color=Region)) +
+  geom_point()
+
+```
+
+
+### Modify the following starter plot to change the color of all points to `"pink"`.
+
+Hint: check out ?geom_point
+
+```{r scatterplot}
+
+ggplot(happy, aes(x = GDPperCapita, y = Happiness)) +
+  geom_point(colour="pink")
+
+```
+
+
+### Since all the points are now pink, the effect of Region is no longer visible. Let's add Region back in, and change the size of the points to reflect the population size. 
+
+```{r scatterplot-point-size}
+
+ggplot(happy, aes(x = GDPperCapita, y = Happiness, color = Region, size = Population)) +
+  geom_point()
+
+```
+
+### Add labels for title, x and y axes, and size of points. We'll be more specific about what these things mean.
+
+```{r scatterplot-labels}
+
+ggplot(happy, aes(x = GDPperCapita, y = Happiness, , size = Population, color = Region)) +
+  geom_point() + 
+  labs(
+    title = "Can money buy happiness?",
+    x = "GDP per Capita (dollars)",
+    y = "Mean Happiness Ratings",
+    size = "Population (millions)"
+    ) 
+
+```
+
+### Does money buy happiness everywhere?
+
+Group the data by Region and calculate the correlation between `Happiness` and `GDPperCapita`.
+
+```{r, money-buy-happiness}
+
+happy %>% 
+  group_by(Region) %>% 
+  summarise(GDPvsHappiness = cor(Happiness, GDPperCapita)) #what's the problem with this table?
+
+happy %>% 
+  filter(!is.na(Happiness), !is.na(GDPperCapita)) %>% 
+  group_by(Region) %>% 
+  summarise(GDPvsHappiness = cor(Happiness, GDPperCapita))
+
+```
+
+### Is there an environmental cost of happiness?
+
+Plot the relation between `Happiness` and `Footprint` (land and sea area required to produce the resources needed).
+
+Then, calculate the correlation between `Happiness` and `Footprint` for each region. Hint: copy the correlation code above and change the relevant variables. 
+
+```{r env-cost}
+
+happy %>% 
+  ggplot(aes(x = Footprint, y = Happiness, color = Region)) +
+  geom_point() + 
+  labs(
+    title = "Is there an environmental cost of happiness?",
+    x = "Environmental Footprint",
+    y = "Mean Happiness Ratings",
+    color = "Region"
+    ) 
+
+
+happy %>% 
+  filter(!is.na(Happiness), !is.na(Footprint)) %>% 
+  group_by(Region) %>% 
+  summarise(FootprintvsHappiness = cor(Happiness, Footprint))
+
+```
+
+
+# You Try!
+
+### How many countries are developed? Make a bar plot of the distribution of `HDI_group`
+
+```{r barplot}
+
+ggplot(happy, aes(x=HDI_group)) +
+  geom_bar() + 
+  labs(
+    title = "How many countries are developed?",
+    x = "Human Development Index Level",
+    y = "Frequency"
+    ) 
+
+```
+
+### Histogram
+
+Pick a single numerical variable (any variable you choose from the data) and make a histogram of it.
+
+(This time no starter code is provided, you're on your own!)
+
+```{r hpi-analysis}
+
+ggplot(happy, aes(x=Population)) +
+  geom_histogram() + 
+  labs(
+    title = "Population Distribution",
+    x = "Population (millions)",
+    y = "Frequency"
+    ) 
+
+```
+
+### Numerical data visualization
+
+Pick a numerical variable and a visualization (you pick the type!) to visualize the relationship between this variable and `Region`. How would you interpret the visualization?
+
+```{r num-cat}
+
+happy %>% 
+  ggplot(aes(x = Region, y = Happiness, fill = Region)) +
+  geom_boxplot() +
+  labs(
+    title = "How does happiness vary by Region?",
+    x = "Region",
+    y = "Mean Happiness Ratings",
+    fill = "Region"
+    ) 
+
+happy %>% 
+  ggplot(aes(x = Region, y = Happiness, fill = Region)) +
+  geom_violin() + 
+  labs(
+    title = "How does happiness vary by Region?",
+    x = "Region",
+    y = "Mean Happiness Ratings",
+    fill = "Region"
+    ) 
+
+```
+
+### Categorical visualization
+
+Focus on the two categorical variables of `Region` and `HDI_group` and make a visualization to visualize the relationship between them. How would you interpret the visualization?
+
+```{r cat-cat}
+
+happy %>% 
+  ggplot(aes(x = Region, fill = HDI_group)) +
+  geom_bar() + 
+  labs(
+    title = "Human Development Index (HDI) Distribution by Region",
+    x = "Region",
+    y = "Frequency",
+    fill = "HDI Level"
+    ) 
+
+```
+
+### Multivariate, numerical and categorical
+
+Pick two numerical variables to consider alongside a categorical variable (either `Region` or `HDI_group`) and make a visualization that incorporates all of them. How would you interpret the visualization?
+
+```{r multi}
+
+happy %>% 
+  ggplot(aes(x = Happiness, y = GDPperCapita, color = HDI_group)) +
+  geom_point() + 
+  labs(
+    title = "Does the relation betwen Happiness and GDP vary by HDI Level?",
+    x = "Mean Happiness Ratings",
+    y = "Mean GDP per Capita",
+    color = "HDI Level"
+    ) 
+
+```
