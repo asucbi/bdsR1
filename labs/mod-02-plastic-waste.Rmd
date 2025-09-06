@@ -3,6 +3,8 @@ title: "LAB 02 - Plastic Pollution"
 params: 
     SHOW_SOLS: FALSE # if i wanted to give solutions, could toggle back on. 
     TOGGLE: TRUE
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
