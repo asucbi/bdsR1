@@ -37,9 +37,7 @@ In this lab we will work with the data from this article to recreate some of the
 :::
 
 :::red
-**PRE-LAB ACTIVITY**
-
-Read the Buzzfeed article titled [*These Nobel Prize Winners Show Why Immigration Is So Important For American Science*](https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science)*.* We will replicate this analysis in this assignment so it's crucial that you're familiar with it ahead of time.
+We will replicate the analysis in the the Buzzfeed article titled [*These Nobel Prize Winners Show Why Immigration Is So Important For American Science*](https://www.buzzfeednews.com/article/peteraldhous/immigration-and-science)*.* You should have familiarized yourself with this article prior to coming to class. 
 :::
 
 # Getting started

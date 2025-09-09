@@ -1,0 +1,63 @@
+---
+title: "Lab 03 - Nobel laureates"
+author: "Insert your name here"
+date: "Insert date here"
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse) 
+```
+
+```{r load-data, message=FALSE}
+nobel <- read_csv("labs/data/nobel.csv")
+
+# NOTE: below will also load in the file. This is because `read_csv` can also pull files stored online. 
+# nobel <- read_csv("https://asucbi.github.io/data/nobel.csv")
+```
+
+## Exercises
+
+### Exercise 1
+
+```{r obs-vars}
+
+nrow(nobel)
+ncol(nobel)
+
+```
+
+
+### Exercise 2
+
+```{r new-df}
+
+nobel_living <- nobel %>% 
+  filter(
+    !is.na(country),
+    gender != "org",
+    is.na(died_date)
+  )
+    
+```
+
+
+### Exercise 3
+
+Remove this text, and add your answer for Exercise 1 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+### Exercise 4
+
+...
+
+### Exercise 5
+
+...
+
+### Exercise 6
+
+...
