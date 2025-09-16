@@ -1,0 +1,219 @@
+---
+title: "Module 4 Code Along: Hotel bookings"
+author:
+  - Nicholas Duran, Derek Powell, Jessica Kosie^[Authored modifications to original code]
+  - Mine Çetinkaya-Rundel^[Original author of exercise]
+output:
+  html_document:
+    # theme: united
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE}
+
+library(tidyverse)
+
+```
+
+### Understanding where our data comes from
+
+We will continue working with the dataset used in last week's code-along. If you remember, this from the "R For Data Science" community podcast called Tidy Tuesday. The dataset is called "Hotel Bookings:" Learn more [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md)
+
+```{r}
+
+hotels <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv")
+
+```
+
+Let's visualize different aspects of hotel bookings on a few different timescales.
+
+## Plot average daily rate (`adr`) by month
+
+### Exercise 1. Plot average `adr` by arrival month for each hotel type. 
+
+What are the steps do I need to take to solve this problem? Why not write some pseudocode?
+
+```{r adr-by-month}
+
+# We want to plot the average `adr` by hotel type and month. So, how do we do that?
+# group the data by hotel type and month
+# calculate the mean adr for each combination of hotel type and month
+# what would be a good way to plot change over time?
+# create a line graph where we can look at how the price changes across months - line graphs are good for plotting change over time
+# use the line color to indicate hotel type
+
+hotels %>% 
+  group_by(hotel, arrival_date_month)  %>% 
+  summarise(mean_adr = mean(adr)) %>%
+  ggplot(aes(x=arrival_date_month, y=mean_adr, group=hotel, color=hotel)) +
+    geom_line()
+
+# what's wrong with this graph?
+
+```
+
+### Exercise 2. Fix ordering of the months (as factors)
+
+We will want to use a function from the **forcats** package, see <https://forcats.tidyverse.org/reference/index.html> for inspiration and help.
+
+```{r adr-by-month-ordered}
+
+# copy and paste your code
+# which of the functions in forcats do you think wold be useful here?
+
+levels(hotels$arrival_date_month)
+class(hotels$arrival_date_month)
+# or look at tibble
+hotels
+
+# need to change it into a factor
+
+hotels <- hotels %>%
+  mutate(arrival_date_month_fct = fct_relevel(arrival_date_month, c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) 
+
+# now, let's look at the class and levels
+
+class(hotels$arrival_date_month_fct)
+levels(hotels$arrival_date_month_fct)
+
+# R has some useful built-in constants, like `pi`, letters, LETTERS, month.name  
+hotels_v2 <- hotels %>%
+  mutate(arrival_date_month_fct = fct_relevel(arrival_date_month, month.name))
+
+# now, let's look at the class and levels
+
+class(hotels_v2$arrival_date_month_fct)
+levels(hotels_v2$arrival_date_month_fct)
+
+# now recreate your plot
+hotels %>% 
+  group_by(hotel, arrival_date_month) %>%
+  summarise(mean_adr = mean(adr)) %>%
+  ggplot(aes(x=arrival_date_month, y=mean_adr, group=hotel, color=hotel)) +
+    geom_line()
+
+# look at the x axis -- much better! but still not the most attractive plot.
+
+```
+
+### Exercise 3. Make it pretty
+
+Totally up to you how to do this. Go wild. 
+
+```{r adr-by-month-pretty}
+
+# take ~10min with folks around you, try to make the plot pretty (labels, colors, theme)
+
+hotels %>%
+  group_by(hotel, arrival_date_month_fct) %>%
+  summarise(mean_adr = mean(adr)) %>%
+  ggplot(
+    aes(x=arrival_date_month_fct, 
+        y=mean_adr, 
+        group=hotel, 
+        color=hotel)
+    ) +
+    geom_line(linewidth = 1.5) +
+  theme_classic() +
+  labs(
+    x = "Arrival month",
+    y = "Mean average daily rate (ADR)",
+    title = "City vs. Resort Hotels' ADR by Month",
+    color = "Hotel Type"
+  ) +
+  scale_color_manual(values = c("purple", "forestgreen"))
+
+```
+
+**A final touch:** Change the y-axis label so the values are shown with dollar signs, e.g. $80 instead of 80.
+
+We can use the `dollar_format()` function from the **scales** package, see <https://scales.r-lib.org/reference/index.html>.
+
+```{r adr-by-month-dollars}
+
+#copy and paste code and add dollar formatting
+
+hotels %>%
+  group_by(hotel, arrival_date_month_fct) %>%
+  summarise(mean_adr = mean(adr)) %>%
+  ggplot(
+    aes(x=arrival_date_month_fct, 
+        y=mean_adr, 
+        group=hotel, 
+        color=hotel)
+    ) +
+    geom_line(linewidth = 1.5) +
+  theme_classic() +
+  labs(
+    x = "Arrival month",
+    y = "Mean average daily rate (ADR)",
+    title = "City vs. Resort Hotels' ADR by Month",
+    color = "Hotel Type"
+  ) +
+  scale_color_manual(values = c("purple", "forestgreen")) +
+  scale_y_continuous(labels = scales::dollar_format()) 
+
+```
+
+## Plot cancellations by day of week
+
+### Exercise 4. Are travelers arriving different days (Sunday through Saturday) more likely to cancel their plans?
+
+uh oh, no day of the week variable! we can use **lubridate** for this
+
+```{r cancel-by-day-of-week}
+library(lubridate)
+
+hotels <- hotels %>%
+  mutate(
+    arrival_date_str = paste(arrival_date_month, arrival_date_day_of_month, arrival_date_year),
+    arrival_date_mdy = parse_date_time(arrival_date_str, "mdy")
+  ) 
+  
+hotels %>% 
+  select(arrival_date_month, arrival_date_day_of_month, arrival_date_year, arrival_date_str, arrival_date_mdy)
+
+hotels %>% 
+  select(starts_with("arrival"))
+
+days_of_week <- c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+
+hotels <- hotels %>%
+  mutate(
+    arrival_date_weekday_number = wday(arrival_date_mdy),
+    arrival_date_weekday = factor(arrival_date_weekday_number, labels=days_of_week)
+  ) 
+
+hotels %>% 
+  select(arrival_date_mdy, arrival_date_weekday_number, arrival_date_weekday)
+
+hotels %>%
+  group_by(hotel, arrival_date_weekday) %>%
+  summarize(mean_adr = mean(adr),
+            n = n(),
+            prop_cancelled = sum(is_canceled)/n()) %>%
+  ggplot(aes(x=arrival_date_weekday, y=prop_cancelled, color=hotel, group=hotel)) +
+  geom_line()
+
+# what do you see from this graph? 
+
+# add a title and sub-title that describe what you've found
+
+hotels %>%
+  group_by(hotel, arrival_date_weekday) %>%
+  summarize(mean_adr = mean(adr),
+            n = n(),
+            prop_cancelled = sum(is_canceled)/n()) %>%
+  ggplot(aes(x=arrival_date_weekday, y=prop_cancelled, color=hotel, group=hotel)) +
+  geom_line() +
+  labs(
+    title = "Comparison of resort and city hotel cancellations across days of week",
+    subtitle = "Cancellations peak on different days for different hotel types"
+  )
+
+```
+

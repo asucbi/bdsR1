@@ -76,7 +76,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -268,7 +268,7 @@ pre code {
 </div>
 
 
-<p>More and more, epidemiologists are uncovering the alarmingly detrimental effects of environmental pollution for human health and well-being. As has long been known, childhood lead exposure has particularly damaging and lifelong consequences, with even low levels stunting intellectual development. The ancient Romans famously lined their aquaducts with lead, which some have speculated may have hastened the empire’s downfall by contaminating their drinking water (<a href="https://dl.tufts.edu/concern/pdfs/6395wk23b">Nriagu,1983</a>).</p>
+<p>More and more, epidemiologists are uncovering the alarmingly detrimental effects of environmental pollution for human health and well-being. As has long been known, childhood lead exposure has particularly damaging and lifelong consequences, with even low levels stunting intellectual development. The ancient Romans famously lined their aqueducts with lead, which some have speculated may have hastened the empire’s downfall by contaminating their drinking water (<a href="https://dl.tufts.edu/concern/pdfs/6395wk23b">Nriagu,1983</a>).</p>
 <p>More recently, atmospheric lead exposure from leaded gasoline was substantial across the developed world. Fortunately, in the U.S. the Clean Air Act of 1970 began transitioning away from the use of leaded gasoline, though it wasn’t outright banned in the U.S. until 1996. Some epidemiologists and economists believe that reduced lead exposure (especially during childhood) is at least partly responsible for reductions in crime since the 80s and 90s (<a href="https://www-sciencedirect-com.ezproxy1.lib.asu.edu/science/article/pii/S0166046222000667">Higney et al., 2022</a>).</p>
 <p>However, the benefits of environmental reforms are often not felt evenly. Leaded gasoline was used in the developing world long after it was banned in most Western nations—the last stockpiles were only finally used up by Algeria in July of 2021 (<a href="https://www.npr.org/2021/08/30/1031429212/the-world-has-finally-stopped-using-leaded-gasoline-algeria-used-the-last-stockp">NPR</a>)! And even in the U.S., many communities are still exposed to too much lead and other environmental pollutants, especially communities of color like Flint, MI.</p>
 <p>The idea that an environmental pollutant could harm health is worrying. The idea that it could stunt one’s intellect, or even impair one’s decision-making is perhaps unsettling on another level. But could lead exposure do something even deeper than all that—could it change your personality?</p>
@@ -282,8 +282,8 @@ pre code {
 </ul>
 </div>
 <div class="red">
-<p><strong>PRE-LAB ACTIVITY</strong></p>
-<p><strong>Recommended reading:</strong> <a href="https://www.motherjones.com/environment/2016/02/lead-exposure-gasoline-crime-increase-children-health/">“Lead: America’s Real Criminal Element” (<em>Mother Jones</em>)</a> by Kevin Drum, a leading proponent of the “lead-crime hypothesis” (also recommended, its <a href="https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis">wikipedia entry</a>).</p>
+<p><strong>RECOMMENDED READING</strong></p>
+<p><a href="https://www.motherjones.com/environment/2016/02/lead-exposure-gasoline-crime-increase-children-health/">“Lead: America’s Real Criminal Element” (<em>Mother Jones</em>)</a> by Kevin Drum, a leading proponent of the “lead-crime hypothesis” (also recommended, its <a href="https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis">wikipedia entry</a>).</p>
 </div>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
@@ -303,11 +303,12 @@ pre code {
 <p>We’ll use the <strong>tidyverse</strong> package for much of the data wrangling.</p>
 <p>This package is already installed for you.</p>
 <p>You can load it by running the following in your Console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(maps)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>We’re going to work with two datasets in this lab, both of which can be found as CSV (comma separated values) files in the <code>data</code> folder of your repository.</p>
+<p>We’re going to work with two datasets in this lab, both of which can be found as CSV (comma-separated values) files in the <code>data</code> folder of your repository.</p>
 <p>You can read the first of these in using the following, we’ll call it <code>survey</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/eu-pers-survey.csv&quot;</span>)</span></code></pre></div>
 <p>The variable descriptions are as follows:</p>
@@ -418,7 +419,8 @@ pre code {
 ## [31] &quot;Romania&quot;                &quot;Serbia&quot;                 &quot;Sweden&quot;                
 ## [34] &quot;Slovenia&quot;               &quot;Slovakia&quot;               &quot;Turkey&quot;                
 ## [37] &quot;Ukraine&quot;</code></pre>
-<p>If you’re going cross-eyed, there is a better way. In fact, it’s the way I want you to use. Write a single line of code using the <code>%in%</code> operator to see which of the countries from one dataset are NOT in the list of countries from the other dataset.</p>
+<p>If you’re going cross-eyed, there is a better way. In fact, it’s the way I want you to use.
+Write one or two lines of code using the <code>%in%</code> operator to see which of the countries from one dataset are NOT in the list of countries from the other dataset.</p>
 <div class="green">
 <p><strong>HINT:</strong> You should get back two countries. You will also see that it’s not so much these two countries are missing from each data set, but they are spelled differently across the two datasets.</p>
 </div>

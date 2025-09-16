@@ -39,25 +39,67 @@ nobel_living <- nobel %>%
     gender != "org",
     is.na(died_date)
   )
-    
+
+```
+```{r prep-ex3}
+
+nobel_living <- nobel_living %>%
+  mutate(
+    country_us = if_else(country == "USA", "USA", "Other")
+  )
+
+nobel_living_science <- nobel_living %>%
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
+
+
+```
+### Exercise 3
+
+```{r bar-plot}
+
+nobel_living_science %>%
+  ggplot(aes(x=country_us, fill=country_us)) +
+  geom_bar() + 
+  facet_wrap(~category) + 
+  coord_flip()
+
 ```
 
 
-### Exercise 3
-
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
-
 ### Exercise 4
 
-...
+```{r born-us}
+
+nobel_living_science <- nobel_living_science %>%
+  mutate(
+    born_country_us = if_else(born_country_code == "US", "USA", "Other")
+  )
+
+```
 
 ### Exercise 5
 
-...
+```{r us-plot}
+
+nobel_living_science %>%
+  ggplot(aes(x=country_us, fill=born_country_us)) +
+  geom_bar() + 
+  facet_wrap(~category) + 
+  coord_flip() +
+  labs(x = "Country Award Received", y = "Count", fill = "Country Born")
+
+```
+
 
 ### Exercise 6
 
 ...
+```{r nobelists-born}
+
+nobel_living_science %>% 
+  filter(country_us == "USA" & 
+           born_country_us == "Other") %>% 
+  group_by(born_country) %>% 
+  count(sort = TRUE)
+
+```

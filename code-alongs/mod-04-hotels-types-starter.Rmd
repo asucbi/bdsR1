@@ -1,0 +1,117 @@
+---
+title: "Module 4 Code Along: Hotel bookings"
+author:
+  - Nicholas Duran, Derek Powell, Jessica Kosie^[Authored modifications to original code]
+  - Mine Çetinkaya-Rundel^[Original author of exercise]
+output:
+  html_document:
+    # theme: united
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE}
+
+library(tidyverse)
+
+```
+
+### Understanding where our data comes from
+
+We will continue working with the dataset used in last week's code-along. If you remember, this from the "R For Data Science" community podcast called Tidy Tuesday. The dataset is called "Hotel Bookings:" Learn more [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md)
+
+```{r}
+
+hotels <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv")
+
+```
+
+Let's visualize different aspects of hotel bookings on a few different timescales.
+
+## Plot average daily rate (`adr`) by month
+
+### Exercise 1. Plot average `adr` by arrival month for each hotel type. 
+
+What are the steps do I need to take to solve this problem? Why not write some pseudocode?
+
+```{r adr-by-month}
+
+# add code here
+
+```
+
+### Exercise 2. Fix ordering of the months (as factors)
+
+We will want to use a function from the **forcats** package, see <https://forcats.tidyverse.org/reference/index.html> for inspiration and help.
+
+```{r adr-by-month-ordered}
+
+# copy and paste your code
+# which of the functions in forcats do you think wold be useful here?
+# try it out!
+
+```
+
+### Exercise 3. Make it pretty
+
+Totally up to you how to do this. Go wild. 
+
+```{r adr-by-month-pretty}
+
+# take ~10min with folks around you, try to make the plot pretty (labels, colors, theme)
+
+```
+
+**A final touch:** Change the y-axis label so the values are shown with dollar signs, e.g. $80 instead of 80.
+
+We can use the `dollar_format()` function from the **scales** package, see <https://scales.r-lib.org/reference/index.html>.
+
+```{r adr-by-month-dollars}
+
+#copy and paste your code from above and add dollar formatting
+
+```
+
+## Plot cancellations by day of week
+
+### Exercise 4. Are travelers arriving different days (Sunday through Saturday) more likely to cancel their plans?
+
+uh oh, no day of the week variable! we can use **lubridate** for this
+
+```{r cancel-by-day-of-week}
+
+library(lubridate)
+
+hotels <- hotels %>%
+  mutate(
+    arrival_date_str = paste(___, ___, ___),
+    arrival_date_mdy = parse_date_time(arrival_date_str, "mdy")
+  ) 
+  
+hotels %>% 
+  select(arrival_date_month, arrival_date_day_of_month, arrival_date_year, arrival_date_str, arrival_date_mdy)
+
+days_of_week <- c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+
+hotels <- hotels %>%
+  mutate(
+    arrival_date_weekday_number = wday(___),
+    arrival_date_weekday = factor(arrival_date_weekday_number, labels = ___)
+  ) 
+
+hotels %>% 
+  select(arrival_date_mdy, arrival_date_weekday_number, arrival_date_weekday)
+
+hotels %>%
+  group_by(hotel, arrival_date_weekday) %>%
+  summarize(mean_adr = mean(adr),
+            n = n(),
+            prop_cancelled = sum(is_canceled)/n()) %>%
+  ggplot(aes(x=arrival_date_weekday, y=prop_cancelled, color=hotel, group=hotel)) +
+  geom_line()
+
+```
+

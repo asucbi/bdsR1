@@ -39,9 +39,9 @@ In this lab we'll explore data from a recent [paper](https://psyarxiv.com/nxdca/
 :::
 
 :::red
-**PRE-LAB ACTIVITY**
+**RECOMMENDED READING**
 
-__Recommended reading:__ ["Lead: America’s Real Criminal Element" (_Mother Jones_)](https://www.motherjones.com/environment/2016/02/lead-exposure-gasoline-crime-increase-children-health/) by Kevin Drum, a leading proponent of the "lead-crime hypothesis" (also recommended, its [wikipedia entry](https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis)).
+["Lead: America’s Real Criminal Element" (_Mother Jones_)](https://www.motherjones.com/environment/2016/02/lead-exposure-gasoline-crime-increase-children-health/) by Kevin Drum, a leading proponent of the "lead-crime hypothesis" (also recommended, its [wikipedia entry](https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis)).
 
 :::
 
@@ -72,6 +72,7 @@ You can load it by running the following in your Console:
 
 ```{r load-packages, message = FALSE}
 library(tidyverse)
+library(maps)
 ```
 
 ## Data
