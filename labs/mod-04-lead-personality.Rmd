@@ -71,8 +71,10 @@ This package is already installed for you.
 You can load it by running the following in your Console:
 
 ```{r load-packages, message = FALSE}
+
 library(tidyverse)
 library(maps)
+
 ```
 
 ## Data
@@ -82,7 +84,9 @@ We're going to work with two datasets in this lab, both of which can be found as
 You can read the first of these in using the following, we'll call it `survey`.
 
 ```{r load-data, message = FALSE, eval = TRUE}
-survey <- read_csv("data/eu-pers-survey.csv")
+
+survey <- read_csv("labs/data/eu-pers-survey.csv")
+
 ```
 
 The variable descriptions are as follows:
@@ -106,7 +110,9 @@ The variable descriptions are as follows:
 The second dataset we will use is some country-level statistics for all European Union countries. You can read in the second dataset with the following, calling it `eudata`:
 
 ```{r}
-eudata <- read_csv("data/eu-country-data.csv")
+
+eudata <- read_csv("labs/data/eu-country-data.csv")
+
 ```
 
 
@@ -125,11 +131,15 @@ eudata <- read_csv("data/eu-country-data.csv")
 To help with this exercise, you could print out the country variable in each by indexing the data frames with the `$` operator. Then, squint at these two lists and see if you can find any differences.
 
 ```{r}
+
 survey$Country
+
 ```
 
 ```{r}
+
 eudata$Country
+
 ```
 
 If you're going cross-eyed, there is a better way. In fact, it's the way I want you to use. 
@@ -140,8 +150,10 @@ __HINT:__ You should get back two countries. You will also see that it's not so 
 :::
 
 ```{r echo=FALSE, eval=FALSE}
+
 survey %>% 
   filter(!Country %in% eudata$Country)
+
 ```
 
 ---
@@ -155,13 +167,17 @@ But, we're going to have problems with the `Country` variable in each dataset be
 This is how our problematic countries are spelled in the `eudata` dataset: 
 
 ```{r}
+
 eudata %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
+
 ```
 
 And this is how they are spelled in the `survey` dataset: 
 
 ```{r}
+
 survey %>% filter(str_detect(Country, "(Czech|Bosnia)")) %>% pull(Country)
+
 ```
 
 :::frame
@@ -173,6 +189,7 @@ __NOTE:__ The code above uses something called a ["regular expression"](https://
 3. Now that we know what the problem is, use the `case_when` function to recode the `Country` variable in the `eudata` data frame to match how they are written in the `survey` data.
 
 ```{r eval=TRUE, echo=FALSE}
+
 eudata <- eudata %>% 
   mutate(
     Country = case_when(
@@ -181,6 +198,7 @@ eudata <- eudata %>%
      TRUE ~ Country
   )
 )
+
 ```
 
 ---
@@ -189,7 +207,9 @@ eudata <- eudata %>%
 
 
 ```{r, eval=TRUE, echo=FALSE}
+
 combined <- left_join(eudata, survey, by = "Country")
+
 ```
 
 ---
@@ -203,9 +223,11 @@ In this paper it is argued that lead exposure is associated with lower agreeable
 This is what your code should produce:
 
 ```{r, eval=TRUE, echo=FALSE}
+
 combined %>% 
   ggplot(aes(x=mean_leadexposure, y = mean_a)) +
   geom_point()
+
 ```
 
 ---
@@ -219,8 +241,10 @@ One thing we might think could influence personality is geography. Without playi
 The `ggplot2` package includes a function called `map_data()` that loads data for plotting maps of different parts of the world. The code below loads data with latitude (lat) and longitude (long) points marking the boundaries of all the different nations of the world and then turns that `data.frame` object into a `tibble`.
 
 ```{r}
+
 map_data("world") %>% 
   as_tibble()
+
 ```
 
 If we join this with our `combined` data, we will be ready to plot a map of the variable we're interested in.
@@ -228,8 +252,10 @@ If we join this with our `combined` data, we will be ready to plot a map of the 
 6. Join the `map_data("world")` with the `combined` data to create a new dataset. Make sure to do so in a way that only keeps the countries we have data for in the `combined` dataset. You can assign this new dataset to a variable just called `d`.
 
 ```{r, echo=FALSE, eval=TRUE}
+
 d <- map_data("world") %>% 
   right_join(combined, by = c("region"="Country"))
+
 ```
 
 :::green
@@ -247,18 +273,22 @@ Short variable names like `d` can be useful for "temporary" data that won't be u
 Now we're ready to make our map to explore the possibility of geographic differences. The code below creates the basic map.
 
 ```{r}
+
 ggplot(d, aes(x=long, y = lat, group=group)) + 
   geom_polygon() + 
   coord_fixed() 
+
 ```
 
-7. Modify the code above to plot agreeableness by country. What you produce should look like so:
+7. Modify the code above to color the map by the average agreeableness in that country. What you produce should look like so:
 
 ```{r, eval=TRUE, echo=FALSE}
+
 ggplot(d, aes(x=long, y = lat, group=group, fill = mean_a)) +
   geom_polygon() + 
   scale_fill_viridis_c() +
   coord_fixed() 
+
 ```
 
 :::green
@@ -268,10 +298,12 @@ __Hint:__ To generate this, use the `fill` option in the `aes()`, making `fill` 
 8. Now do what you just did, but now plot lead exposure by country instead of agreeableness. 
 
 ```{r, eval=FALSE, echo=FALSE}
+
 ggplot(d, aes(x=long, y = lat, group=group, fill = mean_leadexposure)) + 
   geom_polygon() + 
   scale_fill_viridis_c() +
   coord_fixed() 
+
 ```
 
 9. Write-up: Compare the plots. Do you notice any patterns? Does the geographic explanation of the association between agreeableness and lead exposure seem plausible? 
