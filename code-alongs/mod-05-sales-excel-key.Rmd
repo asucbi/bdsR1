@@ -1,0 +1,78 @@
+---
+title: "Sales - key file"
+author: "Nicholas Duran; Jessica Kosie"
+---
+
+Code-Along File #2
+
+Here we will practice reading and writing excel files.
+
+```{r load-packages, message=FALSE}
+
+library(tidyverse)
+library(readxl)
+
+```
+
+Read in the file called `scales.xlsx` from the `raw_data` folder. Use the `read_excel()` function.
+
+```{r}
+
+sales <- read_excel("data-raw/sales.xlsx")
+
+```
+
+Use `View()` to take a look at your file. Does it look like the file read in correctly?
+
+We want to skip the first three rows. We also want to make our column names meaningful by changing them to "id" and "n".
+
+First, let's use `?read_excel` to learn more about this function.
+
+```{r}
+
+?read_excel
+
+```
+
+Now, edit the `read_excel()` code to make the changes described above. How does this look?
+
+```{r}
+
+sales <- read_excel("data-raw/sales.xlsx", skip=3, col_names = c("id", "n"))
+
+View(sales)
+
+```
+
+Still not great -- it looks like the data should actually be separated by brand. Use the following code to clean up your file.
+
+```{r}
+
+sales <- sales %>%
+  mutate(
+    is_brand_name = str_detect(id, "Brand"),
+    brand = if_else(is_brand_name, id, NA_character_)
+  ) %>%
+  fill(brand) %>%
+  filter(!is_brand_name) %>%
+  select(brand, id, n)
+  
+```
+
+Finally, write the file as a csv in the `data/` folder.
+
+```{r}
+
+write_csv(sales, "data/sales.csv")
+
+```
+
+
+
+
+
+
+
+
+
+

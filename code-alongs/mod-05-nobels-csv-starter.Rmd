@@ -1,0 +1,66 @@
+---
+title: "Nobel winners - starter file"
+author: "Nicholas Duran; Jessica Kosie"
+---
+
+Code-Along File #1
+
+Here we will practice reading and writing csv files.
+
+First, let take a look at our file structure. What files and folders do we already have in our environment?
+
+```{r load-packages, message=FALSE}
+
+#delete this text and enter code here
+
+```
+
+Read in the `nobel.csv` file from the `data-raw/` folder.
+
+Take a look at the data file. What kind of file is it? What function would you use to read in the file? What is the path to the file?
+
+```{r load-data}
+
+nobel <- #delete this text and enter code here
+
+```
+
+Use the `glimpse()` function to take a look at the data. We have used this dataset before, so it should look familiar.
+
+```{r}
+
+glimpse(___)
+
+```
+
+Split the data into two (STEM and non-STEM):
+
+  - Create a new data frame, `nobel_stem`, that filters for the STEM fields: (Physics, Medicine, Chemistry, and Economics).
+Create another data frame, `nobel_nonstem`, that filters for the remaining fields.
+
+**Hint:** Use the `%in%` operator when `filter()`ing.
+
+```{r filtering-category}
+
+# stem laureates
+stem <- nobel %>%
+  filter(___ %in% c(___, ___, ___))
+
+# non-steam laureates
+non_stem <- nobel %>%
+  filter(___)
+
+```
+
+Save the two data frames to `nobel-stem.csv` and `nobel_nonstem.csv`, respectively, in the  `data/` folder.
+
+Hint: we use `read_csv()` to "read" in a data file. What might we use to "write" a data file? How do we tell R to put the file into the `data/` folder?
+
+```{r save-output-csv}
+
+#delete this text and enter code here
+
+```
+
+Now, check out the `data/` folder to see if your files saved correctly.
+

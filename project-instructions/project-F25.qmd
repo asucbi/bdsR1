@@ -1,0 +1,176 @@
+---
+title: "Showcase your inner data scientist"
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+![](img/laptop-3190194_1920.jpg){fig-align="center" width=100%}
+
+# TL;DR
+
+Pick a dataset, any dataset...
+
+...and do something with it.
+
+That is your final project in a nutshell.
+
+More details below.
+
+## Overview
+
+The final project for this class will consist of analysis on a dataset of your own choosing. 
+
+The dataset should be publicly available and should not be a dataset that you have already analyzed in your own independent research (for MS and PhD students). If you have a dataset from your own research that you would like to use, please check with me first!
+
+The goal of this project is for you to demonstrate proficiency in the techniques we have covered in this class (and beyond, if you like) and apply them to a novel dataset in a meaningful way.
+
+You should:
+
+- Identify a dataset you are interested in
+- Identify 2-3 specific research questions that this data can help answer
+- Create a visualization or visualizations that help answer each of your questions
+- Create a model or calculate a statistic that helps answer at least one of your questions
+
+The goal is not to do an exhaustive data analysis i.e., do not calculate every statistic and procedure you have learned for every variable, but rather show that you are proficient at asking *meaningful* questions and answering them with results of data analysis, that you are proficient in using R, and that you are proficient at interpreting and presenting the results.
+
+Focus on methods that help you begin to answer your research questions.
+
+Also, critique your own methods and provide suggestions for improving your analysis.
+
+Issues pertaining to the reliability and validity of your data, and appropriateness of the statistical analysis should be discussed.
+
+## Data
+
+In order for you to have the greatest chance of success with this project it is important that you choose a manageable dataset. 
+
+This means that the data should be readily accessible and large enough that multiple relationships can be explored. As such, your dataset must have at least 50 observations and between 10 to 20 variables (exceptions can be made but you must get approval first).
+
+Ideally, the dataset’s variables should include both categorical variables and numerical variables. Your dataset should include variables relating to human behaviors or psychological processes, broadly construed.
+
+:::callout-tip
+If you are using a dataset that comes in a format that we haven’t encountered in class, make sure that you are able to load it into R as this can be tricky depending on the source. If you are having trouble ask for help before it is too late.
+:::
+
+Also please note that the dataset should not be one that was used in examples, homework assignments, or labs in the class (although related datasets are allowed, e.g. other wordbank data). And you cannot simply copy/paste existing analyses that have already been performed on the dataset (we will be checking for *novel* work!). 
+
+:::callout-tip
+Below is a list of data repositories that might be helpful. You’re not limited to these resources, and in fact you’re encouraged to venture beyond them. But you might find something interesting here:
+
+#### Collection of Data Sets 
+
+- [UCLA Library Psychology Data Set and Repository Lists](https://guides.library.ucla.edu/psychology/data)
+- [Journal of Open Psychology Data](https://openpsychologydata.metajnl.com/articles)
+- [Niv Lab Open Datasets](https://nimh-dsst.github.io/OpenCogData/)
+- [TidyTuesday](https://github.com/rfordatascience/tidytuesday)
+- [Google Dataset Search](https://datasetsearch.research.google.com/)
+- [Kaggle Datasets](https://www.kaggle.com/datasets)
+- [Harvard Dataverse](https://dataverse.harvard.edu/)
+- [Awesome public datasets](https://github.com/awesomedata/awesome-public-datasets)
+
+#### Examples of Individual Data Sets 
+
+- [Project STRIDE](https://www.icpsr.umich.edu/web/RCMD/studies/35525)
+- [U.S. Bureau of Labor Statistics National Longitudinal Surveys](https://www.nlsinfo.org/content/getting-started/topics-covered-in-nls-surveys)
+- [Organisation for Economic Co-operation and Development (OECD)](https://www.oecd.org/en/about/programmes/piaac/piaac-data.html)
+- [Youth Risk Behavior Surveillance System (YRBSS)](https://chronicdata.cdc.gov/Youth-Risk-Behaviors/DASH-Youth-Risk-Behavior-Surveillance-System-YRBSS/q6p7-56au/about_data)
+- [Diefenbach, S. & Anders, L. (2021). The Psychology of Likes: Relevance of Feedback on Instagram and Relationship to Self-esteem and Social Status. Psychology of Popular Media](https://data.ub.uni-muenchen.de/244/)
+:::
+
+## Deliverables
+
+1.  Dataset and research question proposal pitch
+2.  Proposal document 
+3.  Proposal Peer Review 
+4.  Analysis notebook 
+5.  Peer Review - in-class
+
+:::callout-important
+See "Course Schedule" in Canvas for all due dates
+:::
+
+
+### 1. Dataset and research question proposal
+
+Students will be randomly paired to meet 1:1 and each give their “5-minute pitch” of their data analysis plan. After the pitch each pair will discuss the idea, think of possible issues, weaknesses, as well as other ideas or inspirations. Then you’ll trade roles and every 10 minutes we will swap partners and repeat.
+
+In your pitch, you will:
+
+- Introduce your dataset conceptually, ideally showing it to your partner if possible
+- Introduce your 2-3 research questions. Each of your research questions should have something to do with a meaningful human behavior or psychological process.
+- For each research question, describe the visualization(s) you plan to create to address the question.
+
+:::callout-note
+Your research question should have something to do with a meaningful human behavior or psychological process.
+:::
+
+### 2. Proposal document
+
+-   **Section 1 - Introduction (Data and Research Questions)** The introduction should introduce your data and general research questions: 
+
+    -   Tell us where your data comes from, how it was collected, what each row represents, and what are the key variables you are interested in.
+    -   Prepare several research questions that you might answer with this data. Remember, your research questions should have something to do with a meaningful human behavior or psychological process.
+    -   Be sure to include: Put your data in the /data folder, make sure the notebook includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
+
+-   **Section 2 - Analysis plan** For each of your research questions, include:
+
+    -   Which variables you will use to help answer your question.
+    -   Describe the visualizations you will make along with some explanation on how they help you learn more about your data. Feel free to add images (screenshots) to your document to help with the explanation. 
+    -   What results from these visualizations would help to support different hypotheses?
+
+The entire proposal document should be AT LEAST 3 pages and no more than 8 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. 
+
+:::callout-important
+You will prepare your proposal as a RMarkdown notebook and knit it as PDF for submission
+:::
+
+
+### 3.  Proposal peer review
+
+Your projects will be **peer reviewed** by 3-4 of your peers during class after you submit the proposal document. 
+
+:::callout-note
+More information on the peer review process will be provided at a later date. 
+:::
+
+### 4.  Analysis notebook
+
+You will prepare a final RMarkdown notebook as a presentation of your project. You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the notebook. 
+
+There is no limit to the length of the notebook. 
+
+Your presentation should:
+
+- Introduce the dataset 
+- Introduce and explain your research question(s) 
+- Explain how you arrived at your research question. Was it based on theory? Explain your theory. Based on earlier exploratory data analysis? Show this analysis (at least partially).
+- Explain/motivate why your question(s) is meaningful or interesting
+- Present and explain the visualization(s) you used to address your research question(s)
+- Present and explain any models you fit to address your research question(s)
+- A final concluding statement
+
+:::callout-important
+Before you finalize your presentation and submit it as a PDF, make sure your chunks are turned off with `echo = FALSE`. 
+:::
+
+#### Grading
+
+The grading scheme for the final project is as follows:
+
+| Criteria                                     | Points                                                                                                                                                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
+| **Content I:** Is the research question well designed and is the data being used relevant to the research question? | 50 pts |
+| **Content II:** Did the visualization(s) and/or model(s) appropriately address the research question(s)?  | 50 pts |
+| **Correctness** - Are statistical procedures carried out and explained correctly? | 50 pts |
+| **Creativity and Critical Thought:** Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project? | 50 pts |
+| **Notebook:** Was the notebook well organized, readable, not full of text, featuring figures with legible labels, legends, etc.? | 50 pts |
+
+:::callout-important
+A general breakdown of scoring is as follows:
+
+-   90%-100% - Outstanding effort. Student understands how to apply all statistical concepts, can put the results into a cogent argument, can identify weaknesses in the argument, and can clearly communicate the results to others.
+-   80%-89% - Good effort. Student understands most of the concepts, puts together an adequate argument, identifies some weaknesses of their argument, and communicates most results clearly to others.
+-   70%-79% - Passing effort. Student has misunderstanding of concepts in several areas, has some trouble putting results together in a cogent argument, and communication of results is sometimes unclear.
+-   60%-69% - Struggling effort. Student is making some effort, but has misunderstanding of many concepts and is unable to put together a cogent argument. Communication of results is unclear.
+-   Below 60% - Student is not making a sufficient effort.
+:::
