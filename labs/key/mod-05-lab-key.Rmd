@@ -1,0 +1,126 @@
+---
+title: "Lab 05 - Sad plots"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+### Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse) 
+library(readxl) 
+```
+
+### Instructional staff employment trends
+
+Load in data. Make sure you are changing "eval=FALSE" to "eval=TRUE" or just remove it altogether.
+
+```{r label-me, eval=FALSE}
+staff <- read_csv("labs/data/instructional-staff.csv")
+```
+
+### Exercise 1
+
+Remove this text, and add your answer for Question 1 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+```{r label-me-1, eval=FALSE}
+
+staff_long <- staff %>% 
+  pivot_longer(2:ncol(staff), names_to = "year")
+
+```
+
+### Exercise 2
+
+Remove this text, and add your answer for Question 2 here.
+Add code chunks as needed.
+Don't forget to label your code chunk.
+Do not use spaces in code chunk labels.
+
+```{r label-me-2}
+
+staff_long %>% 
+  ggplot(aes(x = year, y = value, color = faculty_type, group = faculty_type)) +
+  geom_line() +
+  theme_linedraw()
+
+```
+
+### Exercise 3
+
+```{r label-me-3, fig.width = 10, fig.fullwidth = TRUE}
+
+staff_long %>% 
+  ggplot(aes(x = year, y = value, color = faculty_type, group = faculty_type)) +
+  geom_line() +
+  theme_linedraw() +
+  labs(x = "Year", y = "Percentage of Hires", color = "Faculty Type")
+
+
+```
+
+### Exercise 4
+
+```{r label-me-3, fig.width = 10, fig.fullwidth = TRUE}
+
+```
+
+### Exercise 5
+
+```{r label-me-4, fig.width = 10, fig.fullwidth = TRUE}
+
+staff_long %>% 
+  mutate(hours = case_when(str_detect(faculty_type, "Part-Time") == TRUE ~ "Part-Time",
+                           TRUE ~ "Other")) %>% 
+  group_by(hours, year) %>% 
+  summarise(avg_hires = mean(value, na.rm = TRUE)) %>% 
+  ggplot(aes(x = year, y = avg_hires, color = hours, group = hours)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_manual(values = c("grey", "red")) +
+  theme_linedraw() +
+  labs(x = "Year", y = "Percentage of Hires", color = "Faculty Type")
+
+staff_long %>% 
+  mutate(hours = case_when(str_detect(faculty_type, "Part-Time") == TRUE ~ "Part-Time",
+                           TRUE ~ "Other")) %>% 
+  ggplot(aes(x = year, y = value, color = hours, group = faculty_type)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_manual(values = c("grey", "red")) +
+  theme_linedraw() +
+  labs(x = "Year", y = "Percentage of Hires", color = "Faculty Type")
+
+staff_long %>% 
+  mutate(hours = case_when(str_detect(faculty_type, "Part-Time") == TRUE ~ "Part-Time",
+                           TRUE ~ "Other")) %>% 
+  ggplot(aes(x = year, y = value, color = hours, group = faculty_type, linetype = faculty_type)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_manual(values = c("grey", "red")) +
+  theme_linedraw() +
+  labs(x = "Year", y = "Percentage of Hires", color = "Faculty Type")
+
+
+```
+
+Now, do Part 2: Fisheries. Add Exercise headings as needed.
+```{r}
+
+```
+
+### Exercise 1
+
+```{r label-me-5, fig.width = 10, fig.fullwidth = TRUE}
+
+fisheries <- read_excel("labs/data/fisheries.xlsx")
+
+
+
+
+
+
+
+
+```

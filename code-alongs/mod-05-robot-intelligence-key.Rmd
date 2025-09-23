@@ -27,7 +27,7 @@ The data from the survey is in `data-raw/robot-intelligence.csv`.
 
 ```{r message = FALSE}
 
-robots <- read_csv("data-raw/robot-intelligence.csv")
+robots <- read_csv("code-alongs/data-raw/robot-intelligence.csv")
 
 ```
 

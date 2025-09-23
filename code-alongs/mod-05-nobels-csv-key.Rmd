@@ -1,6 +1,7 @@
 ---
 title: "Nobel winners - key file"
 author: "Nicholas Duran; Jessica Kosie"
+output: pdf_document
 ---
 
 Code-Along File #1
