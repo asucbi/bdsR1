@@ -477,6 +477,13 @@ dodging the bars for opinion proportions for each education level,
 rather than faceting by education level and then improve the legend.</p>
 <p>How is the story this visualization telling different than the story
 the previous plot tells?</p>
+</div>
+<div id="we-didnt-go-over-this-in-class-but-notice-that-position-dodge-is-added-to-put-the-bars-nex-to-each-other.-were-also-no-longer-using-facet_wrap.-and-i-put-the-legend-at-the-bottom-by-adding-themelegend.position-bottom." class="section level1">
+<h1>We didn’t go over this in class, but notice that
+<code>position = &quot;dodge&quot;</code> is added to put the bars nex to each
+other. We’re also no longer using <code>facet_wrap</code>. And I put the
+legend at the bottom by adding
+<code>theme(legend.position = &quot;bottom&quot;)</code>.</h1>
 <pre class="r"><code>ggplot(robots_prop, aes(x = education, y = proportion, fill = opinion)) +
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
   coord_flip() +
