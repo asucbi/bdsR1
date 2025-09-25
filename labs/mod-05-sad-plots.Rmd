@@ -151,7 +151,7 @@ staff_long
 
 ---
 
-2. Now that you have the data in a long format, create a simple line plot using `ggplot` where you color the lines by `faculty_line`.
+2. Now that you have the data in a long format, create a simple line plot using `ggplot` where you color the lines by `faculty_type`.
 
 :::green
 __HOLD ON! YOU SURE YOU WANT A SNEAK PEEK?__ I challenge you to first attempt creating the plot before looking at the expected output.  

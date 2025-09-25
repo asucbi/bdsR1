@@ -27,7 +27,7 @@ The data from the survey is in `data-raw/robot-intelligence.csv`.
 
 ```{r message = FALSE}
 
-robots <- read_csv("code-alongs/data-raw/robot-intelligence.csv")
+robots <- read_csv("data-raw/robot-intelligence.csv")
 
 ```
 
@@ -141,6 +141,8 @@ ggplot(robots_prop, aes(x = opinion, y = proportion, fill = opinion)) +
 Recreate the same visualization from the previous exercise, this time dodging the bars for opinion proportions for each education level, rather than faceting by education level and then improve the legend.
 
 How is the story this visualization telling different than the story the previous plot tells?
+
+# We didn't go over this in class, but notice that `position = "dodge"` is added to put the bars nex to each other. We're also no longer using `facet_wrap`. And I put the legend at the bottom by adding `theme(legend.position = "bottom")`.
 
 ```{r}
 

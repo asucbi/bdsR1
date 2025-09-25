@@ -46,9 +46,27 @@ Do not use spaces in code chunk labels.
 
 ```{r label-me-3, fig.width = 10, fig.fullwidth = TRUE}
 
+
 ```
 
-...
+### Exercise 4
 
-Add Exercise headings as needed.
+```{r label-me-4, fig.width = 10, fig.fullwidth = TRUE}
+
+```
+
+### Exercise 5
+
+```{r label-me-5, fig.width = 10, fig.fullwidth = TRUE}
+
+
+
+
+```
+
+Now, do Part 2: Fisheries. Add Exercise headings as needed.
+```{r}
+
+```
+
 
