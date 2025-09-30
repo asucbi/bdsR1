@@ -42,12 +42,14 @@ webpage <- read_html(base_url)
 # Get the artist name
 artists <- html_nodes(webpage, ".div-col ol li") %>%
   html_text2()
+
 artists
 
 # Build the tibble
 top_artists <- tibble(
   artist = artists) %>%
   head(n=10)
+
 top_artists
 
 ```
