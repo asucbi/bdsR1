@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -57,16 +57,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="mod-06-song-lyrics-STARTER_files/libs/clipboard/clipboard.min.js"></script>
-<script src="mod-06-song-lyrics-STARTER_files/libs/quarto-html/quarto.js"></script>
-<script src="mod-06-song-lyrics-STARTER_files/libs/quarto-html/popper.min.js"></script>
-<script src="mod-06-song-lyrics-STARTER_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="mod-06-song-lyrics-STARTER_files/libs/quarto-html/anchor.min.js"></script>
-<link href="mod-06-song-lyrics-STARTER_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="mod-06-song-lyrics-STARTER_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="mod-06-song-lyrics-STARTER_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="mod-06-song-lyrics-STARTER_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="mod-06-song-lyrics-STARTER_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="mod-06-song-lyrics-starter_files/libs/clipboard/clipboard.min.js"></script>
+<script src="mod-06-song-lyrics-starter_files/libs/quarto-html/quarto.js"></script>
+<script src="mod-06-song-lyrics-starter_files/libs/quarto-html/popper.min.js"></script>
+<script src="mod-06-song-lyrics-starter_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="mod-06-song-lyrics-starter_files/libs/quarto-html/anchor.min.js"></script>
+<link href="mod-06-song-lyrics-starter_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="mod-06-song-lyrics-starter_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="mod-06-song-lyrics-starter_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="mod-06-song-lyrics-starter_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="mod-06-song-lyrics-starter_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -102,123 +102,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-1-extracting-the-top-10-artists-of-all-time" class="level1">
 <h1>Part 1: Extracting the Top 10 Artists of all Time</h1>
-<section id="source-www.billboard.com" class="level3">
-<h3 class="anchored" data-anchor-id="source-www.billboard.com"><em>Source: www.billboard.com</em></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
 <li><p>Determine the URL you’d like to pull information from. Utilize the read_html() function to transform the URL into an HTML document.</p></li>
-<li><p>Pinpoint the CSS selector that targets the specific data you wish to obtain. A basic understanding of HTML and CSS can be beneficial. If not, you can leverage the Chrome extension, <a href="https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb">SelectorGadget</a>, to assist in identifying the CSS selector. A quick tip: simply right-click on a page element in Chrome and choose “<strong>Inspect</strong>”.</p></li>
+<li><p>Pinpoint the CSS selector that targets the specific data you wish to obtain. A basic understanding of HTML and CSS can be beneficial. If not, you can leverage the Chrome extension, <a href="https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb">SelectorGadget</a>, to assist in identifying the CSS selector.</p></li>
 <li><p>Employ the html_nodes() function combined with the identified CSS selector to retrieve your desired data.</p></li>
 <li><p>Finally, store your extracted information in a data frame. I’ve opted for tibbles in this case (they’re somewhat more user-friendly compared to traditional data frames).</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the url from where you want to extract data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://www.billboard.com/charts/greatest-of-all-time-pop-songs-artists/"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>webpage <span class="ot">&lt;-</span> <span class="fu">read_html</span>(base_url)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the artist name</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>artists <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(webpage, <span class="st">"h3"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>artists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "Rihanna"                                                                                                     
- [2] "P!nk"                                                                                                        
- [3] "Maroon 5"                                                                                                    
- [4] "Katy Perry"                                                                                                  
- [5] "Justin Timberlake"                                                                                           
- [6] "Britney Spears"                                                                                              
- [7] "Taylor Swift"                                                                                                
- [8] "Kelly Clarkson"                                                                                              
- [9] "Mariah Carey"                                                                                                
-[10] "Bruno Mars"                                                                                                  
-[11] "Usher"                                                                                                       
-[12] "Lady Gaga"                                                                                                   
-[13] "The Black Eyed Peas"                                                                                         
-[14] "Christina Aguilera"                                                                                          
-[15] "Janet Jackson"                                                                                               
-[16] "Madonna"                                                                                                     
-[17] "Flo Rida"                                                                                                    
-[18] "Beyonce"                                                                                                     
-[19] "Nickelback"                                                                                                  
-[20] "Jason Derulo"                                                                                                
-[21] "matchbox twenty"                                                                                             
-[22] "Jennifer Lopez"                                                                                              
-[23] "Eminem"                                                                                                      
-[24] "Chris Brown"                                                                                                 
-[25] "Nelly"                                                                                                       
-[26] "Avril Lavigne"                                                                                               
-[27] "Justin Bieber"                                                                                               
-[28] "Backstreet Boys"                                                                                             
-[29] "Pitbull"                                                                                                     
-[30] "Kesha"                                                                                                       
-[31] "Selena Gomez"                                                                                                
-[32] "*NSYNC"                                                                                                      
-[33] "Adele"                                                                                                       
-[34] "Alanis Morissette"                                                                                           
-[35] "Calvin Harris"                                                                                               
-[36] "Ed Sheeran"                                                                                                  
-[37] "Destiny's Child"                                                                                             
-[38] "3 Doors Down"                                                                                                
-[39] "Ne-Yo"                                                                                                       
-[40] "Celine Dion"                                                                                                 
-[41] "Boyz II Men"                                                                                                 
-[42] "The Weeknd"                                                                                                  
-[43] "Enrique Iglesias"                                                                                            
-[44] "No Doubt"                                                                                                    
-[45] "Ariana Grande"                                                                                               
-[46] "OneRepublic"                                                                                                 
-[47] "Hootie &amp; The Blowfish"                                                                                       
-[48] "Ellie Goulding"                                                                                              
-[49] "Sheryl Crow"                                                                                                 
-[50] "Nicki Minaj"                                                                                                 
-[51] "Kris Kristofferson, Idol of Country Music and the Movies, Dies at 88"                                        
-[52] "Suge Knight Claims JAY-Z, Dr. Dre, And Other Industry People Were Privy To Diddy's Alleged Criminal Activity"
-[53] "Insiders Say Ben Affleck Is ‘Treading a Dangerous Line’ With His Treatment of Jennifer Lopez"                
-[54] "Michael Andretti to Exit Ownership of Andretti Global"                                                       
-[55] "‘Scream VII’ Lands February 2026 Release Date"                                                               
-[56] "FERG, Kenyon Dixon, Toosii End Summer With MusiCares And Amazon Music’s “Live on the Lawn”"                  
-[57] "This Cardi B-approved Lab-grown Diamond Brand Wants You to Wear Jewels to Wash Potatoes"                     
-[58] "Dartmouth Won’t Recognize Hoops Union and Bargain, NLRB Told"                                                
-[59] "A Stalker Haunted Tegan and Sara for Years. Now the Duo Is Speaking Out"                                     
-[60] "Follow Us"                                                                                                   
-[61] "Have a Tip?"                                                                                                 
-[62] "The Daily"                                                                                                   
-[63] "Have a Tip?"                                                                                                 
-[64] "Account"                                                                                                     
-[65] "Charts Expand charts menu"                                                                                   
-[66] "Music Expand music menu"                                                                                     
-[67] "Videos Expand videos menu"                                                                                   
-[68] "Culture Expand culture menu"                                                                                 
-[69] "Media Expand media menu"                                                                                     
-[70] "Business Expand business menu"                                                                               
-[71] "Pro Tools Expand pro-tools menu"                                                                             
-[72] "Billboard Español Expand billboard-espanol menu"                                                             
-[73] "Get Up Anthems by Tres Expand get-up-anthems-by-tres menu"                                                   
-[74] "Honda Music Expand honda-music menu"                                                                         
-[75] ""                                                                                                            
-[76] ""                                                                                                            </code></pre>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the url from where you want to extract data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://en.wikipedia.org/wiki/Billboard%27s_Greatest_Pop_Stars"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure it is okay to scrape the webpage</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(base_url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ en.wikipedia.org                      </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the tibble</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>top_artists <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">artist =</span> artists) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>top_artists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the HTML and save it to an object called `webpage`</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>webpage <span class="ot">&lt;-</span> <span class="fu">read_html</span>(base_url)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the artist name</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>artists <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(webpage, <span class="st">".div-col ol li"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>artists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Beyoncé"           "Taylor Swift"      "Rihanna"          
+ [4] "Drake"             "Lady Gaga"         "Britney Spears"   
+ [7] "Kanye West"        "Justin Bieber"     "Ariana Grande"    
+[10] "Adele"             "Usher"             "Eminem"           
+[13] "Nicki Minaj"       "Justin Timberlake" "Miley Cyrus"      
+[16] "Jay-Z"             "Shakira"           "The Weeknd"       
+[19] "BTS"               "Bruno Mars"        "Lil Wayne"        
+[22] "One Direction"     "Bad Bunny"         "Ed Sheeran"       
+[25] "Katy Perry"       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the tibble</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>top_artists <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">artist =</span> artists) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>top_artists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 1
-   artist           
-   &lt;chr&gt;            
- 1 Rihanna          
- 2 P!nk             
- 3 Maroon 5         
- 4 Katy Perry       
- 5 Justin Timberlake
- 6 Britney Spears   
- 7 Taylor Swift     
- 8 Kelly Clarkson   
- 9 Mariah Carey     
-10 Bruno Mars       </code></pre>
+   artist        
+   &lt;chr&gt;         
+ 1 Beyoncé       
+ 2 Taylor Swift  
+ 3 Rihanna       
+ 4 Drake         
+ 5 Lady Gaga     
+ 6 Britney Spears
+ 7 Kanye West    
+ 8 Justin Bieber 
+ 9 Ariana Grande 
+10 Adele         </code></pre>
 </div>
 </div>
-</section>
 <section id="part-2-extracting-popular-songs-and-lyrics-of-the-top-10-artists" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-extracting-popular-songs-and-lyrics-of-the-top-10-artists"><strong>PART 2 : Extracting Popular Songs and Lyrics of the Top 10 Artists</strong></h2>
 <section id="source-httpsgenius.com" class="level3">
@@ -229,20 +197,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><code>https://genius.com/artists/&lt;artistname&gt;</code></p>
 <ul>
-<li>And we know the “top_artists” tibble has what we need for “&lt;artistname&gt;”. To get things in the right format, we need to combine the URL base “https://genius.com/artists/” with each entry in “top_artists”. Here is an easy way of doing it using <code>glue()</code></li>
+<li>However, the artists names are formatted differently than they are in our list. Names like Beyonce and Adele are okay, but two-part names (e.g., Taylor Swift) are fomatted with a dash between the first and last name (e.g., Taylor-swift). We’ll need to fix that first!</li>
+</ul>
+<p>Here is one way to do this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_artists <span class="ot">&lt;-</span> top_artists  <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">artist =</span> artist  <span class="sc">%&gt;%</span>  </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_replace_all</span>(<span class="st">" "</span>, <span class="st">"-"</span>)  <span class="sc">%&gt;%</span>  </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_to_lower</span>())</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>top_artists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 1
+   artist        
+   &lt;chr&gt;         
+ 1 beyoncé       
+ 2 taylor-swift  
+ 3 rihanna       
+ 4 drake         
+ 5 lady-gaga     
+ 6 britney-spears
+ 7 kanye-west    
+ 8 justin-bieber 
+ 9 ariana-grande 
+10 adele         </code></pre>
+</div>
+</div>
+<ul>
+<li>Once that is fixed, we know the “top_artists” tibble has what we need for “&lt;artistname&gt;”. To get things in the right format, we need to combine the URL base “https://genius.com/artists/” with each entry in “top_artists”. Here is an easy way of doing it using <code>glue()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>url_base <span class="ot">&lt;-</span> <span class="st">"https://genius.com/artists/"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>urls_of_artists <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">'{url_base}'</span>, <span class="st">'{top_artists$artist}'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(urls_of_artists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>?glue</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>url_base <span class="ot">&lt;-</span> <span class="st">"https://genius.com/artists/"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>urls_of_artists <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">'{url_base}'</span>, <span class="st">'{top_artists$artist}'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(urls_of_artists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>https://genius.com/artists/Rihanna
-https://genius.com/artists/P!nk
-https://genius.com/artists/Maroon 5
-https://genius.com/artists/Katy Perry
-https://genius.com/artists/Justin Timberlake
-https://genius.com/artists/Britney Spears</code></pre>
+<pre><code>https://genius.com/artists/beyoncé
+https://genius.com/artists/taylor-swift
+https://genius.com/artists/rihanna
+https://genius.com/artists/drake
+https://genius.com/artists/lady-gaga
+https://genius.com/artists/britney-spears</code></pre>
 </div>
 </div>
 <ul>
@@ -256,68 +253,70 @@ https://genius.com/artists/Britney Spears</code></pre>
 <!-- Finding the CSS selector ".mini_card_grid-song" is the hard part. It exists, it's just being patient in finding it -->
 <!-- We're trying to find a URL link. Almost nearly all the time, once you find the CSS selector where the URLs are stored, you can use `html_element("a")` and `html_attr("href")`  -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read page for a single artist</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_of_artists[<span class="dv">1</span>])</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get list of song URLs for a single artist</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>urls_of_songs_one_artist <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".mini_card_grid-song"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">"a"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>urls_of_songs_one_artist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read page for a single artist</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_of_artists[<span class="dv">1</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get list of song URLs for a single artist</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>urls_of_songs_one_artist <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".mini_card_grid-song"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">"a"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>urls_of_songs_one_artist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "https://genius.com/Rihanna-work-lyrics"               
- [2] "https://genius.com/Eminem-the-monster-lyrics"         
- [3] "https://genius.com/Eminem-love-the-way-you-lie-lyrics"
- [4] "https://genius.com/Dj-khaled-wild-thoughts-lyrics"    
- [5] "https://genius.com/Kendrick-lamar-loyalty-lyrics"     
- [6] "https://genius.com/Drake-too-good-lyrics"             
- [7] "https://genius.com/Kanye-west-famous-lyrics"          
- [8] "https://genius.com/Rihanna-love-on-the-brain-lyrics"  
- [9] "https://genius.com/Rihanna-needed-me-lyrics"          
-[10] "https://genius.com/Drake-take-care-lyrics"            </code></pre>
+<pre><code> [1] "https://genius.com/Beyonce-drunk-in-love-lyrics"              
+ [2] "https://genius.com/Beyonce-formation-lyrics"                  
+ [3] "https://genius.com/Beyonce-halo-lyrics"                       
+ [4] "https://genius.com/Beyonce-partition-lyrics"                  
+ [5] "https://genius.com/Nicki-minaj-feeling-myself-lyrics"         
+ [6] "https://genius.com/Beyonce-if-i-were-a-boy-lyrics"            
+ [7] "https://genius.com/Jay-z-part-ii-on-the-run-lyrics"           
+ [8] "https://genius.com/The-carters-apeshit-lyrics"                
+ [9] "https://genius.com/Eminem-walk-on-water-lyrics"               
+[10] "https://genius.com/Ed-sheeran-and-beyonce-perfect-duet-lyrics"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># head(urls_of_songs_one_artist)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="again-going-simple-from-the-list-of-top-songs-from-a-single-artist-select-the-first-songurl-and-lets-scrape-lyrics-for-that-song" class="level3">
 <h3 class="anchored" data-anchor-id="again-going-simple-from-the-list-of-top-songs-from-a-single-artist-select-the-first-songurl-and-lets-scrape-lyrics-for-that-song">Again, going simple, from the list of top songs from a single artist, select the first song/URL and lets scrape lyrics for that song</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get first song URL, scrape lyrics</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## read page</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lyrics <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_of_songs_one_artist[<span class="dv">1</span>])</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## get the lyrics</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".kUgSbL"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_c</span>(., <span class="at">collapse =</span> <span class="st">" "</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>song_lyrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get first song URL, scrape lyrics</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="do">## read page</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>lyrics <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_of_songs_one_artist[<span class="dv">1</span>])</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">## get the lyrics</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>song_lyrics <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".cJztnY"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_c</span>(., <span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>song_lyrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "[Chorus: Rihanna]\nWork, work, work, work, work, workHe said me haffi work, work, work, work, work, workHe see me do mi dirt, dirt, dirt, dirt, dirt, dirtAh so me put in work, work, work, work, work, workWhen you ah guh learn, learn, learn, learn, learn, learn?Me nuh cyar if him hurt, hurt, hurt, hurt, hurting\n\n[Verse 1: Rihanna]\nDry, me ah desert himNuh time to have you lurkingHim ah go act like he nuh like itYou know I dealt with you the nicest\nNuh body touch me, you nuh righteous\nNuh badda, text me in a crisis\nI believed all of your dreams, adorationYou took my heart and my keys and my patience\nYou took my heart on my sleeve for decoration\nYou mistaken my love I brought for you for foundationAll that I wanted from you was to give meSomething that I never hadSomething that you've never seenSomething that you've never been, mm\nBut I wake up and act like nothing's wrong\n\n[Chorus: Rihanna]\nJust get ready fi work, work, work, work, work, workHe said me haffi work, work, work, work, work, workHe see me do mi dirt, dirt, dirt, dirt, dirt, dirtAh so me put in work, work, work, work, work, work\nNer, ner, ner, ner, ner, ner\nWhen you ah guh learn, learn, learn, learn, learn, learn?\nBefore the tables turn, turn, turn, turn, turn, turn\n [Verse 2: Rihanna]\nBeg you something, pleaseBaby, don't you leaveDon't leave me stuck here in the streets, uh-huhIf I get another chance toI will never, no, never neglect you\nI mean, who am I to hold your past against you?\nI just hope that it gets to youI hope that you see this throughI hope that you see this trueWhat can I say?Please recognize I'm tryin', babe\n\n[Chorus: Rihanna &amp; Drake]\nI haffi work, work, work, work, work, workHe said me haffi work, work, work, work, work, workHe see me do mi dirt, dirt, dirt, dirt, dirt, dirtSo me put in work, work, work, work, work, workWhen you ah guh learn, learn, learn, learn, learn, learn?Me nuh cyar if him hurt, hurt, hurt, hurt, hurting (Yeah, okay)\n\n[Verse 3: Drake, Rihanna, Drake &amp; Rihanna]\nYou need to get done, done, done, done at work, come over\nWe just need to slow the motion\nDon't give that away to no one\nLong distance, I need you (Ah)\nWhen I see potential, I just gotta see it through\nIf you had a twin, I would still choose you\nI don't wanna rush into it if it's too soon\nBut I know you need to get done, done, done, doneIf you come over\nSorry if I'm way less friendlyI got niggas tryna end me, oh (Yeah)\nI spilled all my emotions tonight, I'm sorry\nRollin', rollin', rollin', rollin', rollin'How many more shots until you're rollin'?\nWe just need a face-to-faceYou could pick the time and the placeYou spent some time awayNow you need to forward\n [Chorus: Rihanna, Rihanna &amp; Drake]\nAnd give me all the work, work, work, work, work, workHe said me haffi work, work, work, work, work, workHe see me do mi dirt, dirt, dirt, dirt, dirt, dirtSo me put in work, work, work, work, work, workWhen you ah guh learn, learn, learn, learn, learn, learn?Me nuh cyar if him hurt, hurt, hurt, hurt, hurting\n\n[Outro: Rihanna, Rihanna &amp; Drake]\nMmMmWork, work, work, work, work, workMm\n\n[Click here to learn more about the making of \"Work\"]\n\n[Produced by Boi-1da]"</code></pre>
+<pre><code>[1] "[Verse 1: Beyoncé] I've been drinkin', I've been drinkin'\nI get filthy when that liquor get into me\nI've been thinkin', I've been thinkin'\nWhy can't I keep my fingers off it?\nBaby, I want you, na-na Why can't I keep my fingers off you?\nBaby, I want you, na-na Cigars on ice, cigars on ice Feelin' like an animal with these cameras all in my grill\nFlashin' lights, flashin' lights You got me faded, faded, faded\nBaby, I want you, na-na\nCan't keep your eyes off my fatty\nDaddy, I want you, na-na\nDrunk in love, I want you (Ah) [Pre-Chorus: Beyoncé] We woke up in the kitchen, sayin', \"How the hell did this shit happen?\", oh, baby\nDrunk in love, we be all night\nLast thing I remember is our beautiful bodies grindin' up in that club\nDrunk in love [Chorus: Beyoncé] We be all night\nLove, love\nWe be all night\nLove, love [Verse 2: Beyoncé] We be all night, and everything alright No complaints from my body, so fluorescent under these lights Boy, I'm drinkin', park it in my lot, 7-11\nI'm rubbin' on it, rub-rubbin', if you scared, call that reverend Boy, I'm drinkin', get my brain right, Armand de Brignac, gangster wife Louis sheets, he sweat it out, like washrags, he wet it up Boy, I'm drinkin', I'm singin' on the mic to my boy toys Then I fill the tub up halfway, then ride it with my surfboard\nSurfboard, surfboard Grainin' on that wood, grainin'-grainin' on that wood\nI'm swervin' on that, swervin'-swervin' on that\nBig body been servin' all this, swerve, surfin' all in this good-good (Ha-ha-ha) [Pre-Chorus: Beyoncé] We woke up in the kitchen, sayin', \"How the hell did this shit happen?\", oh, baby\nDrunk in love, we be all night\nLast thing I remember is our beautiful bodies grindin' up in that club\nDrunk in love [Chorus: Beyoncé &amp; JAY-Z] We be all night\nLove, love\nWe be all night\nLove, love (I'm nice right now, hold up) [Verse 3: JAY-Z] That D'USSÉ is the shit, if I do say so myself\nIf I do say so myself, if I do say so myself Hold up, stumble all in the house, time to back up all of that mouth\nThat you had all in the car, talkin' 'bout you the baddest bitch thus far Talkin' 'bout you be reppin' that Third, I wanna see all the shit that I heard Know I sling Clint Eastwood, hope you can handle this curve, uh Foreplay in a foyer, fucked up my Warhol Catch a charge, I might\nBeat the box up like Mike in '97, I bite I'm Ike Turner, turn up, baby, no, I don't play\n\"Now eat the cake, Anna Mae,\" said, \"Eat the cake, Anna Mae\"\nI'm nice For y'all to reach these heights\nYou gon' need G3, 4, 5, 6 flights\nSleep tight [Chorus: Beyoncé, Beyoncé &amp; JAY-Z] We be all night\nLove, love\nWe be all night\nLove, love [Bridge: Beyoncé] I'm never tired, never tired\nI been sippin', that's the only thing that's keepin' me on fire, we on fire Didn't mean to spill that liquor all on my attire\nI've been drinkin' watermelon I want your body right here\nDaddy, I want you right now\nCan't keep your eyes off my fatty\nDaddy, I want you [Chorus: Beyoncé] We be all night\nLove, love\nWe be all night\nLove, love"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get song name</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>song_name <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".iMpFIj"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>song_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get song name</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>song_name <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".jaqAzV"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>song_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Work"</code></pre>
+<pre><code>[1] "Drunk in Love"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create tibble</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>artists_lyrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">song_title =</span> song_name,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">lyric =</span> song_lyrics</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>artists_lyrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create tibble</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>artists_lyrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">song_title =</span> song_name,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">lyric =</span> song_lyrics</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>artists_lyrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
-  song_title lyric                                                              
-  &lt;chr&gt;      &lt;chr&gt;                                                              
-1 Work       "[Chorus: Rihanna]\nWork, work, work, work, work, workHe said me h…</code></pre>
+  song_title    lyric                                                           
+  &lt;chr&gt;         &lt;chr&gt;                                                           
+1 Drunk in Love "[Verse 1: Beyoncé] I've been drinkin', I've been drinkin'\nI g…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># artist_lyrics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="lets-turn-what-we-did-into-functions" class="level3">
@@ -328,29 +327,29 @@ https://genius.com/artists/Britney Spears</code></pre>
 <li><p>But remember this is a function so the big change is that the function takes an argument (named whatever, here it is called <code>urls_songs)</code> that is just a placeholder. When we actually apply the function, we will swap out <code>urls_songs</code> with the variable we want to analyze.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>get_lyrics <span class="ot">&lt;-</span> <span class="cf">function</span>(urls_songs) {</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## read page</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  lyrics <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_songs)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## get the lyrics</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  song_lyrics <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">".kUgSbL"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_c</span>(., <span class="at">collapse =</span> <span class="st">" "</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get song name</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  song_name <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">".iMpFIj"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>()</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create tibble</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  artists_lyrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">song_title =</span> song_name,</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">lyric =</span> song_lyrics</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>get_lyrics <span class="ot">&lt;-</span> <span class="cf">function</span>(urls_songs) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## read page</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  lyrics <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_songs)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## get the lyrics</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  song_lyrics <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">".cJztnY"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_c</span>(., <span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get song name</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  song_name <span class="ot">&lt;-</span> lyrics <span class="sc">%&gt;%</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">".jaqAzV"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>()</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create tibble</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  artists_lyrics <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">song_title =</span> song_name,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">lyric =</span> song_lyrics</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>Here is our function: get_lyrics(x). What goes in x? In this case, a dataframe (tibble) of song URLs!</p></li>
@@ -358,19 +357,19 @@ https://genius.com/artists/Britney Spears</code></pre>
 <li><p>We simply “map” the URLs to get_lyrics(x) using the “map_dfr” function! It’s as easy as the following:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lyrics_songs_for_one_artist <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(urls_of_songs_one_artist, get_lyrics)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lyrics_songs_for_one_artist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lyrics_songs_for_one_artist <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(urls_of_songs_one_artist, get_lyrics)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lyrics_songs_for_one_artist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
-  song_title           lyric                                                    
-  &lt;chr&gt;                &lt;chr&gt;                                                    
-1 Work                 "[Chorus: Rihanna]\nWork, work, work, work, work, workHe…
-2 The Monster          "[Intro: Rihanna]\nI'm friends with the monster that's u…
-3 Love the Way You Lie "[Chorus: Rihanna]\nJust gonna stand there and watch me …
-4 Wild Thoughts        "[Intro: DJ Khaled]\nAnother oneWe The Best MusicDJ Khal…
-5 LOYALTY.             "[Intro: Mr. Talkbox]\n\n[Pre-Chorus: DJ Dahi &amp; Kendrick…
-6 Too Good             "[Intro: Drake]\nOh, yeah, yeah, yeah\nOh, yeah, yeah, y…</code></pre>
+  song_title      lyric                                                         
+  &lt;chr&gt;           &lt;chr&gt;                                                         
+1 Drunk in Love   "[Verse 1: Beyoncé] I've been drinkin', I've been drinkin'\nI…
+2 Formation       "[Intro: Messy Mya] What happened at the New Wil'ins?\nBitch,…
+3 Halo            "Remember those walls I built?\nWell, baby, they're tumblin' …
+4 Partition       "[Part I: \"Yoncé\"] Let me hear you say, \"Hey, Ms. Carter\"…
+5 Feeling Myself  "Feelin' myself, I'm feelin' myself, I'm feelin' my\nFeelin' …
+6 If I Were a Boy "[Verse 1] I'd roll out of bed in the mornin'\nAnd throw on w…</code></pre>
 </div>
 </div>
 <ul>
@@ -384,54 +383,110 @@ https://genius.com/artists/Britney Spears</code></pre>
 </ul>
 <p>This is complex so let’s just see if we can do the above with a single artist. If we can do it with one, we can easily map it to all others.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get first artist URL, scrape lyrics</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="do">## read page</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get list of song URLs for a single artist (we already did this!)  </span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># run our previously created function that returns all the songs and lyrics for a single artist</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># head(lyrics_all_songs_for_one_artist)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get second artist URL, scrape lyrics</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="do">## read page</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(urls_of_artists[<span class="dv">2</span>])</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get list of song URLs for a single artist (we already did this!)  </span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>urls_of_songs_one_artist <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".mini_card_grid-song"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">"a"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># run our previously created function that returns all the songs and lyrics for a single artist</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># get_lyrics(x)</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>lyrics_all_songs_for_one_artist <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(urls_of_songs_one_artist, get_lyrics)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lyrics_all_songs_for_one_artist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  song_title                                                           lyric    
+  &lt;chr&gt;                                                                &lt;chr&gt;    
+1 All Too Well (10 Minute Version) (Taylor’s Version) [From The Vault] "I walke…
+2 All Too Well (10 Minute Version) (Taylor’s Version) [Live Acoustic]  "I walke…
+3 Fortnight                                                            "I was s…
+4 cardigan                                                             "Vintage…
+5 So Long, London                                                      "So (So)…
+6 The Tortured Poets Department                                        "You lef…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># head(lyrics_all_songs_for_one_artist)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Oh, we forgot the artist’s name. Let’s add it the tibble we just built</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get artist name</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add the artist name to the tibble that we just created</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># head(lyrics_all_songs_for_one_artist)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get artist name</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>artist <span class="ot">&lt;-</span> <span class="fu">str_remove</span>(urls_of_artists[<span class="dv">2</span>], <span class="st">"https://genius.com/artists/"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add the artist name to the tibble that we just created</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>lyrics_all_songs_for_one_artist <span class="ot">&lt;-</span> lyrics_all_songs_for_one_artist <span class="sc">%&gt;%</span> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(artist)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lyrics_all_songs_for_one_artist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  song_title                                                        lyric artist
+  &lt;chr&gt;                                                             &lt;chr&gt; &lt;chr&gt; 
+1 All Too Well (10 Minute Version) (Taylor’s Version) [From The Va… "I w… taylo…
+2 All Too Well (10 Minute Version) (Taylor’s Version) [Live Acoust… "I w… taylo…
+3 Fortnight                                                         "I w… taylo…
+4 cardigan                                                          "Vin… taylo…
+5 So Long, London                                                   "So … taylo…
+6 The Tortured Poets Department                                     "You… taylo…</code></pre>
+</div>
 </div>
 <ul>
 <li>Now, last step, the easy part. Turn the above into a function called <code>get_all_artists_and_lyrics(x)</code></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>get_all_artists_and_lyrics <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## read page</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(x)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get list of song URLs for a single artist (we already did this!)  </span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  urls_of_songs_one_artist <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_nodes</span>(<span class="st">".mini_card_grid-song"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_element</span>(<span class="st">"a"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># run our previously created function that returns all the songs and lyrics for a single artist</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get_lyrics(x)</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  lyrics_all_songs_for_one_artist <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(urls_of_songs_one_artist, get_lyrics)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get artist name</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  artist <span class="ot">&lt;-</span> <span class="fu">str_remove</span>(x, <span class="st">"https://genius.com/artists/"</span>)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add the artist name to the tibble that we just created</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  lyrics_all_songs_for_one_artist <span class="ot">&lt;-</span> lyrics_all_songs_for_one_artist <span class="sc">%&gt;%</span> <span class="fu">add_column</span>(artist)</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
 <li>Now we “map” the URLs of artists’ pages to get_all_artists_and_lyrics(x) using the “map_dfr” function</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># final_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>final_df <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(urls_of_artists[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], get_all_artists_and_lyrics)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>final_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 40 × 3
+   song_title           lyric                                             artist
+   &lt;chr&gt;                &lt;chr&gt;                                             &lt;chr&gt; 
+ 1 Drunk in Love        "[Verse 1: Beyoncé] I've been drinkin', I've bee… beyon…
+ 2 Formation            "[Intro: Messy Mya] What happened at the New Wil… beyon…
+ 3 Halo                 "Remember those walls I built?\nWell, baby, they… beyon…
+ 4 Partition            "[Part I: \"Yoncé\"] Let me hear you say, \"Hey,… beyon…
+ 5 Feeling Myself       "Feelin' myself, I'm feelin' myself, I'm feelin'… beyon…
+ 6 If I Were a Boy      "[Verse 1] I'd roll out of bed in the mornin'\nA… beyon…
+ 7 Part II (On the Run) "Who wants that perfect love story anyway, anywa… beyon…
+ 8 APESHIT              "Stack my money fast and go (Fast, fast, go)\nFa… beyon…
+ 9 Walk on Water        "I walk on water\nBut I ain't no Jesus\nI walk o… beyon…
+10 Perfect Duet         "I found a love for me\nOh, darling, just dive r… beyon…
+# ℹ 30 more rows</code></pre>
 </div>
-</section>
-<section id="some-notes-if-curious-but-feel-free-to-skip" class="level3">
-<h3 class="anchored" data-anchor-id="some-notes-if-curious-but-feel-free-to-skip">SOME NOTES IF CURIOUS BUT FEEL FREE TO SKIP:</h3>
-<p><strong>Issue 1.</strong> Oh Oh. What is going on? Why just returning Rihanna? Well, because when you look at “urls_of_artists” tibble that we created, there is weirdness in the names. For example, spaces where there shouldn’t be.</p>
-<pre><code>```         
-https://genius.com/artists/Maroon 5
-```</code></pre>
-<p>No bueno. The actual URL looks like this:</p>
-<pre><code>```         
-https://genius.com/artists/Maroon-5
-```</code></pre>
-<p>Before creating “final_df” it looks like I will need to figure out a way to replace the space with a “-”</p>
-<p><strong>Issue 2</strong></p>
-<ul>
-<li>When scrapping the lyrics on each individual page, it looks like the CSS selector dynamically changes on a regular basis. So, currently, it shows as <code>html_nodes(".kUgSbL")</code> but you will likely have to change out <code>".kUgSbL"</code> if not working.</li>
-</ul>
+</div>
 </section>
 </section>
 </section>
@@ -473,18 +528,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -516,7 +560,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -524,7 +588,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -621,7 +685,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
