@@ -375,7 +375,7 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <h3>Extract Statements</h3>
 <p>Let’s start with the <code>statement</code>.</p>
 <div class="green">
-<p><strong>IMPORTANT</strong> This example with Tucker Carlson was based on whatever was the lead post when I created this assignment. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way.</p>
+<p><strong>IMPORTANT</strong> This example with Tucker Carlson was based on whatever was the lead post when this assignment was originally created. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way.</p>
 </div>
 <p>We make use of the SelectorGadget to identify the tags for the relevant nodes:</p>
 <p><img src="img/iteminfo-m7a.gif" width="80%" style="display: block; margin: auto;" /></p>
@@ -388,36 +388,36 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
-<pre><code>##  [1] &quot;Kamala Harris campaign ad “features a mother expressing regret for not having an abortion.”&quot;                                                              
-##  [2] &quot;“Breaking: Pete Buttigieg reveals that he is HIV-positive.”&quot;                                                                                              
-##  [3] &quot;Rep. Ruben Gallego is “controlled by the cartels. His own father was a Colombian drug trafficker, and so he’s got links to the cartel.”&quot;                  
-##  [4] &quot;Video shows an Iranian missile attack.&quot;                                                                                                                   
-##  [5] &quot;Video shows “FBI finds human remains at a McDonald’s meat supplier.”&quot;                                                                                     
-##  [6] &quot;“Video shows Kamala (Harris) responding to someone talking through her earrings that she allegedly wore during the Trump vs. Harris debate.”&quot;             
-##  [7] &quot;“Kamala involved in P-Diddy’s rapes and assaults.”&quot;                                                                                                       
-##  [8] &quot;Hurricane Helene was the product of intentional weather modification.&quot;                                                                                    
-##  [9] &quot;Vice President Kamala Harris responded, “Next question please,” when asked about the economy during an Aug. 29 CNN interview.&quot;                            
-## [10] &quot;“Serena Williams reportedly passes away following tragic car crash in Texas.”&quot;                                                                            
-## [11] &quot;Haitians are responsible for the disappearance of 16 cats in Bangor, Maine.&quot;                                                                              
-## [12] &quot;Video shows Vice President Kamala Harris “hammered.”&quot;                                                                                                     
-## [13] &quot;\&quot;Profesores de la Universidad de Howard confirman: &#39;Kamala fue la peor estudiante de la historia&#39;\&quot;.&quot;                                                    
-## [14] &quot;“A staffer reveals that Kamala Harris doesn’t actually own a gun.”&quot;                                                                                       
-## [15] &quot;Video claims to show Donald Trump in an interview with Diddy&quot;                                                                                             
-## [16] &quot;Vice President Kamala Harris’ college professors disparaged her as their “worst student.”&quot;                                                                
-## [17] &quot;“Illegal” Haitians in Springfield, Ohio, are “reportedly killing and eating pets.”&quot;                                                                       
-## [18] &quot;Vice President Kamala Harris is “talking about bringing back the draft.”&quot;                                                                                 
-## [19] &quot;\&quot;ABC elimina a los moderadores del debate David Muir y Linsey Davis\&quot;.&quot;                                                                                  
-## [20] &quot;Este es “vídeo de una inmigrante haitiana que asesinó y se comió al gato de sus vecinos” en Springfield, Ohio.&quot;                                           
-## [21] &quot;The plus in LGBTQ+ includes pedophilia.&quot;                                                                                                                  
-## [22] &quot;The apparent assassination attempt against former President Donald Trump on Sept. 15, 2024, was “staged.”&quot;                                                
-## [23] &quot;“ABC lost $27M in ad revenue after advertisers pulled ads from the network after the way they hosted the debate\&quot; on Sept. 10.&quot;                           
-## [24] &quot;Former President Donald Trump admitted during the Sept. 10 presidential debate that he “blew up the Nord Stream pipeline.”&quot;                               
-## [25] &quot;ABC News fired presidential debate moderators David Muir and Linsey Davis.&quot;                                                                               
-## [26] &quot;Imagen muestra carnet del Partido Comunista de la vicepresidenta Kamala Harris.&quot;                                                                          
-## [27] &quot;The Minnesota Vikings have denounced Tim Walz: “We don’t suppᴏrt his values.”&quot;                                                                            
-## [28] &quot;A Haitian woman was arrested in Springfield, Ohio, for eating a cat.&quot;                                                                                     
-## [29] &quot;Kamala Harris “descubierta usando unos zarcillos con audífonos inhalambricos, para que le soplaran las respuestas durante el debate contra Donald Trump”.&quot;
-## [30] &quot;Vice President Kamala Harris wore NOVA H1 audio earrings in the Sept. 10, 2024, presidential debate.&quot;</code></pre>
+<pre><code>##  [1] &quot;“There&#39;s no downside” to avoiding Tylenol or acetaminophen use while pregnant.&quot;                                                                                                                                                       
+##  [2] &quot;Every school vaccine mandate “drips” with “slavery.”&quot;                                                                                                                                                                                 
+##  [3] &quot;A Vanity Fair cover featured first lady Melania Trump as “The American Queen.”&quot;                                                                                                                                                       
+##  [4] &quot;The Smithsonian Institution includes “nothing about success, nothing about brightness, nothing about the future.”&quot;                                                                                                                    
+##  [5] &quot;La presidenta de México, Claudia Sheinbaum, dijo que la muerte del político colombiano Miguel Uribe Turbay, “Es bueno para Colombia, un político menos de que preocuparse”.&quot;                                                          
+##  [6] &quot;Bureau of Labor Statistics employment numbers “were rigged” when the agency revised them “down by almost 900,000 jobs” after the 2024 election.&quot;                                                                                      
+##  [7] &quot;Oprah Winfrey refused to open her private Maui road during July 29, 2025, tsunami warnings.&quot;                                                                                                                                          
+##  [8] &quot;“There is no starvation in Gaza.”&quot;                                                                                                                                                                                                    
+##  [9] &quot;In 2016, after Donald Trump won the presidency, then-President Barack Obama was “trying to lead a coup” with Trump’s opponent, Hillary Clinton.&quot;                                                                                      
+## [10] &quot;“The White House just announced that Trump only has four days left” because of his chronic venous insufficiency.&quot;                                                                                                                     
+## [11] &quot;The Jeffrey Epstein files “were made up by Comey. They were made up by Obama. They were made up by Biden.”&quot;                                                                                                                           
+## [12] &quot;\&quot;People tracking the ICE deportation flights have found” the agency is throwing migrants into the middle of the ocean.&quot;                                                                                                              
+## [13] &quot;China doesn’t “have a lot of wind farms. … Very, very few.”&quot;                                                                                                                                                                          
+## [14] &quot;“The tow truck drivers in Los Angeles are quickly towing ICE vehicles improperly parked!”&quot;                                                                                                                                            
+## [15] &quot;“BREAKING NEWS: Dolly Parton announces her refusal to celebrate Pride Month in June.”&quot;                                                                                                                                                
+## [16] &quot;Video shows a woman wearing a rainbow hijab and a bomb vest who filmed her visit to Iran.&quot;                                                                                                                                            
+## [17] &quot;Image shows accused shooter Vance Boelter wearing a “Resist” shirt.&quot;                                                                                                                                                                  
+## [18] &quot;The suspect in the Minnesota lawmakers’ shootings was driven by “Marxist” ideology.&quot;                                                                                                                                                  
+## [19] &quot;Photos show Travis Kelce and Taylor Swift participated in a “No Kings” rally.&quot;                                                                                                                                                        
+## [20] &quot;California Gov. Gavin Newsom shared images taken in 2021 and said they showed National Guard troops sleeping on the floor in June 2025.&quot;                                                                                              
+## [21] &quot;The slaying of two Israeli embassy employees in Washington, D.C., is a false flag.&quot;                                                                                                                                                   
+## [22] &quot;Video shows the Qatari emir saying, “I truly regret inviting Trump, the robber, to the Middle East.”&quot;                                                                                                                                 
+## [23] &quot;Un vídeo muestra al presidente francés, Emmanuel Macron, al primer ministro del Reino Unido, Keir Starmer, y al canciller alemán, Friedrich Merz, con una bolsa de cocaína tras visitar al presidente ucraniano, Volodymyr Zelenskyy.&quot;
+## [24] &quot;A video shows French President Emmanuel Macron, United Kingdom Prime Minister Keir Starmer and German Chancellor Freidrich Merz with a bag of cocaine after visiting Ukrainian President Volodymyr Zelenskyy.&quot;                        
+## [25] &quot;En los primeros 100 días del presidente Donald Trump, las incautaciones de fentanilo salvaron entre \&quot;119 millones\&quot; y \&quot;258 millones\&quot; de vidas.&quot;                                                                                    
+## [26] &quot;DARPA is spraying the skies with chemicals that are in jet fuel.&quot;                                                                                                                                                                     
+## [27] &quot;A video clip shows Michelle Obama describing herself as “a Black man.”&quot;                                                                                                                                                               
+## [28] &quot;In President Donald Trump’s first 100 days, fentanyl seizures saved “119 million” to “258 million” lives.&quot;                                                                                                                            
+## [29] &quot;Kilmar Armando Abrego Garcia “had ‘MS-13’ on his knuckles tattooed. … He had ‘MS’ as clear as you can be. Not &#39;interpreted.’”&quot;                                                                                                        
+## [30] &quot;“The Simpsons” predicted Pope Francis’ 2025 death.&quot;</code></pre>
 <p>And simply save the resulting data as a vector of length 30:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
@@ -444,36 +444,36 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
-<pre><code>##  [1] &quot;/factchecks/2024/oct/03/tweets/harris-speech-on-abortion-was-likely-ai-generated/&quot;          
-##  [2] &quot;/factchecks/2024/oct/03/tweets/parody-account-spreads-false-claim-about-secretary/&quot;         
-##  [3] &quot;/factchecks/2024/oct/03/kari-lake/in-arizona-senate-race-kari-lake-fabricates-link-b/&quot;      
-##  [4] &quot;/factchecks/2024/oct/03/tweets/no-this-video-does-not-show-iran-missile-attack/&quot;            
-##  [5] &quot;/factchecks/2024/oct/02/instagram-posts/that-burger-is-safe-to-eat-human-remains-were-not/&quot; 
-##  [6] &quot;/factchecks/2024/sep/30/viral-image/hear-hear-this-video-doesnt-show-kamala-harris-tal/&quot;    
-##  [7] &quot;/factchecks/2024/sep/30/instagram-posts/no-evidence-implicating-kamala-harris-in-sean-didd/&quot;
-##  [8] &quot;/factchecks/2024/sep/27/instagram-posts/hurricane-helene-was-not-a-product-of-weather-modi/&quot;
-##  [9] &quot;/factchecks/2024/sep/27/social-media/next-question-please-was-not-kamala-harris-respons/&quot;   
-## [10] &quot;/factchecks/2024/sep/27/facebook-posts/serena-williams-death-hoax-spreads-on-social-media/&quot; 
-## [11] &quot;/factchecks/2024/sep/26/instagram-posts/lies-about-haitians-killing-pet-cats-spreads-from/&quot; 
-## [12] &quot;/factchecks/2024/sep/24/viral-image/sober-seriously-altered-video-slows-kamala-harris/&quot;     
-## [13] &quot;/factchecks/2024/sep/24/facebook-posts/profesores-de-la-universidad-de-howard-no-dijeron/&quot;  
-## [14] &quot;/factchecks/2024/sep/23/instagram-posts/no-kamala-harris-spokesperson-didnt-say-the-democr/&quot;
-## [15] &quot;/factchecks/2024/sep/20/tiktok-posts/no-this-edited-video-doesnt-depict-a-conversation/&quot;    
-## [16] &quot;/factchecks/2024/sep/19/facebook-posts/social-media-posts-about-kamala-harris-college-stu/&quot; 
-## [17] &quot;/factchecks/2024/sep/18/bernie-moreno/republican-us-senate-candidate-bernie-moreno-pushe/&quot;  
-## [18] &quot;/factchecks/2024/sep/18/donald-trump/donald-trump-falsely-says-kamala-harris-is-talking/&quot;   
-## [19] &quot;/factchecks/2024/sep/18/facebook-posts/no-abc-news-no-despidio-a-los-moderadores-del-deba/&quot; 
-## [20] &quot;/factchecks/2024/sep/18/tweets/el-arresto-de-una-mujer-en-canton-ohio-no-tiene-re/&quot;         
-## [21] &quot;/factchecks/2024/sep/17/michele-morrow/ncs-michele-morrow-falsely-says-the-plus-in-lgbtq/&quot;  
-## [22] &quot;/factchecks/2024/sep/16/tweets/claims-that-an-apparent-assassination-attempt-agai/&quot;         
-## [23] &quot;/factchecks/2024/sep/15/threads-posts/claim-that-abc-lost-27-million-in-ad-revenue-after/&quot;  
-## [24] &quot;/factchecks/2024/sep/13/instagram-posts/did-donald-trump-take-credit-for-blowing-up-the-no/&quot;
-## [25] &quot;/factchecks/2024/sep/13/facebook-posts/no-abc-news-did-not-fire-presidential-debate-moder/&quot; 
-## [26] &quot;/factchecks/2024/sep/13/facebook-posts/kamala-harris-no-tiene-un-carnet-del-partido-comun/&quot; 
-## [27] &quot;/factchecks/2024/sep/12/facebook-posts/touchdown-false-the-minnesota-vikings-didnt-denoun/&quot; 
-## [28] &quot;/factchecks/2024/sep/12/instagram-posts/arrest-of-a-canton-ohio-woman-unrelated-to-baseles/&quot;
-## [29] &quot;/factchecks/2024/sep/12/tweets/no-kamala-harris-no-uso-pendientes-con-audifonos-e/&quot;         
-## [30] &quot;/factchecks/2024/sep/11/social-media/no-kamala-harris-was-not-wearing-audio-earrings-du/&quot;</code></pre>
+<pre><code>##  [1] &quot;/factchecks/2025/sep/23/donald-trump/president-donald-trump-said-theres-no-downside-to/&quot;        
+##  [2] &quot;/factchecks/2025/sep/04/joseph-ladapo/Florida-vaccine-mandate-desantis-slavery/&quot;                
+##  [3] &quot;/factchecks/2025/aug/29/tweets/Vanity-Fair-cover-Melania-Trump/&quot;                                
+##  [4] &quot;/factchecks/2025/aug/20/donald-trump/smithsonian-museums-success-brightness-slavery/&quot;           
+##  [5] &quot;/factchecks/2025/aug/15/tiktok-posts/uribe-colombia-muerte-mexico-sheinbaum/&quot;                   
+##  [6] &quot;/factchecks/2025/aug/05/donald-trump/bls-firing-jobs-revision-election/&quot;                        
+##  [7] &quot;/factchecks/2025/jul/30/tweets/Oprah-Hawaii-Maui-tsunami-private-road/&quot;                         
+##  [8] &quot;/factchecks/2025/jul/29/benjamin-netanyahu/benjamin-netanyahus-pants-on-fire-statement-that-t/&quot; 
+##  [9] &quot;/factchecks/2025/jul/22/donald-trump/russia-investigation-coup-Obama-Russia-Tulsi-Gabba/&quot;       
+## [10] &quot;/factchecks/2025/jul/21/tiktok-posts/4-days-left-tiktoks-exaggerate-the-danger-of-presi/&quot;       
+## [11] &quot;/factchecks/2025/jul/18/donald-trump/epstein-files-werent-made-up-by-obama-and-biden-th/&quot;       
+## [12] &quot;/factchecks/2025/jul/15/tiktok-posts/ICE-deportation-flights-ocean/&quot;                            
+## [13] &quot;/factchecks/2025/jul/10/donald-trump/china-very-few-wind-farms-renewable-energy/&quot;               
+## [14] &quot;/factchecks/2025/jun/26/social-media/la-tow-truck-drivers-are-not-towing-ice-vehicles-t/&quot;       
+## [15] &quot;/factchecks/2025/jun/25/facebook-posts/dolly-parton-pride-month-lgbtq/&quot;                         
+## [16] &quot;/factchecks/2025/jun/24/social-media/video-of-woman-in-rainbow-hijab-in-iran-is-ai-gene/&quot;       
+## [17] &quot;/factchecks/2025/jun/18/tweets/Vance-Boelter-Minnesota-Texas-Democrat/&quot;                         
+## [18] &quot;/factchecks/2025/jun/16/mike-lee/minnesota-shooter-ideology-boelter-marxist/&quot;                   
+## [19] &quot;/factchecks/2025/jun/16/facebook-posts/taylor-swift-travis-kelce-ai-image-protests/&quot;            
+## [20] &quot;/factchecks/2025/jun/10/social-media/Gavin-Newsom-photos-los-angeles-troops/&quot;                   
+## [21] &quot;/factchecks/2025/may/23/tweets/no-a-shooting-outside-the-capital-jewish-museum-wa/&quot;             
+## [22] &quot;/factchecks/2025/may/21/social-media/qatar-emir-trump-deepfake-ai-video/&quot;                       
+## [23] &quot;/factchecks/2025/may/16/alex-jones/emmanuel-macron-no-escondio-bolsa-de-cocaina-en-un/&quot;         
+## [24] &quot;/factchecks/2025/may/13/alex-jones/video-cocaine-emmanuel-macron-merz-starmer/&quot;                 
+## [25] &quot;/factchecks/2025/may/09/pam-bondi/trump-no-salvo-258-millones-de-vidas-por-incautar/&quot;           
+## [26] &quot;/factchecks/2025/may/05/robert-f-kennedy-jr/rfk-jr-said-a-government-arm-is-spraying-the-sky-w/&quot;
+## [27] &quot;/factchecks/2025/may/02/tweets/Michelle-Obama-didnt-describe-herself-as-black-man/&quot;             
+## [28] &quot;/factchecks/2025/may/01/pam-bondi/Bondi-Trump-fentanyl-seizures-overdose/&quot;                      
+## [29] &quot;/factchecks/2025/apr/30/donald-trump/trump-abrego-garcia-hand-tattoos-abc-news/&quot;                
+## [30] &quot;/factchecks/2025/apr/22/tiktok-posts/simpsons-didnt-predict-pope-francis-would-die-2025/&quot;</code></pre>
 <p>Oh, oh. These don’t really look like URLs as we know them though.</p>
 <p>These are URL fragments. Some minor work needs to be done to get them looking like actual URLs.</p>
 <p>Click on one of fact-check statements in your browser and take note of the URL of the resulting webpage. Can you see how this URL has some additional information that is missing from what we scraped above?</p>
@@ -653,27 +653,27 @@ description
 <tbody>
 <tr>
 <td style="text-align:left;">
-stated on February 20, 2023 in an interview with Piers Morgan:
+stated on September 22, 2025 in a press conference:
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-stated on February 6, 2023 in in a TV segment:
+stated on September 3, 2025 in a press conference:
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-stated on February 13, 2023 in an Instagram post:
+stated on August 28, 2025 in an X post:
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-stated on February 8, 2023 in a blog post:
+stated on August 19, 2025 in a Truth Social post:
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-stated on February 12, 2023 in a tweet:
+stated on August 12, 2025 in una publicación en TikTok:
 </td>
 </tr>
 </tbody>
@@ -764,10 +764,6 @@ spoon</td>
 <div class="green">
 <p><strong>Hint:</strong> For Exercise 16, <code>str_detect()</code> can be helpful here.</p>
 </div>
-<hr />
-<ol start="17" style="list-style-type: decimal">
-<li>Inspect the “media” variable in the <code>fact_checks</code> dataframe. Do any of the entries look incomplete (such as being empty)? Pick one of the incomplete entries and go to its URL to find what should have been captured. Troubleshoot the problem, why do you think our code as written was unable to identify the media source?</li>
-</ol>
 <hr />
 </div>
 </div>

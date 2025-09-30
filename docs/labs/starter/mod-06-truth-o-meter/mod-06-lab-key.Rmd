@@ -1,0 +1,109 @@
+---
+title: "Lab 06 - Truth-O-Meter"
+author: "Insert your name here"
+date: "Insert date here"
+output: html_document
+---
+
+### Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse) 
+library(skimr)
+```
+
+```{r load-data, message = FALSE, eval = FALSE}
+
+# Remove eval = FALSE or set it to TRUE once data is ready to be loaded
+
+fact_checks_lie <- read_csv("data/fact_checks_lie.csv") # <<< you just created this .csv in the R scripts
+fact_checks_truth <- read_csv("data/fact_checks_truth.csv") # <<< you just created this .csv in the R scripts
+
+```
+
+### Exercise 11
+
+```{r add-new-variables-and-append, eval = FALSE}
+
+fact_checks_lie <- fact_checks_lie %>%
+  mutate(truth_or_lie = "lie") # <<< create a new column that indicates these are lies
+
+fact_checks_truth <- fact_checks_truth %>%
+  mutate(truth_or_lie = "truth") # <<< create a new column that indicates these are lies
+
+fact_checks <- bind_rows(fact_checks_lie, fact_checks_truth) # <<< combine the two data frames 
+
+head(fact_checks)
+
+```
+
+### Exercise 12
+
+```{r separate-description-date-1, error = TRUE}
+
+fact_checks <- fact_checks %>%
+  separate(description, into = c("stated", "date", "media"), 
+         sep = " on | in ", 
+         remove = FALSE) %>%
+    select(., media, date, everything())
+
+head(fact_checks)
+
+```
+
+### Exercise 13
+
+```{r}
+
+library(lubridate)
+
+fact_checks <- fact_checks %>%
+  mutate(
+    date = mdy(date))
+
+```
+
+### Exercise 14
+
+```{r}
+
+skim(fact_checks)
+
+```
+
+There are 346 unique sources. There are no variables with missing data.
+
+### Exercise 15
+
+```{r}
+
+fact_checks %>%
+  filter(truth_or_lie == "lie") %>%
+  group_by(source) %>%
+  summarise(count = n()) %>%
+  filter(count > 2) %>%
+  arrange(desc(count))
+
+```
+
+
+### Exercise 16
+
+```{r}
+
+biden_count <- fact_checks_lie %>%
+    filter(str_detect(statement, "Biden")) %>%
+  nrow()
+
+biden_count
+  
+trump_count <- fact_checks_lie %>%
+    filter(str_detect(statement, "Trump")) %>%
+  nrow()
+
+trump_count
+
+```
+
+
+

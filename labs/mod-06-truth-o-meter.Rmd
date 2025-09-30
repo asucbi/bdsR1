@@ -1,8 +1,8 @@
 ---
 title: "Lab 06 - Truth-O-Meter"
-params: 
-    SHOW_SOLS: TRUE 
-    TOGGLE: TRUE
+params:
+  SHOW_SOLS: true
+  TOGGLE: true
 ---
 
 ```{r setup, include=FALSE}
@@ -160,7 +160,7 @@ knitr::include_graphics("img/info-to-extract.png")
 Let's start with the `statement`.
 
 :::green
-**IMPORTANT** This example with Tucker Carlson was based on whatever was the lead post when I created this assignment. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way. 
+**IMPORTANT** This example with Tucker Carlson was based on whatever was the lead post when this assignment was originally created. The PolitiFact website has obviously added new posts since then and you will be seeing something different. But all the steps below work exactly in the same way. 
 :::
 
 
@@ -458,8 +458,8 @@ Next, I'm most interested in cleaning up that `description` variable in our data
 ```{r, echo=FALSE, eval=TRUE}
 library(knitr)
 library(kableExtra)
-fact_checks_lie <- read_csv("../nicksandbox/fact_checks_lie.csv") # <<< you just created this .csv in the R scripts
-fact_checks_truth <- read_csv("../nicksandbox/fact_checks_truth.csv") # <<< you just created this .csv in the R scripts
+fact_checks_lie <- read_csv("fact_checks_lie.csv") # <<< you just created this .csv in the R scripts
+fact_checks_truth <- read_csv("fact_checks_truth.csv") # <<< you just created this .csv in the R scripts
 fact_checks <- rows_append(fact_checks_lie, fact_checks_truth)
 kable(fact_checks %>% slice(1:5) %>% select(3)) %>% kable_styling()
 ```
@@ -531,10 +531,6 @@ __Note__ that this will result in some warnings when you run the code, and that'
 **Hint:** For Exercise 16, `str_detect()` can be helpful here. 
 :::
  
----
- 
-17. Inspect the "media" variable in the `fact_checks` dataframe. Do any of the entries look incomplete (such as being empty)? Pick one of the incomplete entries and go to its URL to find what should have been captured. Troubleshoot the problem, why do you think our code as written was unable to identify the media source?    
-
 ---
 
 # LAB 6: SUBMIT PART 2

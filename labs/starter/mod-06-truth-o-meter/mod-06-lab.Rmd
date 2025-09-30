@@ -70,12 +70,5 @@ Add code chunks as needed.
 Don't forget to label your code chunk.
 Do not use spaces in code chunk labels.
 
-### Exercise 17
-
-Remove this text, and add your answer for Exercise 13 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
-
 
 
