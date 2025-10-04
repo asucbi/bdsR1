@@ -1,0 +1,120 @@
+---
+title: "HW 06 - Money in politics"
+author: "Sally Landon"
+date: "2024_10_11"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(robotstxt)
+library(rvest)
+library(scales)
+library(here)
+library(readr)
+
+paths_allowed("https://www.opensecrets.org")
+```
+
+## Exercises
+
+### Exercise 2
+
+
+```{r read_csv}
+
+pac_all <- read_csv(here("data/pac-all.csv"))
+
+num_observations <- nrow(pac_all)
+num_variables <- ncol(pac_all)
+
+
+```
+
+
+There are `r num_observations` observations and `r num_variables` variables in the pac_all dataset.
+
+### Exercise 3
+
+
+```{r pac_all_country_parent}
+
+pac_all_country_parent <- pac_all %>%
+  separate(country_parent,
+           into = c("country", "parent"),
+           sep = "/",
+           extra = "merge",
+           fill = "right")
+
+head(pac_all_country_parent)
+```
+
+
+### Exercise 4
+
+
+```{r remove_characters_convert}
+
+pac_all_country_parent <- pac_all_country_parent %>%
+  mutate(
+    total = as.numeric(str_remove_all(total, "[$,]")),
+    dems = as.numeric(str_remove_all(dems, "[$,]")),
+    repubs = as.numeric(str_remove_all(repubs, "[$,]"))
+  )
+
+head(pac_all_country_parent)
+
+```
+
+### Exercise 5
+
+```{r plot_Canada_Mexico}
+
+pac_all_filtered <- pac_all_country_parent %>%
+  filter(country %in% c("Canada", "Mexico")) %>%
+  group_by(country, year) %>%
+  summarise(total_contributions = sum(total, na.rm = TRUE))
+
+  ggplot(pac_all_filtered, aes(x = year, y = total_contributions, color = country)) +
+    geom_line() +
+    labs(x = "Year", y = "Amount", color = "Country") +
+    scale_y_continuous(labels = label_dollar(scale = 1e-6, suffix = "M")) +
+  theme_minimal()
+    
+
+```
+
+The plot of total contributions from PACs in Canada and Mexico reveal the contributions rose gradually from 2000-2005, then more dramatically until approx 2016 in Mexico when it began decreasing.  The contributions from Canada increased until 2020 and have since decreased.  
+
+
+### Exercise 6
+
+
+```{r uk_dems_repubs_plot}
+
+pac_all_filtered_party <- pac_all_country_parent %>%
+  filter(country == "UK") %>%
+  group_by(year) %>%
+  summarise(
+    total_dems = sum(dems, na.rm = TRUE),
+    total_repubs = sum(repubs, na.rm = TRUE) 
+    )%>%
+  pivot_longer(cols = c(total_dems, total_repubs),
+               names_to = "party",
+                values_to = "total_contributions")
+
+pac_all_filtered_party <- pac_all_filtered_party %>%
+  mutate(party = ifelse(party == "total_dems", "Democrats", "Republicans"))
+
+  ggplot(pac_all_filtered_party, aes(x = year, y = total_contributions, color = party)) +
+    geom_line() +
+    scale_color_manual(values = c("Democrats" = "blue", "Republicans" = "red")) +
+    labs(title = "Contribution to US politics from UK-Connected PACs", subtitle = "By party, over time",
+         x = "Year", y = "Amount", color = "Party") +
+    scale_y_continuous(labels = label_dollar(scale = 1e-6, suffix = "M")) +
+  theme_minimal()
+```

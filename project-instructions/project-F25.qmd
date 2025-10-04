@@ -127,7 +127,7 @@ You will prepare your proposal as a RMarkdown notebook and knit it as PDF for su
 
 ### 3.  Proposal peer review
 
-Your projects will be **peer reviewed** by 3-4 of your peers during class after you submit the proposal document. 
+Your projects will be **peer reviewed** by 3-4 of your peers after you submit the proposal document. 
 
 :::callout-note
 More information on the peer review process will be provided at a later date. 
@@ -139,7 +139,7 @@ You will prepare a final RMarkdown notebook as a presentation of your project. Y
 
 There is no limit to the length of the notebook. 
 
-Your presentation should:
+Your notebook should:
 
 - Introduce the dataset 
 - Introduce and explain your research question(s) 
@@ -160,8 +160,7 @@ The grading scheme for the final project is as follows:
 | Criteria                                     | Points                                                                                                                                                |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
 | **Content I:** Is the research question well designed and is the data being used relevant to the research question? | 50 pts |
-| **Content II:** Did the visualization(s) and/or model(s) appropriately address the research question(s)?  | 50 pts |
-| **Correctness** - Are statistical procedures carried out and explained correctly? | 50 pts |
+| **Content II:** Are the visualization(s) and/or model(s) carried out and explained correctly? Do they appropriately address the research question(s)?  | 50 pts |
 | **Creativity and Critical Thought:** Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project? | 50 pts |
 | **Notebook:** Was the notebook well organized, readable, not full of text, featuring figures with legible labels, legends, etc.? | 50 pts |
 
