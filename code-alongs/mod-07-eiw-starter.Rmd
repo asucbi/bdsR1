@@ -1,0 +1,273 @@
+---
+title: "Module 7 Code Along: Explanations in the wild"
+author:
+  - George Kachergis; Jessica Kosie^[Authored modifications to original code]
+  - Derek Powell^[Original author of exercise]
+output:
+  html_document:
+    # theme: united
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE}
+library(tidyverse)
+library(stringr) # we'll use the stringr package for text (string) processing
+
+```
+
+We will re-analyze some data from the paper [Explanations in the wild](https://www.sciencedirect.com/science/article/abs/pii/S0010027723000987) (Sulik, van Paridon, & Lupyan, 2023). In the authors' own words:
+
+"Why do some explanations strike people as highly satisfying while others, seemingly equally accurate, satisfy them less? We asked lay-people to generate and rate thousands of open-ended explanations in response to ‘Why?’ questions spanning multiple domains, and analyzed the properties of these explanations, to discover (1) what kinds of features are associated with greater explanation quality; (2) whether people can tell how good their explanations are; and (3) which cognitive traits predict the ability to generate good explanations."
+
+We will look at the processed data from Study 1. Here are descriptions from the data dictionary:
+
+*study1_questions* has the "Why?" questions, with the following columns:
+- `question`:	 a numeric ID for each question, corresponding to the question ID in files below
+- `questionText`: - the text of the question
+
+*data1_processed* has the explanation responses, with the following columns:
+- `participant`:  anonymous explainer ID
+- `question`: numeric ID corresponding to the question in `study1_questions.csv`
+- `explId`: a unique numeric ID for each explanation
+- `explIndex`: counting explanations within each question (and thus non-unique)
+- `text`: the provided explanations. Where possible, basic typos and spelling errors have been corrected. 
+- `acc`: the explainer's rating of how accurate they think their own explanation is	
+- `satis`: the explainer's rating of how satisfying they think their own explanation is
+
+The explanation data are merged with ratings (from readers, not the explainer) of the type of explanation: causation, functional, generality (/lawlike), mechanism, accuracy, and satisfaction.
+
+*study1_domains_questions* contains ratings of the question domain, with the following columns (where different from previous files):
+
+- `tagger`: anonymous ID for the research assistant tagger   
+- `domainNum`: numeric ID of the assigned tag (from 1=physics up to 6=socio-cultural)
+- `domain`: abbreviation for each assigned tag
+
+*study1_domains_explanations*  contains word-embedding generated domains. Each domain is represented by column containing the model's rating of how well the text fits that domain. The final two columns give the winning domain, with ranks (from 0=physics up to 5=socio-cultural) and full domain names.  
+
+First, lets load `study1_questions` and `data1_processed` and join them together.
+
+```{r load-and-merge-data}
+
+eiw <- read_csv("data/data1_processed.csv")
+questions <- read_csv("data/study1_questions.csv")
+
+# which `join` function would you use? Hint: we want to keep all observations in `eiw`.
+
+eiw <- eiw %>% 
+  XXX(questions) 
+
+```
+
+## Distribution of answer lengths
+
+Let's create a set of histograms, one for each question (`questionText`) to examine the distribution of answer lengths.
+
+Any observations about specific questions?
+Any general observations about the shape of the distribution?
+
+```{r, fig.width=14, fig.height=9}
+
+# how can we measure answer length? 
+# hint: stringr::str_length()
+
+eiw %>% mutate(text_length = XXX) %>%
+  ggplot(aes(x=text_length)) +
+  geom_histogram() +
+  facet_wrap(~questionText)
+
+```
+
+## What makes an explanation satisfying?
+
+Let's start with some basic analysis of the answers -- are longer answers more satisfying?
+
+```{r plot-length-and-satisfaction}
+
+eiw %>% 
+  mutate(text_length = stringr::str_length(text)) %>% 
+  ggplot(aes(x=text_length, y=satisfaction)) +
+  geom_point(alpha=.3) + 
+  theme_classic() +
+  geom_smooth(method="lm")
+
+```
+
+Because answer lengths are skewed, we should probably use `log(text_length)`.
+
+```{r plot-log-length-and-satisfaction}
+
+#edit the above code to plot `log(text_length)` 
+
+```
+
+## Are bigger words more satisfying?
+
+How can we find word length?
+Should we look at average? maximum? ...minimum?
+
+```{r create-functions}
+
+# two functions to operationalize this
+
+avg_word_length <- function(x){
+  str_length(x)/(str_count(x,  " ") + 1) # take the length of the string then divide that by the number of spaces in the string plus 1 (assuming there is a space between each word plus one at the end)
+}
+
+# from https://stackoverflow.com/questions/66951596/is-there-a-way-to-find-the-mean-length-of-words-in-a-string-in-r
+max_word_length <- function(x){
+  max(nchar(unlist(strsplit(x, '\\W')))) # `strsplit()` returns a list, ignoring non-word characters, `unlist()` turns the list into a character vector, `nchar()` counts the number of characters in each element of the vector, `max()` finds the maximum value among those elements
+}
+
+# how would you change the above code to get the minimum word length?
+
+
+```
+
+Next, let's use the `avg_word_length` function to plot the relation between average word length and satisfaction.
+
+What do you notice?
+
+```{r plot-avg-length}
+
+eiw %>% 
+  mutate(text_length = stringr::str_length(text),
+  word_length = avg_word_length(XXX)) %>%  # avg_word_length can be used as-is since it works on an entire character vector
+  ggplot(aes(x=XXX, y=XXX)) +
+    geom_point(alpha=.3) + 
+    geom_smooth(method="lm") +
+    geom_smooth()
+
+```
+Now, let's use the `max_word_length` function to plot the relation between max word length and satisfaction.
+
+What do you notice?
+
+```{r plot-max-length}
+
+#copy and edit the code above
+
+```
+
+Let's see if there is a significant correlation between average word length and satisfaction.
+
+Do the same for max word length and satisfaction.
+
+Then, let's run two regressions predicting satisfaction from: (1) average word length and (2) max word length.
+
+Are explanations with longer words, on average, more satisfying?
+Are explanations with longer words, within the text, more satisfying?
+
+```{r analyses}
+
+# first, let's create the data to analyze (so far we haven't saved the results of our `mutate()` function)
+
+corr_df <- eiw %>% 
+  mutate(text_length = stringr::str_length(text),
+  word_length = avg_word_length(text),
+  max_word_length = map_dbl(text, max_word_length))
+
+# use the `cor.test()` function to calculation the correlation for satisfaction and each of the three variables we created:
+
+?cor.test
+
+XXX
+XXX
+XXX
+
+```
+
+## Are more mechanistic explanations more satisfying?
+
+```{r mech-satisying}
+
+#plot this relation
+
+eiw %>% 
+  ggplot(aes(x=XXX, y=XXX)) +
+  geom_point(alpha=.3) +
+  geom_smooth(method="lm") +
+  theme_classic()
+
+#is there a significant correlation between satisfaction and mechanism?
+
+XXX
+
+```
+
+...but are longer explanations also more mechanistic?
+
+If so, this is a confound!
+
+```{r mech-length}
+
+eiw %>% 
+  mutate(text_length = stringr::str_length(text)) %>% 
+  ggplot(aes(x=mechanism, y=log(text_length))) +
+  geom_point(alpha=.3) + 
+  theme_classic() +
+  geom_smooth(method="lm")
+
+```
+
+What if we "control" for the length of the explanation?
+Do we see the same positive relationship for explanations of all lengths?
+
+```{r control-for-length}
+
+# to look at this, let's split `text_length` into groups:
+
+eiw <- eiw %>%
+  mutate(text_length = stringr::str_length(text),
+    len_group = case_when(
+      text_length<25 ~ "<025",
+      text_length<50 ~ "<050",
+      text_length<75 ~ "<075",
+      text_length<100 ~ "<100",
+      text_length<125 ~ "<125",
+      text_length<150 ~ "<150",
+      text_length<200 ~ "<200",
+      text_length>=200 ~ ">=200"
+    )
+  ) 
+
+
+eiw %>% 
+  ggplot(aes(x=mechanism, y=satisfaction)) +
+  geom_point(alpha=.3) +
+  geom_smooth(method="lm") +
+  XXX + #what would you add here?
+  theme_classic()
+
+```
+
+How would we control for length in an analysis?
+
+```{r analysis-control-length}
+
+#First, let's run a regression predicting satisfaction from mechanism
+
+?lm
+
+mech_mod <- lm(XXX ~ XXX, data = XXX)
+mech_mod
+str(mech_mod)
+summary(mech_mod) 
+
+#how would you interpret the results of this model?
+
+# how does this compare with the correlation between satisfaction and mechanism?
+# same t-value and same significance, cor^2 is equal to R^2
+cor.test(corr_df$satisfaction, corr_df$mechanism)
+
+#Now, let's add length to our model. Don't forget to log transform!
+
+XXX
+
+#What does this
+
+```
+
