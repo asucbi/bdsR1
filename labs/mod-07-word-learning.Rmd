@@ -77,7 +77,7 @@ This dataset has a few key variables:
 
 - `item_definition`: The word
 - `category`: The Wordbank-defined semantic category to which the word belongs
-- `16:30`: These variables indicate the proportion of children who produce the word at each month from 16 mo (`16`) to 30 mo (`30`). For example, at 16 months, almost half (`0.48`--48%) of children can say "grrr".
+- `16:30`: These variables indicate the proportion of children who produce the word by each month from 16 mo (`16`) to 30 mo (`30`). For example, at 16 months, almost half (`0.48`--48%) of children can say "grrr".
 - `freq`: The number of times the word appears in Google's [Trillion Word Corpus](https://ai.googleblog.com/2006/08/all-our-n-gram-are-belong-to-you.html).
 
 :::green

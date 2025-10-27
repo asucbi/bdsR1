@@ -1,0 +1,238 @@
+---
+title: "Module 8: Code-along - Palmer Penguins"
+author:
+  - George Kachergis, Jessica Kosie^[Authored modifications to original code]
+  - Derek Powell^[Original author of exercise]
+output:
+  html_document:
+    # theme: united
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Penguins!
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+library(scatterPlotMatrix)
+data("penguins")
+
+#If you would like to turn off scientific notation, run this code
+options(scipen = 999)
+
+```
+
+
+```{r helpers}
+# some helper functions - run this code to create functions (we'll do more with them later)
+
+plot_residual_hist <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+    ggplot(aes(x=residual)) +
+    geom_histogram()
+}
+
+plot_qq <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+    ggplot(aes(sample = residual)) + # NOTE: stat_qq* expects a sample aesthetic
+    stat_qq() +
+    stat_qq_line() +
+    labs(x="Theoretical quantile", y = "Observed quantile")
+}
+
+plot_residual_predicted <- function(fit){
+  tibble(
+    predicted = fit$fitted.values,
+    residual = fit$residuals
+  ) %>% 
+    ggplot(aes(x = predicted, y = residual)) +
+    geom_point() +
+    geom_hline(yintercept = 0)
+}
+
+```
+
+## Meet the penguins!
+
+Learn about the dataset at: https://allisonhorst.github.io/palmerpenguins/
+
+Use `glimpse()` to check out the `penguins` dataset. 
+
+```{r glimpse}
+
+XXX
+
+```
+
+## Let's predict something!
+
+Let's break the rules and jump right into making a model. We'll make a model of bill lengths from penguin size---do bigger penguins have bigger bills?. 
+
+The model formula will be `bill_length_mm ~ body_mass_g`.
+
+How would you interpret the intercept of this model? How would you interpret the coefficient for body mass?
+
+```{r mod}
+
+mod <- lm(bill_length_mm ~ body_mass_g, data=penguins)
+summary(mod)
+
+```
+
+
+### Transform a variable
+
+Let's transform the variable to make our coefficient better for interpretation. Then fit the model again.
+
+Take a minute to look at the code below. What are we doing in this code?
+
+How would you interpret the intercept of this model? How would you interpret the coefficient for body mass?
+
+```{r transform}
+
+penguins_sc <- penguins %>% 
+  filter(!is.na(sex), !is.na(bill_length_mm))  %>% 
+  mutate(body_mass_kg = body_mass_g / 1000,
+         body_mass_kg_c = scale(body_mass_kg, center=T, scale=F),
+         bill_length_cm = bill_length_mm / 10,
+         flipper_length_cm = flipper_length_mm / 10,
+         bill_depth_cm = bill_depth_mm / 10) %>% 
+  select(-body_mass_g, -bill_length_mm, -bill_depth_mm, -flipper_length_mm)
+
+mod <- lm(bill_length_cm ~ body_mass_kg_c, data=penguins_sc)
+summary(mod)
+
+```
+
+And inspect our model's fit via the residuals. Here's where we using the functions we created earlier!
+
+Take a look at the code we used above to create the functions. What argument(s) do we need to give them?
+
+```{r fit}
+
+plot_qq(XXX)
+plot_residual_hist(XXX)
+plot_residual_predicted(XXX)
+
+```
+
+### Exploratory Data Analysis (EDA)
+
+Let's do what we should have done first and plot the data.
+
+First, plot the relation between body_mass_kg (x axis) and bill_length_cm (y axis) indicate species by both color and shape and facet by sex. What do you notice?
+
+```{r eda}
+
+XXX
+
+```
+
+Now, let's use the `scatterPlotMatrix()` function in the `scatterPlotMatrix` package to examine all the relations.
+
+What does `select(-year, -sex, -island)` do? Why might we do this?
+
+```{r plot}
+
+scatterPlotMatrix(penguins_sc %>% select(-year, -sex, -island))
+
+```
+
+## Fit a new model following our EDA
+
+Let's predict bill length from flipper length. Use the penguins_sc data.
+
+```{r mod_flip}
+
+mod_flip <- lm(XXX ~ XXX, data=XXX)
+summary(XXX)
+
+```
+
+### Inspect its residuals
+
+```{r resid}
+
+plot_qq(mod_flip)
+plot_residual_hist(mod_flip)
+plot_residual_predicted(mod_flip)
+
+```
+
+### Inspect residuals of original model
+
+```{r resid_orig}
+
+plot_qq(mod)
+plot_residual_hist(mod)
+plot_residual_predicted(mod)
+
+```
+
+## Kitchen sink prediction: Let's try throwing everything in
+
+```{r kit}
+
+mod_kit <- lm(bill_length_cm ~ sex + species + flipper_length_cm + 
+                body_mass_kg + bill_depth_cm, data=penguins_sc)
+
+summary(mod_kit)
+
+# sex * flipper_length_cm
+
+mod_kit_int <- lm(bill_length_cm ~ 
+                sex * (flipper_length_cm + body_mass_kg + bill_depth_cm) +
+                species * (flipper_length_cm + body_mass_kg + bill_depth_cm), 
+              data=penguins_sc)
+
+summary(mod_kit_int)
+
+```
+
+### Compare with `AIC`
+
+Which is the better model (lower is better)?
+
+AIC differences of:
+  
+  * 1 or less: models are indistinguishable from each other
+  * 2-5: some evidence for the better-fitting model
+  * 5-10: good evidence for the better-fitting model
+  * 10 or more: strong evidence for the better fitting model
+
+```{r aic}
+
+AIC(mod, mod_flip, mod_kit, mod_kit_int)
+
+```
+
+
+### Visualize coefficients with help from `broom::tidy()`
+
+When a model has many coefficients, sometimes we prefer to visualize them rather than look at a bunch of numbers. `broom::tidy()` can help organize model coefficients into a tibble.
+
+```{r tidy}
+
+library(broom)
+
+tidy(mod_kit) %>% 
+  kableExtra::kable(digits=3)
+
+```
+
+We can also plot the coefficients to compare them.
+
+```{r coeff}
+
+tidy(mod_kit, conf.int = T) %>% 
+  ggplot(aes(x=term, y=estimate)) +
+  geom_point() +
+  geom_pointrange(aes(ymin=conf.low, ymax=conf.high)) +
+  coord_flip()
+
+```
+
