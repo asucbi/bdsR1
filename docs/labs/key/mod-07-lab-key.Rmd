@@ -1,0 +1,172 @@
+---
+title: "Lab 07 - Children's word learning"
+author: "Insert your name here"
+date: "Insert date here"
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse) 
+```
+
+```{r load-data, message=FALSE}
+
+wordbank <- read_csv("labs/data/wordbank-item-freq.csv")
+
+glimpse(wordbank)
+
+```
+
+## Exercises
+
+### Exercise 1
+
+```{r words-by-18-mo}
+
+wordbank %>% 
+  select(item_definition, `18`) %>% 
+  arrange(desc(`18`)) %>% 
+  head(3)
+
+```
+
+```{r sounds-by-30-mo}
+
+wordbank %>%
+  filter(category == "sounds")%>%
+  select(item_definition, `30`) %>% 
+  arrange(desc(`30`)) %>% 
+  head(1)
+
+```
+### Exercise 2
+
+```{r pivot_long}
+wordbank_long <- wordbank %>%
+  pivot_longer(col = c(`16`:`30`),
+               names_to = "age", 
+               values_to = "proportion")
+
+wordbank_long$age <- as.numeric(wordbank_long$age)
+
+```
+
+```{r sounds_by_age}
+
+wordbank_long %>% 
+  filter(category == "sounds") %>% 
+  ggplot(aes(x = age, y = proportion, color = item_definition)) +
+  geom_line() +
+  labs(title = "Children's Word Learning in Sounds Category",
+       x = "Age (months)",
+       y = "Proportion of Children Producing Word") +
+  scale_x_continuous(breaks = seq(min(wordbank_long$age), max(wordbank_long$age), by = 1))+
+  theme_minimal()
+
+```
+### Exercise 3
+
+```{r words_by_category}
+
+wordbank_long %>%
+  filter(category %in% c("sounds", "games_routines", "body_parts", "animals","clothing","people","pronouns","connecting_words","quantifiers","helping_verbs")) %>% 
+  ggplot(aes(x = age, y = proportion, group = item_definition, color = item_definition)) +
+  geom_line() +
+  labs(title = "Children's Word Learning in Sounds",
+       x = "Age (months)",
+       y = "Proportion of Children Producing Word") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(~category)
+  
+```
+### Exercise 4
+
+```{r most_freq}
+
+wordbank %>%
+  select(item_definition, category, freq)%>%
+  arrange(desc(freq))%>%
+  head(10)
+
+```
+```{r least_freq}
+
+wordbank %>%
+  select(item_definition, category, freq)%>%
+  arrange(freq)%>%
+  head(10)
+
+```
+
+### Exercise 5
+
+```{r word_frequency_and_proportion}
+
+age_2 <- wordbank_long %>%
+  filter(age == 24) %>%
+  mutate(log_freq = log(freq))
+
+ggplot(age_2, aes(x = log_freq, y = proportion)) +
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  labs(
+    title = "Relationship between Word Frequency and Proportion of Children Producing the Word at Age 2",
+    x = "Frequency of Word",
+    y = "Proportion of Children Producing Word"
+  ) +
+  theme_minimal()
+
+```
+
+### Exercise 6
+
+The graph shows a negative relationship between word frequency and the proportion of children producing the word at age two. This means that as the frequency of a word increases, the proportion of children producing that word tends to decrease slightly. This result is surprising since one might expect that more frequently used words would be produced by a greater proportion of children. Maybe frequently used words might include some function words (like articles, prepositions) that are less meaningful or harder for children to produce at an early age, even though they hear them often. This also includes abstract words that are more complex and harder for children to pronounce/understand. Content words (nouns, verbs) tend to be more meaningful and easier for children to produce. 
+
+### Exercise 7
+
+```{r}
+
+ggplot(age_2, aes(x = log_freq, y = proportion)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  labs(
+    title = "Relationship between Word Frequency and Proportion of Children Producing the Word at Age 2",
+    x = "Frequency of Word",
+    y = "Proportion of Children Producing Word"
+  ) +
+  theme_minimal()+
+  facet_wrap(~category)
+
+```
+The relation between frequency and production varies across different categories.
+
+The distribution that looks most like the previous graph is descriptive words which makes sense since word bank has more frequency of descriptive words which are probably over represented than nouns which children learn and speak more. This is why categories like animals, body parts, clothing, food and drink, places, and vehicles seem to show a clearer positive relationship as words in these categories might be more concrete and frequently encountered by children in everyday interactions.
+
+Abstract categories (e.g., helping verbs, pronouns) may have weaker relationships due to the cognitive and linguistic demands required to produce these words. Children may understand or hear these words but not use them as much.
+
+### Exercise 8
+
+Sounds are at the far left which means they are highly used by children but low frequency in books. This suggests that children likely hear sound-related words more often in spoken contexts (e.g., "boom," "meow," "woof") than they would encounter them in written books, since books are more storyline oriented so are unlikely to use these words in text. Same goes for categories like body parts (might be commonly used in daily interactions and during activities like dressing, bathing, or playing), animals (frequently used in play settings or in children's vocabulary books), food and drinks (used during meal times etc). Words related to everyday interactions, routines, and immediate experiences are more commonly heard and produced by children, even if they are not as frequent in written language.
+
+
+### Exercise 9
+
+```{r common-quantifes-and-connecting-words}
+
+top_quantifiers <- age_2 %>%
+  filter(category == "quantifiers") %>%
+  arrange(desc(freq)) %>%
+  head(5)
+
+top_connecting_words <- age_2 %>%
+  filter(category == "connecting_words") %>%
+  arrange(desc(freq)) %>%
+  head(5)
+
+top_words <- bind_rows(top_quantifiers, top_connecting_words)
+top_words
+
+```
+

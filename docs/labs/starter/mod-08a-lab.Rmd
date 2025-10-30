@@ -14,7 +14,9 @@ source("starter/m8-helpers.R")
 ```
 
 ```{r load-data, message=FALSE}
-
+simd1 <- read_csv("data/simd1.csv")
+simd2 <- read_csv("data/simd2.csv")
+howell <- read_csv("data/howell1.csv")
 ```
 
 ## Exercises

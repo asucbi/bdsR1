@@ -1,7 +1,3 @@
-simd1 <- read_csv("data/simd1.csv")
-simd2 <- read_csv("data/simd2.csv")
-
-
 calc_rss <- function(x, y, a, b){
   ypred <- a + x*b
   sum((y-ypred)^2)

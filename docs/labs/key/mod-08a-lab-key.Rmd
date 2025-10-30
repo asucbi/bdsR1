@@ -1,0 +1,170 @@
+---
+title: "Lab 08a - Heights, weights, and lines--oh my!"
+author: "Insert your name here"
+date: "Insert date here"
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(modelr)
+
+source("labs/starter/m8-helpers.R")
+
+```
+
+```{r load-data, message=FALSE}
+
+simd1 <- read_csv("labs/data/simd1.csv")
+simd2 <- read_csv("labs/data/simd2.csv")
+howell <- read_csv("labs/data/howell1.csv")
+
+```
+
+## Exercises
+
+
+### Exercise 1
+
+Drawn on graph paper and turned in.  :-)
+
+### Exercise 2
+
+```{r using_posit_as_calculator}
+
+data <- tibble(
+  x = c(3, 0, 2, 55),
+  alpha = c(-1, 1.5, 1.4, 103),
+  beta = c(0.75, 0.64, .6, .43)
+)
+
+
+data <- data %>%
+  mutate(predicted_y = alpha + beta * x)
+
+data
+```
+
+
+
+### Exercise 3
+
+```{r fun_and_games, echo=T}
+
+intercept1 <- -1
+slope1 <- .44
+plot_reg_rss(simd1$x, simd1$y, intercept1, slope1)
+
+```
+
+
+### Exercise 4
+
+```{r fun_and_games_two, echo=T}
+
+intercept2 <- 3.2
+slope2 <- - 2.4
+plot_reg_rss(simd2$x, simd2$y, intercept2, slope2)
+
+```
+
+
+### Exercise 5
+
+```{r adults_vs_children}
+
+children <- howell %>% filter(age < 18)
+adults <- howell %>% filter(age >= 18)
+
+fit_children <- lm(weight ~ height, data = children)
+summary(fit_children)
+
+```
+
+
+### Exercise 6
+
+```{r resideual_qq_predicted}
+
+plot_residual_hist <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+  ggplot(aes(x=residual)) +
+  geom_histogram()
+}
+
+plot_qq <- function(fit){
+  tibble(residual = fit$residuals) %>% 
+  ggplot(aes(sample = residual)) + # NOTE: stat_qq* expect a sample aesthetic
+  stat_qq() +
+  stat_qq_line() +
+  labs(x="Theoretical quantile", y = "Observed quantile")
+}
+
+plot_residual_predicted <- function(fit){
+  tibble(
+  predicted = fit$fitted.values,
+  residual = fit$residuals
+) %>% 
+  ggplot(aes(x = predicted, y = residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+}
+
+plot_residual_hist(fit_children)
+plot_qq(fit_children)
+plot_residual_predicted(fit_children)
+
+```
+
+The histogram of residuals has heavy tails and does not look like it follows a normal distribution.  The QQ plot of residuals shows deviation from normality at both ends, suggesting a non-linear relationship.  The scatterplot of residuals vs predicted values shows a U shaped pattern, which says a polynomial regression might be a better fit.  So I will say no, this does not pass our model checks.  
+
+
+### Exercise 7
+
+```{r children_height_weight}
+
+ggplot(children, aes(x = height, y = weight)) +
+  geom_point()
+
+```
+
+The relationship looks linear in the middle of the line, but curves at both ends, so is non-linear. We most likely need another model for better fit.
+
+### Exercise 8
+
+
+```{r height_weight_pred, echo=T}
+
+plot_height_weight_preds <- function(fit, data){
+  preds <- modelr::data_grid(data, height = modelr::seq_range(height, 100), .model=fit) %>% 
+  mutate(predicted = predict(fit, .))
+
+data %>% 
+  ggplot(aes(x=height, y=weight)) + 
+  geom_line(data = preds, aes(x=height, y = predicted), color = "blue", linewidth=1) +
+  geom_point(alpha=.5)
+}
+
+
+plot_height_weight_preds(fit_children, children)
+```
+
+This corresponds to the residual plots showing a poor fit to the line in the lower and upper ranges of the model, and indicates possibly another variable is at play.  Perhaps a quadratic model may be a better fit.
+
+### Exercise 9
+
+```{r fit_poly_3}
+
+fit_poly_3 <- lm(weight ~ poly(height, 3), data = children)
+summary(fit_poly_3)
+```
+  
+### Exercise 10
+
+```{r plot_fit_poly_3}
+
+plot_height_weight_preds(fit_poly_3, children) 
+```
+
+I see that the data fit this model much better than the previous linear model.
