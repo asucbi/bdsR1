@@ -250,7 +250,7 @@ fit_poly
 `r qend()`
 
 `r qbegin(10)`
-Finally, create a residual plot and a plot of the predicted values against observed children's values using `plot_height_weight_preds()` for the new `fit_poly3` model. What do you see?
+Finally, create a residual plot and a plot of the predicted values against observed children's values using `plot_height_weight_preds()` for the new `fit_poly` model. What do you see?
 
 ```{r, include=F}
 plot_residual_predicted(fit_poly)
