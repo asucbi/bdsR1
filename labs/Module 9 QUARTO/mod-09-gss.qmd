@@ -1,5 +1,5 @@
 ---
-title: "LAB 09 I - Evaluating the General Social Survey (GSS)"
+title: "LAB 09 - Evaluating the General Social Survey (GSS)"
 # author:
   # - Jessica Kosie^[Authored modifications to original code]
   # - Nicholas Duran^[Original author of exercise]
