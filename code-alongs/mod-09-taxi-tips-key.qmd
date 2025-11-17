@@ -1,0 +1,507 @@
+---
+title: "Prediction w/ tidyModels - Classwork"
+format:
+  html:
+    self-contained: false
+---
+
+:::callout-note
+If you get stuck in answering any of the following, I would recommend:
+
+- <https://www.tidymodels.org/start/recipes/>
+- <https://www.tidymodels.org/start/resampling/>
+- the built-in function help in R `?`
+- Google searching
+
+:::
+
+# PART 1: What are tidyModels 
+
+```{r}
+
+library(tidymodels)
+glimpse(taxi)
+?taxi
+
+```
+
+
+-----------------
+
+# PART 2: Data Budget
+
+```{r}
+
+set.seed(123)
+taxi_split <- initial_split(taxi)
+taxi_split
+
+```
+
+
+## Your turn!
+
+Split your data so 20% is held out for the test set and show the first 10 rows of the training data
+
+Try out different values in `set.seed()` to see how the results change.
+
+Hint: Which argument in `initial_split()` handles the proportion split into training vs testing?
+
+```{r}
+# Your code here!
+
+set.seed(123)
+taxi_split <- initial_split(taxi, prop = .80)
+
+taxi_train <- training(taxi_split)
+taxi_test <- testing(taxi_split)
+
+head(taxi_train, 10)
+
+```
+
+## Your turn!
+
+Explore the `taxi_train` data on your own!
+
+- What's the distribution of the outcome, tip?
+- What's the distribution of numeric variables like distance?
+- How does tip differ across the categorical variables?
+
+```{r}
+# Your code here!
+
+ggplot(taxi, aes(x=tip)) +
+  geom_bar() +
+  labs(title = "distribution of the tips",
+       x = "tip given",
+       y = "count") +
+  theme_minimal()
+
+
+
+
+
+ggplot(taxi, aes(x=distance)) +
+  geom_histogram() +
+  facet_grid(. ~ tip) +
+  theme_minimal()
+
+ggplot(taxi, aes(x=local, fill=tip)) +
+  geom_bar(position="dodge") +
+  theme_minimal()
+
+```
+
+Based on our EDA, we know that the source data contains fewer "no" tip values than "yes" tip values.
+
+```{r}
+
+ggplot(taxi, aes(x = 1, fill = tip)) +
+  geom_bar(position = "fill") +
+  labs(x = NULL) +
+  theme_minimal()
+
+```
+
+## Your turn!
+
+Go back and modify your earlier code where you split the data to stratify by tip
+
+```{r}
+# Your code here!
+
+taxi_split <- initial_split(taxi, prop = .80, strata = tip)
+
+taxi_train <- training(taxi_split)
+taxi_test <- testing(taxi_split)
+
+head(taxi_train, 10)
+
+```
+
+-----------------
+
+# PART 3: Fitting a model
+
+Start by setting up a basic linear regression model.
+
+```{r}
+linear_reg()
+
+?linear_reg
+```
+
+Change the engine to "glm" which is typically used for logistic regression:
+
+```{r}
+linear_reg() %>% 
+  set_engine("glm")
+```
+
+Set the mode for a decision tree model to indicate that we would like to use classification.
+
+```{r}
+
+decision_tree() %>% 
+  set_mode("classification")
+
+```
+
+
+## Your turn!
+
+Let's create a logistic regression model
+
+To see all the available model types in tidyModels, check out this list of models: <https://www.tidymodels.org/find/parsnip/>
+
+```{r}
+# Model
+logistic_reg() %>%
+  # Set Engine
+  set_engine("glm") %>%
+  # set the mode  
+  set_mode("classification")
+
+```
+
+# A model workflow.
+
+```{r}
+# Step 1: Specify the model with desired parameters.
+
+tree_spec <- decision_tree(cost_complexity = 0.002) %>% 
+  set_mode("classification")
+
+
+# Step 2: Build the workflow
+
+tree_wflow <- workflow() %>% 
+  add_formula(tip ~ .) %>% 
+  add_model(tree_spec)
+
+# Step 3: Fit the workflow to the training (NOT TEST) data
+
+tree_fit <- tree_wflow %>% 
+  fit(data = taxi_train)
+```
+
+## Your turn!
+
+Fill out the chunk below to create a workflow for a logistic regression model
+
+```{r}
+
+
+logi_spec <- logistic_reg() %>%
+  # Set Engine
+  set_engine("glm") %>%
+  # set the mode  
+  set_mode("classification")
+
+logi_wflow <- workflow() %>%
+  add_formula(tip ~ .) %>%
+  add_model(logi_spec)
+
+logi_fit <- logi_wflow %>%
+  fit(data=taxi_train)
+
+
+```
+Pre-processing: Adding "recipes"
+
+Hypothetical additions just for illustrative purposes:
+
+# Define a preprocessing recipe with various steps
+tree_rec <- 
+  step_date(some_var1, features = c("dow", "month", "year")) %>%   # Extract date features like day of week, month, and year from a date variable
+  step_rm(some_var1) %>%                                           # Remove the original date variable after extracting features
+  step_dummy(all_nominal_predictors()) %>%                         # Convert categorical predictors into dummy (one-hot encoded) variables
+  step_zv(all_predictors()) %>%                                    # Remove any predictors with zero variance (i.e., predictors that are constant)
+  step_normalize(all_numeric_predictors()) %>%                     # Normalize all numeric predictors to have mean 0 and standard deviation 1
+  step_pca(all_numeric_predictors())                               # Apply Principal Component Analysis (PCA) to reduce dimensionality of numeric predictors
+
+# Build the workflow by combining the recipe and model
+tree_wflow <- workflow() %>% 
+  add_formula(tip ~ .) %>%                                         # Specify the formula for the target variable (tip) and predictors (all other columns)
+  add_recipe(tree_rec) %>%                                         # Add the preprocessing recipe defined above
+  add_model(tree_spec)                                             # Attach the specified model (e.g., decision tree model) to the workflow
+  
+## How do we understand our new models?
+
+Hint: `augment()` takes a fitted model and a dataset, and returns that dataset with extra columns containing predictions and residuals
+
+```{r}
+
+predict(tree_fit, new_data = taxi_test) #predicted values based on our model
+
+augment(tree_fit, new_data = taxi_test) #added predictions and residuals to our dataset
+
+```
+
+# To find out which values R used to create branches in the decision tree: 
+
+```{r}
+
+tree_fit$fit #extract data frame of nodes
+
+```
+
+
+## Your turn!
+
+For the fitted logistic regression model, use `augment`, then `glance` and `tidy`. What do you get?
+
+What happens if you run `logi_fit$fit`? Does it look the same as `tree_fit$fit`? Why or why not?
+
+```{r}
+# Your code here!
+
+augment(logi_fit, taxi_test) #adds predictions/residuals to your data
+glance(logi_fit) #summarizes overall model fit and performance
+tidy(logi_fit) #shows model parameters (like betas, p-values)
+
+```
+
+
+-----------------
+
+# PART 4: Metrics for model performance
+
+Evaluate the training data.
+
+```{r}
+
+#Examine the model's confidence in its decisions
+
+augment(tree_fit, new_data = taxi_train) %>% 
+  relocate(tip, .pred_class, .pred_yes, .pred_no) #reorder data
+
+# Create a confusion matrix to see how the model is doing at prediction
+
+augment(tree_fit, new_data = taxi_train) %>% 
+  conf_mat(truth = tip, estimate = .pred_class) %>% 
+  autoplot(type = "heatmap")
+
+# Calculate accuracy
+
+augment(tree_fit, new_data = taxi_train) %>% 
+  mutate(.pred_class = factor(.pred_class, levels = c("yes", "no"))) %>% 
+  accuracy(truth = tip, estimate = .pred_class)
+
+# Calculate sensitivity
+
+augment(tree_fit, new_data = taxi_train) %>%
+  sensitivity(truth = tip, estimate = .pred_class)
+
+# Calculate specificity
+
+augment(tree_fit, new_data = taxi_train) %>%
+  specificity(truth = tip, estimate = .pred_class)
+
+# We can use metric_set() to combine multiple calculations into a single table
+
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(tree_fit, new_data = taxi_train) %>%
+  taxi_metrics(truth = tip, estimate = .pred_class)
+
+# All yardstick metric functions work with grouped data frames!
+
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(tree_fit, new_data = taxi_train) %>%
+  group_by(local) %>%
+  taxi_metrics(truth = tip, estimate = .pred_class)
+
+```
+
+
+## Your turn!
+
+Compute a confusion matrix for your logistic model and produce a table that shows its accuracy, specificity, sensitivity scores
+
+```{r}
+# Your code here!
+
+augment(logi_fit, new_data = taxi_train) %>% 
+  conf_mat(truth = tip, estimate = .pred_class) %>% 
+  autoplot(type = "heatmap")
+
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(logi_fit, taxi_train) %>%
+  taxi_metrics(truth=tip, estimate = .pred_class)
+```
+
+# The ROC Curve helps us evaluate how well our model distinguishes between two classes. 
+
+```{r}
+
+augment(tree_fit, new_data = taxi_train) %>% 
+  roc_curve(truth = tip, .pred_yes) %>%
+  autoplot() +
+  labs(x="FPR, 1-specificity", y="TPR, or sensitivity")
+
+# Let's get the value for the AUC (area under the curve)
+
+augment(tree_fit, new_data = taxi_train) %>% 
+  roc_auc(truth = tip, .pred_yes)
+
+```
+
+## Your turn!
+
+Compute the AUC and plot an ROC curve for your logistic model
+
+```{r}
+augment(logi_fit, new_data = taxi_train) %>% 
+  roc_curve(truth = tip, .pred_yes) %>%
+  autoplot() +
+  labs(x="FPR, 1-specificity", y="TPR, or sensitivity")
+
+augment(logi_fit, new_data = taxi_train) %>% 
+  roc_auc(truth = tip, .pred_yes)
+```
+
+# Is our model doing well on training but poorly on new data?
+
+```{r}
+# Here's our model performance on TRAINING data (used to create the model):
+
+tree_fit %>%
+  augment(taxi_train)
+
+tree_fit %>%
+  augment(taxi_train) %>%
+  accuracy(tip, .pred_class)
+
+# Here's our model performance on TEST data (unseen data):
+
+tree_fit %>%
+  augment(taxi_test) %>%
+  accuracy(tip, .pred_class)
+```
+
+# Let's do some cross-validation
+
+```{r}
+
+taxi_folds <- vfold_cv(taxi_train) # v = 10 is default
+taxi_folds
+
+# we could do this for fewer folds
+vfold_cv(taxi_train, v = 5)
+
+# stratification often helps, with very little downside (make sure there are approx. equal amounts of tip and no tip in each dataset)
+vfold_cv(taxi_train, strata = tip)
+
+# we'll use this setup:
+set.seed(123)
+taxi_folds <- vfold_cv(taxi_train, v = 10, strata = tip)
+taxi_folds
+
+# we will fit 10 models on 10 slightly different analysis sets.
+tree_res <- fit_resamples(
+  tree_wflow,
+  resamples = taxi_folds,
+  metrics = metric_set(accuracy, sensitivity, specificity, roc_auc), 
+  control = control_resamples(save_pred = TRUE)
+)
+
+```
+
+-----------------
+
+# PART 5: Using resampling to estimate performance
+
+## Your turn!
+
+Now run `vfold_cv` to get 10 splits and refit your logistic regression workflow (using `fit_resamples`)
+
+```{r}
+logi_res <- fit_resamples(
+  logi_wflow,
+  resamples = taxi_folds,
+  metrics = metric_set(accuracy, sensitivity, specificity, roc_auc), 
+  control = control_resamples(save_pred = TRUE)
+)
+
+```
+
+# Evaluating model performance.
+
+```{r}
+
+# performance estimate
+tree_res %>%
+  collect_metrics()
+
+# new confusion matrix
+tree_predictions <- collect_predictions(tree_res)
+
+tree_predictions %>%
+  conf_mat(truth = tip, estimate = .pred_class) %>% 
+  autoplot(type = "heatmap")
+
+```
+
+## Your turn!
+
+Use `collect_metrics()` to get a single estimates of performance on your cross-validated logistic regression
+
+```{r}
+
+# performance estimate
+logi_res %>%
+  collect_metrics()
+
+```
+
+Generate a new confusion matrix for your cross-validated logistic regression
+
+```{r}
+# new confusion matrix
+logi_predictions <- collect_predictions(logi_res)
+
+logi_predictions %>%
+  conf_mat(truth = tip, estimate = .pred_class) %>% 
+  autoplot(type = "heatmap")
+```
+
+# Compare model performance with all the training data vs. resampling (subsets of training data)
+
+```{r}
+#all training data:
+augment(tree_fit, new_data = taxi_train) %>% 
+  roc_auc(truth = tip, .pred_yes)
+
+#resampled training data:
+tree_res %>%
+  collect_metrics() %>% 
+  select(.metric, mean, n)
+```
+
+# Verify performance with test data.
+```{r}
+
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(tree_fit, new_data = taxi_test) %>% ## NOTE: switched out taxi_train for taxi_test
+  taxi_metrics(truth = tip, estimate = .pred_class)
+
+augment(tree_fit, new_data = taxi_test) %>% 
+  roc_auc(truth = tip, .pred_yes)
+
+```
+
+## Your turn!
+
+Generate a final report for your regression logistic model, but now using the test set
+
+```{r}
+# Your code here!
+
+
+```
+

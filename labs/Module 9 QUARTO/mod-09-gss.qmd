@@ -1,6 +1,8 @@
 ---
 title: "LAB 09 I - Evaluating the General Social Survey (GSS)"
-# author: "Nick Duran"
+# author:
+  # - Jessica Kosie^[Authored modifications to original code]
+  # - Nicholas Duran^[Original author of exercise]
 # date: "`r Sys.Date()`"
 editor: 
   markdown: 
@@ -80,7 +82,7 @@ Take turns answering the exercises on one of your computers.
 
 You don't have to switch at each exercise, you can find your a cadence that works for your team and stick to it.
 
-About 10 minutes before the end of class I will ask you to copy over answers to your teammates.
+Before the end of class, please copy your answers over answers to your teammates.
 
 ## Scientific research
 
@@ -105,7 +107,7 @@ It's important that you don't recode the NAs, just the remaining levels.
 -   Finally, `count()` how many times each new level appears in the `advfront` variable.
 
 ::: callout-tip
-To answer Exercise 1, you're going to use `mutate`, `case_when`, and `fct_relevel` at some point.
+To answer Exercise 1, you're going to use `mutate`, `case_when`, and `factor` or `fct_relevel` at some point.
 :::
 
 ### Exercise 2
@@ -125,7 +127,7 @@ But feel free to solve the problem however you like, this is just one option!
 -   Finally, `count()` how many times each new level appears in the `polviews` variable.
 
 ::: callout-tip
-To answer Exercise 2, in addition to the functions already mentioned, you're going to use `mutate` and `fct_relevel` at some point.
+To answer Exercise 2, in addition to the functions already mentioned, you're going to use `mutate` and `factor` or `fct_relevel` at some point.
 :::
 
 ### Exercise 3

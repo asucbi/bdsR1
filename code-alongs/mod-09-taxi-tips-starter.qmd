@@ -1,0 +1,234 @@
+---
+title: "Prediction w/ tidyModels - Classwork"
+format:
+  html:
+    self-contained: false
+---
+
+:::callout-note
+If you get stuck in answering any of the following, I would recommend:
+
+- <https://www.tidymodels.org/start/recipes/>
+- <https://www.tidymodels.org/start/resampling/>
+- the built-in function help in R `?`
+- Google searching
+- chatGPT
+:::
+
+# PART 1: What are tidyModels 
+
+```{r}
+library(tidymodels)
+glimpse(taxi)
+```
+
+
+-----------------
+
+# PART 2: Data Budget
+
+## Your turn!
+
+Split your data so 20% is held out for the test set and show the first 10 rows of the training data
+
+Try out different values in `set.seed()` to see how the results change.
+
+Hint: Which argument in `initial_split()` handles the proportion split into training vs testing?
+
+```{r}
+# Your code here!
+
+set.seed(1112)
+taxi_split <- initial_split(taxi, prop = .80)
+
+taxi_train <- training(taxi_split)
+taxi_test <- testing(taxi_split)
+
+head(taxi_train, 10)
+
+```
+
+## Your turn!
+
+Explore the `taxi_train` data on your own!
+
+- What's the distribution of the outcome, tip?
+- What's the distribution of numeric variables like distance?
+- How does tip differ across the categorical variables?
+
+```{r}
+# Your code here!
+
+ggplot(taxi, aes(x=tip)) +
+  geom_bar() +
+  labs(title = "distribution of the tips",
+       x = "tip given",
+       y = "count") +
+  theme_minimal()
+
+ggplot(taxi, aes(x=distance)) +
+  geom_histogram() +
+  facet_grid(. ~ tip)
+
+ggplot(taxi, aes(x=local, fill=tip)) +
+  geom_bar(position="dodge") +
+  theme_minimal()
+  
+
+
+
+```
+
+## Your turn!
+
+Go back and modify your earlier code where you split the data to stratify by tip
+
+```{r}
+# Your code here!
+
+set.seed(1112)
+taxi_split <- initial_split(taxi, prop = .80, strata = tip)
+
+taxi_train <- training(taxi_split)
+taxi_test <- testing(taxi_split)
+
+head(taxi_train, 10)
+
+```
+
+
+
+-----------------
+
+# PART 3: Fitting a model
+
+## Your turn!
+
+Edit the code to create a logistic regression model
+
+Remember: All available models are listed at <https://www.tidymodels.org/find/parsnip/>
+
+```{r}
+
+# Model
+logistic_reg() %>%
+  # Set Engine
+  set_engine("glm") %>%
+  # set the mode  
+  set_mode("classification")
+
+
+```
+
+## Your turn!
+
+Create a workflow for a logistic regression model
+
+Make sure you swap out tree_* for logi_* when saving each set of code!
+
+```{r}
+# Your code here!
+logi_spec <- logistic_reg() %>%
+  # Set Engine
+  set_engine("glm") %>%
+  # set the mode  
+  set_mode("classification")
+
+logi_wflow <- workflow() %>%
+  add_formula(tip ~ .) %>%
+  add_model(logi_spec)
+
+logi_fit <- logi_wflow %>%
+  fit(data=taxi_train)
+
+
+```
+
+## Your turn!
+
+For the fitted logistic regression model, use `augment`, then `glance` and `tidy`. What do you get?
+
+```{r}
+# Your code here!
+augment(logi_fit, taxi_test)
+
+```
+
+
+
+-----------------
+
+# PART 4: Metrics for model performance
+
+## Your turn!
+
+Compute a confusion matrix for your logistic model and produce a table that shows its accuracy, specificity, sensitivity scores
+
+```{r}
+# Your code here!
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(logi_fit, taxi_train) %>%
+  taxi_metrics(truth=tip, estimate = .pred_class)
+
+```
+
+## Your turn!
+
+Compute and plot an ROC curve for your logistic model
+
+```{r}
+# Your code here!
+
+
+```
+
+
+
+-----------------
+
+# PART 5: Using resampling to estimate performance
+
+## Your turn!
+
+Now run `vfold_cv` to get 10 splits and refit your logistic regression workflow (using `fit_resamples`)
+
+```{r}
+# Your code here!
+
+# Create 10-fold cross-validation splits
+set.seed(123)
+folds <- 
+
+
+
+```
+
+## Your turn!
+
+Use `collect_metrics()` to get a single estimates of performance on your cross-validated logistic regression
+
+```{r}
+# Your code here!
+
+
+```
+
+Generate a new confusion matrix for your cross-validated logistic regression
+
+```{r}
+# Your code here!
+
+
+```
+
+## Your turn!
+
+Generate a final report for your regression logistic model, but now using the test set
+
+```{r}
+# Your code here!
+
+
+```
+
