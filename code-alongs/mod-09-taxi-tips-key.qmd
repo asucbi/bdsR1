@@ -184,6 +184,7 @@ tree_wflow <- workflow() %>%
 
 tree_fit <- tree_wflow %>% 
   fit(data = taxi_train)
+
 ```
 
 ## Your turn!
@@ -316,7 +317,6 @@ augment(tree_fit, new_data = taxi_train) %>%
 
 ```
 
-
 ## Your turn!
 
 Compute a confusion matrix for your logistic model and produce a table that shows its accuracy, specificity, sensitivity scores
@@ -332,6 +332,7 @@ taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
 
 augment(logi_fit, taxi_train) %>%
   taxi_metrics(truth=tip, estimate = .pred_class)
+
 ```
 
 # The ROC Curve helps us evaluate how well our model distinguishes between two classes. 
@@ -362,6 +363,7 @@ augment(logi_fit, new_data = taxi_train) %>%
 
 augment(logi_fit, new_data = taxi_train) %>% 
   roc_auc(truth = tip, .pred_yes)
+
 ```
 
 # Is our model doing well on training but poorly on new data?
@@ -387,7 +389,7 @@ tree_fit %>%
 
 ```{r}
 
-taxi_folds <- vfold_cv(taxi_train) # v = 10 is default
+taxi_folds <- vfold_cv(taxi_train, v = 10) # v = 10 is default
 taxi_folds
 
 # we could do this for fewer folds
@@ -492,6 +494,10 @@ augment(tree_fit, new_data = taxi_test) %>% ## NOTE: switched out taxi_train for
 
 augment(tree_fit, new_data = taxi_test) %>% 
   roc_auc(truth = tip, .pred_yes)
+
+tree_res %>% 
+  collect_metrics() %>% 
+  select(.metric, mean, n)
 
 ```
 
