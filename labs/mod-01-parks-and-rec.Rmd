@@ -52,7 +52,7 @@ We've already thrown around a few new terms, so let's define them before we proc
 
 Go to [rstudio.cloud](ADD URL HERE) and then **navigate to the course workspace** via the left sidebar. 
 
--   Look for the course workspace called "BDS in R | F25"
+-   Look for the course workspace called "BDS in R | F26"
 
 :::lo 
 If anyone in your team is getting stuck, **go find the Canvas page "How to set up and access Posit Cloud" and follow the instructions there.**  
@@ -124,7 +124,7 @@ knitr::include_graphics("img/yaml-raw-to-rendered-new.png")
 :::
 
 :::yellow
-**NOTE:** The top portion of your R Markdown document (between the three dashed lines) is called **YAML**. It stands for "YAML Ain't Markup Language". It contains metadata (settings and information about the notebook itself). It's used to specify things like the title, author, date, and output format (e.g., PDF, HTML). Think of it as a header that tells R and other tools how to process and display the notebook, ensuring that the document is formatted and behaves as intended when it's compiled or shared.
+**NOTE:** The top portion of your R Markdown document (between the three dashed lines) is called **YAML**. It currently stands for "YAML Ain't Markup Language" (previously "Yet Another Markup Language"). It contains metadata (settings and information about the notebook itself). It's used to specify things like the title, author, date, and output format (e.g., PDF, HTML). Think of it as a header that tells R and other tools how to process and display the notebook, ensuring that the document is formatted and behaves as intended when it's compiled or shared.
 :::
 
 ## Step 2: Knit it!
@@ -140,7 +140,7 @@ knitr::include_graphics("img/knit1.png")
 :::
 
 :::green
-**NOTE:** When you knit for the first time, your browser might get upset if you have an ad blocker on. Watch my video "How to prepare and submit a submission in Posit Cloud for Canvas" in the Module "Important Resources and HOWTOs" if you're having trouble. 
+**NOTE:** When you knit for the first time, your browser might get upset if you have an ad blocker on. Watch the video "How to prepare and submit a submission in Posit Cloud for Canvas" in the Module "Important Resources and HOWTOs" if you're having trouble. 
 :::
 
 ## Step 3. Submit it to Canvas
@@ -161,7 +161,7 @@ R is an open-source language, and developers contribute functionality to R via p
 In this assignment we will use the following packages:
 
 -   **tidyverse**: a collection of packages for doing data analysis in a "tidy" way
--   **bdsdata**: a package (your instructors created) that contains various data sets for this course (Behavioral Data Science I)
+-   **bdsdata**: a package (previous BDS instructors created) that contains various data sets for this course (Behavioral Data Science I)
 
 :::yellow
 **NOTE:** R packages are add-ons for the R programming language, providing extra functions and tools for tasks like data analysis and visualization. They're like apps you install to expand R's abilities, with thousands available on CRAN (Comprehensive R Archive Network) for various uses, from plotting charts to statistical testing, simplifying complex operations."
@@ -253,7 +253,7 @@ Ok, now it's time to start answering exercise questions in your R markdown start
 
 ---
 
-3.  Who are the three most mentioned show characters across all seasons? To do this you will need to count the frequencies of each character and display the results in descending order of frequency. The following code does exactly that. Go ahead and write it for yourself. 
+3.  Who are the three most mentioned show characters across all seasons? To do this you will need to count the frequencies of each character and display the results in descending order of frequency. The following code does exactly that. 
 
 ```{r}
 parks_rec %>%
@@ -273,7 +273,7 @@ Really pay attention to that weird set of symbols, `%>%` (also called a "pipe op
 
 **Moving on to Exercise 4** 
 
-Now I'm going to give you a set of instruction you need to plug into your document. These will help you answer Exercise 4 (which is coming up next).  
+Now I'm going to give you a set of instructions you need to plug into your document (you can copy, paste, and run the following code). These will help you answer Exercise 4 (which is coming up next).  
 
 We're going to zoom in on the character "Leslie" played by Amy Poehler. We want to find out which season she shows up the most. 
 
@@ -413,14 +413,18 @@ final_props %>%
 Clearly Leslie is the focus of the show! Most of the plots involve her in some featured way. 
 :::
 
+**For Exercise 5, respond to the question below:**
+
 5. Using information from the visual, which character is never featured in more than 50% of any season? 
 
 ---
+
+**Exercise 6**
 
 6. Using information from the visual, which character is never mentioned in Seasons 1 and 2?
 
 # Submit to Canvas
 
-When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch my little video in the Canvas page: "How to prepare and submit a submission in Posit Cloud for Canvas"
+When you're all done, it's now time to do the final knit to submit this assignment on Canvas. Remember, you want to knit as a PDF and submit the generated PDF document for grading! If you cannot remember how, or are running into problems, please watch the video in the Canvas page: "How to prepare and submit a submission in Posit Cloud for Canvas"
 
 

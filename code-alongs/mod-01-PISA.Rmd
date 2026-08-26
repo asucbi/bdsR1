@@ -2,6 +2,7 @@
 title: "PISA + Welcome + hi!"
 author:
   - Nicholas Duran
+  - Jessica Kosie
 output:
   html_document:
     # theme: united

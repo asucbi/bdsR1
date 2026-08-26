@@ -1,0 +1,262 @@
+---
+title: "LAB 09 I - Evaluating the General Social Survey (GSS)"
+author: "Insert your name here"
+date: "Insert date here"
+output: pdf_document
+---
+
+## Load packages and data
+
+```{r load-packages}
+library(tidyverse)
+library(tidymodels)
+library(dsbox)
+library(pROC)
+```
+
+## Exercises
+
+### Exercise 1
+
+```{r}
+
+gss16 <- gss16 %>%
+  mutate(advfront_recode = case_when(
+    advfront %in% c("Strongly agree", "Agree") ~ "Agree",
+    !is.na(advfront) ~ "Not agree",
+    TRUE ~ NA_character_))
+
+gss16 <- gss16 %>%
+  mutate(advfront_recode = factor(advfront_recode, levels = c("Agree", "Not agree")))
+
+
+gss16 %>%
+  count(advfront_recode)
+
+```
+### Exercise 2
+
+```{r}
+
+gss16 <- gss16 %>%
+  mutate(polviews_recode = case_when(
+    str_detect(polviews, "[Ll]iberal") ~ "Liberal",      
+    str_detect(polviews, "[Cc]onservative") ~ "Conservative",
+    TRUE ~ "Moderate"                                    
+  ))
+
+  
+gss16 <- gss16%>%
+  mutate(polviews_recode = factor(polviews_recode, levels = c("Conservative", "Moderate", "Liberal"))) # Reorder levels
+
+gss16 %>%
+  count(polviews_recode)
+
+```
+
+### Exercise 3
+
+```{r}
+
+gss16_advfront <- gss16 %>%
+  select(advfront_recode, educ, polviews_recode, wrkstat) %>%
+  drop_na()
+
+```
+
+
+### Exercise 4
+
+```{r}
+
+set.seed(123)
+
+gss16_split <- initial_split(gss16_advfront, prop = 0.75)
+
+gss16_train <- training(gss16_split)
+gss16_test <- testing(gss16_split)
+
+nrow(gss16_train) 
+nrow(gss16_test)  
+
+```
+
+### Exercise 5
+
+```{r}
+
+gss16_rec_1 <- recipe(advfront_recode ~ ., data = gss16_train) %>%
+  step_other(wrkstat, threshold = 0.1, other = "Other") %>% 
+  step_dummy(all_nominal(), -all_outcomes()) 
+
+```
+
+
+### Exercise 6
+
+```{r}
+
+gss16_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+```
+
+
+### Exercise 7
+
+```{r}
+
+gss16_wflow_1 <- workflow() %>% 
+  add_recipe(gss16_rec_1) %>%  
+  add_model(gss16_spec)        
+
+```
+
+
+### Exercise 8
+
+```{r}
+# 1
+set.seed(123)
+gss16_folds <- vfold_cv(gss16_train, v = 5)
+
+# 2
+gss16_fit_rs_1 <- gss16_wflow_1 %>%
+  fit_resamples(
+    resamples = gss16_folds,
+    metrics = metric_set(roc_auc, accuracy, sensitivity, specificity), 
+    control = control_resamples(save_pred = TRUE)
+  )
+
+# 3
+fold_metrics <- collect_metrics(gss16_fit_rs_1, summarize = FALSE)
+fold_metrics
+
+# 4
+avg_metrics <- collect_metrics(gss16_fit_rs_1)
+avg_metrics
+
+```
+
+### Exercise 9
+
+```{r}
+# 1 
+gss16_rec_2 <- gss16_rec_1 %>%
+  step_rm(contains("wrkstat"))
+
+# 2
+gss16_wflow_2 <- workflow() %>%
+  add_recipe(gss16_rec_2) %>%   
+  add_model(gss16_spec)         
+
+# 3
+set.seed(123)
+
+gss16_folds <- vfold_cv(gss16_train, v = 5)
+
+gss16_fit_rs_2 <- gss16_wflow_2 %>%
+  fit_resamples(
+    resamples = gss16_folds,
+    metrics = metric_set(roc_auc, accuracy, sensitivity, specificity), 
+    control = control_resamples(save_pred = TRUE)
+  )
+
+# 4 
+fold_metrics_2 <- collect_metrics(gss16_fit_rs_2, summarize = FALSE)
+fold_metrics_2
+
+avg_metrics_2 <- collect_metrics(gss16_fit_rs_2)
+avg_metrics_2
+
+```
+
+### Exercise 10
+
+Model 2 (which excludes wrkstat) performs slightly better (ROC = 0.6241) on the training data compared to Model 1 (which includes wrkstat) (ROC = 0.6391).
+
+The higher AUC for Model 2 indicates that it has slightly better discriminatory power in predicting whether someone agrees with the statement about scientific research. However, the difference in AUC values is relatively small, suggesting that the inclusion of wrkstat does not add significant predictive value to the model.
+
+### Exercise 11
+
+```{r}
+
+gss16_fit_final_train <- gss16_wflow_2 %>%
+  fit(data = gss16_train)
+
+gss16_fit_final_train
+
+gss16_fit_final_test <- gss16_wflow_2 %>%
+  fit(data = gss16_test)
+
+gss16_fit_final_test
+
+```
+
+
+```{r}
+#Predict on Test data
+gss16_pred_test <- predict(gss16_fit_final_test, new_data = gss16_test, type = "prob")
+
+head(gss16_pred_test)
+
+roc_curve <- roc(gss16_test$advfront_recode, gss16_pred_test$.pred_Agree)
+plot(roc_curve, main = "ROC Curve for Test Data", col = "blue", lwd = 2)
+
+auc_test <- auc(roc_curve)
+auc_test
+
+```
+
+
+**What would it mean if the fit on the testing data was much worse than the fit on the training data?**
+
+If the model performs significantly better on the training data than on the test data, it may indicate that the model is over fitting the training data. This means the model has learned patterns that are specific to the training set (including noise or random fluctuations) and does not generalize well to unseen data.
+
+Since it over fits the training data, it is bad at generalizing to new data.
+
+It could also be that the assumptions made by the model (e.g., linearity in logistic regression) may not hold true for the test data, which could lead to poorer performance when applied to new data.
+
+### Exercise 12
+
+```{r}
+
+# set up the specs for a decision tree, add it to a workflow
+dt_spec <- decision_tree() %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+
+gss16_wflow_dt <- workflow() %>%
+  add_recipe(gss16_rec_2) %>%  
+  add_model(dt_spec) 
+  
+# set up to do a ten fold cross-validation, fitting on the resamples 
+set.seed(123)
+
+gss16_folds <- vfold_cv(gss16_train, v = 10)
+
+# take the resulting object, and collect performance metrics on it
+gss16_fit_dt <- fit_resamples(
+  gss16_wflow_dt,
+  resamples = gss16_folds,
+  metrics = metric_set(roc_auc, accuracy),
+  control = control_resamples(save_pred = TRUE)
+)
+
+dt_metrics <- collect_metrics(gss16_fit_dt)
+dt_metrics
+
+# Extract the ROC AUC for the decision tree
+dt_auc <- dt_metrics %>%
+  filter(.metric == "roc_auc") %>%
+  summarize(mean_auc = mean(mean))
+
+dt_auc
+
+# ROC AUC for the logistic regression
+auc_test
+
+```
+
+The AUC ROC for the Decision tree is 0.5, while the AUC ROC for the logistic regression is 0.6458. If the ROC AUC for the decision tree is as low as 0.5, it suggests that the tree is not learning from the data and is performing no better than random guessing. Thus I would recommend the logistic regression model.

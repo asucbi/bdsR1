@@ -12,13 +12,9 @@ editor_options:
   chunk_output_type: console
 ---
 
+INSTRUCTOR NOTE: review R Studio / Posit windows; cmd enter to run; up arrow to go back to previous; gear icon to "preview in viewer pane"
+
 In this mini analysis we work with the data used in the FiveThirtyEight story titled ["The Dollar-And-Cents Case Against Hollywood's Exclusion of Women"](https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/).
-
-```{r check-dataset}
-
-?bechdel
-
-```
 
 We will be working with the results of a Bechdel test (this is a way of evaluating whether a work of fiction portrays women in a way that is sexist or characterized by gender stereotyping). 
 
@@ -38,22 +34,29 @@ We start with loading the packages we'll use.
 
 ```{r load-packages, message=FALSE}
 
-___(fivethirtyeight)
-___(tidyverse)
+library(fivethirtyeight)
+library(tidyverse)
 
 ```
 
 Now, let's check out our data. After reading in the data, you should *always* take a look to make sure it is the correct data / loaded correctly / etc!
+
+```{r check-dataset}
+
+?bechdel
+
+```
 
 Note: Often, we would read in a dataset. For today's code-along, the dataset is already built in to the `fivethirtyeight` package. The dataset is called `bechdel`.
 
 ```{r view-dataset, message=FALSE}
 
 #use the `View()` function to look at the entire dataset. 
-___(___)
+View(bechdel)
 
 #use the `head()` function to look at the first rows of the dataset.
-___(___)
+head(bechdel)
+
 ```
 
 The dataset contains information on `r nrow(bechdel)` movies released between `r min(bechdel$year)` and `r max(bechdel$year)`.
@@ -65,7 +68,7 @@ However we'll focus our analysis on movies released between 1990 and 2013.
 ```{r filter-release, message=FALSE}
 
 bechdel90_13 <- bechdel %>% ## note the "<-" assignment operator
-  filter(___)
+  filter(between(year, 1990, 2013))
 
 ```
 
@@ -88,10 +91,10 @@ Let's take a look at how median budget and gross vary by whether the movie passe
 ```{r calc-median, message=FALSE}
 
 bechdel90_13 %>%
-  group_by(___) %>%
-  summarise(med_budget = ___(___, na.rm = TRUE),
-            med_domgross = ___(___, na.rm = TRUE),
-            med_intgross = ___(___, na.rm = TRUE))
+  group_by(binary) %>%
+  summarise(med_budget = median(budget_2013, na.rm = TRUE),
+            med_domgross = median(domgross_2013, na.rm = TRUE),
+            med_intgross = median(intgross_2013, na.rm = TRUE))
 
 ```
 
@@ -110,10 +113,11 @@ This information is stored in the `clean_test` variable, which takes on the foll
 ```{r filter-clean_test, message=FALSE}
 
 bechdel90_13 %>%
-  ___(___) %>%
+  group_by(clean_test) %>%
   summarize(med_budget = median(budget_2013), 
              med_domgross = median(domgross_2013, na.rm = TRUE),
-             med_intgross = median(intgross_2013, na.rm = TRUE)                )
+             med_intgross = median(intgross_2013, na.rm = TRUE),
+            num = n())
 
 ```
 
@@ -124,7 +128,9 @@ In order to evaluate how return on investment varies among movies that pass and 
 ```{r create-roi, message=FALSE}
 
 bechdel90_13 <- bechdel90_13 %>% ## note the "<-" assignment operator
-  mutate(roi = ___)
+  mutate(roi = (domgross_2013 + intgross_2013) / budget_2013)
+
+## STOPPED HERE ## (show down arrow to run above code)
 
 ```
 
@@ -135,8 +141,8 @@ Let's see which movies have the highest return on investment.
 ```{r sort-roi, message=FALSE}
 
 bechdel90_13 %>%
-  ___(___) %>% 
-  ___(title, roi, year, clean_test) # do we want all the columns? let's return the columns that are most important here
+  arrange(desc(roi)) %>% 
+  select(title, roi, year, clean_test) # do we want all the columns? let's return the columns that are most important here
 
 ```
 
@@ -159,7 +165,7 @@ What are those movies with *very* high returns on investment?
 ```{r high-roi, message=FALSE}
 
 bechdel90_13 %>%
-  filter(roi ___) %>%
+  filter(roi > 400) %>%
   select(title, budget_2013, domgross_2013, year)
 
 ```
@@ -171,8 +177,17 @@ Zooming in on the movies with `roi < ___` provides a better view of how the medi
 ```{r edit-plot, message=FALSE}
 
 bechdel90_13_zoom400 <- bechdel90_13 %>%
-  filter(roi ___) 
+  filter(roi < 400) 
 
 #copy and edit plot code from above. make sure to add a subtitle (hint: add subtitle = "[meaningful subtitle]" to the `labs` argument)
 
+ggplot(data = bechdel90_13_zoom400, 
+       mapping = aes(x = clean_test, y = roi, color = binary)) +
+  geom_boxplot() +
+  labs(title = "Return on investment vs. Bechdel test result",
+       x = "Detailed Bechdel result",
+       y = "Return on investement by test result",
+       color = "Binary Bechdel result", 
+       subtitle = "ROI < 400")
+       
 ```

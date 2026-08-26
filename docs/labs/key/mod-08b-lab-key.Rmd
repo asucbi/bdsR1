@@ -1,0 +1,243 @@
+---
+title: 'Lab 08b: Bike rentals in DC'
+author: "Insert your name here"
+date: "Insert date here"
+output: pdf_document
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(dsbox) 
+library(broom)
+
+source("labs/starter/m8-helpers.R")
+```
+
+```{r load-data}
+data(dcbikeshare)
+```
+
+
+
+### Exercise 1
+
+```{r recode_season}
+
+dcbikeshare <- dcbikeshare %>% 
+  mutate(season = factor(season, 
+                    levels = c(2, 1, 3, 4), 
+                    labels = c("spring", "winter", "summer", "fall")))
+```
+
+
+### Exercise 2
+
+```{r recode_year}
+
+dcbikeshare <- dcbikeshare %>% 
+  mutate(yr = factor(dcbikeshare$yr, 
+                levels = c(0, 1), 
+                labels = c("2011", "2012")))
+
+```
+
+
+### Exercise 3
+
+```{r recode_weather}
+
+dcbikeshare <- dcbikeshare %>% 
+  mutate(weathersit = factor(weathersit,
+                                 levels = c(1, 2, 3, 4), 
+                                 labels = c("clear", "mist", "light precipitation", "heavy precipitation")))
+
+```
+
+
+### Exercise 4
+
+```{r raw_values}
+
+dcbikeshare <- dcbikeshare %>% 
+  mutate(temp = temp * 41,
+         atemp = atemp * 50,
+         hum = hum * 100,
+         windspeed = windspeed * 67)
+
+```
+
+
+### Exercise 5
+
+
+```{r bikes_rentals_2011_2012}
+
+ggplot(dcbikeshare, aes(x = dteday, y = cnt, color = atemp)) +
+  geom_point(alpha = 0.75) +
+  labs(
+    x = "Date",
+    y = "Bike Rentals",
+    color = "Feeling Temp. (C)",
+    title = "Bike rentals in DC, 2011 and 2012", 
+    subtitle = "Warmer temperatures associated with more bike rentals"
+  )+
+  theme_minimal()
+
+```
+
+**Interpretation:** Bike rentals increase when people feel warmer outside since higher bike rental numbers are all when the weather was between 30-40 degrees. Additionally, the months of June, July, and August see a surge in bike rentals since that is also the summer season in both 2011 and 2012, while they drop in winters during the months of December and January.
+
+
+### Exercise 6
+
+
+```{r bike_rentals_by_season}
+
+dcbikeshare <- dcbikeshare %>% 
+  mutate(season = factor(season,
+                                 levels = c("spring", "summer", "fall", "winter")))
+
+ggplot(dcbikeshare, aes(x = factor(season), y = cnt, fill = factor(season))) +
+  geom_boxplot() +  
+  labs(
+    x = "Season", 
+    y = "Bike Rentals", 
+    title = "Bike Rentals by Season in DC",
+    subtitle = "Distribution of bike rentals across different seasons"
+  ) +
+  scale_x_discrete(labels = c("1" = "Winter", "2" = "Spring", "3" = "Summer", "4" = "Fall")) + 
+  theme_minimal() + 
+  theme(legend.position = "none")  
+
+```
+
+**Interpretation:** Relating this to the previous plot, bike rentals are high when people feel warmer, so summer is the highest rentals, followed by spring, fall, and then winter at last. Even though fall can be somewhat cold, it is still associated with warmth and the previous graph was based on people's feeling temperature so fall still sees more rentals than winter.
+
+### Exercise 7
+
+```{r temp_model}
+
+temp_model <- lm(cnt ~ temp, data = dcbikeshare)
+summary(temp_model)
+
+```
+
+**Intercept (1214.642):** On a day with 0°C temperature, about 1215 bike rentals are expected.
+
+**Slope (161.969):** For every 1°C increase in temperature, bike rentals increase by approximately 162.
+
+**R-squared (0.3937):** Temperature explains about 39.4% of the variation in daily bike rentals, indicating a moderate positive relationship between temperature and bike rentals. Other factors likely contribute to the remaining 60% of the variance.
+
+
+### Exercise 8
+
+```{r atemp_model}
+
+atemp_model <- lm(cnt ~ atemp, data = dcbikeshare)
+summary(atemp_model)
+
+```
+
+**Intercept (945.824):** On a day with 0°C temperature, about 946 bike rentals are expected.
+
+**Slope (150.037):** For every 1°C increase in temperature, bike rentals increase by approximately 150. 
+
+**R-squared (0.3982):** 39.82% of the variability in bike rentals is explained by feeling temperature. 
+
+Both temp_model and atemp_model have nearly identical R-squared values, but feeling temperature explains marginally more of the variability. The Intercept in the temperature model (1214.642) is higher than in the feeling temperature model (945.824), suggesting that bike rentals are generally higher when considering actual temperature as a predictor.
+The Slope in the temperature model (161.969) is also higher than in the feeling temperature model (150.037), indicating that bike rentals increase more sharply as temperature increases compared to feeling temperature.
+
+
+### Exercise 9
+
+
+```{r atemp_centered}
+dcbikeshare <- dcbikeshare %>%
+  mutate(center_atemp = atemp - mean(atemp, na.rm = TRUE))
+
+model_centered <- lm(cnt ~ center_atemp, data = dcbikeshare)
+summary(model_centered)
+
+```
+**Intercept (4504.349):** This value represents the predicted number of daily bike rentals when center_atemp is at its mean, which corresponds to the average daily feeling temperature.
+
+Only the intercept has changed and centering has shifted the intercept to a more meaningful reference point, providing the expected bike rentals at the average atemp while in the uncentered model, it was the expected rental count when the feeling temperature was 0°C.
+
+**Slope (150.037.):** For every 1°C increase in temperature, bike rentals increase by approximately 150.
+
+The slope will remain the same.
+
+**R-squared (0.3982):** 39.82% of the variance in bike rentals is explained by center_atemp.
+
+R-square will remain the same. 
+
+### Exercise 10
+
+```{r complex_model}
+
+complex_model <- lm(cnt ~ season + yr + holiday + workingday + weathersit + temp + atemp + hum + windspeed + atemp:holiday, data = dcbikeshare)
+
+summary(complex_model)
+
+```
+
+```{r AIC_complex_vs_centered_atemp}
+
+AIC_temp_model <- AIC(temp_model) 
+AIC_complex_model <- AIC(complex_model)  
+
+AIC_temp_model
+AIC_complex_model
+
+```
+
+AIC for **temp_model is 12779.54**, while AIC for the **complex_model is 11902.** 
+A lower AIC value indicates a better model fit, with a penalty for added complexity. Since complex_model has a significantly lower AIC than temp model, it would indicate that the added predictors and interaction improve the model's fit to the data. 
+
+The R-squared for the **complex model (0.8234)** which is significantly better than the **temp_model (0.3937)**, which means that it explains 82.34% of the variability in bike rentals, rather than 39.37%.
+
+### Exercise 11
+
+
+```{r complex_summary}
+library(broom)
+
+model_summary <- broom::tidy(complex_model) %>%
+  mutate(
+    ymin = estimate - 2 * std.error,
+    ymax = estimate + 2 * std.error
+  )
+
+print(model_summary)
+
+```
+
+
+```{r complex_coefficients_plot}
+
+ggplot(model_summary, aes(x = term, y = estimate)) +
+  geom_pointrange(aes(ymin = ymin, ymax = ymax)) +
+  coord_flip() + 
+  labs(title = "Complex Model Coefficients",
+       x = "Coefficient Term",
+       y = "Estimate") +
+  theme_minimal()
+
+```
+
+
+### Exercise 12
+
+**Estimate for atemp: 18.762:** the baseline effect of feeling temperature on bike rentals when holiday = 0 (non-holiday). 
+
+**Estimate for atemp:holiday: 34.440:**  how much the effect of feeling temperature changes on holidays compared to non-holidays.
+
+**Slope for non-holidays (when holiday = 0): coefficient for atemp: 18.762**
+For non-holidays, each 1-degree increase in feeling temperature is associated with an increase of 18.762 bike rentals.
+
+**Slope for holidays (when holiday = 1): 18.762 + 34.440 = 53.202**
+On holidays, each 1-degree increase in feeling temperature is associated with an increase of 53.202 bike rentals.
+
+The effect of feeling temperature on bike rentals is much stronger on holidays (53.202 bike rentals per degree) compared to non-holidays (18.762 bike rentals per degree). This suggests that holidays may have a different behavioral or demand pattern for bike rentals, where people are more likely to ride bikes as the temperature rises, possibly due to more free time.
