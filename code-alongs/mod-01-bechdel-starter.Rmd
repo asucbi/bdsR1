@@ -189,5 +189,14 @@ ggplot(data = bechdel90_13_zoom400,
        y = "Return on investement by test result",
        color = "Binary Bechdel result", 
        subtitle = "ROI < 400")
+
+
+```
+**NOTE: BEFORE WORKING ON THE LAB, RUN THE FOLLOWING CODE**
+
+```{r}
+
+install.packages("devtools")
+devtools::install_github("asucbi/bdsdata")
        
 ```

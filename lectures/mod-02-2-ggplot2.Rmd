@@ -1,7 +1,6 @@
 ---
 title: "Visualising data with ggplot2"
 subtitle: "<br><br> Behavioral Data Science in R"
-author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -19,6 +18,8 @@ output:
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(palmerpenguins)
+library(conflicted)
+conflicts_prefer(palmerpenguins::penguins)
 ```
 
 
