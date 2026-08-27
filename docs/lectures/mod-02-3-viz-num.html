@@ -3,10 +3,9 @@
   <head>
     <title>Visualizing numerical data</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -21,9 +20,6 @@ class: center, middle, inverse, title-slide
 ]
 .subtitle[
 ## <br><br> Behavioral Data Science in R
-]
-.author[
-### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -90,7 +86,7 @@ class: middle
 ## Take a peek at data
 
 
-```r
+``` r
 library(openintro)
 glimpse(loans_full_schema)
 ```
@@ -122,7 +118,7 @@ glimpse(loans_full_schema)
 ## Selected variables
 
 
-```r
+``` r
 loans &lt;- loans_full_schema %&gt;%
   select(loan_amount, interest_rate, term, grade, 
          state, annual_income, homeownership, debt_to_income)
@@ -206,14 +202,13 @@ class: middle
 ## Histogram
 
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram()
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with
-## `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
 
 &lt;img src="mod-02-3-viz-num_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
@@ -225,7 +220,7 @@ ggplot(loans, aes(x = loan_amount)) +
 .panelset[
 .panel[.panel-name[binwidth = 1000]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 1000)
 ```
@@ -234,7 +229,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[binwidth = 5000]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 5000)
 ```
@@ -243,7 +238,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[binwidth = 20000]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 20000)
 ```
@@ -262,7 +257,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_histogram(binwidth = 5000) +
 * labs(
@@ -284,7 +279,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount, 
 *                 fill = homeownership)) +
   geom_histogram(binwidth = 5000,
@@ -308,7 +303,7 @@ ggplot(loans, aes(x = loan_amount,
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount, 
 *                 fill = homeownership)) +
   geom_histogram(binwidth = 5000,
@@ -333,7 +328,7 @@ ggplot(loans, aes(x = loan_amount,
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount, fill = homeownership)) + 
   geom_histogram(binwidth = 5000) +
   labs(
@@ -357,7 +352,7 @@ class: middle
 ## Density plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_density()
 ```
@@ -371,7 +366,7 @@ ggplot(loans, aes(x = loan_amount)) +
 .panelset[
 .panel[.panel-name[adjust = 0.5]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 0.5)
 ```
@@ -380,7 +375,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[adjust = 1]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 1) # default bandwidth
 ```
@@ -389,7 +384,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[adjust = 2]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 2)
 ```
@@ -408,7 +403,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount)) +
   geom_density(adjust = 2) +
 * labs(
@@ -430,7 +425,7 @@ ggplot(loans, aes(x = loan_amount)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = loan_amount, 
 *                 fill = homeownership)) +
   geom_density(adjust = 2, 
@@ -456,7 +451,7 @@ class: middle
 ## Box plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = interest_rate)) +
   geom_boxplot()
 ```
@@ -468,7 +463,7 @@ ggplot(loans, aes(x = interest_rate)) +
 ## Box plot and outliers
 
 
-```r
+``` r
 ggplot(loans, aes(x = annual_income)) +
   geom_boxplot()
 ```
@@ -485,7 +480,7 @@ ggplot(loans, aes(x = annual_income)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = interest_rate)) +
   geom_boxplot() +
   labs(
@@ -511,7 +506,7 @@ ggplot(loans, aes(x = interest_rate)) +
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(y = interest_rate,
 *                 x = grade)) +
   geom_boxplot() +
@@ -536,7 +531,7 @@ ggplot(loans, aes(y = interest_rate,
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 ggplot(loans, aes(x = interest_rate,
 *                 y = grade)) +
   geom_boxplot() +
@@ -561,7 +556,7 @@ class: middle
 ## Scatterplot
 
 
-```r
+``` r
 ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_point()
 ```
@@ -573,7 +568,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
 ## Hex plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
   geom_hex()
 ```
@@ -585,7 +580,7 @@ ggplot(loans, aes(x = debt_to_income, y = interest_rate)) +
 ## Hex plot
 
 
-```r
+``` r
 ggplot(loans %&gt;% filter(debt_to_income &lt; 100), 
        aes(x = debt_to_income, y = interest_rate)) +
   geom_hex()
@@ -596,10 +591,10 @@ ggplot(loans %&gt;% filter(debt_to_income &lt; 100),
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

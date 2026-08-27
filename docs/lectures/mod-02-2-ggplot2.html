@@ -3,10 +3,9 @@
   <head>
     <title>Visualising data with ggplot2</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -21,9 +20,6 @@ class: center, middle, inverse, title-slide
 ]
 .subtitle[
 ## <br><br> Behavioral Data Science in R
-]
-.author[
-### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -55,7 +51,7 @@ class: center, middle, inverse, title-slide
 - Structure of the code for plots can be summarized as
 
 
-```r
+``` r
 ggplot(data = [dataset], 
        mapping = aes(x = [x-variable], 
                      y = [y-variable])) +
@@ -75,7 +71,7 @@ Measurements for penguin species, island in Palmer Archipelago, size (flipper le
 ]
 .pull-right-wide[
 
-```r
+``` r
 library(palmerpenguins)
 glimpse(penguins)
 ```
@@ -103,7 +99,7 @@ glimpse(penguins)
 .panel[.panel-name[Code]
 
 
-```r
+``` r
 ggplot(data = penguins, 
        mapping = aes(x = bill_depth_mm, y = bill_length_mm,
                      colour = species)) +
@@ -115,7 +111,8 @@ ggplot(data = penguins,
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values (geom_point).
+## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_point()`).
 ```
 ]
 ]
@@ -134,7 +131,7 @@ class: middle
 
 .pull-left[
 
-```r
+``` r
 *ggplot(data = penguins)
 ```
 ]
@@ -151,7 +148,7 @@ class: middle
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
 *      mapping = aes(x = bill_depth_mm))
 ```
@@ -170,7 +167,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
 *                    y = bill_length_mm))
@@ -191,7 +188,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm)) + 
@@ -214,7 +211,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -239,7 +236,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -266,7 +263,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -295,7 +292,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -326,7 +323,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -359,7 +356,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -394,7 +391,7 @@ ggplot(data = penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -421,7 +418,7 @@ ggplot(data = penguins,
 .panel[.panel-name[Code]
 
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -436,7 +433,8 @@ ggplot(data = penguins,
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values (geom_point).
+## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_point()`).
 ```
 ]
 .panel[.panel-name[Narrative]
@@ -471,7 +469,7 @@ You can omit the names of first two arguments when building plots with `ggplot()
 
 .pull-left[
 
-```r
+``` r
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm,
                      y = bill_length_mm,
@@ -482,7 +480,7 @@ ggplot(data = penguins,
 ]
 .pull-right[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm,
            y = bill_length_mm,
@@ -515,7 +513,7 @@ Commonly used characteristics of plotting characters that can be **mapped to a s
 
 .pull-left[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm, 
            y = bill_length_mm,
@@ -536,7 +534,7 @@ Mapped to a different variable than `colour`
 
 .pull-left[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm, 
            y = bill_length_mm,
@@ -558,7 +556,7 @@ Mapped to same variable as `colour`
 
 .pull-left[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm, 
            y = bill_length_mm,
@@ -578,7 +576,7 @@ ggplot(penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm, 
            y = bill_length_mm,
@@ -599,7 +597,7 @@ ggplot(penguins,
 
 .pull-left[
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm, 
            y = bill_length_mm,
@@ -621,7 +619,7 @@ ggplot(penguins,
 **Mapping**
 
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm,
            y = bill_length_mm,
@@ -636,7 +634,7 @@ ggplot(penguins,
 **Setting**
 
 
-```r
+``` r
 ggplot(penguins,
        aes(x = bill_depth_mm,
            y = bill_length_mm)) + 
@@ -678,14 +676,15 @@ class: middle
 .panel[.panel-name[Code]
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_grid(species ~ island)
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values (geom_point).
+## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_point()`).
 ```
 ]
 ]
@@ -704,7 +703,7 @@ But you should always label your plots!
 ---
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_grid(species ~ sex)
@@ -715,7 +714,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ---
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_grid(sex ~ species)
@@ -726,7 +725,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ---
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_wrap(~ species)
@@ -737,7 +736,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ---
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_grid(. ~ species)
@@ -748,7 +747,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 ---
 
 
-```r
+``` r
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) + 
   geom_point() +
 * facet_wrap(~ species, ncol = 2)
@@ -772,7 +771,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 
 .pull-left-narrow[
 
-```r
+``` r
 ggplot(
   penguins, 
   aes(x = bill_depth_mm, 
@@ -793,7 +792,7 @@ ggplot(
 
 .pull-left-narrow[
 
-```r
+``` r
 ggplot(
   penguins, 
   aes(x = bill_depth_mm, 
@@ -812,10 +811,10 @@ ggplot(
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

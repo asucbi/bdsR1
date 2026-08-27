@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data and visualisation</title>
+    <title>Data and Visualisation</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
@@ -17,13 +16,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Data and visualisation
+# Data and Visualisation
 ]
 .subtitle[
 ## <br><br> Behavioral Data Science in R
-]
-.author[
-### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -58,24 +54,23 @@ class: middle
 .small[
 
 
-```r
+``` r
 happy
 ```
 
 ```
 ## # A tibble: 143 × 12
-##   Country   Region    Happi…¹ LifeE…² Footp…³   HLY   HPI HPIRank
-##   &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Albania   Former S…     5.5    76.2     2.2  41.7  47.9      54
-## 2 Algeria   Middle E…     5.6    71.7     1.7  40.1  51.2      40
-## 3 Angola    SubSahar…     4.3    41.7     0.9  17.8  26.8     130
-## 4 Argentina Latin Am…     7.1    74.8     2.5  53.4  59.0      15
-## 5 Armenia   Former S…     5      71.7     1.4  36.1  48.3      48
-## 6 Australia Western       7.9    80.9     7.8  63.7  36.6     102
-## # … with 137 more rows, 4 more variables: GDPperCapita &lt;dbl&gt;,
-## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;, and
-## #   abbreviated variable names ¹​Happiness, ²​LifeExpectancy,
-## #   ³​Footprint
+##   Country   Region Happiness LifeExpectancy Footprint   HLY   HPI
+##   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Albania   Forme…       5.5           76.2       2.2  41.7  47.9
+## 2 Algeria   Middl…       5.6           71.7       1.7  40.1  51.2
+## 3 Angola    SubSa…       4.3           41.7       0.9  17.8  26.8
+## 4 Argentina Latin…       7.1           74.8       2.5  53.4  59.0
+## 5 Armenia   Forme…       5             71.7       1.4  36.1  48.3
+## 6 Australia Weste…       7.9           80.9       7.8  63.7  36.6
+## # ℹ 137 more rows
+## # ℹ 5 more variables: HPIRank &lt;dbl&gt;, GDPperCapita &lt;dbl&gt;,
+## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;
 ```
 
 ]
@@ -92,24 +87,23 @@ What does each row represent?
 .small[
 
 
-```r
+``` r
 happy
 ```
 
 ```
 ## # A tibble: 143 × 12
-##   Country   Region    Happi…¹ LifeE…² Footp…³   HLY   HPI HPIRank
-##   &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Albania   Former S…     5.5    76.2     2.2  41.7  47.9      54
-## 2 Algeria   Middle E…     5.6    71.7     1.7  40.1  51.2      40
-## 3 Angola    SubSahar…     4.3    41.7     0.9  17.8  26.8     130
-## 4 Argentina Latin Am…     7.1    74.8     2.5  53.4  59.0      15
-## 5 Armenia   Former S…     5      71.7     1.4  36.1  48.3      48
-## 6 Australia Western       7.9    80.9     7.8  63.7  36.6     102
-## # … with 137 more rows, 4 more variables: GDPperCapita &lt;dbl&gt;,
-## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;, and
-## #   abbreviated variable names ¹​Happiness, ²​LifeExpectancy,
-## #   ³​Footprint
+##   Country   Region Happiness LifeExpectancy Footprint   HLY   HPI
+##   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Albania   Forme…       5.5           76.2       2.2  41.7  47.9
+## 2 Algeria   Middl…       5.6           71.7       1.7  40.1  51.2
+## 3 Angola    SubSa…       4.3           41.7       0.9  17.8  26.8
+## 4 Argentina Latin…       7.1           74.8       2.5  53.4  59.0
+## 5 Armenia   Forme…       5             71.7       1.4  36.1  48.3
+## 6 Australia Weste…       7.9           80.9       7.8  63.7  36.6
+## # ℹ 137 more rows
+## # ℹ 5 more variables: HPIRank &lt;dbl&gt;, GDPperCapita &lt;dbl&gt;,
+## #   HDI &lt;dbl&gt;, Population &lt;dbl&gt;, HDI_group &lt;ord&gt;
 ```
 
 ]
@@ -143,7 +137,7 @@ class: middle
 Take a `glimpse` at the data:
 
 
-```r
+``` r
 glimpse(happy)
 ```
 
@@ -174,7 +168,7 @@ How many rows and columns does this dataset have?
 
 .pull-left[
 
-```r
+``` r
 nrow(happy) # number of rows
 ```
 
@@ -182,7 +176,7 @@ nrow(happy) # number of rows
 ## [1] 143
 ```
 
-```r
+``` r
 ncol(happy) # number of columns
 ```
 
@@ -190,7 +184,7 @@ ncol(happy) # number of columns
 ## [1] 12
 ```
 
-```r
+``` r
 dim(happy)  # dimensions (row column)
 ```
 
@@ -285,7 +279,7 @@ A grammar of graphics is a tool that enables us to concisely describe the compon
 ## Money vs. Happiness
 
 
-```r
+``` r
 ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
   labs(title = "Happiness and GDP per-capita",
@@ -294,8 +288,8 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_point()`).
 ```
 
 &lt;img src="mod-02-1-data-viz_files/figure-html/mass-height-1.png" width="50%" style="display: block; margin: auto;" /&gt;
@@ -310,7 +304,7 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
 ]
 
 
-```r
+``` r
 ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
   geom_point() +
   labs(title = "Happiness and GDP per-capita",
@@ -319,8 +313,8 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_point()`).
 ```
 
 .footnote[
@@ -337,7 +331,7 @@ ggplot(data = happy, mapping = aes(y = Happiness, x = GDPperCapita)) +
 - Structure of the code for plots can be summarized as
 
 
-```r
+``` r
 ggplot(data = [dataset], 
        mapping = aes(x = [x-variable], y = [y-variable])) +
    geom_xxx() +
@@ -347,7 +341,7 @@ ggplot(data = [dataset],
 - The ggplot2 package comes with the tidyverse
 
 
-```r
+``` r
 library(tidyverse)
 ```
 
@@ -428,7 +422,7 @@ class: middle
 ## Summarising Anscombe's quartet
 
 
-```r
+``` r
 quartet %&gt;%
   group_by(set) %&gt;%
   summarise(
@@ -491,10 +485,10 @@ How are people reporting lower vs. higher values of FB visits?
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
