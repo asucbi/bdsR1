@@ -68,6 +68,8 @@ Check out the dataset. What are the variables?
 
 Type `?happy` in the console (recall that we used this last week to get information about our dataset). What happens? Why?
 
+View the dataset by typing `View(happy)` in the console or clicking on the dataset in the Environment pane.
+
 ### Let's clean up our dataset. Assume we want to replace the numbers in the region variable with the actual regions they correspond to. We also want to turn the HDI variable into a categorical variable with 4 levels. 
 
 Note: HDI (Human Development Index) measures a country's average achievements in three key dimensions: health, knowledge, and a decent standard of living.
@@ -259,9 +261,7 @@ happy %>%
   summarise(FootprintvsHappiness = cor(Happiness, Footprint))
 
 ```
-
-
-# You Try!
+# Your Turn!
 
 ### How many countries are developed? Make a bar plot of the distribution of `HDI_group`
 

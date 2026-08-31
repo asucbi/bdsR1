@@ -130,8 +130,6 @@ In order to evaluate how return on investment varies among movies that pass and 
 bechdel90_13 <- bechdel90_13 %>% ## note the "<-" assignment operator
   mutate(roi = (domgross_2013 + intgross_2013) / budget_2013)
 
-## STOPPED HERE ## (show down arrow to run above code)
-
 ```
 
 Let's see which movies have the highest return on investment.
@@ -191,12 +189,4 @@ ggplot(data = bechdel90_13_zoom400,
        subtitle = "ROI < 400")
 
 
-```
-**NOTE: BEFORE WORKING ON THE LAB, RUN THE FOLLOWING CODE**
-
-```{r}
-
-install.packages("devtools")
-devtools::install_github("asucbi/bdsdata")
-       
 ```
