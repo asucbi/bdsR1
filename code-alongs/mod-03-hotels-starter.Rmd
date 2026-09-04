@@ -30,12 +30,12 @@ We will be working with a dataset from Week 7 of 2020 called "Hotel Bookings:" L
 
 ### What to do when you cannot figure things out?
 
-- Did you watch the lectures?
+- First, makes sure you watched the lectures!
 - Check the help file with `?`
-- Good ol' fashioned Google searching
-- Did you look over the reading resources?
-- Did you post on Slack? and, did you contact your course assistant?
-- chatGPT?
+- Good ol' fashioned Google searching!
+- Look over the reading resources.
+- Post on Slack! Someone else probably had the same question!
+- Contact Jessica (or the CAs) and/or visit office hours!
 
 ## Exercises
 
@@ -57,10 +57,8 @@ hotels <- read_csv("data/hotels.csv")
 ### Exercise 1.
 
 Warm up!
-Take a look at an overview of the data with the `skim()` function.
 
-**Note:** I already gave you the answer to this exercise.
-A definition of all variables is given in the [Data dictionary] section at the end, though you don't need to familiarize yourself with all variables in order to work through these exercises.
+Take a look at an overview of the data with the `skim()` function. What does this output tell you about the data?
 
 ```{r hotels-skim}
 
@@ -133,7 +131,10 @@ What if I want to get all of this information at once?
 
 ```{r}
 
-#enter code here
+hotels %>%
+  ___(___) %>%
+  filter(children >= 1 | babies >= 1) %>%
+  summarize(n = n())
 
 ```
 
@@ -158,7 +159,7 @@ It also shouldn't repeat a previous label, otherwise R Markdown will give you an
 #check out the `count()` function using `?`
 
 hotels %>% 
-  count(___, ___) 
+  count(___, ___ = TRUE) 
 
 ```
 ### Exercise 6.
@@ -172,7 +173,7 @@ What does this reveal about the surprising results you spotted in the previous e
 ```{r label-me-2}
 
 hotels %>%
-  ___ %>%
+  ___(is_canceled == ___) %>%
   count(adults, sort=TRUE)
 
 ```

@@ -137,7 +137,7 @@ You might consider doing some research on Trinidad and Tobago to see why plastic
 
 - **NOTE:** From this point onwards the plots and the output of the code are not displayed in the lab instructions, but you can **and should** code and view the results yourself.
 
-Another way of visualizing numerical data is using density plots.
+Another way of visualizing numerical data is using density plots. (This is just additional information for you and things to try out -- not required in your response to this exercise.)
 
 ```{r plastic_waste_per_cap-dens, eval = FALSE}
 ggplot(data = plastic_waste, aes(x = plastic_waste_per_cap)) +

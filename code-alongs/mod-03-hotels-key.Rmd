@@ -35,7 +35,7 @@ We will be working with a dataset from Week 7 of 2020 called "Hotel Bookings:" L
 - Good ol' fashioned Google searching!
 - Look over the reading resources.
 - Post on Slack! Someone else probably had the same question!
-- Contact Amir / Jessica and/or visit office hours!
+- Contact Jessica (or the) and/or visit office hours!
 
 ## Exercises
 
@@ -57,10 +57,8 @@ hotels <- read_csv("data/hotels.csv")
 ### Exercise 1.
 
 Warm up!
-Take a look at an overview of the data with the `skim()` function.
 
-**Note:** I already gave you the answer to this exercise.
-A definition of all variables is given in the [Data dictionary] section at the end, though you don't need to familiarize yourself with all variables in order to work through these exercises.
+Take a look at an overview of the data with the `skim()` function. What does this output tell you about the data?
 
 ```{r hotels-skim}
 
@@ -215,10 +213,10 @@ Which type of hotel is higher, on average?
 
 hotels %>%
   group_by(hotel) %>%
-  summarize(adr_min = min(adr), 
-            adr_mean = mean(adr), 
-            adr_med = median(adr),
-            adr_max = max(adr))
+  summarize(adr_min = min(adr, na.rm = TRUE), 
+            adr_mean = mean(adr, na.rm = TRUE), 
+            adr_med = median(adr, na.rm = TRUE),
+            adr_max = max(adr, na.rm = TRUE))
 
 
 ```
@@ -233,7 +231,7 @@ Locate these observations in the dataset and find out the arrival date (year and
 
 You can investigate the data in the viewer to locate these values, but preferably you should identify them in a reproducible way with some code.
 
-**Hint:** For example, you can `filter` for the given `adr` amounts and `select` the relevant columns.
+**Hint:** For example, you can `filter` for the given `adr` amounts and `select` the relevant columns. 
 
 ```{r trouble-shoot-weirdness}
 

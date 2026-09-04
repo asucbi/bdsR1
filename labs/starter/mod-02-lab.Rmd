@@ -25,9 +25,9 @@ plastic_waste <- read_csv("data/plastic-waste.csv")
 ```
 
 
-# Warmup
+# Warmup Exercises
 
-## Question 1 
+## Exercise 1 
 
 Remove this text and enter your answer here.
 
@@ -39,9 +39,9 @@ Remove this text and enter your answer here.
 
 Remove this text and enter your answer here.
 
-## Exercises
+## Lab Exercises
 
-## Question 4 
+## Exercise 4 
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -51,7 +51,7 @@ Remove this text and enter your answer here.
 
 Remove this text and enter your answer here.
 
-## Question 5
+## Exercise 5
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -60,11 +60,11 @@ Remove this text and enter your answer here.
 ```
 
 
-## Question 6
+## Exercise 6
 
 Remove this text and enter your answer here.
 
-## Question 7
+## Exercise 7
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -72,7 +72,7 @@ Remove this text and enter your answer here.
 ## Where appropriate, be sure to write your answers to questions as text below
 ```
 
-## Question 8
+## Exercise 8
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -80,7 +80,7 @@ Remove this text and enter your answer here.
 ## Where appropriate, be sure to write your answers to questions as text below
 ```
 
-## Question 9
+## Exercise 9
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -88,7 +88,7 @@ Remove this text and enter your answer here.
 ## Where appropriate, be sure to write your answers to questions as text below
 ```
 
-## Question 10
+## Exercise 10
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
@@ -99,7 +99,7 @@ Remove this text and enter your answer here.
 
 # Bonus: 20 extra credit points if you can get this one! It's not that hard. You can do it! 
 
-## Question 11
+## Exercise 11
 
 ```{r}
 ## Remove these comments and add your code for the exercise here
