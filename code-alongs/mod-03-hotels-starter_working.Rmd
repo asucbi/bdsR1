@@ -35,14 +35,13 @@ We will be working with a dataset from Week 7 of 2020 called "Hotel Bookings:" L
 - Good ol' fashioned Google searching!
 - Look over the reading resources.
 - Post on Slack! Someone else probably had the same question!
-- Contact Jessica (or the Course Assistants) and/or visit office hours!
+- Contact Jessica (or the CAs) and/or visit office hours!
 
 ## Exercises
 
 ### Read in the data!
 
 ```{r load-pkg, message = FALSE}
-
 library(tidyverse)
 library(skimr) #gives us another option for quickly generating summary statistics for our data
 
@@ -78,8 +77,7 @@ Fill in the blanks for filtering for hotel bookings where the guest is **not** f
 hotels %>%
   filter(
     country != "USA", 
-    lead_time < 1
-    )
+    lead_time < 1)
 
 ```
 
@@ -97,7 +95,8 @@ In the following chunk, replace
 hotels %>%
   filter(
     children >= 1 | babies >= 1
-    )
+    ) %>% 
+  select(hotel, children, babies)
 
 ```
 
@@ -124,10 +123,12 @@ hotels %>%
 
 ```{r city-children}
 
+#copy, paste, and edit above code here
+
 hotels %>% 
   filter(hotel == "City Hotel",
          children >= 1 | babies >= 1) %>%
-  nrow() 
+  nrow()
 
 ```
 
@@ -138,13 +139,13 @@ What if I want to get all of this information at once?
 hotels %>%
   group_by(hotel) %>%
   filter(children >= 1 | babies >= 1) %>%
-  summarize(n = n())
+  summarise(n = n())
 
 ```
 
 ### Exercise 5.
 
-Create a frequency table of the number of `adults` in a booking.
+Create a frequency table of the number of `adults` in a booking using the `count()` function.
 
 Display the results in descending order so the most common observation is on top.
 
@@ -158,12 +159,17 @@ Your label should be short, informative, and shouldn't include spaces.
 
 It also shouldn't repeat a previous label, otherwise R Markdown will give you an error about repeated R chunk labels.
 
-```{r adults-bookings}
+```{r hotels-count}
 
-?count
+#check out the `count()` function using `?`
 
 hotels %>% 
-  count(adults, sort=TRUE)
+  count(adults, sort = TRUE) 
+
+hotels %>% 
+  group_by(adults) %>% 
+  summarise(n = n()) %>% 
+  arrange(desc(n))
 
 ```
 ### Exercise 6.
@@ -174,7 +180,7 @@ What does this reveal about the surprising results you spotted in the previous e
 
 **Note:** Don't forget to label your R chunk as well (where it says `label-me-2`).
 
-```{r canceled-bookings}
+```{r adults-canceled}
 
 hotels %>%
   filter(is_canceled == 1) %>%
@@ -182,25 +188,17 @@ hotels %>%
 
 ```
 
-```{r not-canceled-bookings}
+```{r adults-not-canceled}
+
+#copy above code and edit for "not-canceled" bookings
 
 hotels %>%
   filter(is_canceled == 0) %>%
   count(adults, sort=TRUE)
 
-```
-
-```{r}
-hotels %>%
-  group_by(is_canceled) %>%
-  count(adults, sort=TRUE)
-```
-
-```{r}
-
-hotels %>%
-  group_by(is_canceled, adults) %>%
-  count(sort=TRUE)
+hotels %>% 
+  group_by(adults) %>% 
+  count(is_canceled, sort = TRUE)
 
 ```
 ### Exercise 7.
@@ -209,7 +207,7 @@ Calculate minimum, mean, median, and maximum average daily rate (`adr`) grouped 
 
 Which type of hotel is higher, on average?
 
-```{r summary-stats}
+```{r label-me-4}
 
 hotels %>%
   group_by(hotel) %>%
@@ -217,7 +215,6 @@ hotels %>%
             adr_mean = mean(adr, na.rm = TRUE), 
             adr_med = median(adr, na.rm = TRUE),
             adr_max = max(adr, na.rm = TRUE))
-
 
 ```
 
@@ -231,14 +228,15 @@ Locate these observations in the dataset and find out the arrival date (year and
 
 You can investigate the data in the viewer to locate these values, but preferably you should identify them in a reproducible way with some code.
 
-**Hint:** For example, you can `filter` for the given `adr` amounts and `select` the relevant columns. 
+**Hint:** For example, you can `filter` for the given `adr` amounts and `select` the relevant columns.
 
 ```{r trouble-shoot-weirdness}
 
-hotels %>%
-  filter(adr == max(adr) | adr == min(adr)) %>%
-  select(adr, hotel, arrival_date_year, arrival_date_month, adults, is_canceled, children, babies)
+#try it yourself!
 
+hotels %>% 
+  filter(adr == max(adr, na.rm = TRUE) | adr == min(adr, na.rm = TRUE)) %>% 
+  select(adr, is_canceled, hotel, arrival_date_year, arrival_date_month, adults, children, babies)
 
 ```
 

@@ -1,7 +1,6 @@
 ---
 title: "Data types"
 subtitle: "<br><br> Behavioral Data Science in R"
-author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
