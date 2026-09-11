@@ -1,7 +1,6 @@
 ---
 title: "Recoding data"
 subtitle: "<br><br> Behavioral Data Science in R"
-author: "Derek Powell & Nicholas Duran"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "slides.css"]
@@ -40,8 +39,13 @@ Source: [pewforum.org/religious-landscape-study/income-distribution](https://www
 ## Read data 
 
 ```{r}
-library(readxl)
-rel_inc <- read_excel("data/relig-income.xlsx")
+data(relig_income)
+
+rel_inc <- rel_inc %>%
+  rowwise() %>%
+  mutate(n = sum(c_across(2:last_col()), na.rm = TRUE)) %>%
+  ungroup() # Good practice to ungroup after rowwise calculations
+
 ```
 
 .small[

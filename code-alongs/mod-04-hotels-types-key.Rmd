@@ -37,6 +37,8 @@ Let's visualize different aspects of hotel bookings on a few different timescale
 
 What are the steps do I need to take to solve this problem? Why not write some pseudocode?
 
+What would be a good way to plot change over time?
+
 ```{r adr-by-month}
 
 # We want to plot the average `adr` by hotel type and month. So, how do we do that?
@@ -62,8 +64,7 @@ We will want to use a function from the **forcats** package, see <https://forcat
 
 ```{r adr-by-month-ordered}
 
-# copy and paste your code
-# which of the functions in forcats do you think wold be useful here?
+# check out the arrival_date_month variable
 
 levels(hotels$arrival_date_month)
 class(hotels$arrival_date_month)
@@ -90,10 +91,10 @@ class(hotels_v2$arrival_date_month_fct)
 levels(hotels_v2$arrival_date_month_fct)
 
 # now recreate your plot
-hotels %>% 
-  group_by(hotel, arrival_date_month) %>%
+hotels_v2 %>% 
+  group_by(hotel, arrival_date_month_fct) %>%
   summarise(mean_adr = mean(adr)) %>%
-  ggplot(aes(x=arrival_date_month, y=mean_adr, group=hotel, color=hotel)) +
+  ggplot(aes(x=arrival_date_month_fct, y=mean_adr, group=hotel, color=hotel)) +
     geom_line()
 
 # look at the x axis -- much better! but still not the most attractive plot.
@@ -119,10 +120,11 @@ hotels %>%
     ) +
     geom_line(linewidth = 1.5) +
   theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1)) +
   labs(
-    x = "Arrival month",
-    y = "Mean average daily rate (ADR)",
-    title = "City vs. Resort Hotels' ADR by Month",
+    x = "\nArrival month",
+    y = "Mean average daily rate (ADR)\n",
+    title = "City vs. Resort Hotels' ADR by Month\n",
     color = "Hotel Type"
   ) +
   scale_color_manual(values = c("purple", "forestgreen"))
@@ -199,9 +201,13 @@ hotels %>%
   ggplot(aes(x=arrival_date_weekday, y=prop_cancelled, color=hotel, group=hotel)) +
   geom_line()
 
-# what do you see from this graph? 
+```
 
-# add a title and sub-title that describe what you've found
+What do you see from this graph? 
+
+Add a title and sub-title that describe what you've found.
+
+```{r cancel-by-day-of-week-title}
 
 hotels %>%
   group_by(hotel, arrival_date_weekday) %>%
