@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="author" content="datasciencebox.org" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -60,7 +60,7 @@ class: middle
 ### Data 
 
 
-```r
+``` r
 library(openintro)
 loans &lt;- loans_full_schema %&gt;%
   select(loan_amount, interest_rate, term, grade, 
@@ -92,7 +92,7 @@ class: middle
 ## Bar plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = homeownership)) +
   geom_bar()
 ```
@@ -104,7 +104,7 @@ ggplot(loans, aes(x = homeownership)) +
 ## Segmented bar plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = homeownership, 
 *                 fill = grade)) +
   geom_bar()
@@ -117,7 +117,7 @@ ggplot(loans, aes(x = homeownership,
 ## Segmented bar plot
 
 
-```r
+``` r
 ggplot(loans, aes(x = homeownership, fill = grade)) +
 * geom_bar(position = "fill")
 ```
@@ -147,7 +147,7 @@ Which bar plot is a more useful representation for visualizing the relationship 
 ]
 .panel[.panel-name[Code]
 
-```r
+``` r
 *ggplot(loans, aes(y = homeownership,
                   fill = grade)) +
   geom_bar(position = "fill") +
@@ -180,7 +180,7 @@ class: middle
 ## Violin plots
 
 
-```r
+``` r
 ggplot(loans, aes(x = homeownership, y = loan_amount)) +
   geom_violin()
 ```
@@ -192,7 +192,7 @@ ggplot(loans, aes(x = homeownership, y = loan_amount)) +
 ## Ridge plots
 
 
-```r
+``` r
 library(ggridges)
 ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) + 
   geom_density_ridges(alpha = 0.5)
@@ -205,10 +205,10 @@ ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) +
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

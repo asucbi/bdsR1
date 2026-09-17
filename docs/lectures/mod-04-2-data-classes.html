@@ -3,10 +3,9 @@
   <head>
     <title>Data classes</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Derek Powell &amp; Nicholas Duran" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -21,9 +20,6 @@ class: center, middle, inverse, title-slide
 ]
 .subtitle[
 ## <br><br> Behavioral Data Science in R
-]
-.author[
-### Derek Powell &amp; Nicholas Duran
 ]
 
 ---
@@ -66,7 +62,7 @@ We talked about *types* so far, next we'll introduce the concept of *classes*
 R uses factors to handle categorical variables, variables that have a fixed and known set of possible values
 
 
-```r
+``` r
 x &lt;- factor(c("BS", "MS", "PhD", "MS"))
 x
 ```
@@ -83,7 +79,7 @@ x
 We can think of factors like character (level labels) and an integer (level numbers) glued together
 
 
-```r
+``` r
 glimpse(x)
 ```
 
@@ -91,7 +87,7 @@ glimpse(x)
 ##  Factor w/ 3 levels "BS","MS","PhD": 1 2 3 2
 ```
 
-```r
+``` r
 as.integer(x)
 ```
 
@@ -104,7 +100,7 @@ as.integer(x)
 ## Dates
 
 
-```r
+``` r
 y &lt;- as.Date("2020-01-01")
 y
 ```
@@ -113,7 +109,7 @@ y
 ## [1] "2020-01-01"
 ```
 
-```r
+``` r
 typeof(y)
 ```
 
@@ -121,7 +117,7 @@ typeof(y)
 ## [1] "double"
 ```
 
-```r
+``` r
 class(y)
 ```
 
@@ -136,7 +132,7 @@ class(y)
 We can think of dates like an integer (the number of days since the origin, 1 Jan 1970) and an integer (the origin) glued together
 
 
-```r
+``` r
 as.integer(y)
 ```
 
@@ -144,7 +140,7 @@ as.integer(y)
 ## [1] 18262
 ```
 
-```r
+``` r
 as.integer(y) / 365 # roughly 50 yrs
 ```
 
@@ -159,7 +155,7 @@ as.integer(y) / 365 # roughly 50 yrs
 We can think of data frames like vectors of equal length glued together
 
 
-```r
+``` r
 df &lt;- data.frame(x = 1:2, y = 3:4)
 df
 ```
@@ -178,7 +174,7 @@ df
 Lists are a generic vector container vectors of any type can go in them
 
 
-```r
+``` r
 l &lt;- list(
   x = 1:4,
   y = c("hi", "hello", "jello"),
@@ -207,7 +203,7 @@ l
   - We can also use the `$` operator (e.g. `df$y`)
 
 
-```r
+``` r
 df
 ```
 
@@ -217,7 +213,7 @@ df
 ## 2 2 4
 ```
 
-```r
+``` r
 df %&gt;%
   pull(y)
 ```
@@ -239,7 +235,7 @@ class: middle
 ## Read data in as character strings
 
 
-```r
+``` r
 glimpse(cat_lovers)
 ```
 
@@ -256,7 +252,7 @@ glimpse(cat_lovers)
 ## But coerce when plotting
 
 
-```r
+``` r
 ggplot(cat_lovers, mapping = aes(x = handedness)) +
   geom_bar()
 ```
@@ -268,7 +264,7 @@ ggplot(cat_lovers, mapping = aes(x = handedness)) +
 ## Use forcats to manipulate factors
 
 
-```r
+``` r
 cat_lovers %&gt;%
 * mutate(handedness = fct_infreq(handedness)) %&gt;%
   ggplot(mapping = aes(x = handedness)) +
@@ -315,23 +311,23 @@ class: middle
 Calculate and visualize the number of bookings on any given arrival date.
 
 
-```r
+``` r
 hotels %&gt;%
   select(starts_with("arrival_"))
 ```
 
 ```
 ## # A tibble: 119,390 × 4
-##   arrival_date_year arrival_date_month arrival_date_wee…¹ arriv…²
-##               &lt;dbl&gt; &lt;chr&gt;                           &lt;dbl&gt;   &lt;dbl&gt;
-## 1              2015 July                               27       1
-## 2              2015 July                               27       1
-## 3              2015 July                               27       1
-## 4              2015 July                               27       1
-## 5              2015 July                               27       1
-## 6              2015 July                               27       1
-## # … with 119,384 more rows, and abbreviated variable names
-## #   ¹​arrival_date_week_number, ²​arrival_date_day_of_month
+##   arrival_date_year arrival_date_month arrival_date_week_number
+##               &lt;dbl&gt; &lt;chr&gt;                                 &lt;dbl&gt;
+## 1              2015 July                                     27
+## 2              2015 July                                     27
+## 3              2015 July                                     27
+## 4              2015 July                                     27
+## 5              2015 July                                     27
+## 6              2015 July                                     27
+## # ℹ 119,384 more rows
+## # ℹ 1 more variable: arrival_date_day_of_month &lt;dbl&gt;
 ```
 ]
 
@@ -341,7 +337,7 @@ hotels %&gt;%
 
 .small[
 
-```r
+``` r
 hotels %&gt;%
   mutate(
     arrival_date = 
@@ -360,7 +356,7 @@ hotels %&gt;%
 ## 4 Resort Hotel July 1 2015 
 ## 5 Resort Hotel July 1 2015 
 ## 6 Resort Hotel July 1 2015 
-## # … with 119,384 more rows
+## # ℹ 119,384 more rows
 ```
 ]
 
@@ -369,7 +365,7 @@ hotels %&gt;%
 ## Step 2. Count bookings per date
 
 
-```r
+``` r
 hotels %&gt;%
   mutate(
     arrival_date = 
@@ -389,7 +385,7 @@ hotels %&gt;%
 ## 4 April 10 2017   180
 ## 5 April 11 2016   188
 ## 6 April 11 2017   137
-## # … with 787 more rows
+## # ℹ 787 more rows
 ```
 
 ---
@@ -397,7 +393,7 @@ hotels %&gt;%
 ## Step 3. Visualise bookings per date
 
 
-```r
+``` r
 ... %&gt;% 
   ggplot(aes(x=arrival_date, y = n, group=1)) +
   geom_line() +
@@ -425,7 +421,7 @@ And why does April 10th come after April 1st?]
 ## Step 1. *REVISED* Construct dates "as dates"
 
 
-```r
+``` r
 library(lubridate)
 
 hotels %&gt;%
@@ -446,7 +442,7 @@ hotels %&gt;%
 ## 4 Resort Hotel July 1 2015      2015-07-01  
 ## 5 Resort Hotel July 1 2015      2015-07-01  
 ## 6 Resort Hotel July 1 2015      2015-07-01  
-## # … with 119,384 more rows
+## # ℹ 119,384 more rows
 ```
 
 ---
@@ -454,7 +450,7 @@ hotels %&gt;%
 ## Step 2. Count bookings per date
 
 
-```r
+``` r
 hotels %&gt;%
   mutate(
     arrival_date_str = paste(arrival_date_month, arrival_date_day_of_month, arrival_date_year),
@@ -474,7 +470,7 @@ hotels %&gt;%
 ## 4 2015-07-04      88
 ## 5 2015-07-05      53
 ## 6 2015-07-06      75
-## # … with 787 more rows
+## # ℹ 787 more rows
 ```
 
 
@@ -483,7 +479,7 @@ hotels %&gt;%
 ## Step 3a. Visualise bookings per date
 
 
-```r
+``` r
 ... %&gt;% 
   ggplot(aes(x=arrival_date, y = n, group=1)) +
   geom_line() 
@@ -498,7 +494,7 @@ hotels %&gt;%
 ## Step 3b. Visualize using a smooth curve
 
 
-```r
+``` r
 ... %&gt;% 
   ggplot(aes(x=arrival_date, y = n)) +
   geom_smooth() 
@@ -511,10 +507,10 @@ hotels %&gt;%
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
