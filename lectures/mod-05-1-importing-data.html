@@ -3,10 +3,9 @@
   <head>
     <title>Importing data</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Nicholas Duran &amp; Derek Powell" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -21,9 +20,6 @@ class: center, middle, inverse, title-slide
 ]
 .subtitle[
 ## <br><br> Behavioral Data Science in R
-]
-.author[
-### Nicholas Duran &amp; Derek Powell
 ]
 
 ---
@@ -85,28 +81,28 @@ class: middle
 ## Reading data
 
 
-```r
+``` r
 nobel &lt;- read_csv(file = "data/nobel.csv")
 nobel
 ```
 
 ```
 ## # A tibble: 935 × 26
-##      id firstname     surname  year categ…¹ affil…² city  country
-##   &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  
-## 1     1 Wilhelm Conr… Röntgen  1901 Physics Munich… Muni… Germany
-## 2     2 Hendrik A.    Lorentz  1902 Physics Leiden… Leid… Nether…
-## 3     3 Pieter        Zeeman   1902 Physics Amster… Amst… Nether…
-## 4     4 Henri         Becque…  1903 Physics École … Paris France 
-## 5     5 Pierre        Curie    1903 Physics École … Paris France 
-## 6     6 Marie         Curie    1903 Physics &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;   
-## # … with 929 more rows, 18 more variables: born_date &lt;date&gt;,
+##      id firstname      surname    year category affiliation city 
+##   &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;
+## 1     1 Wilhelm Conrad Röntgen    1901 Physics  Munich Uni… Muni…
+## 2     2 Hendrik A.     Lorentz    1902 Physics  Leiden Uni… Leid…
+## 3     3 Pieter         Zeeman     1902 Physics  Amsterdam … Amst…
+## 4     4 Henri          Becquerel  1903 Physics  École Poly… Paris
+## 5     5 Pierre         Curie      1903 Physics  École muni… Paris
+## 6     6 Marie          Curie      1903 Physics  &lt;NA&gt;        &lt;NA&gt; 
+## # ℹ 929 more rows
+## # ℹ 19 more variables: country &lt;chr&gt;, born_date &lt;date&gt;,
 ## #   died_date &lt;date&gt;, gender &lt;chr&gt;, born_city &lt;chr&gt;,
 ## #   born_country &lt;chr&gt;, born_country_code &lt;chr&gt;,
 ## #   died_city &lt;chr&gt;, died_country &lt;chr&gt;,
 ## #   died_country_code &lt;chr&gt;, overall_motivation &lt;chr&gt;,
-## #   share &lt;dbl&gt;, motivation &lt;chr&gt;, born_country_original &lt;chr&gt;,
-## #   born_city_original &lt;chr&gt;, died_country_original &lt;chr&gt;, …
+## #   share &lt;dbl&gt;, motivation &lt;chr&gt;, …
 ```
 
 ---
@@ -117,7 +113,7 @@ nobel
 - Write a file
 
 
-```r
+``` r
 df &lt;- tribble(
   ~x, ~y,
   1,  "a",
@@ -134,7 +130,7 @@ write_csv(df, file = "data/df.csv")
 - Read it back in to inspect
 
 
-```r
+``` r
 read_csv("data/df.csv")
 ```
 
@@ -162,7 +158,7 @@ class: middle
 ## Data with bad names
 
 
-```r
+``` r
 airbnb_badnames &lt;- read_csv("data/airbnb-badnames.csv")
 glimpse(airbnb_badnames)
 ```
@@ -187,7 +183,7 @@ glimpse(airbnb_badnames)
 ## Data with bad names
 
 
-```r
+``` r
 names(airbnb_badnames)
 ```
 
@@ -204,13 +200,13 @@ names(airbnb_badnames)
 ... but R doesn't allow spaces in variable names
 
 
-```r
+``` r
 ggplot(airbnb_badnames, aes(x = Number of bathrooms, y = Price)) +
   geom_point()
 ```
 
 ```
-## Error: &lt;text&gt;:1:40: unexpected symbol
+## Error in parse(text = input): &lt;text&gt;:1:40: unexpected symbol
 ## 1: ggplot(airbnb_badnames, aes(x = Number of
 ##                                            ^
 ```
@@ -221,7 +217,7 @@ ggplot(airbnb_badnames, aes(x = Number of bathrooms, y = Price)) +
 
 .small[
 
-```r
+``` r
 airbnb_col_names &lt;- read_csv("data/airbnb-badnames.csv",
                              col_names = c("id", "price", 
                                            "neighborhood", "accommodates",
@@ -246,7 +242,7 @@ names(airbnb_col_names)
 ## Option 2 - Format text to snake_case
 
 
-```r
+``` r
 airbnb_clean_names &lt;- read_csv("data/airbnb-badnames.csv") %&gt;%
   janitor::clean_names()
 
@@ -278,7 +274,7 @@ Which type is `x`? Why?
 ]
 .pull-right[
 
-```r
+``` r
 read_csv("data/df-na.csv")
 ```
 
@@ -304,7 +300,7 @@ read_csv("data/df-na.csv")
 ## Option 1. Explicit NAs
 
 
-```r
+``` r
 read_csv("data/df-na.csv", 
          na = c("", "NA", ".", "9999", "Not applicable"))
 ```
@@ -335,7 +331,7 @@ read_csv("data/df-na.csv",
 ## Option 2. Specify column types
 
 
-```r
+``` r
 read_csv("data/df-na.csv", col_types = list(col_double(), 
                                             col_character(), 
                                             col_character()))
@@ -343,7 +339,10 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 
 
 ```
-## Warning: One or more parsing issues, see `problems()` for details
+## Warning: One or more parsing issues, call `problems()` on your data frame
+## for details, e.g.:
+##   dat &lt;- vroom(...)
+##   problems(dat)
 ```
 
 ```
@@ -399,7 +398,7 @@ class:middle
 --
 
 
-```r
+``` r
 *fav_food &lt;- read_excel("data/favorite-food.xlsx")
 
 fav_food
@@ -407,14 +406,13 @@ fav_food
 
 ```
 ## # A tibble: 5 × 6
-##   `Student ID` `Full Name`      favorite.food mealP…¹ AGE   SES  
-##          &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
-## 1            1 Sunil Huffmann   Strawberry y… Lunch … 4     High 
-## 2            2 Barclay Lynn     French fries  Lunch … 5     Midd…
-## 3            3 Jayendra Lyne    N/A           Breakf… 7     Low  
-## 4            4 Leon Rossini     Anchovies     Lunch … 99999 Midd…
-## 5            5 Chidiegwu Dunkel Pizza         Breakf… five  High 
-## # … with abbreviated variable name ¹​mealPlan
+##   `Student ID` `Full Name`     favorite.food mealPlan AGE   SES  
+##          &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;
+## 1            1 Sunil Huffmann  Strawberry y… Lunch o… 4     High 
+## 2            2 Barclay Lynn    French fries  Lunch o… 5     Midd…
+## 3            3 Jayendra Lyne   N/A           Breakfa… 7     Low  
+## 4            4 Leon Rossini    Anchovies     Lunch o… 99999 Midd…
+## 5            5 Chidiegwu Dunk… Pizza         Breakfa… five  High
 ```
 
 ---
@@ -426,7 +424,7 @@ fav_food
 --
 
 
-```r
+``` r
 fav_food &lt;- read_excel("data/favorite-food.xlsx") %&gt;%
 * janitor::clean_names()
 
@@ -435,14 +433,13 @@ fav_food
 
 ```
 ## # A tibble: 5 × 6
-##   student_id full_name        favorite_food   meal_…¹ age   ses  
-##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
-## 1          1 Sunil Huffmann   Strawberry yog… Lunch … 4     High 
-## 2          2 Barclay Lynn     French fries    Lunch … 5     Midd…
-## 3          3 Jayendra Lyne    N/A             Breakf… 7     Low  
-## 4          4 Leon Rossini     Anchovies       Lunch … 99999 Midd…
-## 5          5 Chidiegwu Dunkel Pizza           Breakf… five  High 
-## # … with abbreviated variable name ¹​meal_plan
+##   student_id full_name        favorite_food meal_plan age   ses  
+##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+## 1          1 Sunil Huffmann   Strawberry y… Lunch on… 4     High 
+## 2          2 Barclay Lynn     French fries  Lunch on… 5     Midd…
+## 3          3 Jayendra Lyne    N/A           Breakfas… 7     Low  
+## 4          4 Leon Rossini     Anchovies     Lunch on… 99999 Midd…
+## 5          5 Chidiegwu Dunkel Pizza         Breakfas… five  High
 ```
 
 ---
@@ -454,7 +451,7 @@ fav_food
 --
 
 
-```r
+``` r
 fav_food &lt;- read_excel("data/favorite-food.xlsx",
 *                      na = c("N/A", "99999")) %&gt;%
   janitor::clean_names()
@@ -464,14 +461,13 @@ fav_food
 
 ```
 ## # A tibble: 5 × 6
-##   student_id full_name        favorite_food   meal_…¹ age   ses  
-##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
-## 1          1 Sunil Huffmann   Strawberry yog… Lunch … 4     High 
-## 2          2 Barclay Lynn     French fries    Lunch … 5     Midd…
-## 3          3 Jayendra Lyne    &lt;NA&gt;            Breakf… 7     Low  
-## 4          4 Leon Rossini     Anchovies       Lunch … &lt;NA&gt;  Midd…
-## 5          5 Chidiegwu Dunkel Pizza           Breakf… five  High 
-## # … with abbreviated variable name ¹​meal_plan
+##   student_id full_name        favorite_food meal_plan age   ses  
+##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+## 1          1 Sunil Huffmann   Strawberry y… Lunch on… 4     High 
+## 2          2 Barclay Lynn     French fries  Lunch on… 5     Midd…
+## 3          3 Jayendra Lyne    &lt;NA&gt;          Breakfas… 7     Low  
+## 4          4 Leon Rossini     Anchovies     Lunch on… &lt;NA&gt;  Midd…
+## 5          5 Chidiegwu Dunkel Pizza         Breakfas… five  High
 ```
 
 ---
@@ -480,7 +476,7 @@ fav_food
 
 .pull-left-wide[
 
-```r
+``` r
 fav_food &lt;- fav_food %&gt;%
 * mutate(
 *   age = if_else(age == "five", "5", age),
@@ -515,7 +511,7 @@ What order are the levels of `ses` listed in?
 
 .pull-left-wide[
 
-```r
+``` r
 fav_food %&gt;%
   count(ses)
 ```
@@ -539,7 +535,7 @@ fav_food %&gt;%
 
 .pull-left-wide[
 
-```r
+``` r
 fav_food &lt;- fav_food %&gt;%
 * mutate(ses = fct_relevel(ses, "Low", "Middle", "High"))
 
@@ -562,7 +558,7 @@ fav_food %&gt;%
 ## Putting it altogether
 
 
-```r
+``` r
 fav_food &lt;- read_excel("data/favorite-food.xlsx", na = c("N/A", "99999")) %&gt;%
   janitor::clean_names() %&gt;%
   mutate(
@@ -576,14 +572,13 @@ fav_food
 
 ```
 ## # A tibble: 5 × 6
-##   student_id full_name        favorite_food   meal_…¹   age ses  
-##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt; &lt;fct&gt;
-## 1          1 Sunil Huffmann   Strawberry yog… Lunch …     4 High 
-## 2          2 Barclay Lynn     French fries    Lunch …     5 Midd…
-## 3          3 Jayendra Lyne    &lt;NA&gt;            Breakf…     7 Low  
-## 4          4 Leon Rossini     Anchovies       Lunch …    NA Midd…
-## 5          5 Chidiegwu Dunkel Pizza           Breakf…     5 High 
-## # … with abbreviated variable name ¹​meal_plan
+##   student_id full_name        favorite_food meal_plan   age ses  
+##        &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;fct&gt;
+## 1          1 Sunil Huffmann   Strawberry y… Lunch on…     4 High 
+## 2          2 Barclay Lynn     French fries  Lunch on…     5 Midd…
+## 3          3 Jayendra Lyne    &lt;NA&gt;          Breakfas…     7 Low  
+## 4          4 Leon Rossini     Anchovies     Lunch on…    NA Midd…
+## 5          5 Chidiegwu Dunkel Pizza         Breakfas…     5 High
 ```
 
 ---
@@ -591,7 +586,7 @@ fav_food
 ## Out and back in
 
 
-```r
+``` r
 write_csv(fav_food, file = "data/fav-food-clean.csv")
 
 fav_food_clean &lt;- read_csv("data/fav-food-clean.csv")
@@ -604,7 +599,7 @@ What happened to `ses` again?
 ]
 
 
-```r
+``` r
 fav_food_clean %&gt;%
   count(ses)
 ```
@@ -626,7 +621,7 @@ fav_food_clean %&gt;%
 - An alternative is RDS files, you can read and write them with `read_rds()` and `write_rds()`, respectively.
 
 
-```r
+``` r
 read_rds(path)
 write_rds(x, path)
 ```
@@ -636,7 +631,7 @@ write_rds(x, path)
 ## Out and back in, take 2
 
 
-```r
+``` r
 write_rds(fav_food, file = "data/fav-food-clean.rds")
 
 fav_food_clean &lt;- read_rds("data/fav-food-clean.rds")
@@ -697,7 +692,7 @@ class: middle
 ## 4 1822    3    
 ## 5 Brand 2 n    
 ## 6 3333    1    
-## # … with 3 more rows
+## # ℹ 3 more rows
 ```
 ]
 
@@ -714,7 +709,7 @@ class: middle
 ## 4 Brand 2  3333     1
 ## 5 Brand 2  2156     3
 ## 6 Brand 2  3987     6
-## # … with 1 more row
+## # ℹ 1 more row
 ```
 ]
 
@@ -724,10 +719,10 @@ class: middle
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightLines": true,
-"highlightStyle": "solarized-light",
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightLines": true,
+  "highlightStyle": "solarized-light",
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

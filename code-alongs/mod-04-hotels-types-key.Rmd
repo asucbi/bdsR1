@@ -82,16 +82,16 @@ class(hotels$arrival_date_month_fct)
 levels(hotels$arrival_date_month_fct)
 
 # R has some useful built-in constants, like `pi`, letters, LETTERS, month.name  
-hotels_v2 <- hotels %>%
+hotels <- hotels %>%
   mutate(arrival_date_month_fct = fct_relevel(arrival_date_month, month.name))
 
 # now, let's look at the class and levels
 
-class(hotels_v2$arrival_date_month_fct)
-levels(hotels_v2$arrival_date_month_fct)
+class(hotels$arrival_date_month_fct)
+levels(hotels$arrival_date_month_fct)
 
 # now recreate your plot
-hotels_v2 %>% 
+hotels %>% 
   group_by(hotel, arrival_date_month_fct) %>%
   summarise(mean_adr = mean(adr)) %>%
   ggplot(aes(x=arrival_date_month_fct, y=mean_adr, group=hotel, color=hotel)) +
