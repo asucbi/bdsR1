@@ -1,0 +1,72 @@
+---
+title: 'Module 5: Quiz'
+output: html_document
+date: "2026-09-21"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+#data:
+stress_data <- data.frame(
+  week = rep(1:6, times = 4),
+  condition = rep(
+    c("Mindfulness", "No intervention", "Cognitive reappraisal", "Expressive writing"),
+    each = 6
+  ),
+  mean_stress_score = c(
+    7.2, 6.8, 6.2, 5.7, 5.1, 4.8,
+    7.1, 7.0, 7.2, 7.1, 7.0, 7.1,
+    7.3, 6.7, 6.0, 5.4, 4.9, 4.5,
+    7.2, 6.9, 6.5, 6.1, 5.8, 5.5
+  )
+)
+```
+
+Quiz task:
+
+* You may use your handwritten notes and/or reference previous documents on Posit Cloud. Everything you need to create this graph is there, no internet searches are permitted. *
+
+Using the stress_data dataset:
+
+1. Create a new dataset that includes only weeks 2-6.
+3. Relevel the condition factor so the legend appears in this order:
+    No intervention, Expressive writing, Mindfulness, Cognitive reappraisal
+4. Create a line graph showing mean stress score over time.
+    - x-axis: week
+    - y-axis: mean_stress_score
+    - color: condition
+5. Knit your file as a .pdf and upload it to Module 5: Quiz on Canvas.
+
+Use the data below to create your plot.
+
+```{r create-plot}
+
+stress_filtered <- stress_data %>%
+  filter(week >= 2) %>%
+  mutate(
+    condition = fct_relevel(
+      condition,
+      "No intervention",
+      "Expressive writing",
+      "Mindfulness",
+      "Cognitive reappraisal"
+    )
+  )
+
+ggplot(
+  stress_filtered,
+  aes(x = week, y = mean_stress_score, color = condition)
+) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Mean Stress Scores by Coping Strategy Condition",
+    x = "Week",
+    y = "Mean stress score",
+    color = "Condition"
+  ) 
+
+```
+

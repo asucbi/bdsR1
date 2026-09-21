@@ -1,0 +1,25 @@
+week,condition,mean_stress_score
+1,Mindfulness,7.2
+2,Mindfulness,6.8
+3,Mindfulness,6.2
+4,Mindfulness,5.7
+5,Mindfulness,5.1
+6,Mindfulness,4.8
+1,No intervention,7.1
+2,No intervention,7
+3,No intervention,7.2
+4,No intervention,7.1
+5,No intervention,7
+6,No intervention,7.1
+1,Cognitive reappraisal,7.3
+2,Cognitive reappraisal,6.7
+3,Cognitive reappraisal,6
+4,Cognitive reappraisal,5.4
+5,Cognitive reappraisal,4.9
+6,Cognitive reappraisal,4.5
+1,Expressive writing,7.2
+2,Expressive writing,6.9
+3,Expressive writing,6.5
+4,Expressive writing,6.1
+5,Expressive writing,5.8
+6,Expressive writing,5.5

@@ -1,0 +1,42 @@
+---
+title: 'Module 5: Quiz Starter File'
+output: html_document
+date: "2026-09-21"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+```
+
+Quiz task:
+
+Create the plot *exactly* as it is depicted on Canvas.
+
+* You may use your handwritten notes and/or reference previous documents on Posit Cloud. Everything you need to create this graph is there, no internet searches are permitted. *
+
+Using the stress_data dataset:
+
+1. Create a new dataset that includes only weeks 2-6.
+3. Relevel the condition factor so the legend appears in this order:
+    No intervention, Expressive writing, Mindfulness, Cognitive reappraisal
+4. Create a line graph showing mean stress score over time.
+    - x-axis: week
+    - y-axis: mean_stress_score
+    - color: condition
+5. Knit your file as a .pdf and upload it to Module 5: Quiz on Canvas.
+
+Use the data below to create your plot.
+
+```{r create-plot}
+
+stress_data <- [READ IN DATA]
+
+stress_data_cleaned <- [GET CORRECT ENTRIES AND CHANGE CONDITION LEVELS]
+
+ggplot(stress_data_cleaned [ADD ARGUMENTS TO CREATE GRAPH])
+
+```
+
