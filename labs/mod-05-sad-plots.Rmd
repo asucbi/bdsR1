@@ -40,8 +40,6 @@ For all exercises, unless it says otherwise, your visualization should be accomp
 
 Go to the Posit Cloud and locate the project folder for "Assignments: Module 5" and open the starter R Markdown document for the lab.
 
-Knit the document to make sure it compiles without errors.
-
 ## Warm up
 
 Before we introduce the data, let's warm up with some simple exercises.

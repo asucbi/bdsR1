@@ -1,8 +1,6 @@
 ---
-title: "Robot Intelligence - key file"
+title: "Robot Intelligence - starter file"
 author: "Nicholas Duran; Jessica Kosie"
-output: html_document
-
 ---
 
 Code-Along File #3
@@ -29,7 +27,7 @@ The data from the survey is in `data-raw/robot-intelligence.csv`.
 
 ```{r message = FALSE}
 
-robots <- read_csv("data-raw/robot-intelligence.csv")
+robots <- read_csv("code-alongs/data-raw/robot-intelligence.csv")
 
 ```
 
@@ -113,28 +111,10 @@ robots_prop <- robots %>%
   group_by(education, opinion) %>%
   count() %>%
   group_by(education) %>%
-  mutate(proportion = n / sum(n)) 
+  mutate(sum_n = sum(n),
+    proportion = n / sum(n)) 
 
-ggplot(robots_prop, aes(x = opinion, y = proportion, fill = opinion)) +
-  geom_bar(stat = "identity") +
-  facet_wrap(~education,
-    nrow = 1, labeller = label_wrap_gen(width = 12),
-    ) +
-  ylim(c(0, 1)) +
-  coord_flip() +
-  guides(fill = "none") +
-  labs(
-    title = "Robot intelligence: Have they surpassed humans?",
-    subtitle = "YouGov Survey Results, 05 January 2023",
-    caption = "Source: http://bit.ly/3JubdGu",
-    x = NULL, y = NULL
-  ) +
-  scale_fill_manual(values = c(
-    "Never Surpass" = "#ef8a62",
-    "Already Surpassed" = "#67a9cf",
-    "Surpass in Future" = "gray"
-  )) +
-  theme_minimal()
+#copy code from above and edit
   
 ```
 
@@ -144,26 +124,8 @@ Recreate the same visualization from the previous exercise, this time dodging th
 
 How is the story this visualization telling different than the story the previous plot tells?
 
-# We didn't go over this in class, but notice that `position = "dodge"` is added to put the bars nex to each other. We're also no longer using `facet_wrap`. And I put the legend at the bottom by adding `theme(legend.position = "bottom")`.
-
 ```{r}
 
-ggplot(robots_prop, aes(x = education, y = proportion, fill = opinion)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  coord_flip() +
-  labs(
-    title = "Robot intelligence: Have they surpassed humans?",
-    subtitle = "YouGov Survey Results, 05 January 2023",
-    caption = "Source: http://bit.ly/3JubdGu",
-    x = NULL, y = NULL,
-    fill = "Opinion about Robot Intelligence"
-  ) +
-  scale_fill_manual(values = c(
-    "Never Surpass" = "#ef8a62",
-    "Already Surpassed" = "#67a9cf",
-    "Surpass in Future" = "gray"
-  )) +
-  theme_minimal() +
-  theme(legend.position = "bottom") 
+#copy code from above and edit
 
 ```

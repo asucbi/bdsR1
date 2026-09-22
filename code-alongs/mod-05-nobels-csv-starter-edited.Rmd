@@ -1,7 +1,6 @@
 ---
-title: "Nobel winners - key file"
+title: "Nobel winners - starter file"
 author: "Nicholas Duran; Jessica Kosie"
-output: html_document
 ---
 
 Code-Along File #1
@@ -22,7 +21,7 @@ Take a look at the data file. What kind of file is it? What function would you u
 
 ```{r load-data}
 
-nobel <- read_csv("data-raw/nobel.csv")
+nobel <- read_csv("code-alongs/data-raw/nobel.csv")
 
 ```
 
@@ -45,11 +44,11 @@ Create another data frame, `nobel_nonstem`, that filters for the remaining field
 
 # stem laureates
 stem <- nobel %>%
-  filter(category %in% c("Physics", "Chemistry", "Medicine", "Economics"))
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
 
 # non-steam laureates
 non_stem <- nobel %>%
-  filter(!(category %in% c("Physics", "Chemistry", "Medicine", "Economics")))
+  filter(!category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
 
 ```
 
@@ -59,7 +58,7 @@ Hint: we use `read_csv()` to "read" in a data file. What might we use to "write"
 
 ```{r save-output-csv}
 
-write_csv(stem, "data/nobel_stem.csv")
+write_csv(stem, "data/nobel-stem.csv")
 write_csv(non_stem, "data/nobel_nonstem.csv")
 
 ```

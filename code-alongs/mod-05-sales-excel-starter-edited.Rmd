@@ -1,8 +1,6 @@
 ---
-title: "Sales - key file"
+title: "Sales - starter file"
 author: "Nicholas Duran; Jessica Kosie"
-output: html_document
-
 ---
 
 Code-Along File #2
@@ -20,7 +18,7 @@ Read in the file called `scales.xlsx` from the `raw_data` folder. Use the `read_
 
 ```{r}
 
-sales <- read_excel("data-raw/sales.xlsx")
+sales <- read_excel("code-alongs/data-raw/sales.xlsx")
 
 ```
 
@@ -40,7 +38,7 @@ Now, edit the `read_excel()` code to make the changes described above. How does 
 
 ```{r}
 
-sales <- read_excel("data-raw/sales.xlsx", skip=3, col_names = c("id", "n"))
+sales <- read_excel("code-alongs/data-raw/sales.xlsx", skip = 3, col_names = c("id", "n"))
 
 View(sales)
 

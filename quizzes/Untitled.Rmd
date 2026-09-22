@@ -1,9 +1,8 @@
 ---
-title: 'Module 5: Quiz'
-output: pdf_document
+title: "TEST"
+author: "Jessica Kosie"
 date: "2026-09-21"
-editor_options: 
-  chunk_output_type: console
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}

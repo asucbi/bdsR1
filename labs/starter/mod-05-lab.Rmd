@@ -14,10 +14,12 @@ library(readxl)
 
 ### Instructional staff employment trends
 
-Load in data. Make sure you are changing "eval=FALSE" to "eval=TRUE" or just remove it altogether.
+Load in data. 
 
-```{r label-me, eval=FALSE}
-staff <- "___"
+```{r label-me}
+
+staff <- ___
+
 ```
 
 ### Exercise 1
@@ -27,8 +29,10 @@ Add code chunks as needed.
 Don't forget to label your code chunk.
 Do not use spaces in code chunk labels.
 
-```{r label-me-1, eval=FALSE}
-staff_long <- "convert from wide to long"
+```{r label-me-1}
+
+staff_long <- [convert from wide to long]
+
 ```
 
 ### Exercise 2

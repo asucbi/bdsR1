@@ -15,8 +15,6 @@ None of these exercises are super hard, but you will likely find yourself engagi
 
 Go to Posit Cloud and locate the project folder for "Assignments: Module 5" and open the starter R Markdown document for the HW.
 
-Knit the document to make sure it compiles without errors.
-
 Update the YAML of your R Markdown file with your information.
 
 ## Packages

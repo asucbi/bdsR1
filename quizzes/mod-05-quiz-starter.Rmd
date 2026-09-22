@@ -1,6 +1,6 @@
 ---
 title: 'Module 5: Quiz Starter File'
-output: html_document
+output: pdf_document
 date: "2026-09-21"
 editor_options: 
   chunk_output_type: console
