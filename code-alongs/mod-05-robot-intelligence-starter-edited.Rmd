@@ -115,6 +115,27 @@ robots_prop <- robots %>%
     proportion = n / sum(n)) 
 
 #copy code from above and edit
+
+ggplot(robots_prop, aes(x = opinion, y = proportion, fill = opinion)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~education,
+    nrow = 1, labeller = label_wrap_gen(width = 12)
+  ) +
+  guides(fill = "none") +
+  labs(
+    title = "Robot intelligence: Have they surpassed humans?",
+    subtitle = "YouGov Survey Results, 05 January 2023",
+    caption = "Source: http://bit.ly/3JubdGu",
+    x = NULL, y = NULL
+  ) +
+  scale_fill_manual(values = c(
+    "Never Surpass" = "#ef8a62",
+    "Already Surpassed" = "#67a9cf",
+    "Surpass in Future" = "gray"
+  )) +
+  theme_minimal()
+
+## STOPPED HERE -- REVIEW PROJECT INSTRUCTIONS THURSDAY ALSO!
   
 ```
 
@@ -126,6 +147,22 @@ How is the story this visualization telling different than the story the previou
 
 ```{r}
 
-#copy code from above and edit
+ggplot(robots_prop, aes(x = education, y = proportion, fill = opinion)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Robot intelligence: Have they surpassed humans?",
+    subtitle = "YouGov Survey Results, 05 January 2023",
+    caption = "Source: http://bit.ly/3JubdGu",
+    x = NULL, y = NULL,
+    fill = "Opinion about Robot Intelligence"
+  ) +
+  scale_fill_manual(values = c(
+    "Never Surpass" = "#ef8a62",
+    "Already Surpassed" = "#67a9cf",
+    "Surpass in Future" = "gray"
+  )) +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
 
 ```

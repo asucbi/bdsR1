@@ -536,6 +536,6 @@ __Note__ that this will result in some warnings when you run the code, and that'
 # LAB 6: SUBMIT PART 2
 
 :::red
-Once you have completed `mod-06-lab.Rmd`, knit it, make sure it looks great, and upload to Canvas by the lab due date. Please leave all your completed `.R` script files in Posit Cloud. 
+Once you have completed `mod-06-lab.Rmd`, knit it, make sure it looks great, and upload to Canvas by **the homework due date** . Please leave all your completed `.R` script files in Posit Cloud. 
 :::
 

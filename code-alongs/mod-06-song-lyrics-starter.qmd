@@ -40,7 +40,7 @@ paths_allowed(base_url)
 webpage <- read_html(base_url)
 
 # Get the artist name
-artists <- html_nodes(webpage, ".div-col ol li") %>%
+artists <- html_nodes(webpage, "___") %>%
   html_text2()
 
 artists
@@ -86,6 +86,10 @@ top_artists
 ?glue
 
 url_base <- "https://genius.com/artists/"
+
+# Make sure it is okay to scrape the webpage
+paths_allowed(url_base)
+
 urls_of_artists <- glue('{url_base}', '{top_artists$artist}')
 
 head(urls_of_artists)
@@ -109,6 +113,16 @@ head(urls_of_artists)
 # read page for a single artist
 page <- read_html(urls_of_artists[1])
 
+# how about this?
+urls_of_songs_one_artist <- page %>%
+  html_nodes(".mini_card-title") %>%
+  html_element("a") %>%
+  html_attr("href")
+
+urls_of_songs_one_artist
+
+# that doesn't work, let's try something else:
+
 # get list of song URLs for a single artist
 urls_of_songs_one_artist <- page %>%
   html_nodes(".mini_card_grid-song") %>%
@@ -130,15 +144,15 @@ lyrics <- read_html(urls_of_songs_one_artist[1])
 
 ## get the lyrics
 song_lyrics <- lyrics %>%
-  html_nodes(".cJztnY") %>%
-  html_text2() %>%
-  str_c(., collapse = " ")
+  html_nodes("___") %>%
+  html_text2() %>% #extracts visible text from name
+  str_c(., collapse = " ") #combines text
 
 song_lyrics
 
 # get song name
 song_name <- lyrics %>%
-  html_nodes(".jaqAzV") %>%
+  html_nodes("___") %>%
   html_text2()
 
 song_name
@@ -170,13 +184,13 @@ get_lyrics <- function(urls_songs) {
   
   ## get the lyrics
   song_lyrics <- lyrics %>%
-    html_nodes(".cJztnY") %>%
+    html_nodes(".XbhFO") %>%
     html_text2() %>%
     str_c(., collapse = " ")
   
   # get song name
   song_name <- lyrics %>%
-    html_nodes(".jaqAzV") %>%
+    html_nodes(".iOvOJl") %>%
     html_text2()
   
   # create tibble
