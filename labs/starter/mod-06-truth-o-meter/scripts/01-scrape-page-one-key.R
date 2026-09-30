@@ -19,32 +19,30 @@ page <- read_html(first_url)
 # Exercise 1: scrape statements ----------------------------------------------------------------
 
 statements <- page %>%
-  html_nodes(".m-statement__quote") %>%
+  html_nodes(".pf-statement-quote-pants-fire") %>%
   html_text2()
 
-# Exercise 2: scrape links -----------------------------------------------------------------
+# Exercise 2: scrape links ---------------------------------------------------------------
 
 links <- page %>%
-  html_nodes(".m-statement__quote") %>%
-  html_element("a") %>%
-  html_attr("href") %>%
-  str_c("https://www.politifact.com", .)
+  html_nodes(".pf-statement-quote-pants-fire") %>%   
+  html_attr("href") 
 
 # Exercise 3: scrape sources ---------------------------------------------------------------
 
 sources <- page %>%
-  html_nodes(".m-statement__name") %>%
+  html_nodes(".pf-statement-person") %>%
   html_text2()
 
 # Exercise 4: scrape descriptions ----------------------------------------------------------
 
 descriptions <- page %>%
-  html_nodes(".m-statement__desc") %>%
+  html_nodes(".pf-statement-date") %>%
   html_text2()
 
 # Exercise 5: put together in a data frame -------------------------------------------------
 
-first_thirty <- tibble(
+first_twenty <- tibble(
   source = sources,
   statement = statements,
   description = descriptions,
@@ -55,29 +53,27 @@ first_thirty <- tibble(
 
 second_url <- "https://www.politifact.com/factchecks/list/?page=2&ruling=pants-fire"
 
-## repeat code from exercises 1 through 5 to create "second_thirty," for example:
+## repeat code from exercises 1 through 5 to create "second_twenty," for example:
 
 page <- read_html(second_url)
 
 statements <- page %>%
-  html_nodes(".m-statement__quote") %>%
+  html_nodes(".pf-statement-quote-pants-fire") %>%
   html_text2()
 
 links <- page %>%
-  html_nodes(".m-statement__quote") %>%
-  html_element("a") %>%
-  html_attr("href") %>%
-  str_c("https://www.politifact.com", .)
+  html_nodes(".pf-statement-quote-pants-fire") %>%   
+  html_attr("href") 
 
 sources <- page %>%
-  html_nodes(".m-statement__name") %>%
+  html_nodes(".pf-statement-person") %>%
   html_text2()
 
 descriptions <- page %>%
-  html_nodes(".m-statement__desc") %>%
+  html_nodes(".pf-statement-date") %>%
   html_text2()
 
-second_thirty <- tibble(
+second_twenty <- tibble(
   source = sources,
   statement = statements,
   description = descriptions,

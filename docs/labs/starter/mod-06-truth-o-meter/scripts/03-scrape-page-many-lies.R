@@ -6,8 +6,8 @@ library(glue)
 
 # Exercise 8: list of urls to be scraped ---------------------------------------------------
 
-prefix <- "https://www.politifact.com/factchecks/list/?page="
-suffix <- "&ruling=pants-fire"
+prefix <- "https://www.politifact.com/factchecks/list/page/"
+suffix <- "/?ruling=pants-fire"
 
 numbers <- seq(from = ___, to = ___, by = ___)
 urls <- glue("{___}{___}{___}")

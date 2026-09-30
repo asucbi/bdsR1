@@ -19,21 +19,19 @@ page <- read_html(first_url)
 # Exercise 1: scrape statements ----------------------------------------------------------------
 
 statements <- page %>%
-  html_nodes(".m-statement__quote") %>%
-  ___()
+  html_nodes("___") %>%
+  ___
 
-# Exercise 2: scrape links -----------------------------------------------------------------
+# Exercise 2: scrape links ---------------------------------------------------------------
 
 links <- page %>%
-  html_nodes(".m-statement__quote") %>%
-  html_element("a") %>%
-  html_attr("href") %>%
-  str_c("___", .)
+  html_nodes("___") %>%   
+  html_attr("href")
 
 # Exercise 3: scrape sources ---------------------------------------------------------------
 
 sources <- page %>%
-  html_nodes(".m-statement__name") %>%
+  html_nodes("___") %>%
   ___
 
 # Exercise 4: scrape descriptions ----------------------------------------------------------
@@ -44,7 +42,7 @@ descriptions <- page %>%
 
 # Exercise 5: put together in a data frame -------------------------------------------------
 
-first_thirty <- tibble(
+first_twenty <- tibble(
   source = ___,
   statement = ___,
   description = ___,
@@ -55,7 +53,7 @@ first_thirty <- tibble(
 
 second_url <- "___"
 
-## repeat code from exercises 1 through 5 to create "second_thirty," for example:
+## repeat code from exercises 1 through 5 to create "second_twenty," for example:
 
 page <- read_html(second_url)
 

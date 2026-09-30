@@ -12,24 +12,22 @@ scrape_page <- function(url){
   
   # scrape statements
   statements <- page %>%
-    html_nodes(".m-statement__quote") %>%
+    html_nodes(".pf-statement-quote-pants-fire") %>%
     html_text2()
   
   # scrape links
   links <- page %>%
-    html_nodes(".m-statement__quote") %>%
-    html_element("a") %>%
-    html_attr("href") %>%
-    str_c("https://www.politifact.com", .)
+    html_nodes(".pf-statement-quote-pants-fire") %>%   
+    html_attr("href") 
   
   # scrape sources 
   sources <- page %>%
-    html_nodes(".m-statement__name") %>%
+    html_nodes(".pf-statement-person") %>%
     html_text2()
   
   # scrape descriptions 
   descriptions <- page %>%
-    html_nodes(".m-statement__desc") %>%
+    html_nodes(".pf-statement-date") %>%
     html_text2()
   
   # create and return tibble

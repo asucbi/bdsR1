@@ -7,8 +7,8 @@ library(glue)
 
 # Exercise 10: generate the list of urls to be scraped ---------------------------------
 
-prefix <- "https://www.politifact.com/factchecks/list/?page="
-suffix <- "&ruling=mostly-true"
+prefix <- "https://www.politifact.com/factchecks/list/page/"
+suffix <- "/?ruling=mostly-true"
 
 numbers <- seq(from = 0, to = 20, by = 1)
 urls <- glue("{prefix}{numbers}{suffix}")

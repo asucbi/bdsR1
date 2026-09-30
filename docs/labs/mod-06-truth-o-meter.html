@@ -380,18 +380,40 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <p>We make use of the SelectorGadget to identify the tags for the relevant nodes:</p>
 <p><img src="img/iteminfo-m7a.gif" width="80%" style="display: block; margin: auto;" /></p>
 <p>We then run <code>html_nodes()</code> on the appropriate CSS selector</p>
+<div class="green">
+<p><strong>IMPORTANT</strong> This selector has changed since the above gif was created! The selector below is correct (the one in the gif isn’t)!</p>
+</div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>)</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.pf-statement-quote-pants-fire&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;xml_nodeset&quot;</code></pre>
 <p>But this just returns an object called <code>xml_nodeset</code> that is not in a particularly helpful format. But it should contain the info we need. Let’s use <code>rvest</code> functions to extract.</p>
 <p>To extract the text we use <code>html_text2()</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.pf-statement-quote-pants-fire&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
-<pre><code>## character(0)</code></pre>
-<p>And simply save the resulting data as a vector of length 30:</p>
+<pre><code>##  [1] &quot;Adamari López “delató a dos inmigrantes que fueron capturados por las autoridades de inmigración”.&quot;                                                                                    
+##  [2] &quot;When the measles, mumps and rubella vaccines are given together in the combined MMR vaccine, “there could be a possibility they’re quite lethal.”&quot;                                     
+##  [3] &quot;There are vaccines the size of a “bottle of soda … poured into a little child’s body.”&quot;                                                                                                
+##  [4] &quot;Michigan Democratic U.S. Senate candidate Abdul El-Sayed “openly calls for Sharia law in America.”&quot;                                                                                    
+##  [5] &quot;Abdul El-Sayed “believes America deserved 9/11.”&quot;                                                                                                                                      
+##  [6] &quot;New York Democrats are communists for “trying to force” New Yorkers to conserve energy.&quot;                                                                                               
+##  [7] &quot;Michigan U.S. Senate candidate Mike Rogers “took a $14 million payout as a pharma lobbyist.”&quot;                                                                                          
+##  [8] &quot;“Michelle Obama is a man.”&quot;                                                                                                                                                            
+##  [9] &quot;The ongoing ballot counting in California means “they’re cheating on the election.”&quot;                                                                                                   
+## [10] &quot;This image shows a person stuffing ballots into a California ballot box.&quot;                                                                                                              
+## [11] &quot;Video shows U.S. Rep. Byron Donalds saying, “Insider trading should absolutely be allowed for members of Congress.”&quot;                                                                   
+## [12] &quot;“There’s two ways of calculating percentage” decreases. “If you have a $600 drug and you reduce it to $10, that’s a 600% reduction.”&quot;                                                  
+## [13] &quot;“Newly released FOIA door logs show that former President Joe Biden didn’t enter the Oval Office once after the 2024 election.”&quot;                                                       
+## [14] &quot;Pope Leo XIV “thinks it’s OK for Iran to have a nuclear weapon.”&quot;                                                                                                                      
+## [15] &quot;Photos show rescues of U.S. F-15 airmen from Iran in April 2026.&quot;                                                                                                                      
+## [16] &quot;“Mail-in voting means mail-in cheating.”&quot;                                                                                                                                              
+## [17] &quot;An AI video is proof that Israeli Prime Minister Benjamin Netanyahu is dead.&quot;                                                                                                          
+## [18] &quot;El Presidente de El Salvador Nayib Bukele dijo, “con las guerras que ha empezado Donald Trump les pido a todos los inmigrantes en Estados Unidos que piensen en salir de ese país”.&quot;   
+## [19] &quot;Videos show Iranian missiles struck and damaged the USS Abraham Lincoln aircraft carrier.&quot;                                                                                             
+## [20] &quot;U.S. men’s hockey Olympian Brady Tkachuk said about the Canadian hockey team, “They booed our national anthem, so I had to come out and teach those maple syrup eating f—-s a lesson.”&quot;</code></pre>
+<p>And simply save the resulting data as a vector of length 20:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>statements <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.pf-statement-quote-pants-fire&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Go ahead and fill in this information above in the appropriate place within <code>01-scrape-page-one.R</code>.</li>
@@ -410,34 +432,49 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <p>Can you see the hyperlinked text is <code>Sarch on Google</code> and that the <code>href</code> attribute contains the URL of the website you’d go to if you click on the hyperlinked text: <code>https://www.google.com</code>?</p>
 <p>The moral of the story is: the URL link is stored in the <code>href</code> attribute.</p>
 </div>
-<p>Let’s now scrap the URL links for the PolitiFact webpage we’ve been working with:</p>
+<p>Let’s now scrape the URL links for the PolitiFact webpage we’ve been working with:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.m-statement__quote&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># get information from a single node corresponding to the &lt;a&gt; CSS tag</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
-<pre><code>## character(0)</code></pre>
-<p>Oh, oh. These don’t really look like URLs as we know them though.</p>
-<p>These are URL fragments. Some minor work needs to be done to get them looking like actual URLs.</p>
-<p>Click on one of fact-check statements in your browser and take note of the URL of the resulting webpage. Can you see how this URL has some additional information that is missing from what we scraped above?</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Using <code>str_c()</code>, fix the URLs. Just swap out <code>___</code> with the string that will make these into proper webpage URLs.</li>
-</ol>
-<div class="green">
-<p><strong>Note 1:</strong> See the help for <code>str_c()</code> to find out how it works. You’ll be using this to fix the URL fragments by creating a new character string. You want to add something to the beginning of your fragments.</p>
-<p><strong>Note 2:</strong> When you start working on this exercise in <code>01-scrape-page-one.R</code> you should notice that the second argument in <code>str_c()</code> is a period (<code>.</code>). Don’t worry too much about this. Some functions just require this placeholder, which represents whatever is currently in the pipeline. And that just happens to be what is in html_attr(“href”), i.e., what we scraped above.</p>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.pf-statement-quote-pants-fire&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same set of nodes</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)          <span class="co"># get href attribute instead of text</span></span></code></pre></div>
+<pre><code>##  [1] &quot;https://politifact.com/factchecks/2026/sep/16/tiktok-posts/adamari-lopez-llamo-a-ice-para-arrestar-a-empleados-no-esos-videos-son-falsos/&quot; 
+##  [2] &quot;https://politifact.com/factchecks/2026/aug/11/donald-trump/mmr-measles-vaccine-safety-cdc/&quot;                                                
+##  [3] &quot;https://politifact.com/factchecks/2026/aug/11/donald-trump/vaccine-soda-bottle-injection-children/&quot;                                        
+##  [4] &quot;https://politifact.com/factchecks/2026/aug/10/tweets/abdul-el-sayed-sharia-muslim-cair-michigan-senate/&quot;                                   
+##  [5] &quot;https://politifact.com/factchecks/2026/aug/07/mike-rogers/abdul-el-sayed-9-11-hasan-piker-michigan/&quot;                                       
+##  [6] &quot;https://politifact.com/factchecks/2026/jul/24/republican-national-committee-republican/no-asking-people-to-voluntarily-limit-their-energy/&quot;
+##  [7] &quot;https://politifact.com/factchecks/2026/jul/02/abdul-el-sayed/mike-rogers-14-million-pharma-lobbyist-michigan/&quot;                             
+##  [8] &quot;https://politifact.com/factchecks/2026/jun/15/josh-hokit/josh-hokit-ufc-white-house-michelle-obama/&quot;                                       
+##  [9] &quot;https://politifact.com/factchecks/2026/jun/08/donald-trump/california-election-la-governor-spencer-pratt/&quot;                                 
+## [10] &quot;https://politifact.com/factchecks/2026/jun/08/social-media/california-voter-stuffing-ballots-ai-image/&quot;                                    
+## [11] &quot;https://politifact.com/factchecks/2026/may/15/tweets/byron-donalds-florida-insider-trading/&quot;                                               
+## [12] &quot;https://politifact.com/factchecks/2026/apr/23/robert-f-kennedy-jr/percentage-decreases-drug-prices-trump-math/&quot;                            
+## [13] &quot;https://politifact.com/factchecks/2026/apr/22/tweets/biden-oval-office-2024-elections/&quot;                                                    
+## [14] &quot;https://politifact.com/factchecks/2026/apr/13/donald-trump/pope-leo-nuclear-weapon-iran-trump/&quot;                                            
+## [15] &quot;https://politifact.com/factchecks/2026/apr/06/social-media/american-colonel-pilot-photos-ai-iran/&quot;                                         
+## [16] &quot;https://politifact.com/factchecks/2026/mar/25/donald-trump/trump-voted-by-mail-in-florida-the-same-month-he-f/&quot;                            
+## [17] &quot;https://politifact.com/factchecks/2026/mar/13/social-media/netanyahu-dead-video-artificial-intelligence/&quot;                                  
+## [18] &quot;https://politifact.com/factchecks/2026/mar/09/tiktok-posts/nayib-bukele-no-pidio-que-migrantes-salgan-de-eeuu/&quot;                            
+## [19] &quot;https://politifact.com/factchecks/2026/mar/02/social-media/uss-abraham-lincoln-fire-missile-iran/&quot;                                         
+## [20] &quot;https://politifact.com/factchecks/2026/feb/27/donald-trump/tkachuk-ai-usa-hockey-olympics-white-house/&quot;</code></pre>
 </div>
+<div id="extract-links-1" class="section level3">
+<h3>Extract Links</h3>
+<ol start="2" style="list-style-type: decimal">
+<li>Fill in the blanks to scrape the links to each statement. Just swap out <code>___</code> with what will get the job done. You already did something similar in Exercise 1.</li>
+</ol>
+<hr />
 </div>
 <div id="extract-sources" class="section level3">
 <h3>Extract Sources</h3>
 <ol start="3" style="list-style-type: decimal">
-<li>Fill in the blanks to scrape source names. Just swap out <code>___</code> with what will get the job done. You already did something similar in Exercise 1.</li>
+<li>Fill in the blanks to scrape source names. The source indicates where or who the statement came from (e.g., TikTok Posts or Donald Trump). Just swap out <code>___</code> with what will get the job done. You already did something similar in earlier exercises.</li>
 </ol>
 <hr />
 </div>
 <div id="extract-descriptions" class="section level3">
 <h3>Extract Descriptions</h3>
 <ol start="4" style="list-style-type: decimal">
-<li>Fill in the <code>___</code> to scrape additional description information. You now need to find the appropriate CSS selector on your own.</li>
+<li>Fill in the <code>___</code> to scrape additional description information (e.g., additional details about when and in what context the statement was said). You now need to find the appropriate CSS selector on your own.</li>
 </ol>
 <hr />
 </div>
@@ -453,7 +490,7 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <h3>Scrape the next page</h3>
 <p>Good work so far. Now, go back to the PolitFact’s web page in your web browser and scroll to the bottom and click “Next” to take you to the next page. Go ahead and copy the URL. You’ll need this for the next exercise.</p>
 <ol start="6" style="list-style-type: decimal">
-<li>Fill in the <code>___</code> to define a new object: <code>second_url</code>. You can now copy and paste the code you just wrote in the previous exercises to scrape and create a new tibble called <code>second_thirty</code>.</li>
+<li>Fill in the <code>___</code> to define a new object: <code>second_url</code>. You can now copy and paste the code you just wrote in the previous exercises to scrape and create a new tibble called <code>second_twenty</code>.</li>
 </ol>
 <hr />
 </div>
@@ -489,7 +526,7 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <p><strong>Reminder:</strong> Function names should be short but evocative verbs.</p>
 </div>
 <ol start="7" style="list-style-type: decimal">
-<li>Working from the starter file <code>02-scrape-page-function.R</code>, fill in all of the <code>___</code> using code you already developed in the previous exercises. Name the function <code>scrape_page</code>.</li>
+<li>Working from the starter file <code>02-scrape-page-function.R</code>, fill in all of the <code>___</code> using code you already developed in the previous exercises. Name the function <code>scrape_page</code>. Run the code.</li>
 </ol>
 <p>Test out your new function by running the following in the console.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">scrape_page</span>(first_url)</span>
@@ -520,12 +557,12 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 <div id="list-of-urls" class="section level3">
 <h3>List of URLs</h3>
 <p>Go back to the PolitFact’s web page in your web browser and click through the first few of the pages in the fact-checks (by clicking “Next” at the bottom of each page) and observe their URLs to confirm the following pattern:</p>
-<pre><code>[sometext-prefix]page=1[sometext-suffix]    # Fact-checks 1-30
-[sometext-prefix]page=2[sometext-suffix]    # Fact-checks 31-60
-[sometext-prefix]page=3[sometext-suffix]    # Fact-checks 61-90
-[sometext-prefix]page=4[sometext-suffix]    # Fact-checks 91-120
+<pre><code>[sometext-prefix]page/1/[sometext-suffix]    # Fact-checks 1-30
+[sometext-prefix]page/2/[sometext-suffix]    # Fact-checks 31-60
+[sometext-prefix]page/3/[sometext-suffix]    # Fact-checks 61-90
+[sometext-prefix]page/4/[sometext-suffix]    # Fact-checks 91-120
 ...
-[sometext-prefix]page=20[sometext-suffix]   # Fact-checks 571-600</code></pre>
+[sometext-prefix]page/20/[sometext-suffix]   # Fact-checks 571-600</code></pre>
 <p>We can construct these URLs in R by pasting together three pieces: (1) a common text <code>prefix</code> for the beginning of the URL, (2) numbers starting at 0, increasing by 1, all the way up to 20, and (3) a common text <code>suffix</code> at the end of the URL.</p>
 <p>Two new functions are helpful for accomplishing this: <code>glue()</code> for pasting multiple pieces of text and <code>seq()</code> for generating a sequence of numbers.</p>
 <ol start="8" style="list-style-type: decimal">
@@ -557,6 +594,9 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 </div>
 <p>PolitiFact not only has a list of “Pants on Fire” statements, they also have a list of “Mostly Truth” statements that you can find <a href="https://www.politifact.com/factchecks/list/?ruling=mostly-true">here</a>.</p>
 <p>I’m going to keep the instructions minimal other than to tell you that both the “Pants on Fire” and “Mostly True” sites are set up pretty much the same way. It should be straightforward to apply all of what you have done so far to create a new 600 x 4 data frame but now with “Mostly True” statements.</p>
+<div class="red">
+<p><strong>IMPORTANT!!! There is one thing you will need to change within your functions to make this work (one thing to change, but you will repeat the change in two places)</strong></p>
+</div>
 <ol start="10" style="list-style-type: decimal">
 <li>Fill out the sections with the correct code, essentially copying from the code you wrote earlier, but make sure you update the text <code>suffix</code> and call this new data frame <code>fact_checks_truth</code>.</li>
 </ol>
@@ -574,10 +614,10 @@ Once you do, you should now be able to access SelectorGadget by clicking on the 
 </div>
 <p>Now that you have created two new tidy datasets, we can do some data cleaning. Fun!</p>
 <p>The first task is to create a new variable for each data frame to ensure we know that the statements are lies or truths, and then append the two data frames together to create a single 1200 (rows) x 5 (column) data frame.</p>
-<p>To add a new variable, we will use the <code>add_column</code> function. As input, just give the function the new column name and the values you want to assign to it. In our case it’s either the character string <code>lie</code> or <code>truth</code>.</p>
-<p>Then, use the <code>rows_append</code> function to append the two data frames together.</p>
+<p>To add a new variable, we will use the <code>add_column</code> function. As input, just give the function the new column name (truth_or_lie) and the values you want to assign to it. In our case it’s either the character string <code>lie</code> or <code>truth</code>.</p>
+<p>Then, use the <code>bind_rows</code> function to append the two data frames together.</p>
 <ol start="11" style="list-style-type: decimal">
-<li><p>Go ahead and add a new column to each data frame and name it as <code>type</code> for both. Make sure that the column is taking on the appropriate character string <code>lie</code> or <code>truth</code>. And then append the data frames to create a single data frame called <code>fact_checks</code>.</p>
+<li><p>Go ahead and add a new column to each data frame and name it as <code>truth_or_lie</code> for both. Make sure that the column is taking on the appropriate character string <code>lie</code> or <code>truth</code>. And then append the data frames to create a single data frame called <code>fact_checks</code>.</p>
 <ul>
 <li>Be sure to show your code and use <code>head()</code> to show the first part of your new data frame.</li>
 </ul></li>

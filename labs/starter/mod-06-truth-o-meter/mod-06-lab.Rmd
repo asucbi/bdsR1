@@ -26,12 +26,12 @@ fact_checks_truth <- read_csv("data/fact_checks_truth.csv") # <<< you just creat
 ```{r add-new-variables-and-append, eval = FALSE}
 
 fact_checks_lie <- fact_checks_lie %>%
-  replace_with_function("___" = "___") # <<< create a new column that indicates these are lies
+  ___(___ = "___") # <<< create a new column, called truth_or_lie, that indicates these are lies
 
 fact_checks_truth <- fact_checks_truth %>%
-  replace_with_function("___" = "___") # <<< create a new column that indicates these are truths
+  ___(___ = "___") # <<< create a new column, called truth_or_lie, that indicates these are truths
 
-fact_checks <- replace_with_function() # <<< combine the two data frames 
+fact_checks <- ___(___, ___) # <<< combine the two data frames 
 
 ```
 

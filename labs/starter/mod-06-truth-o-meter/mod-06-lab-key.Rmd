@@ -26,10 +26,10 @@ fact_checks_truth <- read_csv("data/fact_checks_truth.csv") # <<< you just creat
 ```{r add-new-variables-and-append, eval = FALSE}
 
 fact_checks_lie <- fact_checks_lie %>%
-  mutate(truth_or_lie = "lie") # <<< create a new column that indicates these are lies
+  add_column(truth_or_lie = "lie") # <<< create a new column, called truth_or_lie, that indicates these are lies
 
 fact_checks_truth <- fact_checks_truth %>%
-  mutate(truth_or_lie = "truth") # <<< create a new column that indicates these are lies
+  add_column(truth_or_lie = "truth") # <<< create a new column, called truth_or_lie, that indicates these are lies
 
 fact_checks <- bind_rows(fact_checks_lie, fact_checks_truth) # <<< combine the two data frames 
 
@@ -71,7 +71,7 @@ skim(fact_checks)
 
 ```
 
-There are 346 unique sources. There are no variables with missing data.
+There are 266 unique sources. There are no variables with missing data.
 
 ### Exercise 15
 
@@ -85,7 +85,7 @@ fact_checks %>%
   arrange(desc(count))
 
 ```
-
+Most common source: Facebook posts
 
 ### Exercise 16
 
