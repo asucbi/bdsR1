@@ -1,0 +1,370 @@
+---
+title: "Working with R on Your Own Computer: Working Directories and Projects"
+author: "Jessica Kosie"
+output:
+  html_document:
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE, eval = FALSE}
+
+library(tidyverse)
+
+```
+
+## Learning goals
+
+In this activity, you will practice organizing files and working with data on your own computer. By the end, you should be able to:
+
+- explain what the working directory is;
+- use `getwd()`, `list.files()`, and `file.exists()` to diagnose a file-path problem;
+- organize an analysis using folders and subfolders;
+- read data using a relative path; and
+- explain why an RStudio Project makes code easier to move and share.
+
+## Part 1: Download the data
+
+Download `infant_looking_messy.csv` to your computer. Do not move the file yet.
+
+Your browser will probably save it in your Downloads folder, although your browser settings may use a different location.
+
+Open RStudio. Do **not** create an RStudio Project yet.
+
+Create a new R script by selecting **File > New File > R Script**. Install and load the Tidyverse:
+
+```{r load-tidyverse, eval = FALSE}
+
+install.packages("tidyverse")
+library(tidyverse)
+
+```
+
+## Part 2: Try to read the data
+
+Try to import the data using only its filename:
+
+```{r first-import-attempt, eval = FALSE}
+
+infant_data <- read_csv(
+  "infant_looking_messy.csv"
+)
+
+```
+
+You will probably receive an error saying that the file does not exist.
+
+```text
+Error: 'infant_looking_messy.csv' does not exist in current working directory
+```
+
+The error does not mean that the file failed to download. It means that R is looking in a different folder.
+
+If the import happens to work on your computer, your working directory may already be your Downloads folder. 
+
+A working directory is the folder where R looks for files and saves new files unless you specify a different location.
+
+## Part 3: Find out where R is looking
+
+When you provide only a filename, R looks for that file in the **working directory**.
+
+Use `getwd()` to ask R for the current working directory:
+
+```{r examine-working-directory, eval = FALSE}
+
+getwd()
+
+```
+
+`wd` stands for **working directory**. The output is the folder R is currently using as its starting location.
+
+Now ask R to list the files it can see in that folder:
+
+```{r list-current-files, eval = FALSE}
+
+list.files()
+
+```
+
+Is `infant_looking_messy.csv` in the list? It probably is not.
+
+You can check for that exact file with:
+
+```{r check-first-path, eval = FALSE}
+
+file.exists("infant_looking_messy.csv")
+
+```
+
+The result will usually be `FALSE`.
+
+R interprets the path `"infant_looking_messy.csv"` as:
+
+> Look inside the current working directory for a file named `infant_looking_messy.csv`.
+
+R does not automatically search the Downloads folder or the rest of your computer.
+
+## Part 4: Organize the files
+
+### Step 1: Create a main folder
+
+On your Desktop, create a folder named:
+
+`BDSI`
+
+### Step 2: Create a data subfolder
+
+Inside `BDSI`, create a folder named:
+
+`data`
+
+### Step 3: Move the CSV
+
+Move `infant_looking_messy.csv` from Downloads into the new `data` folder.
+
+Your folders should now contain:
+
+- `BDSI`
+  - `data`
+    - `infant_looking_messy.csv`
+
+## Part 5: Try the relative path
+
+The CSV is now inside the `data` subfolder. Try to read it with this path:
+
+```{r second-import-attempt, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv"
+)
+
+```
+
+This may still fail. Moving the data did not automatically change R's working directory.
+
+Check again:
+
+```{r examine-working-directory-again, eval = FALSE}
+
+getwd()
+list.files()
+file.exists("data/infant_looking_messy.csv")
+
+```
+
+For `"data/infant_looking_messy.csv"` to work, the working directory must be `BDSI`. R will then look inside its `data` subfolder.
+
+## Part 6: Set the working directory manually
+
+In RStudio:
+
+1. Select **Session > Set Working Directory > Choose Directory**.
+2. Navigate to the `BDSI` folder on your Desktop.
+3. Select **Open** or **Choose**.
+
+Check the working directory:
+
+```{r check-manual-working-directory, eval = FALSE}
+
+getwd()
+
+```
+
+The result should now end with `BDSI`.
+
+List the contents of the working directory and its `data` subfolder:
+
+```{r inspect-organized-folders, eval = FALSE}
+
+list.files()
+list.files("data")
+file.exists("data/infant_looking_messy.csv")
+
+```
+
+Now try the import again:
+
+```{r successful-manual-import, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv",
+  na = c("", "NA", "missing", "999")
+)
+
+glimpse(infant_data)
+
+```
+
+The import should work because R is starting in `BDSI` and then looking inside `data`.
+
+Save your R script inside the `BDSI` folder as `working-directory-practice.R`.
+
+## Part 7: Move the folder
+
+Now observe what happens when the files move but R is not using a Project.
+
+1. Close RStudio.
+2. Move the entire `BDSI` folder from the Desktop to Documents.
+3. Reopen RStudio normally.
+4. Open `working-directory-practice.R` by selecting **File > Open File**.
+5. Run the import code again.
+
+```{r import-after-move, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv",
+  na = c("", "NA", "missing", "999")
+)
+
+```
+
+Opening a script does not necessarily set the working directory to the script's folder. The code may fail again.
+
+Diagnose the problem before changing anything:
+
+```{r diagnose-after-move, eval = FALSE}
+
+getwd()
+list.files()
+file.exists("data/infant_looking_messy.csv")
+
+```
+
+Use **Session > Set Working Directory > Choose Directory** and select the copy of `BDSI` in Documents. The same relative path should then work again.
+
+The data and code are organized correctly, but you have to tell R where the main folder is each time its location changes.
+
+```{r diagnose-after-set, eval = FALSE}
+
+file.exists("data/infant_looking_messy.csv")
+
+```
+
+## Part 8: Create an RStudio Project
+
+An RStudio Project gives the analysis a consistent starting location. When you open the Project, RStudio automatically uses the Project folder as the working directory.
+
+We already have a folder, so create a Project from an existing directory:
+
+1. Select **File > New Project**.
+2. Select **Existing Directory**.
+3. Select **Browse**.
+4. Choose the `BDSI` folder in Documents.
+5. Select **Create Project**.
+
+RStudio will create `BDSI.Rproj` inside the folder and open a new R session.
+
+Your folder should now contain:
+
+- `BDSI`
+  - `BDSI.Rproj`
+  - `working-directory-practice.R`
+  - `data`
+    - `infant_looking_messy.csv`
+
+Check the working directory:
+
+```{r project-working-directory, eval = FALSE}
+
+getwd()
+
+```
+
+It should automatically end with `BDSI`.
+
+Run the same relative-path code:
+
+```{r project-import, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv",
+  na = c("", "NA", "missing", "999")
+)
+
+glimpse(infant_data)
+
+```
+
+You did not need to set the working directory manually. Opening the Project did it for you.
+
+## Part 9: Move the Project
+
+Test whether the Project remains usable after it moves:
+
+1. Close the Project by selecting **File > Close Project**.
+2. Close RStudio.
+3. Move the entire `BDSI` folder from Documents back to the Desktop.
+4. Open the folder and double-click `BDSI.Rproj`.
+5. Run the same import code:
+
+```{r project-import-after-move, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv",
+  na = c("", "NA", "missing", "999")
+)
+
+```
+
+The code should still work. RStudio uses the new location of the Project folder as the working directory. The location of the CSV relative to that folder is still `data/infant_looking_messy.csv`.
+
+## Understanding the relative path
+
+In this code:
+
+```r
+read_csv("data/infant_looking_messy.csv")
+```
+
+- R starts in the current working directory.
+- `data` tells R to enter the `data` subfolder.
+- `infant_looking_messy.csv` identifies the file to import.
+
+The path does not include Desktop, Documents, a username, or an operating system. It works as long as:
+
+1. the Project is open, and
+2. the internal folder structure stays the same.
+
+## Troubleshooting checklist
+
+When R says that a file does not exist, do not immediately rewrite the path. First ask:
+
+```{r troubleshooting, eval = FALSE}
+
+# Where is R starting?
+getwd()
+
+# What files and folders are there?
+list.files()
+
+# Is there a data folder?
+dir.exists("data")
+
+# What is inside the data folder?
+list.files("data")
+
+# Can R find this exact file from its current location?
+file.exists("data/infant_looking_messy.csv")
+
+```
+
+Also check:
+
+- Does the filename match exactly, including capitalization and `.csv`?
+- Did the browser add something such as `(1)` to the filename?
+- Is the CSV really inside the `data` folder?
+- Did you open the `.Rproj` file before running the code?
+
+## Good habits
+
+- Create one main folder for each analysis or class project.
+- Keep data in a clearly named subfolder such as `data`.
+- Create an RStudio Project in the main folder.
+- Open the `.Rproj` file when beginning work.
+- Use relative paths such as `data/file.csv`.
+- Keep the entire Project folder together when moving or sharing it.
+- Use `getwd()` and `file.exists()` to diagnose problems rather than guessing.
+- Avoid putting `setwd()` in scripts you intend to share.
