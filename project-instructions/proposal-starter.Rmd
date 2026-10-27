@@ -5,7 +5,13 @@ date: "Insert date here"
 output: html_document
 ---
 
-The entire proposal document should be AT LEAST 2 pages and no more than 5 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
+The entire proposal document should be AT LEAST 3 pages and no more than 8 pages (including code output, images, and text). 
+
+In an R Markdown code chunk, be sure to use echo = FALSE when you want the code to run but do not want the code itself shown, and use eval = FALSE when you want to display the code without running it. Use message = FALSE and warning = FALSE to hide messages and warnings produced by the code, or use include = FALSE to run the code while hiding the code and all its output. The final document should not contain any R code. 
+
+Use `glimpse()` or `head()` in displaying datasets. You can check a print preview to confirm length.
+
+No R packages are installed or pre-loaded in this Posit Cloud project, so you will need to install and load the packages you want to use. 
 
 ## Section 1. Introduction (Data and Research Questions)
 

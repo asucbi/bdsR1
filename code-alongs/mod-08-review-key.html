@@ -9,11 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="George Kachergis, Jessica Kosie" />
-<meta name="author" content="Derek Powell" />
+<meta name="author" content="Jessica Kosie" />
 
 
-<title>Module 8: Code-along - Palmer Penguins</title>
+<title>Intro to R Review: From Messy Data to Results</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -459,177 +458,430 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Module 8: Code-along - Palmer Penguins</h1>
-<h4 class="author">George Kachergis, Jessica Kosie<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="author">Derek Powell<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></h4>
-<h4 class="date">27 October, 2025</h4>
+<h1 class="title toc-ignore">Intro to R Review: From Messy Data to
+Results</h1>
+<h4 class="author">Jessica Kosie</h4>
+<h4 class="date">26 October, 2026</h4>
 
 </div>
 
 
-<div id="penguins" class="section level1">
-<h1>Penguins!</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scatterPlotMatrix)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;penguins&quot;</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#If you would like to turn off scientific notation, run this code</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># some helper functions - run this code to create functions (we&#39;ll do more with them later)</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>plot_residual_hist <span class="ot">&lt;-</span> <span class="cf">function</span>(fit){</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">residual =</span> fit<span class="sc">$</span>residuals) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>residual)) <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="fu">geom_histogram</span>()</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>}</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>plot_qq <span class="ot">&lt;-</span> <span class="cf">function</span>(fit){</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">residual =</span> fit<span class="sc">$</span>residuals) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> residual)) <span class="sc">+</span> <span class="co"># </span><span class="al">NOTE</span><span class="co">: stat_qq* expects a sample aesthetic</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>    <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical quantile&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Observed quantile&quot;</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>}</span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>plot_residual_predicted <span class="ot">&lt;-</span> <span class="cf">function</span>(fit){</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    <span class="at">predicted =</span> fit<span class="sc">$</span>fitted.values,</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    <span class="at">residual =</span> fit<span class="sc">$</span>residuals</span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predicted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)</span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>}</span></code></pre></div>
-<div id="meet-the-penguins" class="section level2">
-<h2>Meet the penguins!</h2>
-<p>Learn about the dataset at: <a href="https://allisonhorst.github.io/palmerpenguins/" class="uri">https://allisonhorst.github.io/palmerpenguins/</a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">glimpse</span>(penguins)</span></code></pre></div>
-</div>
-<div id="lets-predict-something" class="section level2">
-<h2>Let’s predict something!</h2>
-<p>Let’s break the rules and jump right into making a model. We’ll make
-a model of bill lengths from penguin size—do bigger penguins have bigger
-bills?.</p>
-<p>The model formula will be
-<code>bill_length_mm ~ body_mass_g</code>.</p>
-<p>How would you interpret the intercept of this model? How would you
-interpret the coefficient for body mass?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_length_mm <span class="sc">~</span> body_mass_g, <span class="at">data=</span>penguins)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
-<div id="transform-a-variable" class="section level3">
-<h3>Transform a variable</h3>
-<p>Let’s transform the variable to make our coefficient better for
-interpretation. Then fit the model again.</p>
-<p>Take a minute to look at the code below. What are we doing in this
-code?</p>
-<p>How would you interpret the intercept of this model? How would you
-interpret the coefficient for body mass?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>penguins_sc <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sex), <span class="sc">!</span><span class="fu">is.na</span>(bill_length_mm))  <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g <span class="sc">/</span> <span class="dv">1000</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>         <span class="at">body_mass_kg_c =</span> <span class="fu">scale</span>(body_mass_kg, <span class="at">center=</span>T, <span class="at">scale=</span>F),</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>         <span class="at">bill_length_cm =</span> bill_length_mm <span class="sc">/</span> <span class="dv">10</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>         <span class="at">flipper_length_cm =</span> flipper_length_mm <span class="sc">/</span> <span class="dv">10</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>         <span class="at">bill_depth_cm =</span> bill_depth_mm <span class="sc">/</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>body_mass_g, <span class="sc">-</span>bill_length_mm, <span class="sc">-</span>bill_depth_mm, <span class="sc">-</span>flipper_length_mm)</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_length_cm <span class="sc">~</span> body_mass_kg_c, <span class="at">data=</span>penguins_sc)</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
-<p>And inspect our model’s fit via the residuals. Here’s where we using
-the functions we created earlier!</p>
-<p>Take a look at the code we used above to create the functions. What
-argument(s) do we need to give them?</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot_qq</span>(mod)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">plot_residual_hist</span>(mod)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">plot_residual_predicted</span>(mod)</span></code></pre></div>
-</div>
-<div id="exploratory-data-analysis-eda" class="section level3">
-<h3>Exploratory Data Analysis (EDA)</h3>
-<p>Let’s do what we should have done first and plot the data.</p>
-<p>First, plot the relation between body_mass_kg (x axis) and
-bill_length_cm (y axis) indicate species by both color and shape and
-facet by sex. What do you notice?</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>penguins_sc <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>body_mass_kg, <span class="at">y=</span>bill_length_cm, <span class="at">color=</span>species, <span class="at">shape=</span>species)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> sex)</span></code></pre></div>
-<p>Now, let’s use the <code>scatterPlotMatrix()</code> function in the
-<code>scatterPlotMatrix</code> package to examine all the relations.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">scatterPlotMatrix</span>(penguins_sc <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>sex, <span class="sc">-</span>island))</span></code></pre></div>
-</div>
-</div>
-<div id="fit-a-new-model-following-our-eda" class="section level2">
-<h2>Fit a new model following our EDA</h2>
-<p>Let’s predict bill length from flipper length. Use the penguins_sc
-data.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>mod_flip <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_length_cm <span class="sc">~</span> flipper_length_cm, <span class="at">data=</span>penguins_sc)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">summary</span>(mod_flip)</span></code></pre></div>
-<div id="inspect-its-residuals" class="section level3">
-<h3>Inspect its residuals</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot_qq</span>(mod_flip)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">plot_residual_hist</span>(mod_flip)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">plot_residual_predicted</span>(mod_flip)</span></code></pre></div>
-</div>
-<div id="inspect-residuals-of-original-model" class="section level3">
-<h3>Inspect residuals of original model</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">plot_qq</span>(mod)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">plot_residual_hist</span>(mod)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">plot_residual_predicted</span>(mod)</span></code></pre></div>
-</div>
-</div>
-<div id="kitchen-sink-prediction-lets-try-throwing-everything-in" class="section level2">
-<h2>Kitchen sink prediction: Let’s try throwing everything in</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>mod_kit <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_length_cm <span class="sc">~</span> sex <span class="sc">+</span> species <span class="sc">+</span> flipper_length_cm <span class="sc">+</span> </span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                body_mass_kg <span class="sc">+</span> bill_depth_cm, <span class="at">data=</span>penguins_sc)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">summary</span>(mod_kit)</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># sex * flipper_length_cm</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>mod_kit_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_length_cm <span class="sc">~</span> </span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>                sex <span class="sc">*</span> (flipper_length_cm <span class="sc">+</span> body_mass_kg <span class="sc">+</span> bill_depth_cm) <span class="sc">+</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>                species <span class="sc">*</span> (flipper_length_cm <span class="sc">+</span> body_mass_kg <span class="sc">+</span> bill_depth_cm), </span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>              <span class="at">data=</span>penguins_sc)</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="fu">summary</span>(mod_kit_int)</span></code></pre></div>
-<div id="compare-with-aic" class="section level3">
-<h3>Compare with <code>AIC</code></h3>
-<p>Which is the better model (lower is better)?</p>
-<p>AIC differences of:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>In this code-along, we will work with simulated data from an
+infant-looking study. Researchers were interested in whether the
+structure of an interaction influences infants’ attention. Infants were
+assigned to either a <strong>high-structure</strong> or
+<strong>low-structure</strong> condition. Each infant completed three
+familiarization trials followed by three test trials. On every trial,
+researchers measured how long the infant looked at the display.</p>
+<p>Our main research question is:</p>
+<blockquote>
+<p>Do infants look longer during the test phase than during
+familiarization, and does this pattern differ between the high- and
+low-structure conditions?</p>
+</blockquote>
+<p>The data are simulated, but the problems in the dataset are
+realistic. Different research assistants entered the same labels in
+different ways, some numeric values include text, several missing-value
+codes were used, a few rows were duplicated, and some looking times are
+not possible given the 30-second trial length.</p>
+<p>The dataset, <code>infant_looking_messy.csv</code>, has the following
+columns:</p>
 <ul>
-<li>1 or less: models are indistinguishable from each other</li>
-<li>2-5: some evidence for the better-fitting model</li>
-<li>5-10: good evidence for the better-fitting model</li>
-<li>10 or more: strong evidence for the better fitting model</li>
+<li><code>participant</code>: anonymous infant ID</li>
+<li><code>age</code>: infant age in months</li>
+<li><code>condition</code>: high-structure or low-structure
+condition</li>
+<li><code>phase</code>: familiarization or test phase</li>
+<li><code>looking_time</code>: number of seconds the infant looked at
+the display</li>
+<li><code>trial</code>: trial number</li>
+<li><code>excluded</code>: whether the participant should be excluded
+from analysis</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">AIC</span>(mod, mod_flip, mod_kit, mod_kit_int)</span></code></pre></div>
 </div>
-<div id="visualize-coefficients-with-help-from-broomtidy" class="section level3">
-<h3>Visualize coefficients with help from
-<code>broom::tidy()</code></h3>
-<p>When a model has many coefficients, sometimes we prefer to visualize
-them rather than look at a bunch of numbers. <code>broom::tidy()</code>
-can help organize model coefficients into a tibble.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">tidy</span>(mod_kit) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code></pre></div>
-<p>We can also plot the coefficients to compare them.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">tidy</span>(mod_kit, <span class="at">conf.int =</span> T) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>term, <span class="at">y=</span>estimate)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>conf.low, <span class="at">ymax=</span>conf.high)) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<div id="import-the-data" class="section level2">
+<h2>Import the data</h2>
+<p>First, set your working directory or open the RStudio Project
+containing this handout and the data file. Then import the data.</p>
+<p>The dataset uses several codes for missing values. We can tell
+<code>read_csv()</code> to recognize those codes when we import the
+file.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>infant_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="st">&quot;data/infant_looking_messy.csv&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">na =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;missing&quot;</span>, <span class="st">&quot;999&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span></code></pre></div>
 </div>
+<div id="inspect-the-data" class="section level2">
+<h2>Inspect the data</h2>
+<p>Before changing anything, examine the dataset. What problems do you
+notice?</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">glimpse</span>(infant_data)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(infant_data)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">summary</span>(infant_data)</span></code></pre></div>
+<p>It is also helpful to inspect the values in categorical
+variables.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>infant_data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">count</span>(condition)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>infant_data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">count</span>(phase)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>infant_data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">count</span>(excluded)</span></code></pre></div>
+<p>Questions to consider:</p>
+<ul>
+<li>Which columns were imported as character variables even though they
+contain numbers?</li>
+<li>Which labels appear to mean the same thing?</li>
+<li>How many rows are in the dataset? Does every row appear to be
+unique?</li>
+</ul>
 </div>
+<div id="write-a-function-to-calculate-looking-proportion" class="section level2">
+<h2>Write a function to calculate looking proportion</h2>
+<p>Each trial lasted 30 seconds. We will write a function that converts
+looking time in seconds into the proportion of the trial the infant
+spent looking.</p>
+<p>The function has two arguments. <code>looking_time</code> is the
+infant’s looking time, and <code>trial_length</code> is the total length
+of the trial. We give <code>trial_length</code> a default value of 30
+seconds.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>calculate_looking_proportion <span class="ot">&lt;-</span> <span class="cf">function</span>(looking_time, <span class="at">trial_length =</span> <span class="dv">30</span>) {</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  looking_time <span class="sc">/</span> trial_length</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>}</span></code></pre></div>
+<p>Try the function with an infant who looked for 15 seconds:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">calculate_looking_proportion</span>(<span class="dv">15</span>)</span></code></pre></div>
+<p>The result is <code>0.5</code>, meaning the infant looked for half of
+the trial.</p>
 </div>
-<div class="footnotes footnotes-end-of-document">
-<hr />
-<ol>
-<li id="fn1"><p>Authored modifications to original code<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Original author of exercise<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<div id="clean-and-recode-the-data" class="section level2">
+<h2>Clean and recode the data</h2>
+<p>Now we will:</p>
+<ol style="list-style-type: decimal">
+<li>Remove exact duplicate rows.</li>
+<li>Standardize capitalization in the participant IDs.</li>
+<li>Extract numbers from <code>age</code>, <code>looking_time</code>,
+and <code>trial</code>.</li>
+<li>Recode the inconsistent condition and phase labels.</li>
+<li>Convert <code>excluded</code> to a logical variable.</li>
 </ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#1. Remove duplicate rows.</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#2. Standardize capitalization in the participant IDs.</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_clean <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="at">participant =</span> <span class="fu">str_to_upper</span>(participant))</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#3. Extract numbers from `age`, `looking_time`, and `trial`.</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#Which function should we use? Take a minute to try to find out (e.g., via a Google search).</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>    <span class="at">age_months =</span> <span class="fu">parse_number</span>(age),</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>    <span class="at">looking_seconds =</span> <span class="fu">parse_number</span>(looking_time),</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>    <span class="at">trial_number =</span> <span class="fu">parse_number</span>(trial))</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#4. Recode the inconsistent condition and phase labels.</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="fu">unique</span>(infant_clean<span class="sc">$</span>condition)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="fu">unique</span>(infant_clean<span class="sc">$</span>phase)</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">str_to_lower</span>(condition),</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">str_replace_all</span>(condition, <span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a>      condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;high&quot;</span>, <span class="st">&quot;high_structure&quot;</span>) <span class="sc">~</span> <span class="st">&quot;High structure&quot;</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>      condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;low_structure&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Low structure&quot;</span>,</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>    ),</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>    <span class="at">phase =</span> <span class="fu">str_to_lower</span>(phase),</span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a>    <span class="at">phase =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a>      phase <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;fam&quot;</span>, <span class="st">&quot;familiarization&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Familiarization&quot;</span>,</span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a>      phase <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;testing&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Test&quot;</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a>    ))</span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a>    </span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co">#5. Convert `excluded` to a logical variable</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="fu">unique</span>(infant_clean<span class="sc">$</span>excluded)</span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a>    <span class="at">excluded =</span> <span class="fu">str_to_lower</span>(excluded),</span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a>    <span class="at">excluded =</span> excluded <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;exclude&quot;</span>, <span class="st">&quot;excluded&quot;</span>))</span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co"># We can also do this all in a single chunk of code:</span></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a></span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a>infant_clean <span class="ot">&lt;-</span> infant_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a>    <span class="at">participant =</span> <span class="fu">str_to_upper</span>(participant),</span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a>    <span class="at">age_months =</span> <span class="fu">parse_number</span>(age),</span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a>    <span class="at">looking_seconds =</span> <span class="fu">parse_number</span>(looking_time),</span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a>    <span class="at">trial_number =</span> <span class="fu">parse_number</span>(trial),</span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">str_to_lower</span>(condition),</span>
+<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">str_replace_all</span>(condition, <span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>),</span>
+<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a>      condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;high&quot;</span>, <span class="st">&quot;high_structure&quot;</span>) <span class="sc">~</span> <span class="st">&quot;High structure&quot;</span>,</span>
+<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a>      condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;low_structure&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Low structure&quot;</span>,</span>
+<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a>    ),</span>
+<span id="cb7-73"><a href="#cb7-73" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" tabindex="-1"></a>    <span class="at">phase =</span> <span class="fu">str_to_lower</span>(phase),</span>
+<span id="cb7-75"><a href="#cb7-75" tabindex="-1"></a>    <span class="at">phase =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-76"><a href="#cb7-76" tabindex="-1"></a>      phase <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;fam&quot;</span>, <span class="st">&quot;familiarization&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Familiarization&quot;</span>,</span>
+<span id="cb7-77"><a href="#cb7-77" tabindex="-1"></a>      phase <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;testing&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Test&quot;</span>,</span>
+<span id="cb7-78"><a href="#cb7-78" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-79"><a href="#cb7-79" tabindex="-1"></a>    ),</span>
+<span id="cb7-80"><a href="#cb7-80" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" tabindex="-1"></a>    <span class="at">excluded =</span> <span class="fu">str_to_lower</span>(excluded),</span>
+<span id="cb7-82"><a href="#cb7-82" tabindex="-1"></a>    <span class="at">excluded =</span> excluded <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;exclude&quot;</span>, <span class="st">&quot;excluded&quot;</span>)</span>
+<span id="cb7-83"><a href="#cb7-83" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Notice that <code>case_when()</code> ends with
+<code>TRUE ~ NA_character_</code>. This makes any unexpected label
+missing rather than silently assigning it to the wrong category.</p>
+</div>
+<div id="check-the-recoding" class="section level2">
+<h2>Check the recoding</h2>
+<p>Never assume that recoding worked correctly. Inspect the new values
+and compare the number of rows before and after removing duplicates.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">nrow</span>(infant_data)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">nrow</span>(infant_clean)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">count</span>(condition)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">count</span>(phase)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>infant_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">count</span>(excluded)</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>infant_clean <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    participant,</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    age,</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    age_months,</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>    looking_time,</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>    looking_seconds,</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>    trial,</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    trial_number</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+</div>
+<div id="identify-impossible-values" class="section level2">
+<h2>Identify impossible values</h2>
+<p>Each trial lasted 30 seconds. Looking times should therefore be
+between 0 and 30 seconds.</p>
+<p>How would you identify observations outside that range?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>infant_clean <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">filter</span>(looking_seconds <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">|</span> looking_seconds <span class="sc">&gt;</span> <span class="dv">30</span>)</span></code></pre></div>
+</div>
+<div id="select-observations-for-analysis" class="section level2">
+<h2>Select observations for analysis</h2>
+<p>For this analysis, we will keep observations that:</p>
+<ul>
+<li>come from participants who were not excluded,</li>
+<li>have a nonmissing looking time,</li>
+<li>have a looking time between 0 and 30 seconds, and</li>
+<li>have valid condition and phase labels.</li>
+</ul>
+<p>After filtering, we will use our function to calculate the proportion
+of each trial spent looking. We will then keep only the variables needed
+for the analysis.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>infant_analysis <span class="ot">&lt;-</span> infant_clean <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    excluded <span class="sc">==</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(looking_seconds),</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="fu">between</span>(looking_seconds, <span class="dv">0</span>, <span class="dv">30</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(condition),</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(phase)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    <span class="at">looking_proportion =</span> <span class="fu">calculate_looking_proportion</span>(looking_seconds)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    participant,</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>    age_months,</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>    condition,</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>    phase,</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>    trial_number,</span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>    looking_seconds,</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>    looking_proportion</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>  )</span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="fu">glimpse</span>(infant_analysis)</span></code></pre></div>
+</div>
+<div id="create-participant-level-scores" class="section level2">
+<h2>Create participant-level scores</h2>
+<p>Each infant contributed multiple trials. First, calculate each
+participant’s mean looking time separately for familiarization and test
+trials.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>participant_summary <span class="ot">&lt;-</span> infant_analysis <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">group_by</span>(participant, condition, phase) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="at">mean_looking =</span> <span class="fu">mean</span>(looking_seconds, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="at">trials_completed =</span> <span class="fu">n</span>(),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  )</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>participant_summary</span></code></pre></div>
+</div>
+<div id="create-a-group-summary-table" class="section level2">
+<h2>Create a group summary table</h2>
+<p>Next, summarize the participant-level scores by condition and
+phase.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>condition_summary <span class="ot">&lt;-</span> participant_summary <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">group_by</span>(condition, phase) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(mean_looking)),</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    <span class="at">group_mean_looking =</span> <span class="fu">mean</span>(mean_looking, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    <span class="at">sd_looking =</span> <span class="fu">sd</span>(mean_looking, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    <span class="at">se_looking =</span> sd_looking <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  )</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>condition_summary</span></code></pre></div>
+<p>We can use <code>across()</code> to round several numeric columns
+with the same function.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>condition_summary <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>      <span class="fu">c</span>(group_mean_looking, sd_looking, se_looking),</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="dv">2</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    )</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>      <span class="st">&quot;Condition&quot;</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>      <span class="st">&quot;Phase&quot;</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>      <span class="st">&quot;N&quot;</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>      <span class="st">&quot;Mean looking time&quot;</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>      <span class="st">&quot;SD&quot;</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>      <span class="st">&quot;SE&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>    )</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Questions to consider:</p>
+<ul>
+<li>In which phase did infants look longer?</li>
+<li>Is the familiarization-to-test difference similar in both
+conditions?</li>
+<li>What does <code>n</code> represent in this table: trials or
+participants?</li>
+</ul>
+</div>
+<div id="visualize-the-results" class="section level2">
+<h2>Visualize the results</h2>
+<p>Finally, create a figure that shows both the participant-level
+observations and the group means. The smaller transparent points
+represent individual participants. The larger points and error bars
+represent the group mean and standard error.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">#start the graph</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  participant_summary,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>    <span class="at">x =</span> phase,</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>    <span class="at">y =</span> mean_looking,</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>    <span class="at">color =</span> condition,</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>    <span class="at">group =</span> condition</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  )</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#add individual participants</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_jitterdodge</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>      <span class="at">jitter.width =</span> <span class="fl">0.08</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>      <span class="at">dodge.width =</span> <span class="fl">0.50</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>    ),</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.45</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#add the condition means</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a>    <span class="at">fun =</span> mean,</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.50</span>),</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="co">#add standard error bars</span></span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a>    <span class="at">fun.data =</span> mean_se,</span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">&quot;errorbar&quot;</span>,</span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.50</span>),</span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.15</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.8</span></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a><span class="co">#add labels</span></span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Infant looking across study phases&quot;</span>,</span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Study phase&quot;</span>,</span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Mean looking time (seconds)&quot;</span>,</span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Condition&quot;</span></span>
+<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a><span class="co">#specify theme</span></span>
+<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p>What does the graph add that was not as easy to see in the summary
+table?</p>
+</div>
+<div id="optional-extension-visualize-change-within-infants" class="section level2">
+<h2>Optional extension: visualize change within infants</h2>
+<p>Because the same infants completed both phases, we can connect each
+infant’s familiarization and test scores. Faceting by condition makes
+the within-infant changes easier to see.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  participant_summary,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="at">x =</span> phase,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="at">y =</span> mean_looking,</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    <span class="at">group =</span> participant</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  )</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.35</span>, <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> condition), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> condition) <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Change in looking time within infants&quot;</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Study phase&quot;</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Mean looking time (seconds)&quot;</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<p>In this code-along, we used:</p>
+<ul>
+<li><code>read_csv()</code> to import data and define missing-value
+codes;</li>
+<li><code>glimpse()</code>, <code>summary()</code>, and
+<code>count()</code> to inspect data;</li>
+<li>a custom function to calculate the proportion of each trial spent
+looking;</li>
+<li><code>mutate()</code>, <code>parse_number()</code>,
+<code>case_when()</code>, and string functions to clean and recode
+variables;</li>
+<li><code>distinct()</code>, <code>filter()</code>, and
+<code>select()</code> to create an analysis dataset;</li>
+<li><code>group_by()</code> and <code>summarize()</code> to move from
+trials to participant-level scores and then to a group summary;</li>
+<li><code>across()</code> to apply the same operation to several
+columns; and</li>
+<li><code>ggplot()</code> with several geoms to display individual
+observations, means, and uncertainty.</li>
+</ul>
 </div>
 
 

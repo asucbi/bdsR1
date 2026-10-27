@@ -1,0 +1,156 @@
+---
+title: "HW 05 - Legos"
+author: "Your Name"
+date: "Today's Date"
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+## Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+```
+
+```{r reading-data-file}
+lego_sales <- read_csv("homework/data/lego_sales.csv")
+```
+
+
+## Exercises
+
+### Exercise 1
+
+```{r common-purchaser-names}
+lego_sales %>% 
+  count(first_name, sort = TRUE) %>% 
+  slice_head(n = 3)
+```
+
+In this sample, the first three most common names of purchasers are Jackson, Joseph,and Jacob.
+
+### Exercise 2
+
+```{r common-legothemes-purchased}
+lego_sales %>% 
+  count(theme, sort = TRUE) %>% 
+  slice_head(n = 3)
+```
+
+In this sample, the three most common purchased lego themes are Star Wars, Nexo Knights, and Gear
+
+### Exercise 3
+
+```{r common-subtheme}
+lego_sales %>%
+  filter(theme %in% c("Starwars", "Nexo Knights")) %>%
+  filter(!is.na(subtheme)) %>% 
+  count(subtheme, sort = TRUE) %>%
+  arrange(desc(n)) %>%
+  head(1)
+```
+
+In this sample, the most common subtheme among the two common theme is Ultimate.
+
+### Exercise 4
+
+```{r creating-age-variable}
+lego_sales <- lego_sales %>% 
+  mutate( age = case_when(
+    age <= 18            ~ "18 and under",
+    age >=19 & age <= 25 ~ "19 - 25",
+    age >=26 & age <= 35 ~ "26 - 35",
+    age >=36 & age <= 50 ~ "36 - 50",
+    age >= 51           ~ "51 and over"
+  ))
+```
+
+### Exercise 5
+
+```{r purchase-by-age-group}
+lego_sales_purchased <- lego_sales %>% 
+  group_by(age) %>% 
+  summarise(total_purchase = sum(quantity, na.rm = TRUE)) %>% 
+  arrange(desc(total_purchase))
+```
+
+In this sample, the age group of "36-50" purchased the most legos.
+
+### Exercise 6
+
+```{r most-money-spent-by-age-group}
+lego_sales_spent <- lego_sales %>% 
+  group_by(age) %>%
+  summarise(total_money_spent = sum(quantity * us_price, na.rm = TRUE)) %>% 
+  arrange(desc(total_money_spent))
+```
+
+In this sample, the age group of "36-50" spent the most money on lego sets
+
+### Exercise 7
+
+```{r money-making-lego-set}
+lego_sales_profit <- lego_sales %>% 
+  mutate (profit = quantity * us_price) %>% 
+  group_by(theme) %>% 
+  summarise(total_profit = sum(profit, na.rm = TRUE)) %>% 
+  arrange(desc(total_profit))
+```
+
+In this sample, the "Star Wars" theme made the most money for Lego.
+
+### Exercise 8
+
+```{r purchase-by-area-code}
+lego_sales_area <- lego_sales %>% 
+  mutate(area_code = str_sub(phone_number, 1, 3)) %>%
+  filter(!is.na(area_code)) %>% 
+  group_by(area_code) %>% 
+  summarize(money_spent = sum(quantity * us_price)) %>% 
+  arrange(desc(money_spent))
+
+```
+
+In this sample, area code "956" spent the most money on Lego sets.
+
+### Exercise 9
+
+After looking at the data, my question would be:
+
+"Which theme is the most famous amongst different age groups?"
+
+The code for that is as follows:
+
+```{r theme-poplarity-by-age}
+lego_age_theme <- lego_sales %>%
+  filter(!is.na(age) & !is.na(theme)) %>%
+  group_by(age, theme) %>%
+  summarise(total_sales = sum(us_price, na.rm = TRUE), .groups = "drop") %>%
+  group_by(age) %>%
+  slice_max(order_by = total_sales, n = 10, with_ties = FALSE) %>%
+  arrange(age, desc(total_sales))
+```
+
+Now, we visualize the data
+```{r visualizing-subtheme-popularity}
+ggplot(lego_age_theme, aes(x = age, y = total_sales, fill = age)) +
+  geom_col() +
+  facet_wrap(~ theme, scales = "free_y") +
+  scale_fill_viridis_d() +
+  scale_x_discrete()+
+  labs(
+    title = "Lego Theme Popularity",
+    subtitle = "by Age Group",
+    x = "Theme",
+    y = "Total Sales",
+    fill = "Age group"
+  )+ 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+From the data visualization, we can see that DC Comics Super Heroes, Bionicle, Creator are the most popular themes amongst the 18 and under category. Next, Advanced Modes, Dimensions, Friends is the most popular amongst the 19-25 age group, followed by Star Wars, Ninjago, Technic, Nexo Knights, Minecraft, City for 26-35 age group.
+
+By faceting the bar plot, I avoided clutter, which made each age group easy to compare. In addition to that, filtering for the highest values avoids the plot from becoming overwhelming, thereby making the interpretation easier. 

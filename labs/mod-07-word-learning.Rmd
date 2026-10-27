@@ -6,7 +6,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
-source('assets/setup.R')
+source('labs/assets/setup.R')
 
 # :::red : use for pre-lab activity instructions
 # :::lo : use for outlining the learning objectives
@@ -63,7 +63,7 @@ library(tidyverse)
 The data for this lab is contained in a file called `wordbank-item-freq.csv`. Let's read that CSV into a dataframe named `wordbank` and take a `glimpse` at it:
 
 ```{r, echo=F}
-wordbank <- read_csv("../data/wordbank-item-freq.csv")
+wordbank <- read_csv("labs/data/wordbank-item-freq.csv")
 
 glimpse(wordbank)
 ```

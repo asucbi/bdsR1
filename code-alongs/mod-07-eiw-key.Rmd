@@ -125,6 +125,7 @@ avg_word_length <- function(x){
 }
 
 # from https://stackoverflow.com/questions/66951596/is-there-a-way-to-find-the-mean-length-of-words-in-a-string-in-r
+
 max_word_length <- function(x){
   max(nchar(unlist(strsplit(x, '\\W')))) # `strsplit()` returns a list, ignoring non-word characters, `unlist()` turns the list into a character vector, `nchar()` counts the number of characters in each element of the vector, `max()` finds the maximum value among those elements
 }
@@ -146,8 +147,7 @@ eiw %>% mutate(text_length = stringr::str_length(text),
   word_length = avg_word_length(text)) %>%  # avg_word_length can be used as-is since it works on an entire character vector
   ggplot(aes(x=log(word_length), y=satisfaction)) +
     geom_point(alpha=.3) + 
-    geom_smooth(method="lm") +
-    geom_smooth()
+    geom_smooth(method="lm") 
 
 ```
 Now, let's use the `max_word_length` function to plot the relation between max word length and satisfaction.
@@ -160,7 +160,8 @@ eiw %>% mutate(
   text_length = stringr::str_length(text),
   max_word_length = map_dbl(text, max_word_length)) %>% # need to use map_dbl because it operates on one string at a time and returns a numeric "double" vector
   ggplot(aes(x=max_word_length, y=satisfaction)) +
-  geom_point(alpha=.3) + theme_classic() +
+  geom_point(alpha=.3) + 
+  theme_classic() +
   geom_smooth(method="lm")
 
 ```
@@ -247,7 +248,7 @@ eiw %>%
   ggplot(aes(x=mechanism, y=satisfaction)) +
   geom_point(alpha=.3) +
   geom_smooth(method="lm") +
-  facet_wrap(.~len_group) +
+  facet_wrap(~len_group) +
   theme_classic()
 
 ```

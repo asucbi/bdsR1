@@ -8,7 +8,7 @@ editor:
 ![](img/whickham.png){fig-align="center" width=50%}
 
 A study of conducted in Whickham, England recorded participants' age, smoking status at baseline, and then 20 years later recorded their health outcome.
-In this lab we analyse the relationships between these variables, first two at a time, and then controlling for the third.
+In this homework we analyse the relationships between these variables, first two at a time, and then controlling for the third.
 
 <!-- # Learning goals -->
 

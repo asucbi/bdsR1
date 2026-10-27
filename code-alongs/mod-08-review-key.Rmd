@@ -1,0 +1,455 @@
+---
+title: "Intro to R Review: From Messy Data to Results"
+author: "Jessica Kosie"
+output:
+  html_document:
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE, eval = FALSE}
+
+library(tidyverse)
+
+```
+
+## Background
+
+In this code-along, we will work with simulated data from an infant-looking study. Researchers were interested in whether the structure of an interaction influences infants' attention. Infants were assigned to either a **high-structure** or **low-structure** condition. Each infant completed three familiarization trials followed by three test trials. On every trial, researchers measured how long the infant looked at the display.
+
+Our main research question is:
+
+> Do infants look longer during the test phase than during familiarization, and does this pattern differ between the high- and low-structure conditions?
+
+The data are simulated, but the problems in the dataset are realistic. Different research assistants entered the same labels in different ways, some numeric values include text, several missing-value codes were used, a few rows were duplicated, and some looking times are not possible given the 30-second trial length.
+
+The dataset, `infant_looking_messy.csv`, has the following columns:
+
+- `participant`: anonymous infant ID
+- `age`: infant age in months
+- `condition`: high-structure or low-structure condition
+- `phase`: familiarization or test phase
+- `looking_time`: number of seconds the infant looked at the display
+- `trial`: trial number
+- `excluded`: whether the participant should be excluded from analysis
+
+## Import the data
+
+First, set your working directory or open the RStudio Project containing this handout and the data file. Then import the data.
+
+The dataset uses several codes for missing values. We can tell `read_csv()` to recognize those codes when we import the file.
+
+```{r import-data, eval = FALSE}
+
+infant_data <- read_csv(
+  "data/infant_looking_messy.csv",
+  na = c("", "NA", "missing", "999")
+)
+
+```
+
+## Inspect the data
+
+Before changing anything, examine the dataset. What problems do you notice?
+
+```{r inspect-data, eval = FALSE}
+
+glimpse(infant_data)
+head(infant_data)
+summary(infant_data)
+
+```
+
+It is also helpful to inspect the values in categorical variables.
+
+```{r inspect-categories, eval = FALSE}
+
+infant_data %>% 
+  count(condition)
+
+infant_data %>% 
+  count(phase)
+
+infant_data %>% 
+  count(excluded)
+
+```
+
+Questions to consider:
+
+- Which columns were imported as character variables even though they contain numbers?
+- Which labels appear to mean the same thing?
+- How many rows are in the dataset? Does every row appear to be unique?
+
+## Write a function to calculate looking proportion
+
+Each trial lasted 30 seconds. We will write a function that converts looking time in seconds into the proportion of the trial the infant spent looking.
+
+The function has two arguments. `looking_time` is the infant's looking time, and `trial_length` is the total length of the trial. We give `trial_length` a default value of 30 seconds.
+
+```{r create-looking-function, eval = FALSE}
+
+calculate_looking_proportion <- function(looking_time, trial_length = 30) {
+  looking_time / trial_length
+}
+
+```
+
+Try the function with an infant who looked for 15 seconds:
+
+```{r test-looking-function, eval = FALSE}
+
+calculate_looking_proportion(15)
+
+```
+
+The result is `0.5`, meaning the infant looked for half of the trial.
+
+## Clean and recode the data
+
+Now we will:
+
+1. Remove exact duplicate rows.
+2. Standardize capitalization in the participant IDs.
+3. Extract numbers from `age`, `looking_time`, and `trial`.
+4. Recode the inconsistent condition and phase labels.
+5. Convert `excluded` to a logical variable.
+
+```{r clean-data, eval = FALSE}
+
+#1. Remove duplicate rows.
+
+infant_clean <- infant_data %>%
+  distinct()
+
+#2. Standardize capitalization in the participant IDs.
+
+infant_clean <- infant_clean %>%
+  mutate(
+    participant = str_to_upper(participant))
+
+#3. Extract numbers from `age`, `looking_time`, and `trial`.
+
+#Which function should we use? Take a minute to try to find out (e.g., via a Google search).
+
+infant_clean <- infant_clean %>% 
+  mutate(
+    age_months = parse_number(age),
+    looking_seconds = parse_number(looking_time),
+    trial_number = parse_number(trial))
+
+#4. Recode the inconsistent condition and phase labels.
+
+unique(infant_clean$condition)
+
+unique(infant_clean$phase)
+
+infant_clean <- infant_clean %>% 
+  mutate(
+    condition = str_to_lower(condition),
+    condition = str_replace_all(condition, " ", "_"),
+    condition = case_when(
+      condition %in% c("high", "high_structure") ~ "High structure",
+      condition %in% c("low", "low_structure") ~ "Low structure",
+      TRUE ~ NA_character_
+    ),
+
+    phase = str_to_lower(phase),
+    phase = case_when(
+      phase %in% c("fam", "familiarization") ~ "Familiarization",
+      phase %in% c("test", "testing") ~ "Test",
+      TRUE ~ NA_character_
+    ))
+    
+#5. Convert `excluded` to a logical variable
+
+unique(infant_clean$excluded)
+
+infant_clean <- infant_clean %>% 
+  mutate(
+    excluded = str_to_lower(excluded),
+    excluded = excluded %in% c("yes", "y", "exclude", "excluded"))
+
+
+# We can also do this all in a single chunk of code:
+
+infant_clean <- infant_data %>%
+  distinct() %>%
+  mutate(
+    participant = str_to_upper(participant),
+
+    age_months = parse_number(age),
+    looking_seconds = parse_number(looking_time),
+    trial_number = parse_number(trial),
+
+    condition = str_to_lower(condition),
+    condition = str_replace_all(condition, " ", "_"),
+    condition = case_when(
+      condition %in% c("high", "high_structure") ~ "High structure",
+      condition %in% c("low", "low_structure") ~ "Low structure",
+      TRUE ~ NA_character_
+    ),
+
+    phase = str_to_lower(phase),
+    phase = case_when(
+      phase %in% c("fam", "familiarization") ~ "Familiarization",
+      phase %in% c("test", "testing") ~ "Test",
+      TRUE ~ NA_character_
+    ),
+
+    excluded = str_to_lower(excluded),
+    excluded = excluded %in% c("yes", "y", "exclude", "excluded")
+  )
+
+```
+
+Notice that `case_when()` ends with `TRUE ~ NA_character_`. This makes any unexpected label missing rather than silently assigning it to the wrong category.
+
+## Check the recoding
+
+Never assume that recoding worked correctly. Inspect the new values and compare the number of rows before and after removing duplicates.
+
+```{r check-recoding, eval = FALSE}
+
+nrow(infant_data)
+nrow(infant_clean)
+
+infant_clean %>% 
+  count(condition)
+
+infant_clean %>% 
+  count(phase)
+
+infant_clean %>% 
+  count(excluded)
+
+infant_clean %>%
+  select(
+    participant,
+    age,
+    age_months,
+    looking_time,
+    looking_seconds,
+    trial,
+    trial_number
+  ) %>%
+  head()
+
+```
+
+## Identify impossible values
+
+Each trial lasted 30 seconds. Looking times should therefore be between 0 and 30 seconds.
+
+How would you identify observations outside that range?
+
+```{r find-impossible-values, eval = FALSE}
+
+infant_clean %>%
+  filter(looking_seconds < 0 | looking_seconds > 30)
+
+```
+
+## Select observations for analysis
+
+For this analysis, we will keep observations that:
+
+- come from participants who were not excluded,
+- have a nonmissing looking time,
+- have a looking time between 0 and 30 seconds, and
+- have valid condition and phase labels.
+
+After filtering, we will use our function to calculate the proportion of each trial spent looking. We will then keep only the variables needed for the analysis.
+
+```{r create-analysis-data, eval = FALSE}
+
+infant_analysis <- infant_clean %>%
+  filter(
+    excluded == FALSE,
+    !is.na(looking_seconds),
+    between(looking_seconds, 0, 30),
+    !is.na(condition),
+    !is.na(phase)
+  ) %>%
+  mutate(
+    looking_proportion = calculate_looking_proportion(looking_seconds)
+  ) %>%
+  select(
+    participant,
+    age_months,
+    condition,
+    phase,
+    trial_number,
+    looking_seconds,
+    looking_proportion
+  )
+
+glimpse(infant_analysis)
+
+```
+
+## Create participant-level scores
+
+Each infant contributed multiple trials. First, calculate each participant's mean looking time separately for familiarization and test trials.
+
+```{r participant-summary, eval = FALSE}
+
+participant_summary <- infant_analysis %>%
+  group_by(participant, condition, phase) %>%
+  summarize(
+    mean_looking = mean(looking_seconds, na.rm = TRUE),
+    trials_completed = n(),
+    .groups = "drop"
+  )
+
+participant_summary
+
+```
+
+## Create a group summary table
+
+Next, summarize the participant-level scores by condition and phase.
+
+```{r group-summary, eval = FALSE}
+
+condition_summary <- participant_summary %>%
+  group_by(condition, phase) %>%
+  summarize(
+    n = sum(!is.na(mean_looking)),
+    group_mean_looking = mean(mean_looking, na.rm = TRUE),
+    sd_looking = sd(mean_looking, na.rm = TRUE),
+    se_looking = sd_looking / sqrt(n),
+    .groups = "drop"
+  )
+
+condition_summary
+
+```
+
+We can use `across()` to round several numeric columns with the same function.
+
+```{r formatted-table, eval = FALSE}
+
+condition_summary %>%
+  mutate(
+    across(
+      c(group_mean_looking, sd_looking, se_looking),
+      ~ round(.x, 2)
+    )
+  ) %>%
+  knitr::kable(
+    col.names = c(
+      "Condition",
+      "Phase",
+      "N",
+      "Mean looking time",
+      "SD",
+      "SE"
+    )
+  )
+
+```
+
+Questions to consider:
+
+- In which phase did infants look longer?
+- Is the familiarization-to-test difference similar in both conditions?
+- What does `n` represent in this table: trials or participants?
+
+## Visualize the results
+
+Finally, create a figure that shows both the participant-level observations and the group means. The smaller transparent points represent individual participants. The larger points and error bars represent the group mean and standard error.
+
+```{r plot-results, fig.width = 9, fig.height = 6, eval = FALSE}
+
+#start the graph
+ggplot(
+  participant_summary,
+  aes(
+    x = phase,
+    y = mean_looking,
+    color = condition,
+    group = condition
+  )
+) +
+#add individual participants
+  geom_jitter(
+    position = position_jitterdodge(
+      jitter.width = 0.08,
+      dodge.width = 0.50
+    ),
+    alpha = 0.45,
+    size = 2
+  ) +
+#add the condition means
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    position = position_dodge(width = 0.50),
+    size = 4
+  ) +
+#add standard error bars
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    position = position_dodge(width = 0.50),
+    width = 0.15,
+    linewidth = 0.8
+  ) +
+#add labels
+  labs(
+    title = "Infant looking across study phases",
+    x = "Study phase",
+    y = "Mean looking time (seconds)",
+    color = "Condition"
+  ) +
+#specify theme
+  theme_classic()
+
+```
+
+What does the graph add that was not as easy to see in the summary table?
+
+## Optional extension: visualize change within infants
+
+Because the same infants completed both phases, we can connect each infant's familiarization and test scores. Faceting by condition makes the within-infant changes easier to see.
+
+```{r plot-individual-change, fig.width = 9, fig.height = 5, eval = FALSE}
+
+ggplot(
+  participant_summary,
+  aes(
+    x = phase,
+    y = mean_looking,
+    group = participant
+  )
+) +
+  geom_line(alpha = 0.35, color = "gray50") +
+  geom_point(aes(color = condition), size = 2) +
+  facet_wrap(~ condition) +
+  labs(
+    title = "Change in looking time within infants",
+    x = "Study phase",
+    y = "Mean looking time (seconds)"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+```
+
+## Review
+
+In this code-along, we used:
+
+- `read_csv()` to import data and define missing-value codes;
+- `glimpse()`, `summary()`, and `count()` to inspect data;
+- a custom function to calculate the proportion of each trial spent looking;
+- `mutate()`, `parse_number()`, `case_when()`, and string functions to clean and recode variables;
+- `distinct()`, `filter()`, and `select()` to create an analysis dataset;
+- `group_by()` and `summarize()` to move from trials to participant-level scores and then to a group summary;
+- `across()` to apply the same operation to several columns; and
+- `ggplot()` with several geoms to display individual observations, means, and uncertainty.
+

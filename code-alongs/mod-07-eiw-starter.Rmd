@@ -138,8 +138,7 @@ eiw %>%
   word_length = avg_word_length(XXX)) %>%  # avg_word_length can be used as-is since it works on an entire character vector
   ggplot(aes(x=XXX, y=XXX)) +
     geom_point(alpha=.3) + 
-    geom_smooth(method="lm") +
-    geom_smooth()
+    geom_smooth(method="lm") 
 
 ```
 Now, let's use the `max_word_length` function to plot the relation between max word length and satisfaction.
@@ -148,7 +147,13 @@ What do you notice?
 
 ```{r plot-max-length}
 
-#copy and edit the code above
+eiw %>% mutate(
+  text_length = stringr::str_length(text),
+  max_word_length = map_dbl(text, max_word_length)) %>% # need to use map_dbl because it operates on one string at a time and returns a numeric "double" vector
+  ggplot(aes(x=XXX, y=XXX)) +
+  geom_point(alpha=.3) + 
+  theme_classic() +
+  XXX(method="lm")
 
 ```
 
@@ -171,6 +176,8 @@ corr_df <- eiw %>%
   max_word_length = map_dbl(text, max_word_length))
 
 # use the `cor.test()` function to calculation the correlation for satisfaction and each of the three variables we created:
+
+# (remember that text_length is skewed so we want to use the log)
 
 ?cor.test
 
