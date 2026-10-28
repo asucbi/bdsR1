@@ -172,8 +172,6 @@ pre code {
 <p>Researchers examined whether a six-week mindfulness program reduced perceived stress. Forty adults were assigned to either a mindfulness intervention or a waitlist control group. Participants completed a perceived-stress measure at baseline and at Weeks 2, 4, and 6. Scores can range from 0 to 100, with higher scores indicating greater stress.</p>
 <p>Your goal is to import, inspect, clean, recode, filter, and summarize the data so that you can reproduce (<em>exactly!</em>) the target figure below. All features of the graph need to be <em>exactly the same</em> as the image below to receive full credit!</p>
 <p>The data (in the <code>data</code> folder) is called <code>mindfulness_stress_messy.csv</code></p>
-<p>Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.</p>
-<p>Hint 2: The y axis is a <em>mean</em> stress score.</p>
 <p><img src="img/mindfulness_stress_goal.png" /></p>
 </div>
 <div id="the-data" class="section level2">
@@ -188,6 +186,26 @@ pre code {
 <li><code>use_data</code>: whether the participant’s data should be included</li>
 </ul>
 <p>The dataset includes inconsistent categorical labels, numbers stored as text, missing-value codes, exact duplicates, excluded participants, and impossible stress scores.</p>
+</div>
+<div id="questions-to-consider" class="section level2">
+<h2>Questions to consider:</h2>
+<ul>
+<li>What does one row represent?</li>
+<li>Are there repeated observations from the same participant?</li>
+<li>Which variable identifies participants?</li>
+<li>How are the experimental conditions coded?</li>
+<li>Are capitalization, spelling, or spacing consistent within categorical variables?</li>
+<li>How are the study weeks coded, and in what order should they appear?</li>
+<li>Is the stress-score variable stored as numeric data?</li>
+<li>Are missing values represented consistently?</li>
+<li>Are there values that are impossible or outside the expected range?</li>
+<li>Should missing observations be removed before calculating means?</li>
+<li>At what level should the data be summarized to create the line graph?</li>
+<li>Which variables should determine the line color and grouping?</li>
+</ul>
+<p>Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.</p>
+<p>Hint 2: The y axis is a <em>mean</em> stress score.</p>
+<p>Hint 3: Colors used in the plot are <code>red</code> and <code>blue</code>.</p>
 </div>
 
 

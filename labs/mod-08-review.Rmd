@@ -22,10 +22,6 @@ Your goal is to import, inspect, clean, recode, filter, and summarize the data s
 
 The data (in the `data` folder) is called `mindfulness_stress_messy.csv`
 
-Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.
-
-Hint 2: The y axis is a _mean_ stress score.
-
 ![](img/mindfulness_stress_goal.png)
 
 ## The data
@@ -41,4 +37,23 @@ The file `mindfulness_stress_messy.csv` contains:
 
 The dataset includes inconsistent categorical labels, numbers stored as text, missing-value codes, exact duplicates, excluded participants, and impossible stress scores.
 
+## Questions to consider:
 
+- What does one row represent?
+- Are there repeated observations from the same participant?
+- Which variable identifies participants?
+- How are the experimental conditions coded?
+- Are capitalization, spelling, or spacing consistent within categorical variables?
+- How are the study weeks coded, and in what order should they appear?
+- Is the stress-score variable stored as numeric data?
+- Are missing values represented consistently?
+- Are there values that are impossible or outside the expected range?
+- Should missing observations be removed before calculating means?
+- At what level should the data be summarized to create the line graph?
+- Which variables should determine the line color and grouping?
+
+Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.
+
+Hint 2: The y axis is a _mean_ stress score.
+
+Hint 3: Colors used in the plot are `red` and `blue`.

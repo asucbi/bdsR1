@@ -1,0 +1,52 @@
+participant_id,age,sleep_group,test_order,neutral_recall,emotional_recall,attention_check
+s001,23,Rested,emotional_first,14 words,score=16,passed
+S002,28,FULL_SLEEP,NF,score=17,19,Y
+s003,20 years,8 hours,Emotional first,13,15 words,Pass
+S004,25,Rested,neutral_first,16 words,score=18,passed
+s005,30,FULL_SLEEP,EF,score=12,14,N
+S006,22 years,8 hours,Neutral first,15,17 words,Pass
+s007,27,Rested,emotional_first,11 words,score=13,passed
+S008,19,FULL_SLEEP,NF,999,16,Y
+s009,24 years,8 hours,Emotional first,17,19 words,Pass
+S010,29,Rested,neutral_first,13 words,score=15,passed
+s011,21,FULL_SLEEP,EF,score=16,18,Y
+S012,26 years,8 hours,Neutral first,12,14 words,Pass
+s013,18,Rested,emotional_first,15 words,score=17,passed
+S014,23,FULL_SLEEP,NF,score=11,13,Y
+s015,28 years,8 hours,Emotional first,14,missing,Pass
+S016,20,Rested,neutral_first,17 words,score=19,passed
+s017,25,FULL_SLEEP,EF,score=13,15,Y
+S018,30 years,8 hours,Neutral first,16,18 words,Fail
+s019,22,Rested,emotional_first,12 words,score=14,passed
+S020,27,FULL_SLEEP,NF,score=15,17,Y
+s021,19 years,8 hours,Emotional first,11,13 words,Pass
+S022,24,Rested,neutral_first,14 words,score=16,passed
+s023,29,FULL_SLEEP,EF,score=17,19,Y
+S024,21 years,8 hours,Neutral first,13,15 words,Pass
+s025,26,Restricted,emotional_first,12 words,score=14,passed
+S026,18,SHORT_SLEEP,NF,score=8,10,Y
+s027,23 years,4 hours,Emotional first,25 words,13 words,Pass
+S028,28,Restricted,neutral_first,7 words,score=9,passed
+s029,20,SHORT_SLEEP,EF,score=10,12,Y
+S030,25 years,4 hours,Neutral first,13,15 words,Pass
+s031,30,Restricted,emotional_first,9 words,score=11,failed
+S032,22,SHORT_SLEEP,NF,score=12,14,Y
+s033,27 years,4 hours,Emotional first,8,10 words,Pass
+S034,19,Restricted,neutral_first,11 words,score=13,passed
+s035,24,SHORT_SLEEP,EF,score=7,9,Y
+S036,29 years,4 hours,Neutral first,10,-2,Pass
+s037,21,Restricted,emotional_first,13 words,score=15,passed
+S038,26,SHORT_SLEEP,NF,score=9,11,Y
+s039,18 years,4 hours,Emotional first,12,14 words,Pass
+S040,23,Restricted,neutral_first,8 words,score=10,passed
+s041,28,SHORT_SLEEP,EF,score=11,13,Y
+S042,20 years,4 hours,Neutral first,NA,9 words,Pass
+s043,25,Restricted,emotional_first,10 words,score=12,passed
+S044,30,SHORT_SLEEP,NF,score=13,15,N
+s045,22 years,4 hours,Emotional first,9,11 words,Pass
+S046,27,Restricted,neutral_first,12 words,score=14,passed
+s047,19,SHORT_SLEEP,EF,score=8,10,Y
+S048,24 years,4 hours,Neutral first,11,13 words,Pass
+S010,29,Rested,neutral_first,13 words,score=15,passed
+S030,25 years,4 hours,Neutral first,13,15 words,Pass
+S046,27,Restricted,neutral_first,12 words,score=14,passed
