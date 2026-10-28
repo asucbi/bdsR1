@@ -1,0 +1,193 @@
+---
+title: "Data Cleaning Review 1: Stress Across an Intervention — Key"
+author: "Jessica Kosie"
+output:
+  html_document:
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE, eval = FALSE}
+
+library(tidyverse)
+
+```
+
+## Background and target
+
+Researchers examined whether a six-week mindfulness program reduced perceived stress. Forty adults were assigned to either a mindfulness intervention or a waitlist control group. Participants completed a perceived-stress measure at baseline and at Weeks 2, 4, and 6. Scores can range from 0 to 100, with higher scores indicating greater stress.
+
+Your goal is to generate (*exactly!*) the following graph. All features of the graph need to be *exactly the same* as the image below to receive full credit!
+
+Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.
+
+Hint 2: The y axis is a _mean_ stress score.
+
+![](mindfulness_stress_goal.png)
+
+## Import and inspect the data
+
+```{r import-data, eval = FALSE}
+
+stress_raw <- read_csv(
+  "data/mindfulness_stress_messy.csv",
+  na = c("", "NA", "missing", "-99")
+)
+
+glimpse(stress_raw)
+nrow(stress_raw)
+
+stress_raw %>% count(condition)
+stress_raw %>% count(assessment)
+stress_raw %>% count(use_data)
+
+```
+
+## Clean and recode the data
+
+```{r clean-data, eval = FALSE}
+
+stress_clean <- stress_raw %>%
+  distinct() %>%
+  mutate(
+    participant_id = str_to_upper(participant_id),
+    age_years = parse_number(age),
+    stress_score = parse_number(stress_rating),
+
+    condition = str_to_lower(condition),
+    condition = str_replace_all(condition, " ", "_"),
+    condition = case_when(
+      condition %in% c(
+        "mindfulness",
+        "mindfulness_group",
+        "mbsr"
+      ) ~ "Mindfulness",
+      condition %in% c(
+        "control",
+        "waitlist",
+        "control_group"
+      ) ~ "Control",
+      TRUE ~ NA_character_
+    ),
+
+    assessment = str_to_lower(assessment),
+    assessment = str_replace_all(assessment, " ", ""),
+    week = case_when(
+      assessment %in% c("baseline", "week0", "wk0") ~ 0,
+      assessment %in% c("week2", "wk2", "2weeks") ~ 2,
+      assessment %in% c("week4", "wk4", "4weeks") ~ 4,
+      assessment %in% c("week6", "wk6", "6weeks") ~ 6,
+      TRUE ~ NA_real_
+    ),
+
+    use_data = str_to_lower(use_data),
+    included = use_data %in% c("include", "yes", "keep")
+  ) %>%
+  filter(
+    included == TRUE,
+    !is.na(condition),
+    !is.na(week),
+    !is.na(stress_score),
+    between(stress_score, 0, 100)
+  ) %>%
+  select(
+    participant_id,
+    age_years,
+    condition,
+    week,
+    stress_score
+  )
+
+```
+
+## Check the cleaned data
+
+```{r check-cleaning, eval = FALSE}
+
+nrow(stress_clean) # 139
+
+stress_clean %>% count(condition, week)
+
+stress_clean %>%
+  summarize(
+    missing_condition = sum(is.na(condition)),
+    missing_week = sum(is.na(week)),
+    missing_stress = sum(is.na(stress_score)),
+    minimum_stress = min(stress_score),
+    maximum_stress = max(stress_score)
+  )
+
+```
+
+## Create the summary table
+
+```{r summarize-data, eval = FALSE}
+
+stress_summary <- stress_clean %>%
+  group_by(condition, week) %>%
+  summarize(
+    n = n(),
+    mean_stress = mean(stress_score),
+    sd_stress = sd(stress_score),
+    se_stress = sd_stress / sqrt(n),
+    .groups = "drop"
+  )
+
+stress_summary %>%
+  mutate(
+    across(
+      c(mean_stress, sd_stress, se_stress),
+      ~ round(.x, 2)
+    )
+  )
+
+```
+
+Expected group means, rounded to two decimal places:
+
+| Condition | Week 0 | Week 2 | Week 4 | Week 6 |
+|---|---:|---:|---:|---:|
+| Mindfulness | 63.75 | 58.01 | 51.84 | 45.19 |
+| Control | 64.48 | 63.39 | 62.39 | 60.83 |
+
+## Create the target line graph
+
+```{r target-line-graph, fig.width = 9, fig.height = 6, eval = FALSE}
+
+ggplot(
+  stress_summary,
+  aes(
+    x = week,
+    y = mean_stress,
+    color = condition,
+    group = condition
+  )
+) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  scale_x_continuous(breaks = c(0, 2, 4, 6)) +
+  scale_y_continuous(
+    breaks = c(40, 50, 60, 70)
+  ) +
+  scale_color_manual(
+    values = c(
+      "Mindfulness" = "blue",
+      "Control" = "red"
+    ),
+    breaks = c("Mindfulness", "Control")
+  ) +
+  labs(
+    title = "Perceived stress across the intervention",
+    x = "Assessment week",
+    y = "Mean perceived stress score",
+    color = "Condition"
+  ) +
+  theme_classic()
+
+ggsave("img/mindfulness_stress_goal.png", height = 4, width = 8)
+
+```
+

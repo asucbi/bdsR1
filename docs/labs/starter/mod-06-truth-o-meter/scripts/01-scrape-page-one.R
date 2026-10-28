@@ -49,7 +49,7 @@ first_twenty <- tibble(
   link = ___
 )
 
-# Exercise 6: scrape next thirty fact-checks ------------------------------------------------
+# Exercise 6: scrape next twenty fact-checks ------------------------------------------------
 
 second_url <- "___"
 
@@ -59,6 +59,6 @@ page <- read_html(second_url)
 
 ... 
 
-second_thirty <- tibble(
+second_twenty <- tibble(
   ...
 )

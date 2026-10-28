@@ -1,0 +1,44 @@
+---
+title: "Data Cleaning Review Lab: Stress Across an Intervention"
+author: "Jessica Kosie"
+output:
+  html_document:
+    theme: yeti
+    highlight: pygments
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r load-pkg, message = FALSE, eval = FALSE}
+
+library(tidyverse)
+
+```
+
+## Background
+
+Researchers examined whether a six-week mindfulness program reduced perceived stress. Forty adults were assigned to either a mindfulness intervention or a waitlist control group. Participants completed a perceived-stress measure at baseline and at Weeks 2, 4, and 6. Scores can range from 0 to 100, with higher scores indicating greater stress.
+
+Your goal is to import, inspect, clean, recode, filter, and summarize the data so that you can reproduce (*exactly!*) the target figure below. All features of the graph need to be *exactly the same* as the image below to receive full credit!
+
+Hint 1: The cleaned data that you summarize to create the graph should have 139 rows.
+
+Hint 2: The y axis is a _mean_ stress score.
+
+![](mindfulness_stress_goal.png)
+
+## The data
+
+The file `mindfulness_stress_messy.csv` contains:
+
+- `participant_id`: anonymous participant ID
+- `age`: participant age in years
+- `condition`: intervention condition
+- `assessment`: assessment occasion
+- `stress_rating`: perceived-stress score
+- `use_data`: whether the participant's data should be included
+
+The dataset includes inconsistent categorical labels, numbers stored as text, missing-value codes, exact duplicates, excluded participants, and impossible stress scores.
+
+

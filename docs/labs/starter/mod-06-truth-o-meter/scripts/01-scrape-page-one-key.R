@@ -49,7 +49,7 @@ first_twenty <- tibble(
   link = links
 )
 
-# Exercise 6: scrape next thirty fact-checks ------------------------------------------------
+# Exercise 6: scrape next twenty fact-checks ------------------------------------------------
 
 second_url <- "https://www.politifact.com/factchecks/list/?page=2&ruling=pants-fire"
 
