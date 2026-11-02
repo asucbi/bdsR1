@@ -124,6 +124,8 @@ Let's do what we should have done first and plot the data.
 
 First, plot the relation between body_mass_kg (x axis) and bill_length_cm (y axis) indicate species by both color and shape and facet by sex. What do you notice?
 
+Take a minute to attempt to create this plot on your own. 
+
 ```{r eda, eval=FALSE}
 
 penguins_sc %>% 
@@ -156,19 +158,9 @@ summary(mod_flip)
 
 ```{r resid, eval=FALSE}
 
-plot_qq(mod_flip)
 plot_residual_hist(mod_flip)
+plot_qq(mod_flip)
 plot_residual_predicted(mod_flip)
-
-```
-
-### Inspect residuals of original model
-
-```{r orig_resid, eval=FALSE}
-
-plot_qq(mod)
-plot_residual_hist(mod)
-plot_residual_predicted(mod)
 
 ```
 
@@ -180,6 +172,7 @@ mod_kit <- lm(bill_length_cm ~ sex + species + flipper_length_cm +
                 body_mass_kg + bill_depth_cm, data=penguins_sc)
 
 summary(mod_kit)
+anova(mod_kit)
 
 # sex * flipper_length_cm
 
@@ -189,6 +182,7 @@ mod_kit_int <- lm(bill_length_cm ~
               data=penguins_sc)
 
 summary(mod_kit_int)
+anova(mod_kit_int)
 
 ```
 

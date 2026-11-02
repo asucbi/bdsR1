@@ -249,7 +249,7 @@ How would you identify observations outside that range?
 ```{r find-impossible-values, eval = FALSE}
 
 infant_clean %>%
-  filter(XXX)
+  filter(looking_seconds < 0 | looking_seconds > 30)
 
 ```
 
@@ -298,7 +298,7 @@ Each infant contributed multiple trials. First, calculate each participant's mea
 ```{r participant-summary, eval = FALSE}
 
 participant_summary <- infant_analysis %>%
-  group_by(XXX, XXX, XXX) %>%
+  group_by(participant, condition, phase) %>%
   summarize(
     mean_looking = mean(looking_seconds, na.rm = TRUE),
     trials_completed = n(),

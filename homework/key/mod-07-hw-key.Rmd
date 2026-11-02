@@ -1,0 +1,115 @@
+---
+title: "HW 07 - Smokers in Whickham"
+author: "Your Name"
+date: "Today's Date"
+output: html_document
+---
+
+## Load packages and data
+
+```{r eval = TRUE, message = FALSE, warning=F}
+library(tidyverse) 
+library(mosaicData) 
+```
+
+## Data
+
+The dataset we'll use is called Whickham from the **mosaicData** package.
+You can find out more about the dataset by inspecting their documentation, which you can access by running `?Whickham` in the Console or using the Help menu in RStudio to search for `Whickham`.
+
+```{r, load-data}
+data("Whickham")
+```
+
+## Exercises
+
+### Exercise 1
+
+This is an observational study. To be more specific, it is a quasi-experimental design. It is an observational design because there was no manipulation introduced in the study nor was there random sampling. People were naturally divided into current smoker or no smoker groups on the basis of their habits. 
+
+### Exercise 2
+
+The data has `r nrow(Whickham)` observations. Each observation represents data on eeach of the variables for the women who answered the survey.  
+
+### Exercise 3
+
+This data set has `r ncol(Whickham)` variables. The variables are age (numeric/integer), outcome (character/factor), and smoker (character/factor)
+
+### Exercise 4
+
+I would expect the relationship between smoking status and health outcome to be a negative relationship. This means that higher levels of smoking would be associated with poorer health outcomes.
+
+### Exercise 5
+
+```{r overall-probability-alive}
+P_H <- Whickham %>% 
+  count(smoker, outcome) %>% 
+  mutate(sample = sum(n)) %>% 
+  group_by(outcome, sample) %>% 
+  summarise(total = sum(n))
+  
+```
+
+```{r}
+fun <- Whickham %>%
+  count(smoker, outcome) %>%
+  mutate(total = sum(n)) %>%
+  summarise(P_H = sum(n[outcome == "Alive"]) / first(total))
+```
+
+
+```{r conditional-probability-alive-given-smoker}
+P_H_S <- Whickham %>% 
+  count(smoker, outcome) %>% 
+  filter(smoker == "Yes") %>% 
+  summarise(H_given_S = sum(outcome == "Alive")/sum(n))
+  
+```
+
+```{r}
+Whickham %>%
+  count(smoker, outcome) %>%
+  filter(smoker == "Yes") %>%
+  summarise(P_H_given_S = n[outcome == "Alive"] / sum(n))
+```
+
+### Exercise 6
+
+[any reasonable figure, relation description, expectations summary]
+
+```{r}
+
+ggplot(Whickham, aes(x = smoker, fill = outcome)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Smoker Status", fill = "Outcome", y = "Count") +
+  theme_minimal()
+
+```
+
+
+### Exercise 7
+
+```{r}
+
+Whickham <- Whickham %>% 
+  mutate(age_cat = case_when(age <= 44 ~ "18-44",
+                             age > 44 & age <= 64 ~ "45-64",
+                             age > 64 ~ "65+"))
+
+```
+
+
+### Exercise 8
+
+```{r}
+
+ggplot(Whickham, aes(x = smoker, fill = outcome)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Smoker Status", fill = "Outcome", y = "Count") +
+  theme_minimal() +
+  facet_wrap(~age_cat, nrow = 3)
+
+Whickham %>%
+  count(smoker, age_cat, outcome)
+
+```
