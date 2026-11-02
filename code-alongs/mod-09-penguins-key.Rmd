@@ -1,5 +1,5 @@
 ---
-title: "Module 8: Code-along - Palmer Penguins"
+title: "Module 9: Code-along - Palmer Penguins"
 author:
   - George Kachergis, Jessica Kosie^[Authored modifications to original code]
   - Derek Powell^[Original author of exercise]
