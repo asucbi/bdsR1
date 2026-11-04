@@ -1,5 +1,5 @@
 ---
-title: "Lab 08 - Heights, weights, and lines--oh my!"
+title: "Lab 09a - Heights, weights, and lines--oh my!"
 ---
 
 ```{r setup, include=FALSE}
@@ -7,7 +7,7 @@ source('assets/setup.R')
 library(tidyverse)
 library(modelr)
 
-source("starter/m8-helpers.R")
+source("starter/m9-helpers.R")
 
 # :::red : use for pre-lab activity instructions
 # :::lo : use for outlining the learning objectives
@@ -40,9 +40,9 @@ In this lab we will learn more about how to think about linear functions and how
 
 # Getting started
 
-Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 8`.
+Go to the course RStudio Cloud Workspace and locate the folder for the lab assignment, which should be named `Assignments: Module 9`.
 
-First, open the R Markdown document `mod-08-lab.Rmd` and Knit it.
+First, open the R Markdown document `mod-09a-lab.Rmd` and Knit it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.  
 

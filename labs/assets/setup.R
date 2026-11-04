@@ -3,7 +3,7 @@
 # ---
 
 # Dropdowns
-source('labs/assets/dropdowns.R')
+source('assets/dropdowns.R')
 
 # Knitr settings
 knitr::opts_chunk$set(
