@@ -1,5 +1,5 @@
 ---
-title: "HW 08 - Football, brains, and cognitive performance"
+title: "HW 09 - Football, brains, and cognitive performance"
 editor: 
   markdown: 
     wrap: sentence
@@ -14,9 +14,9 @@ These concerns have also sparked intense debates regarding the compensation of c
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `Assignments: Module 8`.
+Go to the course Posit Cloud Workspace and locate the folder for the homework assignment, which should be named `Assignments: Module 9`.
 
-First, open the R Markdown document `mod-08-hw.Rmd` and Knit it.
+First, open the R Markdown document `mod-09-hw.Rmd` and Knit it.
 
 ## Warm up
 

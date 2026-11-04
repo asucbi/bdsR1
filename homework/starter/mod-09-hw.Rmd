@@ -1,29 +1,78 @@
 ---
-title: "HW 09 - Wrap up!"
+title: "HW 09 - Football Brains"
 author: "Insert your name here"
 date: "Insert date here"
 output: html_document
 ---
 
+## Warming up
+
+
+```{r load-packages, message = FALSE, eval = TRUE}
+library(tidyverse)
+library(modelr)
+```
+
+
 ## Exercises
 
 ### Exercise 1
 
-Load packages and data
-
-```{r load-packages, message = FALSE}
-
-
-```
-
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+Add your code and text responses for the exercise here.
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 2 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+Add your code and text responses for the exercise here.
+
+### Exercise 3
+
+Add your code and text responses for the exercise here.
+
+### Exercise 4
+
+Add your code and text responses for the exercise here.
+
+### Exericse 5
+
+Add your code and text responses for the exercise here.
+
+### Exercise 6
+
+Add your code and text responses for the exercise here.
+
+### Exercise 7
+
+Add your code and text responses for the exercise here.
+
+### Exercise 8
+
+Add your code and text responses for the exercise here.
+
+### Exericse 9
+
+Add your code and text responses for the exercise here.
+
+### Exercise 10
+
+Add your code and text responses for the exercise here.
+
+### Exercise 11
+
+Add your code and text responses for the exercise here.
+
+### Exercise 12
+
+Add your code and text responses for the exercise here.
+
+### Exercise 13
+
+Add your code and text responses for the exercise here.
+
+### Exercise 14
+
+Add your code and text responses for the exercise here.
+
+### Exercise 15
+
+Add your code and text responses for the exercise here.
+
