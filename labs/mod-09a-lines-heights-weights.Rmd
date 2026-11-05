@@ -52,7 +52,7 @@ The output should also be automatically saved as an `.html` file with the same n
 
 ## Drawing and interpreting lines
 
-Unlike our previous labs, this lab will not be entirely contained in an Rmarkdown notebook. Instead we will begin with paper and pencil. Graph paper has been provided for you to complete the following exercises.
+Unlike our previous labs, this lab will not be entirely contained in an Rmarkdown notebook. Instead we will begin with paper and pencil. (See below for submission instructions -- you will upload a photo of this work.)
 
 `r qbegin(1)`
 
@@ -267,4 +267,7 @@ Now go back through your write up to make sure you've answered all questions and
 **SUBMITTING YOUR WORK**
 
 Once you decide as a team that you're done with this lab, change the YAML `output` from `html_output` to `pdf_output.` Now knit the document to produce a final PDF file. Make sure all team members have access to the PDF and each person needs to upload the PDF as a Canvas assignment.   
+
+Please take a photo of the "paper and pencil" exercises that you were asked to complete and upload them at the same Canvas link. You may have to upload this photo and your knitted lab separately, resulting in Canvas calling one a "resubmission." Please don't worry about this, we can see all of your submissions and will grade these as two parts of the same submission. Please also double check to make sure the photo was uploaded clearly.
+
 :::

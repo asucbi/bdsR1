@@ -1,5 +1,5 @@
 ---
-title: "Lab 08a - Heights, weights, and lines--oh my!"
+title: "Lab 09a - Heights, weights, and lines--oh my!"
 author: "Insert your name here"
 date: "Insert date here"
 ---

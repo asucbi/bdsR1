@@ -1,5 +1,5 @@
 ---
-title: "Lab 08b: Bike rentals in DC"
+title: "Lab 09b: Bike rentals in DC"
 author: "Insert your name here"
 date: "Insert date here"
 ---
@@ -11,7 +11,7 @@ library(tidyverse)
 library(dsbox) # devtools::install_github("tidyverse/dsbox")
 library(broom)
 
-source("starter/m8-helpers.R")
+source("starter/m9-helpers.R")
 ```
 
 ```{r load-data, message=FALSE}
