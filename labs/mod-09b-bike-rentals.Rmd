@@ -127,7 +127,7 @@ dcbikeshare %>%
       title = "Bike rentals in DC, 2011 and 2012",
       subtitle = "Warmer temperatures associated with more bike rentals",
       x = "Date",
-      y = "Bike renrals",
+      y = "Bike rentals",
       color = "Feeling Temp. (C)"
     ) +
   theme_minimal()
