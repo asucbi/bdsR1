@@ -145,13 +145,13 @@ dcbikeshare %>%
 Now that we are acquainted with our data, we can begin creating and interpreting some models.
 
 `r qbegin(7)`
- Fit a linear model predicting total daily bike rentals from daily temperature.
+ Fit a linear model predicting total daily bike rentals from actual daily temperature (atemp).
  Write the linear model, interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
 `r qend()`
 
 
 `r qbegin(8)`
- Fit another linear model predicting total daily bike rentals from daily feeling temperature.
+ Fit another linear model predicting total daily bike rentals from daily feeling temperature (temp).
     Write the linear model, interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
     Is temperature or feeling temperature a better predictor of bike rentals?
     Explain your reasoning.
