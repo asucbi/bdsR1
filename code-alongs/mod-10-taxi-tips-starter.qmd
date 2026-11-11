@@ -18,8 +18,11 @@ If you get stuck in answering any of the following, I would recommend:
 # PART 1: What are tidyModels 
 
 ```{r}
+
+install.packages("tidymodels")
 library(tidymodels)
 glimpse(taxi)
+
 ```
 
 
