@@ -19,9 +19,9 @@ format:
 
 <!-- -->
 
-```{r}
+```{r warning=FALSE}
 #| label: load-tm
-#| message: true
+#| message: false
 library(tidymodels)
 ```
 
@@ -44,12 +44,65 @@ library(tidymodels)
   </p>
 </figure>
 
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+This figure divides classical machine learning into two broad families: supervised and unsupervised learning. The key distinction is whether we have a known outcome that we want the model to predict.
+
+In supervised learning, every observation in our training data has a known outcome, sometimes called a label. We use those examples to learn a relationship between the predictors and the outcome. The outcome is already known in the training data.
+
+If the outcome is a category, we call it classification. For example, we might predict whether a taxi passenger leaves a tip: yes or no.
+
+If the outcome is a numerical quantity, we call it regression. For example, we might predict the dollar amount of a tip or the distance of a taxi trip.
+
+If we want to predict whether a trip was local versus non-local (binary variable), which would we use? CLASSIFICATION
+
+If we want to predict how many miles a ride is, which would we use? REGRESSION
+
+Our taxi example is supervised learning, specifically a classification problem, because the training data tell us whether each passenger tipped and we are predicting the categories ‘yes’ and ‘no.’
+
+In unsupervised learning, we do not begin with a known outcome to predict. Instead, we ask the algorithm to identify useful structure or patterns in the data. I'll briefly describe this since it's not our focus today.
+
+Clustering groups observations that are similar. For example, we might discover different types of taxi trips based on their distance, time of day, location, and cost—without specifying those groups in advance.
+
+Dimension reduction takes many related variables and summarizes them with a smaller number of dimensions. Principal components analysis, or PCA, is one example.
+
+Association methods look for items or events that tend to occur together. The classic example is discovering which products people frequently purchase together.
+
+For today, we are staying entirely on the left side of this diagram. We have a labeled outcome—whether a passenger tipped—and we want to predict a category. That makes this a supervised classification problem.
+:::
+
 <figure class="figure" style="margin-bottom: 60px; text-align: center;">
   <p>
     <img src="img/what_is_ml.jpg"
          class="img-fluid quarto-figure quarto-figure-center figure-img" />
   </p>
 </figure>
+
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+This figure show the relation among four commonly confused terms. These terms are related, but they are not interchangeable. Each smaller area represents a more specific set of methods within the larger area.
+
+Artificial intelligence is the broadest category. It refers to computer systems designed to perform tasks that we associate with intelligent behavior—such as reasoning, planning, recognizing patterns, understanding language, or making decisions.
+
+Importantly, not all AI uses machine learning. Traditional rule-based systems, search algorithms, and expert systems can be considered AI even though they do not learn patterns from data.
+
+Machine learning is one approach to artificial intelligence. Instead of programming every decision rule directly, we give the computer data and allow it to estimate patterns that it can use to make predictions or decisions. The logistic-regression and decision-tree models we will use today are machine-learning methods. They learn relationships from the taxi data and then use those relationships to predict whether a new passenger will leave a tip.
+
+Neural networks are one particular family of machine-learning models. They consist of connected layers of units—sometimes called artificial neurons—that learn increasingly complex relationships in the data.
+
+Deep learning uses neural networks with multiple layers, or steps, to learn complex patterns from data and make predictions. These kind of models do things like speech recognition, natural language processing, image recognition, etc.  
+
+Today we are working inside the machine-learning circle, but outside the neural-network circle. Logistic regression and decision trees are machine-learning models, but they are not neural networks or deep-learning models. 
+
+Is every Deep Learning Model a Machine Learning Model? YES
+
+Is every Machine Learning Model a Deep Learning Model? NO
+
+The decision tree we will use today is a machine-learning model but not a neural network (so it’s out in the ML circle).
+
+:::
 
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
@@ -68,6 +121,34 @@ They are sometimes thought of as capturing "two cultures:" Model first vs. data
 
 ## The whole game
 ![](img/whole-game-final-performance.jpg){.img-fluid}
+
+
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+This diagram shows the complete predictive-modeling process. The later figures highlight one portion at a time. The most important thing to watch is which data we are allowed to use at each stage.
+
+We begin with all our data and split it into training and test sets. We use the training data to develop the model. We can do things like fit multiple candidate models, compare their performance, and select one. We then fit the selected model using the full training set and evaluate it once on the test set.
+
+Splitting Data: Our first decision is how to spend our available data. Most of it becomes the training set, which we can use to build and compare models. The remainder becomes the test set, which we set aside and do not use during model development. Data are limited, so putting more observations in the training set gives us more information for fitting the model, while putting more in the test set gives us a more precise final evaluation. We need enough data for both purposes.
+
+We can start with one candidate model. Here, we will begin by specifying a decision-tree model so that we have a candidate model to work with. This is not yet our final model.
+
+The diagram highlights the decision tree first because it is the model we are using to demonstrate the model-building process. We then apply the same process to other candidate models and compare all of them using the same resampled training data. 
+
+Next, we use only the training data to evaluate multipe different candidate models. Cross-validation repeatedly divides the training data into smaller analysis and assessment sets. We fit each model on an analysis set and evaluate it on the corresponding assessment set. We could just identify multiple candidate models from the start rather than choosing the decision tree. 
+
+This gives us several estimates of performance instead of relying on one fortunate or unfortunate split. We can compare models using their average performance and the variability across folds.The test set is still untouched. Cross-validation occurs entirely within the training set.
+
+After comparing the candidates, we select the model and preprocessing procedure we want to use. We then fit that finalized model using all of the training data.
+
+Only now that we've decided on our model do we bring back the test set. The finalized model predicts the test observations, and we calculate our final performance metrics. This provides an independent estimate of how the model may perform on similar new data.
+
+If we examine the test results and repeatedly change the model to improve them, the test set becomes part of model development and is no longer an independent final test.
+
+**Develop and compare models using the training data; use the test data only after the modeling decisions are finalized**
+
+:::
 
 ### Splitting data (aka your data budget) and building a decision tree
 ![](img/whole-game-transparent-model-1.jpg){.img-fluid}
@@ -136,6 +217,19 @@ glimpse(taxi)
 -   Will this variable be available at prediction time?
 -   Does this variable contribute to explainability?
 
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+ETHICAL: Suppose the dataset included a passenger’s race, disability status, or a neighborhood variable that closely functions as a proxy for race or income. Even if the variable improves prediction, using it could produce discriminatory decisions. We should ask whether the variable is appropriate for the intended use—not merely whether it is statistically useful.
+
+AVAILABLE: Suppose we want to predict whether a passenger will tip when the trip begins, but one predictor is the trip’s final duration. Final trip duration might predict tipping, but we do not know it when the trip begins. Using it would give us an unrealistic impression of how well the model can perform in practice. This is sometimes called data leakage: the model receives information during development that would not actually be available when making a prediction. 
+
+CONTRIBUTE: Compare trip_distance with an arbitrary passenger or transaction ID. Trip distance is meaningful: we can explain how predicted tipping changes with distance. An arbitrary ID number has no meaningful interpretation, even if the model discovers an accidental pattern involving it. 
+
+Overall, a predictor should not be included simply because it improves accuracy. We should also ask whether using it is appropriate, realistic, and understandable.
+
+:::
+
 # PART 2: Data Budget
 
 ![](hexes/rsample.png){.absolute top="-20" right="0" width="64" height="74"}
@@ -160,6 +254,14 @@ For machine learning, we typically split data into training and test sets:
 
 ## Your turn
 -   ### *When is a good time to split your data?*
+
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+Split the data as early as possible so that the test set remains genuinely unseen. After the split, we use only the training data to explore patterns, make modeling decisions, and estimate preprocessing steps. We return to the test set only after finalizing the model.
+
+:::
+
 ## The initial split
 
 <!-- -->
@@ -327,6 +429,17 @@ logistic_reg()
 ### Step 2: Specify an Engine
 An engine is the underlying R package or function that performs the model fitting. The model type is the general method; the engine is its specific software implementation.
 
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+The model type tells us what kind of model we want to fit. The engine tells tidymodels which R package and function should do the actual fitting.
+
+You can think of the model type as the recipe and the engine as the appliance used to carry it out. Two appliances might follow the same general recipe, but use somewhat different procedures. In this class, I will tell you which engine to use—we are not choosing among them arbitrarily.
+
+We rpart is the underlying R software that builds our decision tree. It searches for predictor values that divide the observations into groups that are increasingly similar in their outcomes.
+
+:::
+
 For example:
 
 - `linear_reg()` typically uses the `"lm"` engine.
@@ -422,6 +535,13 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 
 -   The model’s results can then be converted back into probabilities that are easier to interpret.
 
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+Logistic regression does its calculations using log-odds because that scale works with a linear equation. We usually convert the results back into probabilities when we want to interpret or communicate the predictions.
+
+:::
+
 **The Logistic Regression Equation:**
 
 [\\(log(\\frac{p}{1 - p}) = \\beta_0 + \\beta_1\\cdot \\text{A}\\)]{.math .inline}
@@ -451,6 +571,16 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   The model is linear on the log-odds scale, but converting log-odds into probabilities produces an S-shaped curve bounded between 0 and 1.
 -   The points show estimates for different ranges of A, and the error bars show the uncertainty around those estimates.
 
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+In our example, zero could be no tip and 1 could be yes tip (One important clarification: "zero" and "one" are simply labels used to code the two outcomes. They do not have to be numeric in the dataset. The outcome could remain a factor with levels "no" and "yes".)
+
+The graph could show the model’s estimated probability that a passenger tips as predictor A increases.
+For example, if A represented the fare amount: At low fare amounts, the model predicts a low probability of receiving a tip. As the fare increases, the predicted probability of a tip increases and eventually levels off near one.
+
+:::
+
 <figure class="figure">
 <p><img src="img/figure-html/plot-logistic-reg-1.svg" class="img-fluid figure-img" width="576" /></p>
 </figure>
@@ -475,6 +605,25 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   A decision tree is a flowchart-like tree structure consisting of splits or if/then statements based on predictors
 
 **But to explain, visualizations are best for decision trees**
+
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+Class 0 = don’t survive; class 1 = survive
+
+Before the tree asks any questions about the predictors, its best simple guess is the most common outcome. Because 62% of the observations are class 0, the tree initially predicts class 0 for everyone. It then uses predictors such as sex, age, and passenger class to create groups in which a different prediction may be more accurate.
+
+So, it first uses sex to split. Is the passenger male? If yes, it looks at the probability of a male being in class 1 (surviving). That probability is 0.19, so if all the model knows is that someone is male, they predict they won’t survive. It also indicates that 65% of the dataset is male.
+
+For not-male; 75% are class 1 (survive), and that’s 35% of the dataset
+
+So there are fewer non-males than males in the data, but more of the non-males survived. 
+
+The model than finds the next most useful thing in the data to separate based on. For males it’s age > or < 6.5; for females it’s whether or not they were in 3rd class. 
+
+For Pclass, both passenger-class groups currently have more survivors than nonsurvivors, so both are labeled class 1. However, the model is much more confident about first- and second-class passengers. The third-class group is much more mixed, so the tree asks another question about fare to classify it more accurately. 
+
+:::
 
 <figure class="figure">
 <p><img src="img/unnamed-chunk-17-1.svg" class="img-fluid figure-img" width="672" /></p>
@@ -509,6 +658,13 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   This process is repeated recursively, forming a tree structure until certain stopping criteria are met (e.g., when a node has a small number of observations, some maximum depth).
 
 -   Trees are also **pruned** to reduce complexity and help prevent overfitting.
+
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+A tree can continue splitting until it creates very small, highly specific groups. Pruning cuts back branches that add complexity without providing enough improvement in prediction. We may sacrifice a little accuracy on the training data, but gain a model that is more likely to work well on new data. 
+
+:::
 
 ![](hexes/workflows.png){.absolute top="-20" right="0" width="64" height="74"}
 
@@ -848,6 +1004,13 @@ What happens for a 20% threshold?
 :::
 
 ![](hexes/yardstick.png){.absolute top="-20" right="0" width="64" height="74"}
+::: {.callout-note}
+## INSTRUCTOR NOTE
+
+**LECTURE 1: STOP HERE!** 
+
+:::
+
 
 ## ROC curves
 An ROC curve, or Receiver Operating Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes --- in our case, predicting a tip (yes) or no tip.

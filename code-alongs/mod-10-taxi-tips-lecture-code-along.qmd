@@ -450,7 +450,7 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   The points show estimates for different ranges of A, and the error bars show the uncertainty around those estimates.
 
 <figure class="figure">
-<p><img src="img/figure-html/plot-logistic-reg-1.svg" class="img-fluid figure-img" width="576" /></p>
+<p><img src="img/plot-logistic-reg-1.svg" class="img-fluid figure-img" width="576" /></p>
 </figure>
 
 ### Decision trees

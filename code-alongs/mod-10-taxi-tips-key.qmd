@@ -17,7 +17,7 @@ If you get stuck in answering any of the following, I would recommend:
 
 # PART 1: What are tidyModels 
 
-```{r}
+```{r warning=FALSE}
 
 #install.packages("tidymodels")
 library(tidymodels)
