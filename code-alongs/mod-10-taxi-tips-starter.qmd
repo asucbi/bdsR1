@@ -19,7 +19,7 @@ If you get stuck in answering any of the following, I would recommend:
 
 ```{r}
 
-install.packages("tidymodels")
+#install.packages("tidymodels")
 library(tidymodels)
 glimpse(taxi)
 
@@ -41,8 +41,8 @@ Hint: Which argument in `initial_split()` handles the proportion split into trai
 ```{r}
 # Your code here!
 
-set.seed(1112)
-taxi_split <- initial_split(taxi, prop = .80)
+set.seed(XXX)
+taxi_split <- initial_split(XXX)
 
 taxi_train <- training(taxi_split)
 taxi_test <- testing(taxi_split)
@@ -62,22 +62,6 @@ Explore the `taxi_train` data on your own!
 ```{r}
 # Your code here!
 
-ggplot(taxi, aes(x=tip)) +
-  geom_bar() +
-  labs(title = "distribution of the tips",
-       x = "tip given",
-       y = "count") +
-  theme_minimal()
-
-ggplot(taxi, aes(x=distance)) +
-  geom_histogram() +
-  facet_grid(. ~ tip)
-
-ggplot(taxi, aes(x=local, fill=tip)) +
-  geom_bar(position="dodge") +
-  theme_minimal()
-  
-
 
 
 ```
@@ -90,7 +74,7 @@ Go back and modify your earlier code where you split the data to stratify by tip
 # Your code here!
 
 set.seed(1112)
-taxi_split <- initial_split(taxi, prop = .80, strata = tip)
+taxi_split <- initial_split(taxi, prop = .80, XXX = XXX)
 
 taxi_train <- training(taxi_split)
 taxi_test <- testing(taxi_split)
@@ -114,11 +98,11 @@ Remember: All available models are listed at <https://www.tidymodels.org/find/pa
 ```{r}
 
 # Model
-logistic_reg() %>%
+XXX_reg() %>%
   # Set Engine
-  set_engine("glm") %>%
+  set_engine("XXX") %>%
   # set the mode  
-  set_mode("classification")
+  set_mode("XXX")
 
 
 ```
@@ -130,20 +114,25 @@ Create a workflow for a logistic regression model
 Make sure you swap out tree_* for logi_* when saving each set of code!
 
 ```{r}
-# Your code here!
-logi_spec <- logistic_reg() %>%
-  # Set Engine
-  set_engine("glm") %>%
-  # set the mode  
-  set_mode("classification")
 
-logi_wflow <- workflow() %>%
-  add_formula(tip ~ .) %>%
-  add_model(logi_spec)
+# Step 1: Specify the model with desired parameters
+# Here, create a logistic regression model specification
+# Set the mode to "classification" since we're predicting a binary outcome
 
-logi_fit <- logi_wflow %>%
-  fit(data=taxi_train)
+logi_spec <- XXX
 
+
+# Step 2: Build the workflow
+# Initialize a workflow object
+# Add the formula (e.g., tip ~ .) to specify the target and predictors
+# Attach the logistic regression model specified in Step 1
+
+logi_wflow <- XXX
+
+# Step 3: Fit the workflow to training data
+# Use the fit() function to apply the workflow to the training (NOT TEST!) data (e.g., taxi_train)
+
+logi_fit <- XXX
 
 ```
 
@@ -154,6 +143,8 @@ For the fitted logistic regression model, use `augment`, then `glance` and `tidy
 ```{r}
 # Your code here!
 augment(logi_fit, taxi_test)
+glance(XXX)
+tidy(XXX)
 
 ```
 
@@ -169,10 +160,6 @@ Compute a confusion matrix for your logistic model and produce a table that show
 
 ```{r}
 # Your code here!
-taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
-
-augment(logi_fit, taxi_train) %>%
-  taxi_metrics(truth=tip, estimate = .pred_class)
 
 ```
 

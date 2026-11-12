@@ -88,6 +88,12 @@ ggplot(taxi, aes(x=distance)) +
   facet_grid(. ~ tip) +
   theme_minimal()
 
+ggplot(taxi, aes(x=hour)) +
+  geom_histogram() +
+  facet_grid(. ~ tip) +
+  theme_minimal()
+
+
 ggplot(taxi, aes(x=local, fill=tip)) +
   geom_bar(position="dodge") +
   theme_minimal()
