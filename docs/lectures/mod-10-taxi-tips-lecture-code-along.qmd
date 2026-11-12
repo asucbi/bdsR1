@@ -7,6 +7,7 @@ format:
     toc: false
 ---
 
+
 ![](hexes/tidymodels.png){.absolute top="-20" right="0" width="64" height="74"}
 
 # PART 1: What are tidyModels?
@@ -14,16 +15,17 @@ format:
 #### A modeling framework!
 ![](img/tm-org.png){.img-fluid}
 
-```{r}
+<!-- -->
+
+```{r warning=FALSE}
 #| label: load-tm
-#| message: true
+#| message: false
 library(tidymodels)
 ```
 
 ### What we will be working on today
 -   A simplified predictive modeling workflow.
 
-## Machine learning as a predictive modeling process
 ## Machine learning as a predictive modeling process
 
 <figure class="figure" style="margin-bottom: 60px; text-align: center;">
@@ -51,12 +53,16 @@ library(tidymodels)
 
 ## Your turn
 -   ### *How are statistics and machine learning related?; How are they different?*
-<details>
-<summary><strong>Only open when you have researched your answers for these questions</strong></summary>
+
+<!-- -->
+
+::: {.callout-caution collapse="true"}
+## Only open when you have researched your answers for these questions
+
+Statistics and machine learning both use data to identify patterns, build models, and make predictions. Statistics often emphasizes explanation, inference, and uncertainty, whereas machine learning often emphasizes predictive performance on new data—but the two fields overlap substantially. 
 
 They are sometimes thought of as capturing "two cultures:" Model first vs. data first; or inference vs. prediction
-
-</details>
+:::
 
 ## The whole game
 ![](img/whole-game-final-performance.jpg){.img-fluid}
@@ -78,34 +84,51 @@ They are sometimes thought of as capturing "two cultures:" Model first vs. data
 ![](img/taxi_spinning.svg){.img-fluid}
 
 The city of Chicago releases anonymized trip-level data on taxi trips in the city. We will use a dataset that pulls a sample of 10,000 rides occurring in early 2022.
-> **Tip**
->
-> Type `?taxi` to learn more about this dataset, including references.
+
+<!-- -->
+
+::: {.callout-tip}
+## Tip
+
+
+Type `?taxi` to learn more about this dataset, including references.
+:::
+
+
+<!-- -->
 
 ```{r}
 library(tidymodels)
 ```
 
 
+<!-- -->
+
 ```{r}
 glimpse(taxi)
 ```
 
-> **Note**
->
-> `tip`: Whether the rider left a tip. A factor with levels "yes" and "no".
->
-> `distance`: The trip distance, in odometer miles.
->
-> `company`: The taxi company, as a factor. Companies that occurred few times were binned as "other".
->
-> `local`: Whether the trip started in the same community area as it began. See the source data for community area values.
->
-> `dow`: The day of the week in which the trip began, as a factor.
->
-> `month`: The month in which the trip began, as a factor.
->
-> `hour`: The hour of the day in which the trip began, as a numeric.
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+`tip`: Whether the rider left a tip. A factor with levels "yes" and "no".
+
+`distance`: The trip distance, in odometer miles.
+
+`company`: The taxi company, as a factor. Companies that occurred few times were binned as "other".
+
+`local`: Whether the trip started in the same community area as it began. See the source data for community area values.
+
+`dow`: The day of the week in which the trip began, as a factor.
+
+`month`: The month in which the trip began, as a factor.
+
+`hour`: The hour of the day in which the trip began, as a numeric.
+:::
+
 ### Checklist for predictors
 -   Is it ethical to use this variable? (Or even legal?)
 -   Will this variable be available at prediction time?
@@ -137,6 +160,8 @@ For machine learning, we typically split data into training and test sets:
 -   ### *When is a good time to split your data?*
 ## The initial split
 
+<!-- -->
+
 ```{r}
 #| label: taxi-split
 set.seed(123)
@@ -144,17 +169,31 @@ taxi_split <- initial_split(taxi)
 taxi_split
 ```
 
-> **How much data in training vs testing?**
->
-> This function uses a good default, but this depends on your specific goal/data. There are more powerful ways of splitting, like stratification, that we will get into later.
-> **What is set.seed()?**
->
-> To create that split of the data, R generates "pseudo-random" numbers: while they are made to behave like random numbers, their generation is deterministic give a "seed".
->
-> This allows us to reproduce results by setting that seed.
->
-> Which seed you pick doesn't matter, as long as you don't try a bunch of seeds and pick the one that gives you the best performance.
+<!-- -->
+
+::: {.callout-note}
+## How much data in training vs testing?
+
+
+This function uses a good default, but this depends on your specific goal/data. There are more powerful ways of splitting, like stratification, that we will get into later.
+:::
+
+<!-- -->
+
+::: {.callout-note}
+## What is set.seed()?
+
+
+To create that split of the data, R generates "pseudo-random" numbers: while they are made to behave like random numbers, their generation is deterministic give a "seed".
+
+This allows us to reproduce results by setting that seed.
+
+Which seed you pick doesn't matter, as long as you don't try a bunch of seeds and pick the one that gives you the best performance.
+:::
+
 ## Accessing the data
+
+<!-- -->
 
 ```{r}
 #| label: taxi-train-test
@@ -164,13 +203,16 @@ taxi_test <- testing(taxi_split)
 
 ### The training set
 
+<!-- -->
+
 ```{r}
 #| label: taxi-train
 taxi_train
 ```
 
 ### The test set
-🙈
+
+DON'T PEEK! 🙈
 
 There are 2500 rows and 7 columns in the test set.
 
@@ -189,8 +231,11 @@ As you know by now, before we get too far into our data analysis, we want to do 
 -   ### *What's the distribution of the outcome, `tip`?*
 -   ### *What's the distribution of numeric variables like `distance`?*
 -   ### *How does `tip` differ across the categorical variables?*
-<details>
-<summary><strong>Open only after you’ve attempted to generate a few plots on your own</strong></summary>
+
+<!-- -->
+
+::: {.callout-caution collapse="true"}
+## Open only after you’ve attempted to generate a few plots on your own
 
 For `taxi-tip-counts`, what about using `geom_bar()` with just `tip`?
 
@@ -199,28 +244,37 @@ For `taxi-tip-by-distance`, I would recommend `geom_histograms` and play around 
 For `taxi-tip-by-hour`, I would plot making use of `fill=` and `geom_bar`
 
 For `taxi-tip-by-local`, I'll leave this one up to you, but add a colore palette for color-blind people.
-
-</details>
+:::
 
 ## Split smarter
-Based on our EDA, we know that the source data contains fewer `"no"` tip values than `"yes"`. We want to make sure we allot equal proportions of those responses so that both the training and testing data have enough of each to give accurate estimates.
+Our EDA showed that the dataset contains fewer "no" tip outcomes than "yes" tip outcomes. With a completely random split, one partition could receive disproportionately few "no" observations.
+
+Stratified sampling performs the split separately within each outcome category. This helps the training and test sets retain approximately the same proportion of "yes" and "no" outcomes as the original dataset.
 
 **Stratified sampling** would split within response values
-<details>
-<summary><strong>Proof that there are fewer “no” tips through EDA</strong></summary>
 
+<!-- -->
+
+::: {.callout-caution collapse="true"}
+## Proof that there are fewer “no” tips through EDA
 
 <figure class="figure">
 <p><img src="img/taxi-tip-pct-1.svg" class="img-fluid figure-img" width="672" /></p>
 </figure>
+:::
+
+<!-- -->
+
+::: {.callout-tip}
+## Tip
 
 
-</details>
+- Regression: Because the outcome is continuous, stratification can divide its values into ranges—often quantile-based groups—and sample within those ranges. This helps both sets represent the full outcome distribution.
 
-> **Tip**
->
-> -   For stratification involving regression, determine the quartiles of the data set and sample within those artificial groups
-> -   For time series, we often use the most recent data as the test set
+- Time-series data: We generally preserve chronological order rather than randomly splitting. We train on earlier observations and assess performance on more recent observations, which better matches prediction in practice.
+
+:::
+
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
 ## Your turn
@@ -230,23 +284,31 @@ Based on our EDA, we know that the source data contains fewer `"no"` tip values 
 In tidyModels, building a model follows three main steps:
 
 1.  Choose a Model Type -- What kind of model do we need? Linear regression? Logistic regression? A decision tree?
+
 2.  Specify an Engine -- How do we want to fit this model? Each model can be fit using different tools, known as "engines."
+
 3.  Set the Mode -- Are we predicting a category (classification) or a number (regression)?
 
 Let's walk through each step and see examples along the way!
 
 ### Step 1: Choose a Model Type
-The model type determines the basic approach for how we'll make predictions. Here are a few examples:
+The model type determines the basic approach for how we'll make predictions. 
+
+After deciding whether we have a regression or classification problem, we choose a model type. Different models make different assumptions and learn patterns in different ways. There is rarely one model that is automatically best, so we often compare several using resampling.
+
+Here are a few examples:
 
 -   Linear Regression: Good for predicting numbers, like predicting the price of a house.
 
 -   Logistic Regression: Useful for binary categories, like predicting whether a customer will tip (yes or no).
 
--   Decision Tree: Can be used for either regression (predicting numbers) or classification (predicting categories) and works by splitting the data into branches.
+-   Decision Tree: Can be used for either regression (predicting numbers) or classification (predicting categories). Creates a series of if/then rules by repeatedly splitting the data.
 
 To see all the available model types in tidyModels, check out this list of models: <https://www.tidymodels.org/find/parsnip/>
 
 **Example:** Let's start with a basic linear regression model. This type of model is used when we want to predict a continuous number, such as predicting house prices.
+
+<!-- -->
 
 ```{r}
 linear_reg()
@@ -254,38 +316,43 @@ linear_reg()
 
 This code sets up a linear regression model with the default settings, which includes a default engine (lm for linear model).
 
+Now let's look at a logistic regression model. This type of model is used when we want to predict a binary outcome with two possible categories, such as whether a taxi passenger will leave a tip ("yes" or "no").
+
+```{r}
+logistic_reg()
+```
+
 ### Step 2: Specify an Engine
-The engine tells tidyModels how to fit the model. R has multiple tools (or "engines") to fit a model, each with its strengths:
+An engine is the underlying R package or function that performs the model fitting. The model type is the general method; the engine is its specific software implementation.
 
--   lm: Standard linear model (default for linear regression).
+For example:
 
--   glm: Generalized linear model (useful for logistic regression).
+- `linear_reg()` typically uses the `"lm"` engine.
+- `logistic_reg()` typically uses the `"glm"` engine.
+- `decision_tree()` typically uses the `"rpart"` engine.
+- `rand_forest()` commonly uses the `"ranger"` engine.
 
--   glmnet: For regularized regression (helps prevent overfitting).
-
--   keras: Uses TensorFlow for deep learning models.
-
--   stan: Bayesian modeling.
-
--   spark: Efficient for large datasets.
-
-Each engine fits the model slightly differently. tidyModels allows you to switch engines easily, so you can try different approaches with minimal code changes.
+Some model types have multiple possible engines. Alternative engines may use different estimation methods, such as regularization, Bayesian estimation, or distributed computing. However, not every engine is available for every model type.
 
 **Example:** Let's specify the engine for linear regression as glm, which is often used for logistic or generalized models.
+
+<!-- -->
 
 ```{r}
 linear_reg() %>% 
   set_engine("glm")
 ```
 
+Here, `linear_reg()` identifies the model type, while `set_engine("glm"`) tells tidymodels to fit it using R’s glm() function.
+
 Now, if we wanted to use Stan for Bayesian regression, we can change the engine like this:
+
+<!-- -->
 
 ```{r}
 linear_reg() %>%
   set_engine("stan")
 ```
-
-linear_reg() %\>% set_engine("stan")
 
 This flexibility allows us to choose the best method for our data and problem.
 
@@ -297,6 +364,8 @@ The mode tells tidyModels whether our goal is regression (predicting a number) o
 -   Classification Mode: Use for predicting categories (like whether a customer will tip).
 
 **Example:** Let's set up a decision tree model. A decision tree can be used for either classification or regression, so we need to set the mode explicitly if it's not clear from the context.
+
+<!-- -->
 
 ```{r}
 decision_tree() %>% 
@@ -317,6 +386,8 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 ## Your turn
 -   ### *Edit the code to create a logistic regression model*
 
+<!-- -->
+
 ```{r}
 #| eval: false
 # Model: Specify a logistic regression model
@@ -327,8 +398,8 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 ```
 
 ## Models we'll be using today
--   Logistic regression (you)
 -   Decision trees (me)
+-   Logistic regression (you)
 
 ### Logistic regression
 **The concept of odds and probability:**
@@ -341,9 +412,13 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 
 **From odds to log-odds:**
 
--   It's challenging to work with odds in mathematical modeling, especially when there are multiple factors that might affect an outcome
+-   Probabilities are restricted to values between 0 and 1, and odds are restricted to positive values.
 
--   This is why we take the logarithm of the odds which puts it on a scale that is easier to work with
+-   A linear equation, however, can produce values anywhere from negative infinity to positive infinity.
+
+-   Taking the logarithm of the odds puts them on this unrestricted scale, allowing logistic regression to model the outcome using a linear combination of the predictors.
+
+-   The model’s results can then be converted back into probabilities that are easier to interpret.
 
 **The Logistic Regression Equation:**
 
@@ -354,9 +429,8 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   [\\(\\beta_0\\)]{.math .inline} is the intercept, which represents the log-odds of the event when predictor A is zero
 
 -   [\\(\\beta_1\\cdot \\text{A}\\)]{.math .inline} is the slope of coefficient for predictor `A`, indicating how much the log-odds of the event changes with a one-unit change in `A`
-> **Note**
->
-> It is common to convert the log-odds units into what is called an odds ratio (OR)
+
+
 **Relating this back to taxi's and tips**
 
 -   We want to predict whether someone will tip ("one") or not based on the trip distance, in odometer meters (`A`).
@@ -368,13 +442,12 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 -   Maybe as distance increases, the probability of getting a tip increases? (but not linearly- there are diminishing returns after a certain point)
 
 ### A possibly helpful visual
--   Lets simulate a dataset of 500 observations with a single predictor `A` using our logistic regression equation. We ensure that the log-odds of the binary outcome (`class` with levels "zero" and "one") increases with respect to `A` with an intercept of `.1` and a slope of `2`.
 
--   Estimate the probability (converting log-odds to probabilities) of the "one" class for different values of `A` and plot these (`A` values are binned in 0.5 increments; error bars show the confidence intervals for estimates)
-
--   The visual demonstrates the concept of the odds and probabilities changing in a non-linear fashion across the range of `A`, a key concept in logistic regression.
-
-What a logistic regression is doing is trying to fit this sort of sigmoid line to separate the two classes in an outcome.
+-   We simulated 500 observations with one predictor, A, and a binary outcome with the classes "zero" and "one".
+-   The model was constructed so that the probability of "one" increases as A increases.
+-   The pink curve shows the probabilities predicted by the logistic regression model.
+-   The model is linear on the log-odds scale, but converting log-odds into probabilities produces an S-shaped curve bounded between 0 and 1.
+-   The points show estimates for different ranges of A, and the error bars show the uncertainty around those estimates.
 
 <figure class="figure">
 <p><img src="img/figure-html/plot-logistic-reg-1.svg" class="img-fluid figure-img" width="576" /></p>
@@ -384,13 +457,16 @@ What a logistic regression is doing is trying to fit this sort of sigmoid line t
 **An analogy**
 
 -   Let's play 20 questions: I'm thinking of a person, place, or thing. Guess it with asking "yes" or "no" questions
-<details>
-<summary><strong>Seriously, can you guess what or who or where I’m thinking about?</strong></summary>
 
+<!-- -->
+
+::: {.callout-caution collapse="true"}
+## Seriously, can you guess what or who or where I’m thinking about?
 
 <figure class="figure">
 <p><img src="img/titantic.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="200" /></p>
 </figure>
+:::
 
 **A slightly more formal characterization**
 
@@ -399,10 +475,13 @@ What a logistic regression is doing is trying to fit this sort of sigmoid line t
 **But to explain, visualizations are best for decision trees**
 
 <figure class="figure">
-<p><img src="imgl/unnamed-chunk-17-1.svg" class="img-fluid figure-img" width="672" /></p>
+<p><img src="img/unnamed-chunk-17-1.svg" class="img-fluid figure-img" width="672" /></p>
 </figure>
-<details>
-<summary><strong>Variable explanations</strong></summary>
+
+<!-- -->
+
+::: {.callout-caution collapse="true"}
+## Variable explanations
 
 `0` corresponds to "Did Not Survive"; `1` corresponds to "Survived"
 
@@ -417,8 +496,7 @@ What a logistic regression is doing is trying to fit this sort of sigmoid line t
 `Parch:` The number of parents or children the passenger had aboard the Titanic. This is also a discrete numerical feature. Note that some relations, like nannies or friends, may not be included in this count.
 
 `Fare:` The amount of money the passenger paid for the ticket. This is a continuous numerical feature.
-
-</details>
+:::
 
 **A few things to keep in mind**
 
@@ -428,16 +506,7 @@ What a logistic regression is doing is trying to fit this sort of sigmoid line t
 
 -   This process is repeated recursively, forming a tree structure until certain stopping criteria are met (e.g., when a node has a small number of observations, some maximum depth).
 
--   Trees are also **pruned** to reduce its complexity
-
-### Another possibly helpful visual
-<figure class="figure">
-<p><img src="img/plot-tree-fit-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480" /></p>
-</figure>
-
-<figure class="figure">
-<p><img src="img/plot-tree-preds-1.svg" class="img-fluid figure-img" width="576" /></p>
-</figure>
+-   Trees are also **pruned** to reduce complexity and help prevent overfitting.
 
 ![](hexes/workflows.png){.absolute top="-20" right="0" width="64" height="74"}
 
@@ -481,16 +550,18 @@ Next, we specify the model we want to fit. This could be anything from a linear 
 
 ## A model workflow
 
+<!-- -->
+
 ```{r}
 #| label: tree-wflow
 # Step 1: Specify the model with desired parameters
 tree_spec <- 
-  decision_tree(cost_complexity = 0.002) %>%  # Define model type and complexity
+  decision_tree(cost_complexity = 0.002) %>%  # Define model type 
   set_mode("classification")                   # Set mode to "classification" for binary outcomes
 
 # Step 2: Build the workflow
 tree_wflow <- workflow() %>% 
-  add_formula(tip ~ .) %>%                     # Add the formula defining target and predictors
+  add_formula(tip ~ .) %>%                     # Add the formula defining target and predictors. This is the "preprocessor" in this case
   add_model(tree_spec)                         # Attach the specified model
 
 # Step 3: Fit the workflow to training data
@@ -499,17 +570,24 @@ tree_fit <-
   fit(data = taxi_train)                       # Fit the workflow to the training dataset
 ```
 
-> **Tip**
->
-> "Shortcut" by specifying the preprocessor and model specs directly in the `workflow()` call:
->
-> ```r
-> workflow(tip ~ ., tree_spec) %>% 
->   fit(data = taxi_train) 
-> ```
->
+<!-- -->
+
+::: {.callout-tip}
+## Tip
+
+
+"Shortcut" by specifying the preprocessor and model specs directly in the `workflow()` call:
+
+```r
+workflow(tip ~ ., tree_spec) %>% 
+  fit(data = taxi_train) 
+```
+:::
+
 ## Your turn
 -   ### *Fill out the chunk below to create a workflow for a logistic regression model*
+
+<!-- -->
 
 ```{r}
 #| label: logi-wflow
@@ -525,7 +603,7 @@ tree_fit <-
 ### logi_wflow <- ..
 
 # Step 3: Fit the workflow to training data
-# Use the fit() function to apply the workflow to the training data (e.g., taxi_train)
+# Use the fit() function to apply the workflow to the training (NOT TEST!) data (e.g., taxi_train)
 ### logi_fit <- ... 
 ```
 
@@ -533,6 +611,8 @@ tree_fit <-
 
 ## Pre-processing: Adding "recipes"
 -   Hypothetical additions just for illustrative purposes
+
+<!-- -->
 
 ```{r}
 #| eval: false
@@ -556,46 +636,90 @@ tree_wflow <- workflow() %>%
 
 ## How do we **understand** our new `tree_fit`/`logi_fit` models?
 #### Predict with your model
-<details>
-<summary><strong>What happens when you run predict(logi_fit, new_data = taxi_test)</strong></summary>
+
+Up to this point, we have used the training data to build the decision tree. The model has learned which predictors to use, where to split the data, and what class or probability to assign to each terminal node.
+
+## What happens when you run predict(logi_fit, new_data = taxi_test)
 
 ```{r}
-predict(tree_fit, new_data = taxi_test)
+tree_fit %>%
+  predict(new_data = taxi_test)
 ```
 
-</details>
-
+Add the predictions back into our dataset.
 
 ```{r}
-augment(tree_fit, new_data = taxi_test)
+taxi_results <- tree_fit %>%
+  augment(new_data = taxi_test)
+
+taxi_results
 ```
 
-> **The tidymodels prediction guarantee!**
->
-> -   The predictions will always be inside a **tibble**
-> -   The column names and types are **unsurprising** and **predictable**
-> -   The number of rows in `new_data` and the output **are the same**
-#### Bonus: For decision trees, visualization
+augment() passes each test observation through the fitted tree and adds the resulting class prediction and class probabilities to the original test data.
+
+At this stage, the model is frozen: it does not learn from or change in response to the test data. The test observations simply follow the decision rules learned from the training data. The known test outcomes are used only to compare the model’s predictions with what actually happened.
+
+::: {.callout-important}
+The test set should be used only after model selection and tuning are complete. Repeatedly changing the model based on its test performance would allow information from the test set to influence model development, making it less useful as an unbiased evaluation of performance on new data.
+:::
+
+<!-- -->
+
+::: {.callout-tip}
+## The tidymodels prediction guarantee!
+
+
+-   The predictions will always be inside a **tibble**
+-   The column names and types are **unsurprising** and **predictable**
+-   The number of rows in `new_data` and the output **are the same**
+:::
+
+#### Visualizing the fitted decision tree
 <figure class="figure">
 <p><img src="img/plot-tree-fit-4-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672" /></p>
 </figure>
-> **Additional methods for understanding models**
->
-> -   Overall variable importance, such as with the [vip](https://koalaverse.github.io/vip/) package
->
-> -   Flexible model explainers, such as with the [DALEXtra](https://dalex.drwhy.ai/) package. *Works by removing a variable and see the effect on prediction, if the variable is important it will really wreck with the fit accuracy*
+
+<!-- -->
+
+::: {.callout-note}
+## Additional methods for understanding models
+
+
+-   Overall variable importance, such as with the [vip](https://koalaverse.github.io/vip/) package
+
+-   Flexible model explainers, such as with the [DALEXtra](https://dalex.drwhy.ai/) package. *Works by removing a variable and see the effect on prediction, if the variable is important it will really wreck with the fit accuracy*
+:::
+
 Learn more at <https://www.tmwr.org/explain.html>
 
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
 ## Your turn
 -   ### *For the fitted logistic regression model, use `augment`, then `glance` and `tidy`. What happens with each?*
+
+::: {.callout-caution collapse="true"}
+`augment()` works at the observation level. It adds the predicted class and predicted probabilities to each row of the supplied data.
+
+`glance()` works at the whole-model level. It produces a one-row summary containing overall model information such as AIC, BIC, deviance, log-likelihood, and the number of observations.
+
+`tidy()` works at the predictor level. It produces one row for each model coefficient, including its estimate, standard error, test statistic, and p-value. For logistic regression, the estimates are in log-odds units unless they are exponentiated into odds ratios. The decision tree separately decides which predictors and cutoff values to use. We then compare the two models’ predictive performance using resampling or test data.
+:::
+
 ![](hexes/yardstick.png){.absolute top="-20" right="0" width="64" height="74"}
 
 # PART 4: Metrics for model performance
-> **Warning**
->
-> In the following we will be working on evaluation metrics based on the training set data, but keep in mind that you also need to run the metrics on the test data. If you fail to do so, it can give a misleading impression of model performance. Hopefully this will be clearer soon.
+
+<!-- -->
+
+::: {.callout-warning}
+## Warning
+
+
+In the following we will be working on evaluation metrics based on the training set data, but keep in mind that you also need to run the metrics on the test data. If you fail to do so, it can give a misleading impression of model performance. Hopefully this will be clearer soon.
+:::
+
+
+<!-- -->
 
 ```{r}
 #| label: taxi-fit-augment
@@ -607,6 +731,8 @@ augment(tree_fit, new_data = taxi_train) %>%
 ![](img/confusion-matrix.png){.img-fluid}
 
 `conf_mat()` can be used to see how well the model is doing at prediction
+
+<!-- -->
 
 ```{r}
 #| label: conf-mat-plot
@@ -620,6 +746,8 @@ This is a straightforward measure of the proportion of correct predictions out o
 
 ![](img/confusion-matrix-accuracy.png){.img-fluid width="500"}
 
+<!-- -->
+
 ```{r}
 #| label: acc-2
 augment(tree_fit, new_data = taxi_train) %>%
@@ -627,13 +755,21 @@ augment(tree_fit, new_data = taxi_train) %>%
   accuracy(truth = tip, estimate = .pred_class)
 ```
 
-> **Dangers of accuracy**
->
-> We need to be careful of using `accuracy()` since it can give "good" performance by only predicting one way with imbalanced data
+<!-- -->
+
+::: {.callout-warning}
+## Dangers of accuracy
+
+
+We need to be careful of using `accuracy()` since it can give "good" performance by only predicting one way with imbalanced data
+:::
+
 ## Sensitivity
 Where accuracy provides a quick understanding of how often the model is correct, sensitivity is an important measure when the cost of missing a positive case (false negative) is high. In our scenario, a positive case is the outcome variable coded as "1" (tip: yes). In other scenarios, this is more consequential (such as correctly predicting the percentage of sick people who have some targeted condition).
 
 ![](img/confusion-matrix-sensitivity.png){.img-fluid width="500"}
+
+<!-- -->
 
 ```{r}
 #| label: sens
@@ -646,6 +782,8 @@ This is essentially the compliment of sensitivity. Specificity is an important m
 
 ![](img/confusion-matrix-specificity.png){.img-fluid width="500"}
 
+<!-- -->
+
 ```{r}
 #| label: spec
 augment(tree_fit, new_data = taxi_train) %>%
@@ -654,6 +792,8 @@ augment(tree_fit, new_data = taxi_train) %>%
 
 ## Combining the metrics
 We can use `metric_set()` to combine multiple calculations into a single table
+
+<!-- -->
 
 ```{r}
 #| label: taxi-metrics
@@ -664,6 +804,8 @@ augment(tree_fit, new_data = taxi_train) %>%
 ```
 
 All yardstick metric functions work with grouped data frames!
+
+<!-- -->
 
 ```{r}
 #| label: taxi-metrics-grouped
@@ -678,34 +820,35 @@ augment(tree_fit, new_data = taxi_train) %>%
 
 ## Your turn
 -   ## *Compute a confusion matrix for your logistic model and produce a table that shows its accuracy, specificity, sensitivity scores*
-> **An important aside: Two class data**
->
-> These metrics assume that we know the threshold for converting "soft" probability predictions into "hard" class predictions.
->
-> Is a 50% threshold good?
->
-> What happens if we say that we need to be 80% sure to declare an event?
->
-> -   sensitivity ⬇️, specificity ⬆️ In other words: more likely to predict negatives(no tips)
->
-> What happens for a 20% threshold?
->
-> -   sensitivity ⬆️, specificity ⬇️ In other words: more likely to predict positives(yes tips)
->
->
->
->
->
-> <figure class="figure">
-> <p><img src="img/thresholds-1.svg" class="img-fluid figure-img" width="672" /></p>
-> </figure>
->
->
->
+
+<!-- -->
+
+::: {.callout-note}
+## An important aside: Two class data
+
+
+These metrics assume that we know the threshold for converting "soft" probability predictions into "hard" class predictions.
+
+Is a 50% threshold good?
+
+What happens if we say that we need to be 80% sure to declare an event?
+
+-   sensitivity ⬇️, specificity ⬆️ In other words: more likely to predict negatives(no tips)
+
+What happens for a 20% threshold?
+
+-   sensitivity ⬆️, specificity ⬇️ In other words: more likely to predict positives(yes tips)
+
+
+<figure class="figure">
+<p><img src="img/thresholds-1.svg" class="img-fluid figure-img" width="672" /></p>
+</figure>
+:::
+
 ![](hexes/yardstick.png){.absolute top="-20" right="0" width="64" height="74"}
 
 ## ROC curves
-An ROC curve, or Receiver Operator Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes --- in our case, predicting a tip (yes) or no tip.
+An ROC curve, or Receiver Operating Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes --- in our case, predicting a tip (yes) or no tip.
 
 **What Does the ROC Curve Show Us?**
 
@@ -724,10 +867,19 @@ For example:
 -   At lower thresholds, the model is more likely to predict 'yes tip,' which increases sensitivity but might lower specificity.
 
 -   At higher thresholds, the model is stricter, predicting 'no tip' more often, which decreases sensitivity but increases specificity.
-> **Why 1-sensitivity for FPR?**
->
-> Given that sensitivity is the true positive rate, and specificity is the true negative rate. Hence `1 - specificity` is the false positive rate.
+
+<!-- -->
+
+::: {.callout-note}
+## Why 1-sensitivity for FPR?
+
+
+Given that sensitivity is the true positive rate, and specificity is the true negative rate. Hence `1 - specificity` is the false positive rate.
+:::
+
 **Here's the ROC curve for our model based on the training data:**
+
+<!-- -->
 
 ```{r}
 #| label: roc-curve
@@ -754,18 +906,32 @@ In general, a higher AUC means better performance. Our AUC value, shown here, he
 
 **Let's get the actual value for AUC:**
 
+<!-- -->
+
 ```{r}
 #| label: roc-auc
 augment(tree_fit, new_data = taxi_train) %>% 
   roc_auc(truth = tip, .pred_yes)
 ```
 
-> **Note**
->
-> ROC curves are insensitive to class imbalance.
-> **Note**
->
-> Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can't see the exact thresholds on the curve itself. To pinpoint a particular threshold, we'd need to look at our data.
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+ROC curves are insensitive to class imbalance.
+:::
+
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can't see the exact thresholds on the curve itself. To pinpoint a particular threshold, we'd need to look at our data.
+:::
+
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
 ## Your turn
@@ -804,12 +970,16 @@ Models can easily be overfitted to the training data, meaning they perform well 
 ## Is our model doing well on training but poorly on new data?
 #### Here's our model performance on the training data
 
+<!-- -->
+
 ```{r}
 #| label: augment-train
 tree_fit %>%
   augment(taxi_train)
 ```
 
+
+<!-- -->
 
 ```{r}
 #| label: augment-acc
@@ -819,6 +989,8 @@ tree_fit %>%
 ```
 
 #### Here's our model performance on the test data (unseen data)
+
+<!-- -->
 
 ```{r}
 #| label: augment-acc-test
@@ -862,13 +1034,20 @@ We randomly split the training data into V (or K) distinct blocks of roughly equ
 -   This process ensures that every observation from the original dataset has the chance of appearing in the analysis and assessment set
 
 ![](https://www.tmwr.org/premade/three-CV-iter.svg){.img-fluid}
-> **Other advantages of resampling with V-fold cross-validation**
->
-> -   **Efficient use of data:** When the amount of data is limited, it's a way to use every data point in both the training and validation
->
-> -   **Model tuning:** Useful method for selecting the model with the best tuning parameters (hyperparameters). You can perform cross-validation for various combinations of parameters and choose the one that performs best.
->
-> -   **Comparing models** What if we want to compare more models to see if there are important differences? Cross-validation allows us to do just this with just the *training* data
+
+<!-- -->
+
+::: {.callout-tip}
+## Other advantages of resampling with V-fold cross-validation
+
+
+-   **Efficient use of data:** When the amount of data is limited, it's a way to use every data point in both the training and validation
+
+-   **Model tuning:** Useful method for selecting the model with the best tuning parameters (hyperparameters). You can perform cross-validation for various combinations of parameters and choose the one that performs best.
+
+-   **Comparing models** What if we want to compare more models to see if there are important differences? Cross-validation allows us to do just this with just the *training* data
+:::
+
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
 ## Your turn
@@ -877,16 +1056,26 @@ We randomly split the training data into V (or K) distinct blocks of roughly equ
 
 ## Let's do some cross-validation
 
+<!-- -->
+
 ```{r}
 #| label: vfold-cv
 taxi_folds <- vfold_cv(taxi_train) # v = 10 is default
 taxi_folds
 ```
 
-> **Note**
->
-> These separate sets are in a list column, which is a way to store non-atomic types in a dataframe
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+These separate sets are in a list column, which is a way to store non-atomic types in a dataframe
+:::
+
 #### We can do this with how many folds we want
+
+<!-- -->
 
 ```{r}
 #| label: vfold-cv-v
@@ -895,15 +1084,26 @@ vfold_cv(taxi_train, v = 5)
 
 #### Stratification often helps, with very little downside
 
+<!-- -->
+
 ```{r}
 #| label: vfold-cv-strata
 vfold_cv(taxi_train, strata = tip)
 ```
 
 ### We'll use this setup:
-> **Important**
->
-> Set the seed when creating resamples
+
+<!-- -->
+
+::: {.callout-important}
+## Important
+
+
+Set the seed when creating resamples
+:::
+
+
+<!-- -->
 
 ```{r}
 #| label: taxi-folds
@@ -914,6 +1114,8 @@ taxi_folds
 
 ## Fit our model to the resamples!
 #### We will fit 10 models on 10 slightly different analysis sets.
+
+<!-- -->
 
 ```{r}
 #| label: fit-resamples
@@ -931,19 +1133,34 @@ taxi_res
 -   The goal of resampling is to produce a single estimate of performance for a model
 -   The final performance is based on the hold-out predictions by averaging the statistics from the V folds.
 
+<!-- -->
+
 ```{r}
 #| label: collect-metrics
 taxi_res %>%
   collect_metrics()
 ```
 
-> **Note**
->
-> Even though we end up estimating V models, these models are discarded after we have our performance estimate. 🗑
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+Even though we end up estimating V models, these models are discarded after we have our performance estimate. 🗑
+:::
+
 ### We can reliably measure performance using only the **training** data 🎉
-> **Note**
->
-> `collect_metrics()` is one of a suite of `collect_*()` functions that can be used to work with columns of tuning results. Most columns in a tuning result prefixed with `.` have a corresponding `collect_*()` function with options for common summaries.
+
+<!-- -->
+
+::: {.callout-note}
+## Note
+
+
+`collect_metrics()` is one of a suite of `collect_*()` functions that can be used to work with columns of tuning results. Most columns in a tuning result prefixed with `.` have a corresponding `collect_*()` function with options for common summaries.
+:::
+
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
 ## Your turn
@@ -952,6 +1169,8 @@ taxi_res %>%
 ### Compare model performance with all the training data vs. resampling (subsets of training data)
 #### ROC AUC from all the training data:
 
+<!-- -->
+
 ```{r}
 #| label: roc-auc-2
 augment(tree_fit, new_data = taxi_train) %>% 
@@ -959,6 +1178,8 @@ augment(tree_fit, new_data = taxi_train) %>%
 ```
 
 #### ROC AUC from resampling (subsets of training data):
+
+<!-- -->
 
 ```{r}
 taxi_res %>%
@@ -989,6 +1210,8 @@ Summarize the model's expected performance on unseen data, using the mean and st
 #### Verify Performance w/ Test Data
 Present metrics for the final model evaluated on the test set to show its actual generalizability. The performance metrics derived from the held-out test set give the reader an understanding of how the model performs on completely unseen data. This is the ultimate test of the model's generalizability.
 
+<!-- -->
+
 ```{r}
 taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
 
@@ -996,6 +1219,8 @@ augment(tree_fit, new_data = taxi_test) %>% ## NOTE: switched out taxi_train for
   taxi_metrics(truth = tip, estimate = .pred_class)
 ```
 
+
+<!-- -->
 
 ```{r}
 augment(tree_fit, new_data = taxi_test) %>% 
@@ -1045,6 +1270,8 @@ It's often important to discuss what the model's parameters or predictions mean 
 **Handling Small Datasets:** It is particularly useful when dealing with small datasets where you might not be able to afford to set aside a portion of the data as a test set.
 
 **Uncertainty Estimates:** It provides a way to create confidence intervals for various performance metrics, giving a sense of how uncertain those metrics are.
+
+<!-- -->
 
 ```{r}
 #| label: bootstraps
