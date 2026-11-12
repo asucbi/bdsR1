@@ -41,8 +41,8 @@ Hint: Which argument in `initial_split()` handles the proportion split into trai
 ```{r}
 # Your code here!
 
-set.seed(XXX)
-taxi_split <- initial_split(XXX)
+set.seed(123)
+taxi_split <- initial_split(taxi, prop = .80)
 
 taxi_train <- training(taxi_split)
 taxi_test <- testing(taxi_split)
@@ -62,6 +62,22 @@ Explore the `taxi_train` data on your own!
 ```{r}
 # Your code here!
 
+ggplot(taxi, aes(x = tip, fill = tip)) +
+  geom_bar() + 
+  labs(title = "Distribution of Tips") +
+  theme_minimal()
+
+ggplot(taxi, aes(x = distance)) +
+  geom_histogram()
+
+ggplot(taxi, aes(x = tip, fill = tip)) +
+  geom_bar() + 
+  labs(title = "Distribution of Tips") +
+  theme_minimal() +
+  facet_wrap(~month)
+
+ggplot(taxi, aes(x = 1, fill = tip)) +
+  geom_bar(position = "fill")
 
 
 ```
@@ -73,8 +89,8 @@ Go back and modify your earlier code where you split the data to stratify by tip
 ```{r}
 # Your code here!
 
-set.seed(1112)
-taxi_split <- initial_split(taxi, prop = .80, XXX = XXX)
+set.seed(123)
+taxi_split <- initial_split(taxi, prop = .80, strata = tip)
 
 taxi_train <- training(taxi_split)
 taxi_test <- testing(taxi_split)
@@ -98,11 +114,11 @@ Remember: All available models are listed at <https://www.tidymodels.org/find/pa
 ```{r}
 
 # Model
-XXX_reg() %>%
+logistic_reg() %>%
   # Set Engine
-  set_engine("XXX") %>%
+  set_engine("glm") %>%
   # set the mode  
-  set_mode("XXX")
+  set_mode("classification")
 
 
 ```

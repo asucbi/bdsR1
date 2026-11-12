@@ -406,40 +406,41 @@ This setup gives us a lot of flexibility to try different modeling techniques an
 
 -   The **probability** of some event happening can be expressed as a value between 0 and 1
 
--   If the probability of an event occurring is [\\({p}\\)]{.math .inline}, the **odds** of an event occurring can be expressed as [\\(\\frac{p}{1 - p}\\)]{.math .inline}
+If the probability of an event occurring is $p$, the **odds** of the event occurring can be expressed as $\frac{p}{1-p}$.
 
-"If there is a 75% chance (or 0.75 probability) that it will rain today, then... the odds of it raining are 3 to 1, meaning that it is 3 times more likely to rain than not."
+"If there is a 75% chance (or 0.75 probability) that it will rain today, then the odds of it raining are 3 to 1, meaning that it is 3 times more likely to rain than not."
 
 **From odds to log-odds:**
 
--   Probabilities are restricted to values between 0 and 1, and odds are restricted to positive values.
+- Probabilities are restricted to values between 0 and 1, and odds are restricted to positive values.
 
--   A linear equation, however, can produce values anywhere from negative infinity to positive infinity.
+- A linear equation, however, can produce values anywhere from negative infinity to positive infinity.
 
--   Taking the logarithm of the odds puts them on this unrestricted scale, allowing logistic regression to model the outcome using a linear combination of the predictors.
+- Taking the logarithm of the odds puts them on this unrestricted scale, allowing logistic regression to model the outcome using a linear combination of the predictors.
 
--   The model’s results can then be converted back into probabilities that are easier to interpret.
+- The model’s results can then be converted back into probabilities that are easier to interpret.
 
 **The Logistic Regression Equation:**
 
-[\\(log(\\frac{p}{1 - p}) = \\beta_0 + \\beta_1\\cdot \\text{A}\\)]{.math .inline}
+$$
+\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 A
+$$
 
--   [\\(log(\\frac{p}{1 - p})\\)]{.math .inline} is the log-odds (or the logit) of the probability of our event of interest (e.g., getting a tip)
+- $\log\left(\frac{p}{1-p}\right)$ is the log-odds (or logit) of the probability of our event of interest, such as receiving a tip.
 
--   [\\(\\beta_0\\)]{.math .inline} is the intercept, which represents the log-odds of the event when predictor A is zero
+- $\beta_0$ is the intercept. It represents the log-odds of the event when predictor $A$ is zero.
 
--   [\\(\\beta_1\\cdot \\text{A}\\)]{.math .inline} is the slope of coefficient for predictor `A`, indicating how much the log-odds of the event changes with a one-unit change in `A`
+- $\beta_1$ is the slope coefficient for predictor $A$. It indicates how much the log-odds of the event change with a one-unit increase in $A$.
 
+**Relating this back to taxis and tips**
 
-**Relating this back to taxi's and tips**
+- We want to predict whether someone will tip (`1`) or not (`0`) based on the trip distance in odometer meters, represented by $A$.
 
--   We want to predict whether someone will tip ("one") or not based on the trip distance, in odometer meters (`A`).
+- $\beta_0$ represents the log-odds of receiving a tip when the trip distance is zero.
 
--   [\\(\\beta_0\\)]{.math .inline} would represent the log-odds of receiving a tip with zero distance
+- $\beta_1$ represents the change in the log-odds of receiving a tip for each additional meter of trip distance.
 
--   [\\(\\beta_1\\)]{.math .inline} shows how the log-odds of receiving a tip with each additional meter in distance
-
--   Maybe as distance increases, the probability of getting a tip increases? (but not linearly- there are diminishing returns after a certain point)
+- Perhaps the probability of receiving a tip increases as distance increases—but not linearly. The increase in probability may become smaller at longer distances.
 
 ### A possibly helpful visual
 

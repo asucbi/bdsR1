@@ -70,6 +70,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="mod-10-taxi-tips-lecture-code-along_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="mod-10-taxi-tips-lecture-code-along_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -584,10 +613,10 @@ Computational engine: rpart </code></pre>
 <h3 class="anchored" data-anchor-id="logistic-regression">Logistic regression</h3>
 <p><strong>The concept of odds and probability:</strong></p>
 <ul>
-<li><p>The <strong>probability</strong> of some event happening can be expressed as a value between 0 and 1</p></li>
-<li><p>If the probability of an event occurring is <span class="math inline">\({p}\)</span>, the <strong>odds</strong> of an event occurring can be expressed as <span class="math inline">\(\frac{p}{1 - p}\)</span></p></li>
+<li>The <strong>probability</strong> of some event happening can be expressed as a value between 0 and 1</li>
 </ul>
-<p>“If there is a 75% chance (or 0.75 probability) that it will rain today, then… the odds of it raining are 3 to 1, meaning that it is 3 times more likely to rain than not.”</p>
+<p>If the probability of an event occurring is <span class="math inline">\(p\)</span>, the <strong>odds</strong> of the event occurring can be expressed as <span class="math inline">\(\frac{p}{1-p}\)</span>.</p>
+<p>“If there is a 75% chance (or 0.75 probability) that it will rain today, then the odds of it raining are 3 to 1, meaning that it is 3 times more likely to rain than not.”</p>
 <p><strong>From odds to log-odds:</strong></p>
 <ul>
 <li><p>Probabilities are restricted to values between 0 and 1, and odds are restricted to positive values.</p></li>
@@ -596,18 +625,20 @@ Computational engine: rpart </code></pre>
 <li><p>The model’s results can then be converted back into probabilities that are easier to interpret.</p></li>
 </ul>
 <p><strong>The Logistic Regression Equation:</strong></p>
-<p><span class="math inline">\(log(\frac{p}{1 - p}) = \beta_0 + \beta_1\cdot \text{A}\)</span></p>
+<p><span class="math display">\[
+\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 A
+\]</span></p>
 <ul>
-<li><p><span class="math inline">\(log(\frac{p}{1 - p})\)</span> is the log-odds (or the logit) of the probability of our event of interest (e.g., getting a tip)</p></li>
-<li><p><span class="math inline">\(\beta_0\)</span> is the intercept, which represents the log-odds of the event when predictor A is zero</p></li>
-<li><p><span class="math inline">\(\beta_1\cdot \text{A}\)</span> is the slope of coefficient for predictor <code>A</code>, indicating how much the log-odds of the event changes with a one-unit change in <code>A</code></p></li>
+<li><p><span class="math inline">\(\log\left(\frac{p}{1-p}\right)\)</span> is the log-odds (or logit) of the probability of our event of interest, such as receiving a tip.</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span> is the intercept. It represents the log-odds of the event when predictor <span class="math inline">\(A\)</span> is zero.</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> is the slope coefficient for predictor <span class="math inline">\(A\)</span>. It indicates how much the log-odds of the event change with a one-unit increase in <span class="math inline">\(A\)</span>.</p></li>
 </ul>
-<p><strong>Relating this back to taxi’s and tips</strong></p>
+<p><strong>Relating this back to taxis and tips</strong></p>
 <ul>
-<li><p>We want to predict whether someone will tip (“one”) or not based on the trip distance, in odometer meters (<code>A</code>).</p></li>
-<li><p><span class="math inline">\(\beta_0\)</span> would represent the log-odds of receiving a tip with zero distance</p></li>
-<li><p><span class="math inline">\(\beta_1\)</span> shows how the log-odds of receiving a tip with each additional meter in distance</p></li>
-<li><p>Maybe as distance increases, the probability of getting a tip increases? (but not linearly- there are diminishing returns after a certain point)</p></li>
+<li><p>We want to predict whether someone will tip (<code>1</code>) or not (<code>0</code>) based on the trip distance in odometer meters, represented by <span class="math inline">\(A\)</span>.</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span> represents the log-odds of receiving a tip when the trip distance is zero.</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> represents the change in the log-odds of receiving a tip for each additional meter of trip distance.</p></li>
+<li><p>Perhaps the probability of receiving a tip increases as distance increases—but not linearly. The increase in probability may become smaller at longer distances.</p></li>
 </ul>
 </section>
 <section id="a-possibly-helpful-visual" class="level3">
