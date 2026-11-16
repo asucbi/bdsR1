@@ -70,6 +70,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="mod-10-taxi-tips-lecture-code-along-Inst-Notes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="mod-10-taxi-tips-lecture-code-along-Inst-Notes_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -1330,71 +1359,177 @@ An important aside: Two class data
 </figure>
 </div>
 </div>
-<p><img src="hexes/yardstick.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"> ::: {.callout-note} ## INSTRUCTOR NOTE</p>
-<p><strong>LECTURE 1: STOP HERE!</strong></p>
-<p>:::</p>
+<p><img src="hexes/yardstick.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 </section>
 <section id="roc-curves" class="level2">
 <h2 class="anchored" data-anchor-id="roc-curves">ROC curves</h2>
-<p>An ROC curve, or Receiver Operating Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes — in our case, predicting a tip (yes) or no tip.</p>
-<p><strong>What Does the ROC Curve Show Us?</strong></p>
-<p>The ROC curve plots sensitivity (true positive rate) on the y-axis against 1 - specificity (false positive rate) on the x-axis, across all possible threshold values. This means:</p>
+<p>A classification model usually begins by estimating a <strong>probability</strong> for each observation. In this example, the model estimates the probability that a passenger will leave a tip.</p>
+<p>For example, suppose the model estimates a 0.70 probability of a tip. To turn that probability into a predicted category (i.e., <code>yes</code> or <code>no</code>) we must choose a <strong>threshold</strong>, also called a <strong>cutoff</strong>.</p>
+<p>If we use a threshold of 0.50:</p>
 <ul>
-<li><p>Each point on the curve represents a different threshold.</p></li>
-<li><p>The curve helps us see how sensitivity and specificity balance out as we adjust that threshold.</p></li>
+<li>Predicted probabilities of 0.50 or higher are classified as <code>yes</code>.</li>
+<li>Predicted probabilities below 0.50 are classified as <code>no</code>.</li>
 </ul>
-<p><strong>Why Is This Useful?</strong></p>
-<p>The ROC curve lets us understand how well our model separates positive and negative classes over a range of thresholds, rather than just one. This can reveal if the model maintains a good trade-off between correctly identifying tips and avoiding false positives as the threshold changes.</p>
-<p>For example:</p>
+<p>Changing the threshold changes which rides the model classifies as tips.</p>
 <ul>
-<li><p>At lower thresholds, the model is more likely to predict ‘yes tip,’ which increases sensitivity but might lower specificity.</p></li>
-<li><p>At higher thresholds, the model is stricter, predicting ‘no tip’ more often, which decreases sensitivity but increases specificity.</p></li>
+<li>A <strong>lower threshold</strong> makes it easier for a ride to be classified as a tip. The model will identify more actual tips, but it will also produce more false alarms.</li>
+<li>A <strong>higher threshold</strong> makes it harder for a ride to be classified as a tip. The model will produce fewer false alarms, but it will also miss more actual tips.</li>
 </ul>
-<!-- -->
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Why 1-sensitivity for FPR?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Given that sensitivity is the true positive rate, and specificity is the true negative rate. Hence <code>1 - specificity</code> is the false positive rate.</p>
-</div>
-</div>
-<p><strong>Here’s the ROC curve for our model based on the training data:</strong></p>
-<!-- -->
+<p>An <strong>ROC curve</strong>, or <strong>Receiver Operating Characteristic curve</strong>, shows how the model performs across many possible thresholds rather than evaluating it at only one threshold.</p>
+<section id="sensitivity-specificity-and-false-positives" class="level3">
+<h3 class="anchored" data-anchor-id="sensitivity-specificity-and-false-positives">Sensitivity, specificity, and false positives</h3>
+<p>At each possible threshold, the model’s predictions can be described using the following outcomes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Actual outcome</th>
+<th style="text-align: left;">Predicted outcome</th>
+<th style="text-align: left;">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Tip</td>
+<td style="text-align: left;">Tip</td>
+<td style="text-align: left;">True positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No tip</td>
+<td style="text-align: left;">No tip</td>
+<td style="text-align: left;">True negative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tip</td>
+<td style="text-align: left;">No tip</td>
+<td style="text-align: left;">False negative</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No tip</td>
+<td style="text-align: left;">Tip</td>
+<td style="text-align: left;">False positive</td>
+</tr>
+</tbody>
+</table>
+<p>The ROC curve uses two measures calculated from these outcomes:</p>
+<ul>
+<li><strong>Sensitivity</strong>, also called the <strong>true positive rate</strong>, is the proportion of actual tips that the model correctly identifies as tips.</li>
+<li><strong>Specificity</strong>, also called the <strong>true negative rate</strong>, is the proportion of actual no-tip rides that the model correctly identifies as no tips.</li>
+</ul>
+<p>The ROC curve plots the <strong>false positive rate</strong> rather than specificity. The false positive rate is the proportion of actual no-tip rides that the model incorrectly identifies as tips:</p>
+<p><span class="math display">\[
+\text{False positive rate} = 1 - \text{specificity}
+\]</span></p>
+</section>
+<section id="reading-an-roc-curve" class="level3">
+<h3 class="anchored" data-anchor-id="reading-an-roc-curve">Reading an ROC curve</h3>
+<p>An ROC curve plots:</p>
+<ul>
+<li><strong>Sensitivity</strong>, or the true positive rate, on the y-axis.</li>
+<li><strong>1 − specificity</strong>, or the false positive rate, on the x-axis.</li>
+</ul>
+<p>Each point on the curve represents the model’s performance at a different probability threshold.</p>
+<p>As the threshold is lowered, the model predicts <code>yes</code> more frequently. This usually causes two things to happen:</p>
+<ol type="1">
+<li>Sensitivity increases because the model correctly identifies more actual tips.</li>
+<li>The false positive rate also increases because the model incorrectly classifies more no-tip rides as tips.</li>
+</ol>
+<p>A model performs well when it can achieve high sensitivity while maintaining a low false positive rate. Therefore, an ROC curve that bends toward the <strong>upper-left corner</strong> indicates better performance.</p>
+<p>A diagonal line represents performance equivalent to random guessing. A curve close to this diagonal indicates that the model has difficulty distinguishing between the two classes.</p>
+</section>
+<section id="examples-of-good-and-poor-roc-curves" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-good-and-poor-roc-curves">Examples of good and poor ROC curves</h3>
+<p>Below, I have included two examples:</p>
+<ul>
+<li>The <strong>good</strong> example generally gives higher predicted probabilities to rides that actually included tips.</li>
+<li>The <strong>poor</strong> example produces probabilities that do not distinguish the two groups very well.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_train) <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth =</span> tip, .pred_yes) <span class="sc">%&gt;%</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"FPR, 1-specificity"</span>, <span class="at">y=</span><span class="st">"TPR, or sensitivity"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mod-10-taxi-tips-lecture-code-along-Inst-Notes_files/figure-html/roc-curve-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="mod-10-taxi-tips-lecture-code-along-Inst-Notes_files/figure-html/example-roc-curves-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>How do we interpret:</strong></p>
-<p>A key takeaway from the ROC curve is the AUC (Area Under the Curve). The AUC gives us a single value that summarizes how well the model distinguishes between classes across all thresholds:</p>
+<p>In the <strong>good ROC curve</strong>, the line bends toward the upper-left corner. This model can correctly identify a large proportion of actual tips without incorrectly classifying many no-tip rides as tips.</p>
+<p>In the <strong>poor ROC curve</strong>, the line stays close to the diagonal reference line. This model performs similarly to random guessing.</p>
+</section>
+<section id="the-area-under-the-curve" class="level3">
+<h3 class="anchored" data-anchor-id="the-area-under-the-curve">The area under the curve</h3>
+<p>The <strong>area under the ROC curve</strong>, or <strong>AUC</strong>, summarizes the entire ROC curve using a single number.</p>
 <ul>
-<li><p>AUC = 1: Perfect separation of classes (ideal).</p></li>
-<li><p>AUC = 0.5: No better than random guessing.</p></li>
+<li>An AUC of <strong>1.00</strong> indicates perfect separation between the two classes.</li>
+<li>An AUC of <strong>0.50</strong> indicates performance equivalent to random guessing.</li>
+<li>Higher AUC values indicate that the model is better at distinguishing between the classes.</li>
 </ul>
-<p>In general, a higher AUC means better performance. Our AUC value, shown here, helps us quickly assess the model’s ability to separate classes across a wide range of thresholds.</p>
-<ul>
-<li>ROC AUC = 1 💯</li>
-<li>ROC AUC = 0.5 😢</li>
-</ul>
-<p><strong>Let’s get the actual value for AUC:</strong></p>
-<!-- -->
+<p>One intuitive interpretation is that AUC represents the probability that the model will assign a higher predicted probability to a randomly selected tip ride than to a randomly selected no-tip ride.</p>
+<p>We can calculate the AUC values for the two examples:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_train) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> tip, .pred_yes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    roc_examples,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> truth,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    good_model</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Good"</span>),</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    roc_examples,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> truth,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    poor_model</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Poor"</span>)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model, .estimate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  model .estimate
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Good      0.973
+2 Poor      0.449</code></pre>
+</div>
+</div>
+<p>The good example should have an AUC close to 1, whereas the poor example should have an AUC close to 0.50.</p>
+</section>
+<section id="roc-curve-for-the-taxi-tip-model" class="level3">
+<h3 class="anchored" data-anchor-id="roc-curve-for-the-taxi-tip-model">ROC curve for the taxi-tip model</h3>
+<p>We can use <code>augment()</code> to apply our fitted decision tree to the training data and add its predicted probabilities to the dataset.</p>
+<p>The <code>.pred_yes</code> column contains the predicted probability that each passenger left a tip.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>taxi_train_predictions <span class="ot">&lt;-</span> <span class="fu">augment</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  tree_fit,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_data =</span> taxi_train</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then calculate and plot the ROC curve:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>taxi_train_predictions <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> tip,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    .pred_yes</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"False positive rate (1 - specificity)"</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"True positive rate (sensitivity)"</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mod-10-taxi-tips-lecture-code-along-Inst-Notes_files/figure-html/taxi-roc-curve-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The curve shows how the model’s sensitivity and false positive rate change as the threshold changes.</p>
+<p>We can calculate the area under the curve using <code>roc_auc()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>taxi_train_predictions <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> tip,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    .pred_yes</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -1402,35 +1537,74 @@ Why 1-sensitivity for FPR?
 1 roc_auc binary         0.614</code></pre>
 </div>
 </div>
-<!-- -->
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<pre class="text"><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary         0.614</code></pre>
+<p>An AUC of 0.614 means that if we randomly selected one ride with a tip and one ride without a tip, the model would assign a higher predicted probability to the tip ride approximately 61.4% of the time.</p>
+<p>This is better than random guessing, but it does not indicate particularly strong separation between the two groups.</p>
+</section>
+<section id="finding-the-thresholds-represented-by-the-curve" class="level3">
+<h3 class="anchored" data-anchor-id="finding-the-thresholds-represented-by-the-curve">Finding the thresholds represented by the curve</h3>
+<p>The threshold values are used to construct the ROC curve, but they are not displayed directly on its axes. We can view them in the data produced by <code>roc_curve()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>taxi_roc_data <span class="ot">&lt;-</span> taxi_train_predictions <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> tip,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    .pred_yes</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>taxi_roc_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 3
+  .threshold specificity sensitivity
+       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1   -Inf          0            1    
+2      0.267      0            1    
+3      0.712      0.0380       0.999
+4      0.790      0.0674       0.993
+5      0.917      0.133        0.972
+6      0.962      0.857        0.301
+7    Inf          1            0    </code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Note
+</div>
+<p>The resulting table contains three important columns:</p>
+<ul>
+<li><code>.threshold</code>: the probability threshold used to classify observations</li>
+<li><code>sensitivity</code>: the true positive rate at that threshold</li>
+<li><code>specificity</code>: the true negative rate at that threshold</li>
+</ul>
+<p>We could also calculate the false positive rate for each threshold:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>taxi_roc_data <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">false_positive_rate =</span> <span class="dv">1</span> <span class="sc">-</span> specificity) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    .threshold,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    sensitivity,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    specificity,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    false_positive_rate</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  .threshold sensitivity specificity false_positive_rate
+       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;               &lt;dbl&gt;
+1   -Inf           1          0                    1    
+2      0.267       1          0                    1    
+3      0.712       0.999      0.0380               0.962
+4      0.790       0.993      0.0674               0.933
+5      0.917       0.972      0.133                0.867
+6      0.962       0.301      0.857                0.143
+7    Inf           0          1                    0    </code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>ROC curves are insensitive to class imbalance.</p>
-</div>
-</div>
-<!-- -->
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can’t see the exact thresholds on the curve itself. To pinpoint a particular threshold, we’d need to look at our data.</p>
-</div>
-</div>
+<p>The ROC curve does not automatically determine the best threshold. The appropriate threshold depends on whether false positives or false negatives are more costly in the situation being studied.</p>
+<p>For example:</p>
+<ul>
+<li>If identifying as many actual tips as possible is most important, we might choose a lower threshold that produces higher sensitivity.</li>
+<li>If avoiding incorrect tip predictions is most important, we might choose a higher threshold that produces higher specificity.</li>
+</ul>
 <p><img src="img/parsnip-flagger.jpg" class="absolute" data-top="0" data-right="0" width="150" height="150"></p>
+</section>
 </section>
 <section id="your-turn-9" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-9">Your turn</h2>
@@ -1460,14 +1634,25 @@ Note
 <h1>PART 5: Using resampling to estimate performance</h1>
 <section id="dangers-of-overfitting" class="level2">
 <h2 class="anchored" data-anchor-id="dangers-of-overfitting">⚠️ Dangers of Overfitting ⚠️</h2>
-<p>Models can easily be overfitted to the training data, meaning they perform well on the training data but poorly on unseen data.</p>
-<section id="fitting-to-your-training-data" class="level4">
-<h4 class="anchored" data-anchor-id="fitting-to-your-training-data">Fitting to your training data</h4>
-<p><img src="https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-train-1.svg" class="img-fluid"></p>
-</section>
-<section id="problems-when-generalizing-to-test-data" class="level4">
-<h4 class="anchored" data-anchor-id="problems-when-generalizing-to-test-data">Problems when generalizing to test data</h4>
-<p><img src="https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-test-1.svg" class="img-fluid"></p>
+<p>Our goal is not simply to build a model that performs well on the data it has already seen. We want a model that can make accurate predictions for <strong>new, unseen data</strong>.</p>
+<p>A model can fit the data in three general ways:</p>
+<ul>
+<li><strong>Underfitting:</strong> The model is too simple to capture the important patterns in the data. It performs poorly on both the training data and the test data.</li>
+<li><strong>Appropriate fitting:</strong> The model captures the general patterns without trying to account for every unusual observation. It performs well on both the training data and the test data.</li>
+<li><strong>Overfitting:</strong> The model is so flexible that it learns the peculiarities and random noise in the training data. It performs extremely well on the training data but does not perform as well on new data.</li>
+</ul>
+<section id="model-complexity-and-performance" class="level3">
+<h3 class="anchored" data-anchor-id="model-complexity-and-performance">Model complexity and performance</h3>
+<p>As a model becomes more complex:</p>
+<ul>
+<li>Its performance on the <strong>training data</strong> will generally continue to improve.</li>
+<li>Its performance on the <strong>test data</strong> may improve at first and then begin to decline.</li>
+</ul>
+<p>The best model is usually near the point where test performance is highest, not necessarily where training performance is highest.</p>
+<p><img src="img/overfitting_example_figure.png" class="img-fluid"></p>
+<div class="yellow">
+<p>A model that performs perfectly on its training data is not necessarily a good model. Always evaluate its performance using data that were not used to fit it.</p>
+</div>
 </section>
 </section>
 <section id="is-our-model-doing-well-on-training-but-poorly-on-new-data" class="level2">
@@ -1476,8 +1661,8 @@ Note
 <h4 class="anchored" data-anchor-id="heres-our-model-performance-on-the-training-data">Here’s our model performance on the training data</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,500 × 10
    .pred_class .pred_yes .pred_no tip   distance company local dow   month  hour
@@ -1497,9 +1682,9 @@ Note
 </div>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_train) <span class="sc">%&gt;%</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tip, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_train) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tip, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
@@ -1512,9 +1697,9 @@ Note
 <h4 class="anchored" data-anchor-id="heres-our-model-performance-on-the-test-data-unseen-data">Here’s our model performance on the test data (unseen data)</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_test) <span class="sc">%&gt;%</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tip, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(taxi_test) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tip, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
@@ -1522,7 +1707,7 @@ Note
 1 accuracy binary         0.913</code></pre>
 </div>
 </div>
-<p>The comparison between training accuracy and test accuracy are very close: 0.924 vs.&nbsp;0.914. What does this mean?</p>
+<p>The comparison between training accuracy and test accuracy are very close: 0.925 vs.&nbsp;0.913. What does this mean?</p>
 <ul>
 <li>The model generalizes reasonably well (good!)</li>
 <li><strong>Or</strong> that your test set may not be large or representative enough to fully assess generalization</li>
@@ -1579,16 +1764,30 @@ Other advantages of resampling with V-fold cross-validation
 <section id="your-turn-10" class="level2">
 <h2 class="anchored" data-anchor-id="your-turn-10">Your turn</h2>
 <ul>
-<li><h3 id="if-we-use-10-folds-what-percent-of-the-training-data-ends-up-in-analysis-for-each-fold-for-assessment-for-each-fold" class="anchored"><em>If we use 10 folds, what percent of the training data ends up in ANALYSIS for each fold? for ASSESSMENT for each fold?</em></h3>
-<img src="hexes/rsample.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></li>
+<li><h3 id="if-we-use-10-folds-what-percent-of-the-training-data-ends-up-in-analysis-for-each-fold-for-assessment-for-each-fold" class="anchored"><em>If we use 10 folds, what percent of the training data ends up in ANALYSIS for each fold? for ASSESSMENT for each fold?</em></h3></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+INSTRUCTOR NOTE
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>90% in training data, 10% in testing data. With 10-fold cross-validation, the training data are divided into 10 approximately equal groups. For each fold, one group—10%—is used for assessment, while the other nine groups—90%—are used for analysis.</p>
+<p>Training requires more data (is more “data intense”) because the model must learn patterns from many examples, whereas testing only requires enough data to evaluate the model’s performance reliably.</p>
+</div>
+</div>
+<p><img src="hexes/rsample.png" class="absolute" data-top="-20" data-right="0" width="64" height="74"></p>
 </section>
 <section id="lets-do-some-cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="lets-do-some-cross-validation">Let’s do some cross-validation</h2>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>taxi_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(taxi_train) <span class="co"># v = 10 is default</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>taxi_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>taxi_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(taxi_train) <span class="co"># v = 10 is default</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>taxi_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#  10-fold cross-validation 
 # A tibble: 10 × 2
@@ -1624,7 +1823,7 @@ Note
 <h4 class="anchored" data-anchor-id="we-can-do-this-with-how-many-folds-we-want">We can do this with how many folds we want</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vfold_cv</span>(taxi_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vfold_cv</span>(taxi_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#  5-fold cross-validation 
 # A tibble: 5 × 2
@@ -1642,7 +1841,7 @@ Note
 <h4 class="anchored" data-anchor-id="stratification-often-helps-with-very-little-downside">Stratification often helps, with very little downside</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vfold_cv</span>(taxi_train, <span class="at">strata =</span> tip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vfold_cv</span>(taxi_train, <span class="at">strata =</span> tip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#  10-fold cross-validation using stratification 
 # A tibble: 10 × 2
@@ -1679,9 +1878,9 @@ Important
 </div>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>taxi_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(taxi_train, <span class="at">v =</span> <span class="dv">10</span>, <span class="at">strata =</span> tip)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>taxi_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>taxi_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(taxi_train, <span class="at">v =</span> <span class="dv">10</span>, <span class="at">strata =</span> tip)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>taxi_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#  10-fold cross-validation using stratification 
 # A tibble: 10 × 2
@@ -1707,8 +1906,8 @@ Important
 <h4 class="anchored" data-anchor-id="we-will-fit-10-models-on-10-slightly-different-analysis-sets.">We will fit 10 models on 10 slightly different analysis sets.</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(tree_wflow, taxi_folds)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>taxi_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(tree_wflow, taxi_folds)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>taxi_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Resampling results
 # 10-fold cross-validation using stratification 
@@ -1745,8 +1944,8 @@ Important
 </ul>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="sc">%&gt;%</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="sc">%&gt;%</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   .metric     .estimator   mean     n std_err .config        
@@ -1799,8 +1998,8 @@ Note
 </ul>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_train) <span class="sc">%&gt;%</span> </span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> tip, .pred_yes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_train) <span class="sc">%&gt;%</span> </span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> tip, .pred_yes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -1812,9 +2011,9 @@ Note
 <h4 class="anchored" data-anchor-id="roc-auc-from-resampling-subsets-of-training-data">ROC AUC from resampling (subsets of training data):</h4>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="sc">%&gt;%</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.metric, mean, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>taxi_res <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.metric, mean, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   .metric       mean     n
@@ -1825,8 +2024,8 @@ Note
 </div>
 </div>
 </section>
-<section id="all-the-training-data-was-slightly-optimistic-0.611-resampling-gives-us-a-better-estimate-of-expected-performance-0.592." class="level4">
-<h4 class="anchored" data-anchor-id="all-the-training-data-was-slightly-optimistic-0.611-resampling-gives-us-a-better-estimate-of-expected-performance-0.592.">All the training data was slightly optimistic (<strong>0.611</strong>), resampling gives us a better estimate of expected performance (<strong>0.592</strong>).</h4>
+<section id="all-the-training-data-was-slightly-optimistic-0.614-resampling-gives-us-a-better-estimate-of-expected-performance-0.605." class="level4">
+<h4 class="anchored" data-anchor-id="all-the-training-data-was-slightly-optimistic-0.614-resampling-gives-us-a-better-estimate-of-expected-performance-0.605.">All the training data was slightly optimistic (<strong>0.614</strong>), resampling gives us a better estimate of expected performance (<strong>0.605</strong>).</h4>
 </section>
 </section>
 <section id="recap-of-proper-workflow" class="level2">
@@ -1861,10 +2060,10 @@ Note
 <p>Present metrics for the final model evaluated on the test set to show its actual generalizability. The performance metrics derived from the held-out test set give the reader an understanding of how the model performs on completely unseen data. This is the ultimate test of the model’s generalizability.</p>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>taxi_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(accuracy, specificity, sensitivity)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_test) <span class="sc">%&gt;%</span> <span class="do">## </span><span class="al">NOTE</span><span class="do">: switched out taxi_train for taxi_test</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">taxi_metrics</span>(<span class="at">truth =</span> tip, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>taxi_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(accuracy, specificity, sensitivity)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_test) <span class="sc">%&gt;%</span> <span class="do">## </span><span class="al">NOTE</span><span class="do">: switched out taxi_train for taxi_test</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">taxi_metrics</span>(<span class="at">truth =</span> tip, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   .metric     .estimator .estimate
@@ -1876,8 +2075,8 @@ Note
 </div>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_test) <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> tip, .pred_yes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(tree_fit, <span class="at">new_data =</span> taxi_test) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> tip, .pred_yes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -1954,8 +2153,8 @@ Note
 <p><strong>Uncertainty Estimates:</strong> It provides a way to create confidence intervals for various performance metrics, giving a sense of how uncertain those metrics are.</p>
 <!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3214</span>)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bootstraps</span>(taxi_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3214</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bootstraps</span>(taxi_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Bootstrap sampling 
 # A tibble: 25 × 2

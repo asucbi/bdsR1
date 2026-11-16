@@ -849,89 +849,260 @@ What happens for a 20% threshold?
 ![](hexes/yardstick.png){.absolute top="-20" right="0" width="64" height="74"}
 
 ## ROC curves
-An ROC curve, or Receiver Operating Characteristic curve, is a powerful visual tool that helps us evaluate how well our model distinguishes between two classes --- in our case, predicting a tip (yes) or no tip.
 
-**What Does the ROC Curve Show Us?**
+A classification model usually begins by estimating a **probability** for each observation. In this example, the model estimates the probability that a passenger will leave a tip.
 
-The ROC curve plots sensitivity (true positive rate) on the y-axis against 1 - specificity (false positive rate) on the x-axis, across all possible threshold values. This means:
+For example, suppose the model estimates a 0.70 probability of a tip. To turn that probability into a predicted category (i.e., `yes` or `no`) we must choose a **threshold**, also called a **cutoff**.
 
--   Each point on the curve represents a different threshold.
+If we use a threshold of 0.50:
 
--   The curve helps us see how sensitivity and specificity balance out as we adjust that threshold.
+- Predicted probabilities of 0.50 or higher are classified as `yes`.
+- Predicted probabilities below 0.50 are classified as `no`.
 
-**Why Is This Useful?**
+Changing the threshold changes which rides the model classifies as tips.
 
-The ROC curve lets us understand how well our model separates positive and negative classes over a range of thresholds, rather than just one. This can reveal if the model maintains a good trade-off between correctly identifying tips and avoiding false positives as the threshold changes.
+- A **lower threshold** makes it easier for a ride to be classified as a tip. The model will identify more actual tips, but it will also produce more false alarms.
+- A **higher threshold** makes it harder for a ride to be classified as a tip. The model will produce fewer false alarms, but it will also miss more actual tips.
+
+An **ROC curve**, or **Receiver Operating Characteristic curve**, shows how the model performs across many possible thresholds rather than evaluating it at only one threshold.
+
+### Sensitivity, specificity, and false positives
+
+At each possible threshold, the model's predictions can be described using the following outcomes:
+
+| Actual outcome | Predicted outcome | Result |
+|:---|:---|:---|
+| Tip | Tip | True positive |
+| No tip | No tip | True negative |
+| Tip | No tip | False negative |
+| No tip | Tip | False positive |
+
+The ROC curve uses two measures calculated from these outcomes:
+
+- **Sensitivity**, also called the **true positive rate**, is the proportion of actual tips that the model correctly identifies as tips.
+- **Specificity**, also called the **true negative rate**, is the proportion of actual no-tip rides that the model correctly identifies as no tips.
+
+The ROC curve plots the **false positive rate** rather than specificity. The false positive rate is the proportion of actual no-tip rides that the model incorrectly identifies as tips:
+
+$$
+\text{False positive rate} = 1 - \text{specificity}
+$$
+
+### Reading an ROC curve
+
+An ROC curve plots:
+
+- **Sensitivity**, or the true positive rate, on the y-axis.
+- **1 − specificity**, or the false positive rate, on the x-axis.
+
+Each point on the curve represents the model's performance at a different probability threshold.
+
+As the threshold is lowered, the model predicts `yes` more frequently. This usually causes two things to happen:
+
+1. Sensitivity increases because the model correctly identifies more actual tips.
+2. The false positive rate also increases because the model incorrectly classifies more no-tip rides as tips.
+
+A model performs well when it can achieve high sensitivity while maintaining a low false positive rate. Therefore, an ROC curve that bends toward the **upper-left corner** indicates better performance.
+
+A diagonal line represents performance equivalent to random guessing. A curve close to this diagonal indicates that the model has difficulty distinguishing between the two classes.
+
+### Examples of good and poor ROC curves
+
+Below, I have included two examples:
+
+- The **good** example generally gives higher predicted probabilities to rides that actually included tips.
+- The **poor** example produces probabilities that do not distinguish the two groups very well.
+
+```{r echo=FALSE}
+#| label: example-roc-curves
+#| fig-width: 8
+#| fig-height: 4.5
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(tidymodels)
+
+set.seed(123)
+
+roc_examples <- tibble(
+  truth = factor(
+    rep(c("yes", "no"), each = 100),
+    levels = c("yes", "no")
+  ),
+  good_model = c(
+    rbeta(100, shape1 = 5, shape2 = 2),
+    rbeta(100, shape1 = 2, shape2 = 5)
+  ),
+  poor_model = runif(200)
+)
+
+good_roc <- roc_examples %>%
+  roc_curve(truth = truth, good_model) %>%
+  mutate(model = "Good")
+
+poor_roc <- roc_examples %>%
+  roc_curve(truth = truth, poor_model) %>%
+  mutate(model = "Poor")
+
+bind_rows(good_roc, poor_roc) %>%
+  ggplot(aes(
+    x = 1 - specificity,
+    y = sensitivity,
+    color = model
+  )) +
+  geom_abline(
+    intercept = 0,
+    slope = 1,
+    linetype = "dashed",
+    color = "gray60"
+  ) +
+  geom_path(linewidth = 1.2) +
+  coord_equal() +
+  facet_wrap(~model) +
+  labs(
+    x = "False positive rate (1 - specificity)",
+    y = "True positive rate (sensitivity)",
+    color = NULL
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+In the **good ROC curve**, the line bends toward the upper-left corner. This model can correctly identify a large proportion of actual tips without incorrectly classifying many no-tip rides as tips.
+
+In the **poor ROC curve**, the line stays close to the diagonal reference line. This model performs similarly to random guessing.
+
+### The area under the curve
+
+The **area under the ROC curve**, or **AUC**, summarizes the entire ROC curve using a single number.
+
+- An AUC of **1.00** indicates perfect separation between the two classes.
+- An AUC of **0.50** indicates performance equivalent to random guessing.
+- Higher AUC values indicate that the model is better at distinguishing between the classes.
+
+One intuitive interpretation is that AUC represents the probability that the model will assign a higher predicted probability to a randomly selected tip ride than to a randomly selected no-tip ride.
+
+We can calculate the AUC values for the two examples:
+
+```{r}
+bind_rows(
+  roc_auc(
+    roc_examples,
+    truth = truth,
+    good_model
+  ) %>%
+    mutate(model = "Good"),
+  
+  roc_auc(
+    roc_examples,
+    truth = truth,
+    poor_model
+  ) %>%
+    mutate(model = "Poor")
+) %>%
+  select(model, .estimate)
+```
+
+The good example should have an AUC close to 1, whereas the poor example should have an AUC close to 0.50.
+
+### ROC curve for the taxi-tip model
+
+We can use `augment()` to apply our fitted decision tree to the training data and add its predicted probabilities to the dataset.
+
+The `.pred_yes` column contains the predicted probability that each passenger left a tip.
+
+```{r}
+taxi_train_predictions <- augment(
+  tree_fit,
+  new_data = taxi_train
+)
+```
+
+We can then calculate and plot the ROC curve:
+
+```{r}
+#| label: taxi-roc-curve
+#| fig-width: 6
+#| fig-height: 5
+#| message: false
+#| warning: false
+
+taxi_train_predictions %>% 
+  roc_curve(
+    truth = tip,
+    .pred_yes
+  ) %>%
+  autoplot() +
+  labs(
+    x = "False positive rate (1 - specificity)",
+    y = "True positive rate (sensitivity)"
+  )
+```
+
+The curve shows how the model's sensitivity and false positive rate change as the threshold changes.
+
+We can calculate the area under the curve using `roc_auc()`:
+
+```{r}
+taxi_train_predictions %>% 
+  roc_auc(
+    truth = tip,
+    .pred_yes
+  )
+```
+
+```text
+# A tibble: 1 × 3
+  .metric .estimator .estimate
+  <chr>   <chr>          <dbl>
+1 roc_auc binary         0.614
+```
+
+An AUC of 0.614 means that if we randomly selected one ride with a tip and one ride without a tip, the model would assign a higher predicted probability to the tip ride approximately 61.4% of the time.
+
+This is better than random guessing, but it does not indicate particularly strong separation between the two groups.
+
+### Finding the thresholds represented by the curve
+
+The threshold values are used to construct the ROC curve, but they are not displayed directly on its axes. We can view them in the data produced by `roc_curve()`:
+
+```{r}
+taxi_roc_data <- taxi_train_predictions %>% 
+  roc_curve(
+    truth = tip,
+    .pred_yes
+  )
+
+taxi_roc_data
+```
+
+The resulting table contains three important columns:
+
+- `.threshold`: the probability threshold used to classify observations
+- `sensitivity`: the true positive rate at that threshold
+- `specificity`: the true negative rate at that threshold
+
+We could also calculate the false positive rate for each threshold:
+
+```{r}
+taxi_roc_data %>%
+  mutate(false_positive_rate = 1 - specificity) %>%
+  select(
+    .threshold,
+    sensitivity,
+    specificity,
+    false_positive_rate
+  )
+```
+
+The ROC curve does not automatically determine the best threshold. The appropriate threshold depends on whether false positives or false negatives are more costly in the situation being studied.
 
 For example:
 
--   At lower thresholds, the model is more likely to predict 'yes tip,' which increases sensitivity but might lower specificity.
+- If identifying as many actual tips as possible is most important, we might choose a lower threshold that produces higher sensitivity.
+- If avoiding incorrect tip predictions is most important, we might choose a higher threshold that produces higher specificity.
 
--   At higher thresholds, the model is stricter, predicting 'no tip' more often, which decreases sensitivity but increases specificity.
-
-<!-- -->
-
-::: {.callout-note}
-## Why 1-sensitivity for FPR?
-
-
-Given that sensitivity is the true positive rate, and specificity is the true negative rate. Hence `1 - specificity` is the false positive rate.
-:::
-
-**Here's the ROC curve for our model based on the training data:**
-
-<!-- -->
-
-```{r}
-#| label: roc-curve
-#| fig-width: 6
-#| fig-height: 6
-augment(tree_fit, new_data = taxi_train) %>% 
-  roc_curve(truth = tip, .pred_yes) %>%
-  autoplot() +
-  labs(x="FPR, 1-specificity", y="TPR, or sensitivity")
-```
-
-**How do we interpret:**
-
-A key takeaway from the ROC curve is the AUC (Area Under the Curve). The AUC gives us a single value that summarizes how well the model distinguishes between classes across all thresholds:
-
--   AUC = 1: Perfect separation of classes (ideal).
-
--   AUC = 0.5: No better than random guessing.
-
-In general, a higher AUC means better performance. Our AUC value, shown here, helps us quickly assess the model's ability to separate classes across a wide range of thresholds.
-
--   ROC AUC = 1 💯
--   ROC AUC = 0.5 😢
-
-**Let's get the actual value for AUC:**
-
-<!-- -->
-
-```{r}
-#| label: roc-auc
-augment(tree_fit, new_data = taxi_train) %>% 
-  roc_auc(truth = tip, .pred_yes)
-```
-
-<!-- -->
-
-::: {.callout-note}
-## Note
-
-
-ROC curves are insensitive to class imbalance.
-:::
-
-<!-- -->
-
-::: {.callout-note}
-## Note
-
-
-Keep in mind that each point on the ROC curve corresponds to a specific threshold. While the curve shows us the balance of sensitivity and specificity visually, we can't see the exact thresholds on the curve itself. To pinpoint a particular threshold, we'd need to look at our data.
-:::
 
 ![](img/parsnip-flagger.jpg){.absolute top="0" right="0" width="150" height="150"}
 
@@ -960,13 +1131,29 @@ Dataset Reminder --- `taxi_test`:
 # PART 5: Using resampling to estimate performance
 
 ## ⚠️ Dangers of Overfitting ⚠️
-Models can easily be overfitted to the training data, meaning they perform well on the training data but poorly on unseen data.
 
-#### Fitting to your training data
-![](https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-train-1.svg){.img-fluid}
+Our goal is not simply to build a model that performs well on the data it has already seen. We want a model that can make accurate predictions for **new, unseen data**.
 
-#### Problems when generalizing to test data
-![](https://raw.githubusercontent.com/topepo/2022-nyr-workshop/main/images/tuning-overfitting-test-1.svg){.img-fluid}
+A model can fit the data in three general ways:
+
+- **Underfitting:** The model is too simple to capture the important patterns in the data. It performs poorly on both the training data and the test data.
+- **Appropriate fitting:** The model captures the general patterns without trying to account for every unusual observation. It performs well on both the training data and the test data.
+- **Overfitting:** The model is so flexible that it learns the peculiarities and random noise in the training data. It performs extremely well on the training data but does not perform as well on new data.
+
+### Model complexity and performance
+
+As a model becomes more complex:
+
+- Its performance on the **training data** will generally continue to improve.
+- Its performance on the **test data** may improve at first and then begin to decline.
+
+The best model is usually near the point where test performance is highest, not necessarily where training performance is highest.
+
+![](img/overfitting_example_figure.png)
+
+::: {.yellow}
+A model that performs perfectly on its training data is not necessarily a good model. Always evaluate its performance using data that were not used to fit it.
+:::
 
 ## Is our model doing well on training but poorly on new data?
 #### Here's our model performance on the training data
@@ -1000,7 +1187,7 @@ tree_fit %>%
   accuracy(tip, .pred_class)
 ```
 
-The comparison between training accuracy and test accuracy are very close: 0.924 vs. 0.914. What does this mean?
+The comparison between training accuracy and test accuracy are very close: 0.925 vs. 0.913. What does this mean?
 
 -   The model generalizes reasonably well (good!)
 -   **Or** that your test set may not be large or representative enough to fully assess generalization
@@ -1053,6 +1240,7 @@ We randomly split the training data into V (or K) distinct blocks of roughly equ
 
 ## Your turn
 -   ### *If we use 10 folds, what percent of the training data ends up in ANALYSIS for each fold? for ASSESSMENT for each fold?*
+
 ![](hexes/rsample.png){.absolute top="-20" right="0" width="64" height="74"}
 
 ## Let's do some cross-validation
@@ -1188,7 +1376,8 @@ taxi_res %>%
   select(.metric, mean, n)
 ```
 
-#### All the training data was slightly optimistic (**0.611**), resampling gives us a better estimate of expected performance (**0.592**).
+#### All the training data was slightly optimistic (**0.614**), resampling gives us a better estimate of expected performance (**0.605**).
+
 ## Recap of proper workflow
 1.  Split the Data into Training and Testing Sets
 2.  Specify the Model
