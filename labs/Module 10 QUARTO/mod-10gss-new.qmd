@@ -1,5 +1,5 @@
 ---
-title: "LAB 09 - Evaluating the General Social Survey (GSS)"
+title: "LAB 10 - Evaluating the General Social Survey (GSS)"
 # author:
   # - Jessica Kosie^[Authored modifications to original code]
   # - Nicholas Duran^[Original author of exercise]
@@ -38,9 +38,9 @@ In this assignment we analyze data from the 2016 GSS, using it to do some predic
 
 # Getting started
 
-Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named `Module 9`.
+Go to the course Posit Cloud Workspace and locate the R Studio Project for this Module, which should be named `Assignments: Module 10`.
 
-First, open the R Markdown document `mod-09-lab.Rmd` and **Knit** it.
+First, open the R Markdown document `mod-10-lab.Rmd` and **Knit** it.
 
 Make sure it compiles without errors and you can preview the output within the Viewer Pane.
 
