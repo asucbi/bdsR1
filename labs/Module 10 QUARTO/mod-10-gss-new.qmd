@@ -149,7 +149,7 @@ gss16_advfront <- gss16 %>%
 
 ### Exercise 4
 
--   Split the data into training (75%) and testing (25%) data sets.
+-   Split the data that you created in Exercise 3 into training (75%) and testing (25%) data sets.
     Make sure to set a seed before you do the `initial_split()`.
     Call the training data `gss16_train` and the testing data `gss16_test`.
 
@@ -184,7 +184,6 @@ Preprocessing/feature engineering steps:
 
 ```{r}
 #| eval: false
-
 gss16_rec_1 <- recipe(___ ~ ___, data = ___) %>%
   step_other(___, threshold = ___, ___ = "Other") %>%
   step_dummy(___, -all_outcomes())

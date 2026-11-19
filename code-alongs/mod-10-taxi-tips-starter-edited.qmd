@@ -135,7 +135,9 @@ Make sure you swap out tree_* for logi_* when saving each set of code!
 # Here, create a logistic regression model specification
 # Set the mode to "classification" since we're predicting a binary outcome
 
-logi_spec <- XXX
+logi_spec <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification")
 
 
 # Step 2: Build the workflow
@@ -143,12 +145,15 @@ logi_spec <- XXX
 # Add the formula (e.g., tip ~ .) to specify the target and predictors
 # Attach the logistic regression model specified in Step 1
 
-logi_wflow <- XXX
+logi_wflow <- workflow() %>% 
+  add_formula(tip ~ .) %>%                     
+  add_model(logi_spec) 
 
 # Step 3: Fit the workflow to training data
 # Use the fit() function to apply the workflow to the training (NOT TEST!) data (e.g., taxi_train)
 
-logi_fit <- XXX
+logi_fit <- logi_wflow %>% 
+  fit(data = taxi_train)
 
 ```
 
@@ -158,9 +163,9 @@ For the fitted logistic regression model, use `augment`, then `glance` and `tidy
 
 ```{r}
 # Your code here!
-augment(logi_fit, taxi_test)
-glance(XXX)
-tidy(XXX)
+logi_fit_data <- augment(logi_fit, taxi_test)
+glance(logi_fit)
+tidy(logi_fit)
 
 ```
 
@@ -177,6 +182,15 @@ Compute a confusion matrix for your logistic model and produce a table that show
 ```{r}
 # Your code here!
 
+augment(logi_fit, new_data = taxi_train) %>%
+  conf_mat(truth = tip, estimate = .pred_class) %>%
+  autoplot(type = "heatmap")
+
+taxi_metrics <- metric_set(accuracy, specificity, sensitivity)
+
+augment(logi_fit, new_data = taxi_train) %>%
+  taxi_metrics(truth = tip, estimate = .pred_class)
+
 ```
 
 ## Your turn!
@@ -185,6 +199,28 @@ Compute and plot an ROC curve for your logistic model
 
 ```{r}
 # Your code here!
+
+logi_train_predictions <- augment(
+  logi_fit,
+  new_data = taxi_train
+)
+
+logi_train_predictions %>% 
+  roc_curve(
+    truth = tip,
+    .pred_yes
+  ) %>%
+  autoplot() +
+  labs(
+    x = "False positive rate (1 - specificity)",
+    y = "True positive rate (sensitivity)"
+  )
+
+logi_train_predictions %>% 
+  roc_auc(
+    truth = tip,
+    .pred_yes
+  )
 
 
 ```
