@@ -3288,7 +3288,7 @@ Tip
 <p>In the lecture I introduced recipes briefly, here is your opportunity to extend and learn on your own.</p>
 <p>See the sample code provided below and complete it. <strong>Note</strong> that the recipe object you’re building is called <code>gss16_rec_1</code>. Preprocessing/feature engineering steps:</p>
 <ul>
-<li><p>First declare you’re creating a recipe using <code>recipe</code> and fill in the missing arguments</p></li>
+<li><p>First declare you’re creating a recipe using <code>recipe</code> and fill in the missing arguments. We want to use all of the variables in the dataset to predict. Recall (from the “Scientific research” section above) that we want to build a model to predict whether someon agrees or doesn’t agree about support for scientific research, <code>advfront</code> using the rest of the variables in the dataset.</p></li>
 <li><p>Next, for the the <code>wrkstat</code> variable, you’re going to pool values in <code>wrkstat</code> that occur less than 10% of the time and call them <code>Other</code>. You will use the default <code>step_other()</code> function to do so.</p></li>
 <li><p>Next, for all nominal (categorical) variables, you’re going to create dummy variables. <strong>Note</strong> that using <code>-all_outcomes()</code> ensures that the target variable (outcome) is not accidentally included when creating dummy variables. Your focus should only be on predictors.</p></li>
 </ul>

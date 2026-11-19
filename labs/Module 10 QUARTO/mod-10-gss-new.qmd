@@ -176,7 +176,7 @@ In the lecture I introduced recipes briefly, here is your opportunity to extend 
 See the sample code provided below and complete it. **Note** that the recipe object you're building is called `gss16_rec_1`. 
 Preprocessing/feature engineering steps:
 
-- First declare you're creating a recipe using `recipe` and fill in the missing arguments
+- First declare you're creating a recipe using `recipe` and fill in the missing arguments. We want to use all of the variables in the dataset to predict. Recall (from the "Scientific research" section above) that we want to build a model to predict whether someon agrees or doesn't agree about support for scientific research, `advfront` using the rest of the variables in the dataset. 
 
 - Next, for the the `wrkstat` variable, you're going to pool values in `wrkstat` that occur less than 10% of the time and call them `Other`. You will use the default `step_other()` function to do so. 
 
