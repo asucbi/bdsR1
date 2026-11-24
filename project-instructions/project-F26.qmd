@@ -82,7 +82,7 @@ Below is a list of data repositories that might be helpful. You’re not limited
 1.  Dataset and research question proposal pitch
 2.  Proposal document 
 3.  Proposal Peer Review 
-4.  Analysis notebook 
+4.  Analysis file 
 5.  Peer Review - in-class
 
 :::callout-important
@@ -112,7 +112,7 @@ Your research question should have something to do with a meaningful human behav
 
     -   Tell us where your data comes from, how it was collected, what each row represents, and what are the key variables you are interested in.
     -   Prepare several research questions that you might answer with this data. Remember, your research questions should have something to do with a meaningful human behavior or psychological process.
-    -   Be sure to include: Put your data in the /data folder, make sure the notebook includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
+    -   Be sure to include: Put your data in the /data folder, make sure the proposal document includes the output of glimpse() or skim() of your data frame that shows the dimensions of the dataset and the variables you are interested in.
 
 -   **Section 2 - Analysis plan** For each of your research questions, include:
 
@@ -123,7 +123,7 @@ Your research question should have something to do with a meaningful human behav
 The entire proposal document should be AT LEAST 3 pages and no more than 8 pages (including code output, images, and text). Be sure you are making use of things like `message=FALSE` or `echo=FALSE` in the code chunks to minimize unnecessary output, or using `glimpse()` or `head()` in displaying datasets. 
 
 :::callout-important
-You will prepare your proposal as a RMarkdown notebook and knit it as PDF for submission
+You will prepare your proposal as a RMarkdown file and knit it as PDF for submission
 :::
 
 
@@ -135,13 +135,13 @@ Your projects will be **peer reviewed** by 3-4 of your peers after you submit th
 More information on the peer review process will be provided at a later date. 
 :::
 
-### 4.  Analysis notebook
+### 4.  Analysis document
 
-You will prepare a final RMarkdown notebook as a presentation of your project. You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the notebook. 
+You will prepare a final RMarkdown file (knit to a PDF) as a presentation of your project. You should organize descriptions as bullet points (like you would for a powerpoint) and include outputs and figures within the file. 
 
-There is no limit to the length of the notebook. 
+There is no limit to the length of the file 
 
-Your notebook should:
+Your file should:
 
 - Introduce the dataset 
 - Introduce and explain your research question(s) 
@@ -164,7 +164,7 @@ The grading scheme for the final project is as follows:
 | **Content I:** Is the research question well designed and is the data being used relevant to the research question? | 50 pts |
 | **Content II:** Are the visualization(s) and/or model(s) carried out and explained correctly? Do they appropriately address the research question(s)?  | 50 pts |
 | **Creativity and Critical Thought:** Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project? | 50 pts |
-| **Notebook:** Was the notebook well organized, readable, not full of text, featuring figures with legible labels, legends, etc.? | 50 pts |
+| **Final PDF:** Was the file well organized, readable, not full of text, featuring figures with legible labels, legends, etc.? | 50 pts |
 
 :::callout-important
 A general breakdown of scoring is as follows:

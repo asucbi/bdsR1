@@ -1,5 +1,5 @@
 ---
-title: "LAB 09 I - Evaluating the General Social Survey (GSS)"
+title: "LAB 09a - Evaluating the General Social Survey (GSS)"
 author: "Insert your name here"
 date: "Insert date here"
 output: pdf_document

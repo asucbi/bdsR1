@@ -10,7 +10,7 @@ date: "Insert date here"
 library(tidyverse)
 library(modelr)
 
-source("labs/starter/m8-helpers.R")
+source("labs/starter/m9-helpers.R")
 
 ```
 
@@ -148,7 +148,7 @@ data %>%
 
 
 plot_height_weight_preds(fit_children, children)
-```
+plot ```
 
 This corresponds to the residual plots showing a poor fit to the line in the lower and upper ranges of the model, and indicates possibly another variable is at play.  Perhaps a quadratic model may be a better fit.
 

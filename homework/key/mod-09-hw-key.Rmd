@@ -1,0 +1,264 @@
+---
+title: "HW 08 - Football Brains"
+author: "Your Name"
+date: "Today's Date"
+output: html_document
+---
+
+## Warming up
+
+
+```{r load-packages, message = FALSE, eval = TRUE}
+library(tidyverse)
+library(modelr)
+```
+
+```{r loding-data}
+fb <- read_csv("homework/data/FootballBrain.csv")
+head(fb)
+```
+
+
+## Exercises
+
+### Exercise 1
+
+```{r filtering-data}
+fb_filtered <- fb %>% 
+  filter(Group != "Control")
+```
+
+### Exercise 2
+
+```{r recoding-group}
+fb_filtered <- fb_filtered %>% 
+  mutate(Group = factor( x = Group,
+                levels =c("FBNoConcuss", "FBConcuss") )
+         )
+```
+
+In the dataset, "group" is a categorical variable. 
+
+### Exercise 3
+
+```{r pivoting-the-data}
+fb_long <- fb_filtered %>% 
+  pivot_longer(cols = c(Hipp, RT),
+                names_to = "measure",
+                values_to = "scores")
+```
+
+```{r visualizing-the-relationship-between-concussion-and-RT}
+ggplot(fb_long, aes(x = Group, y = scores, fill = Group))+
+  geom_boxplot()+
+  facet_wrap(~measure, scales = "free_y") +
+  theme_minimal()
+```
+no
+From the left boxplot, we can see that the athletes with concussion have lower hippocampal volume compared athletes in the no concussion group. In the right boxplot, athletes in the concussion group show longer and slower reaction times. On the other hand, the non concussion group’s median RT is higher. When coupled, these boxplots indicate that athletes with concussion history tend to have slower and more inconsistent reaction times as well as lower hippocampal volume, when compared with athletes in the no concussion group.
+
+### Exercise 4
+
+```{r calculating-proportions}
+fb_prop <- fb_long %>% 
+  group_by(Years) %>% 
+  summarize(
+    total_athl = n(),
+    conc = sum(Group == "FBConcuss"),
+    prop_conc = conc/total_athl 
+  )
+```
+
+```{r visualizing-the-relationship-between-years-and-proportionofconc}
+ggplot(fb_prop, aes(x = Years, y = prop_conc, size = total_athl))+
+  geom_point()+
+  theme_linedraw()+
+  labs(
+    title = "Proportion of Athletes with Concussion History",
+    subtitle = "By Years Played",
+    x = "Years Played",
+    y = "Proportion of Players with Concussion",
+    size = "Number of athletes"
+  )
+```
+
+From this scatterplot, we can infer a positive relationship between years played and concussion. In the plot, we can see that the major proprotion of athletes who have spent 10+ years in the sport have a concussion history.
+
+### Exericse 5
+
+```{r boxplot}
+ggplot(fb_long, aes( x = Group, y = Years, fill = Group))+
+  geom_boxplot()+
+  theme_minimal()
+```
+
+This boxplot clealry shows the relationship between concussion history and years in the sport. Compared to the no concussion group, the concussion group have spent more years in the sport.
+
+Both plots show the same trend. With scatterplot, we can see the increasing trend more clearly. However, the data points are difficult to interpret, which means that it is difficult to observe individual differences. With the boxplot, we are able to see the within-group variability and overlap. Given that we are comparing a categorical variable, it is a much better to use a boxplot as it is easier to visually interpret the data. However, it does not show the trend clear, making it harder to see the trend of concussion increasing with years.
+
+### Exercise 6
+
+```{r years-and-hippocampal volume}
+ggplot(fb_filtered, aes(x = Years, y = Hipp, color = Group))+
+  geom_point()+
+  geom_smooth( method = "lm")+
+  theme_minimal()+
+  labs(
+    x = "Years played",
+    y = "Hippocampal Volume"
+  )
+```
+
+```{r years-and-response-time}
+ggplot(fb_filtered, aes(x = Years, y = RT, color = Group))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  theme_minimal()+
+  labs(
+    x = "Years Played",
+    y = "Reaction Time",
+    color = "Group"
+  )
+```
+
+```{r hippocampal-volume-and-response-time}
+ggplot(fb_filtered, aes(x = Hipp, y = RT, color = Group))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  theme_minimal()+
+  labs(
+    x = "Hippocampal Volume",
+    y = "Reaction Time",
+    color = "Group"
+  )
+```
+
+From the first plot, we can see that as the number of years played increases, hippocampal decreases, suggesting a negative linear relationship. However, the concussion grpup has lower hippocampal levels across the  years when compared with no concussion group. In the second plot, we can see that reaction time decreases slightly as number of years played increases, suggesting a negative linear relationship. This means that players with more experience have faster reaction time. However, this change is weaker for the concussion group. In the third plot, we can see a positive relationship between hippocampal volume and reaction time, suggesting that players with largr hippocampai volumes tend to have slower reaction times. Interestingly, players with more years seem to have smaller hippocampal volume but faster reaction time. 
+When all these are coupled, these plots suggest that years played is associated with both reaction time and hippocampal volume. In essence, more years playing the sport is associated with both smaller hippocampal volume and faster reaction times. However,  athletes with concussion history show lower hippocampal volumes and slightly slower responses overall.
+
+### Exercise 7
+
+```{r liner-model-hippocamp}
+fit1 <- lm(Hipp ~ Years, data = fb_filtered)
+summary(fit1)
+```
+
+The R-squared value of this model is 0.231, which means that numbers of years played explains 23.1% of the variance in hippocampal volume. The coefficient value of year is *-128.99*, which implies that for each 1 unit (year) increase in the number of years played, the hippocampal volume of athleres would *decrease* by 128.99 units. This is in line with the negative relationship we saw on the plot earlier. 
+ 
+### Exercise 8
+
+```{r two-predictors-liner-model-hippocamp }
+fit2 <- lm(Hipp ~ Years + Group, data = fb_filtered)
+summary(fit2)
+```
+
+The R-squared value of this model is 0.3088, which means that years played and concussion history explain 30% of the variance in hippocampal volume. The slope for years has changed to -76.64, which means that with each 1 unit increase in years of playing football, hippocampal volume decreases by 76.64 units, when group is controlled for. On the other hand, the slope for group is -536.07, which means that athletes in the concussion group, on average, have hippocampal volumes that are 536 units smaller than FBNoConcuss players, when number of years played is controlled for.
+
+```{r interaction-effect-model}
+fit3 <- lm(Hipp ~ Years + Group + Years*Group, data = fb_filtered)
+summary(fit3)
+```
+
+The R-squared value of this model is 0.3255, which means that the number of years played, concussion history, and the interaction between these two variables explains 32.55% of the variance in the hippocampal volume. The slope for years is -117.86, which means for each 1 year increase of playing football, hippocampal volume decreases by about 117.86, when the group differences are controlled for. Next, the slope for groups is -1517.42, which means that athletes in the concussion group have smaller hippocampal volumes (-1517.42) than those athletes without concussions, when the number of years played is controlled. The slope for the interaction is 84.67, which means that in the concussed group, the decline in hippocampal volume with years is 84.67 units less steep. However, the interaction effect is not significant, as can be seen from the p-value in the tibble.
+
+When we compare fit1 with fit2, we can see that the coefficient for years decreased to -76.64 (fit2) from -128.99 (fit1). Moreover, the R-square value of fit2 is higher than fit1, suggesting that fit2 is a better model for explaining the variance in hippocampal volume. 
+
+The scatterplot of years played and proprotion of concussion and the boxplot of years played faceted by group reveal the suppression.
+
+### Exericse 9
+
+```{r AIC-values}
+AIC(fit1,fit2,fit3)
+```
+
+From the lecture, we learnt that the model with the lowest AIC value is the best fit. Based on this, we can see that fit2 has the lowest AIC score, which means that this is the best model. This is in line with the R-squared values we saw above, where fit2 explained more variance than fit1. However, fit2 and fit3 have AIC values very close to one another, thereby suggesting that fit3 can be a good fit as well. 
+
+### Exercise 10
+
+```{r function-for-residual-plots}
+plot_residual_hist <- function(fit2){
+tibble(residual = fit2$residuals) %>%
+ggplot(aes(x=residual)) +
+geom_histogram()
+}
+plot_qq <- function(fit2){
+tibble(residual = fit2$residuals) %>%
+ggplot(aes(sample = residual)) +
+stat_qq() +
+stat_qq_line() +
+labs(x="Theoretical quantile", y = "Observed quantile")
+}
+plot_residual_predicted <- function(fit2){
+tibble(
+predicted = fit2$fitted.values,
+residual = fit2$residuals
+) %>%
+ggplot(aes(x = predicted, y = residual)) +
+geom_point() +
+geom_hline(yintercept = 0)}
+plot_residual_hist(fit2)
+```
+
+```{r residual-histogram}
+plot_residual_hist(fit2)
+```
+
+```{r residual-qq-plot}
+plot_qq(fit2)
+```
+
+```{r residual-predicted-plot}
+plot_residual_predicted(fit2)
+```
+
+From the boxplot, we can conclude that the data is relatively normally distributed. From the qqplot, we can see that most of the points fall on the line, with some deviations at both head and tail end of the line. However, in the residual v/s predicted scatterplot, it seems that there is some trend of the data, suggesting that it violates homoscedasticity. Overall, I would conclude that the model is appropriate for examining the relationship between hippocampal volume and number of years played in the concussion v/s no concussion group.
+
+### Exercise 11
+
+```{r model-4}
+fit4 <- lm(RT ~ Hipp, data = fb_filtered)
+summary(fit4)
+```
+
+The R-squared value of this model is 0.4262, which means that hippocampal volume explanis 42.62% of the variance in reaction time. The slope value suggests that with each 1 unit increase in hippocampal volume, the reaction time increases by 0.022 units. 
+
+### Exercise 12
+
+An alternative explanation for the relationships observed could be that individual differences like genetic disposition for muscle growth, recovery time can also influence the trend observed. In additon, the amount of exposure to the sports at different level plays an important role. For example, if an athlete has been playing semi-professional level football before being drafted for collegiate football, it can impact the way he has trained and his recovery patterns.
+
+### Exercise 13
+
+```{r standardizing-fucntion}
+standardize <- function(x) {
+(x- mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)}
+```
+
+```{r standardizing-scores}
+fb_standardized <- fb_filtered %>%
+  mutate(
+    Hipp_s  = standardize(Hipp),
+    Years_s = standardize(Years),
+    RT_s    = standardize(RT)
+  )
+```
+
+### Exercise 14
+
+```{r RT-from-hippocampal-volume}
+fit1_s <- lm(RT_s~ Hipp_s, data = fb_standardized)
+summary(fit1_s)$coefficients
+```
+
+```{r RT-from-years}
+fit2_s <- lm(RT_s~ Years_s, data = fb_standardized)
+summary(fit2_s)$coefficients
+```
+
+```{r RT-from-years-and-hippocampal}
+fit3_s <- lm(RT_s~ Hipp_s + Years_s, data = fb_standardized)
+summary(fit3_s)$coefficients
+```
+
+### Exercise 15
+
+In fit_1s, the coefficent of standardized hippocampal volume is 0.65, which means that with each 1 unit increase in hippocampal volume, the reaction time increases by 0.65. The effect is significant, which means that this is a strong predictor. This also suggests that players with higher hippocampal volume have slower reaction time. Similarly, the co-efficients for year in the fit_2s is significant, suggesting that it is a strong predictor as well. Taking the previous models into account, we saw a negative relationship between years played and hippocampal volume as well as years played and reation time. But, hippocampal volume and reaction time showed a positive relationship. However, when we add years played in the model, the significant effect of hippocampal volume remains while the effect of years played diminishes (see fit_3s). In essence, this indicates that association between years spent playing football and reaction time is likely mediated by changes in hippocampal volume than driven by a direct experience-related effect.
